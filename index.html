@@ -534,11 +534,14 @@ function toggleLang(){
   try{
     const resp=await fetch('shuttle_bus_schedule.json');
     const data=await resp.json();
-    R=data.routes.map((route,i)=>({
-      ...ROUTE_META[i],
-      wd:flattenTimes(route.schedule.weekday.times),
-      we:flattenTimes(route.schedule.weekend.times)
-    }));
+    R=data.routes.map((route,i)=>{
+      if(i>=ROUTE_META.length)return null;
+      return{
+        ...ROUTE_META[i],
+        wd:flattenTimes(route.schedule.weekday.times),
+        we:flattenTimes(route.schedule.weekend.times)
+      };
+    }).filter(Boolean);
   }catch(e){console.error('Failed to load schedule JSON',e)}
   rClock();rAll();
   setInterval(rClock,1000);
