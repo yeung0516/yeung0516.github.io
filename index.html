@@ -285,9 +285,34 @@ const ROUTE_META=[
   {id:'NTP_to_VC',color:'purple',tr:20,zh:{f:'新城市廣場',t:'凱弦居',a:'沙田'},en:{f:'New Town Plaza',t:'Villa Concerto',a:'Sha Tin'}}
 ];
 function flattenTimes(grid){
-  if(!grid||!grid.length)return[];
-  const cols=grid[0].length,res=[];
-  for(let c=0;c<cols;c++)for(let r=0;r<grid.length;r++){const v=grid[r][c];if(v&&v!=='----')res.push(v);}
+  // Defensive checks: ensure grid is an array of (possibly ragged) rows
+  if (!Array.isArray(grid) || grid.length === 0) return [];
+
+  // Compute the maximum column count among array rows
+  let cols = 0;
+  for (let i = 0; i < grid.length; i++) {
+    const row = grid[i];
+    if (Array.isArray(row) && row.length > cols) {
+      cols = row.length;
+    }
+  }
+  if (cols === 0) return [];
+
+  const res = [];
+  // Expected time format: optional '*' followed by HH:MM (24-hour)
+  const TIME_RE = /^\*?(?:[01]\d|2[0-3]):[0-5]\d$/;
+
+  for (let c = 0; c < cols; c++) {
+    for (let r = 0; r < grid.length; r++) {
+      const row = grid[r];
+      if (!Array.isArray(row)) continue;
+      const v = row[c];
+      if (typeof v !== 'string') continue;
+      if (v === '----') continue;
+      if (!TIME_RE.test(v)) continue;
+      res.push(v);
+    }
+  }
   return res;
 }
 let R=[];
