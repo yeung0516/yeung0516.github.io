@@ -54,7 +54,7 @@ body{
   letter-spacing:.3px;transition:all .25s ease;font-family:inherit;
 }
 .lang-btn:hover,.font-btn:hover{background:var(--glass-h);color:var(--t1);border-color:var(--bdr-l)}
-.font-btn{background:#f59e0b;color:#fff;border-color:#f59e0b;font-size:13px;padding:6px 15px}
+.font-btn{background:var(--amber);color:#fff;border-color:var(--amber);font-size:13px;padding:6px 15px}
 .font-btn:hover{background:#d97706;border-color:#d97706}
 .clock{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;color:var(--t1);letter-spacing:.8px}
 
@@ -388,9 +388,12 @@ en:{brand:'Shuttle Bus',title:'Shuttle Bus Timetable',
 /* ==============================================================
    STATE
    ============================================================== */
-let lang='zh',forceDay=null,activeTab='VC_to_SC',largeFont=false;
+let lang='zh';
+let forceDay=null;
+let activeTab='VC_to_SC';
+let largeFont=false;
 try{const s=localStorage.getItem('sbLang');if(s==='en'||s==='zh')lang=s}catch(e){}
-try{const f=localStorage.getItem('sbLargeFont');if(f==='true')largeFont=true}catch(e){}
+try{const f=localStorage.getItem('sbLargeFont');if(f)largeFont=(f==='true')}catch(e){}
 if(largeFont)document.body.classList.add('font-large');
 
 /* ==============================================================
