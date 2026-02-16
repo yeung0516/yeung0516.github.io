@@ -11,7 +11,10 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script>
-tailwind.config = {
+// Fallback image shown when external image providers are unavailable.
+window.imageFallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 250'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23f8c8d4'/%3E%3Cstop offset='1' stop-color='%23faf8f5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='250' fill='url(%23g)'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='28' fill='%232c2c2c'%3ETokyo%20Trip%202026%3C/text%3E%3C/svg%3E";
+const TOKYO_WEATHER_API = 'https://api.open-meteo.com/v1/forecast?latitude=35.6764&longitude=139.65&current=temperature_2m,weather_code,wind_speed_10m&timezone=Asia%2FTokyo';
+if (window.tailwind) tailwind.config = {
   theme: {
     extend: {
       fontFamily: {
@@ -45,7 +48,7 @@ tailwind.config = {
   <!-- ===== HEADER ===== -->
   <header class="relative overflow-hidden">
     <div class="absolute inset-0">
-      <img src="https://source.unsplash.com/random/1200x600/?tokyo,cityscape" alt="Tokyo" class="w-full h-full hero-img opacity-30">
+      <img src="https://picsum.photos/seed/tokyo-cityscape/1200/600" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Tokyo" class="w-full h-full hero-img opacity-30">
     </div>
     <div class="relative bg-gradient-to-b from-washi/80 to-washi px-4 pt-10 pb-8 text-center">
       <p class="text-sm text-stone tracking-widest uppercase mb-1">2026.02.17 — 02.23</p>
@@ -64,7 +67,7 @@ tailwind.config = {
     <section class="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       <div class="flex flex-col sm:flex-row">
         <div class="sm:w-1/3 h-40 sm:h-auto">
-          <img src="https://source.unsplash.com/random/400x300/?japanese,room" alt="Accommodation" class="w-full h-full object-cover">
+          <img src="https://picsum.photos/seed/tokyo-hotel/400/300" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Accommodation" class="w-full h-full object-cover">
         </div>
         <div class="p-5 flex-1">
           <h2 class="text-lg font-bold flex items-center gap-2">
@@ -96,7 +99,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?tokyo,airport" alt="Day 1" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day1/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 1" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">16:00</span>
@@ -131,7 +134,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?nakano,broadway" alt="Day 2" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day2/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 2" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
@@ -169,7 +172,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?yanaka,tokyo" alt="Day 3" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day3/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 3" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">上午／午餐</span>
@@ -205,7 +208,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?shimokitazawa,tokyo" alt="Day 4" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day4/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 4" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
@@ -216,7 +219,7 @@ tailwind.config = {
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">下午</span>
                 <div>
-                  <strong>涉谷 Scramble Square</strong>— 上 <strong>Shibuya Sky</strong> 睇日落景色，正到冇朋友！
+                  <strong>涉谷 Scramble Square</strong>— 上 <a href="https://www.shibuya-scramble-square.com/sky/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Shibuya Sky</a> 睇日落景色，正到冇朋友！
                 </div>
               </li>
               <li class="flex gap-3">
@@ -227,7 +230,7 @@ tailwind.config = {
               </li>
             </ul>
             <div class="mt-3 text-xs text-stone bg-gray-50 rounded-lg px-3 py-2">
-              <i class="fa-solid fa-circle-info mr-1"></i>Shibuya Sky 需要提前預約！記得上網訂飛。
+              <i class="fa-solid fa-circle-info mr-1"></i><a href="https://www.shibuya-scramble-square.com/sky/ticket/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Shibuya Sky 需要提前預約！記得上網訂飛。</a>
             </div>
           </div>
         </div>
@@ -244,10 +247,10 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?mount,fuji" alt="Day 5" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day5/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 5" class="w-full h-36 object-cover rounded-xl mb-4">
             <div class="bg-sakura/20 border border-sakura/40 rounded-xl px-4 py-3 mb-4">
               <p class="text-sm font-bold">
-                <i class="fa-solid fa-bus mr-1"></i>參加 KKday Tour: 河口湖冬季煙火大會＆新倉山淺間公園＆新鮮草莓採摘吃到飽 含溫泉體驗（新宿出發）
+                <i class="fa-solid fa-bus mr-1"></i>參加 KKday Tour: <a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">河口湖冬季煙火大會＆新倉山淺間公園＆新鮮草莓採摘吃到飽 含溫泉體驗（新宿出發）</a>
               </p>
             </div>
             <ul class="space-y-3 text-sm leading-relaxed">
@@ -281,7 +284,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?tokyo,skytree" alt="Day 6" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day6/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 6" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
@@ -321,7 +324,7 @@ tailwind.config = {
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
-            <img src="https://source.unsplash.com/random/600x250/?narita,airport" alt="Day 7" class="w-full h-36 object-cover rounded-xl mb-4">
+            <img src="https://picsum.photos/seed/tokyo-day7/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 7" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">早上</span>
@@ -352,13 +355,20 @@ tailwind.config = {
     <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
       <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-clipboard-list mr-2 text-matcha"></i>行前備忘</h2>
       <ul class="space-y-2 text-sm text-stone leading-relaxed">
-        <li><i class="fa-solid fa-check text-matcha mr-2"></i>Shibuya Sky 需提前網上預約（Day 4）</li>
-        <li><i class="fa-solid fa-check text-matcha mr-2"></i>KKday Tour 確認集合時間及地點（Day 5）</li>
-        <li><i class="fa-solid fa-check text-matcha mr-2"></i>Suica / Pasmo 交通卡到埗即買</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.shibuya-scramble-square.com/sky/ticket/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Shibuya Sky 需提前網上預約（Day 4）</a></li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">KKday Tour 確認集合時間及地點（Day 5）</a></li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.jreast.co.jp/multi/en/pass/suica.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Suica / Pasmo 交通卡到埗即買</a></li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>帶定現金，好多小店唔收卡</li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>2月東京天氣凍（約 5-10°C），記得帶禦寒衫</li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>二手 Rolex 限 Day 2 一日搞掂，唔好分心</li>
       </ul>
+    </section>
+
+    <!-- ===== WEATHER ===== -->
+    <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-cloud-sun mr-2 text-sakura"></i>東京即時天氣</h2>
+      <p class="text-xs text-stone mb-2">資料來源：<a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Open-Meteo</a>（Tokyo）</p>
+      <div id="weatherData" class="text-sm text-stone">載入中...</div>
     </section>
 
   </main>
@@ -433,7 +443,39 @@ tailwind.config = {
       }
     }
 
+    function weatherCodeLabel(code) {
+      // Common weather codes used in this itinerary UI (partial Open-Meteo mapping).
+      const map = {
+        0: '晴天',
+        1: '大致天晴',
+        2: '多雲',
+        3: '陰天',
+        45: '有霧',
+        48: '凍霧',
+        51: '毛毛雨',
+        61: '有雨',
+        71: '有雪',
+        95: '雷暴'
+      };
+      return map[code] || '天氣狀況更新中';
+    }
+
+    async function loadWeather() {
+      const weatherData = document.getElementById('weatherData');
+      try {
+        const response = await fetch(TOKYO_WEATHER_API);
+        if (!response.ok) throw new Error('Weather API error');
+        const data = await response.json();
+        const current = data.current;
+        weatherData.innerHTML = `東京目前：<strong>${current.temperature_2m}°C</strong> · ${weatherCodeLabel(current.weather_code)} · 風速 ${current.wind_speed_10m} km/h`;
+      } catch (error) {
+        console.error('Failed to load weather data:', error);
+        weatherData.textContent = '天氣資料暫時未能讀取，請稍後再試。';
+      }
+    }
+
     autoOpenToday();
+    loadWeather();
   </script>
 </body>
 </html>
