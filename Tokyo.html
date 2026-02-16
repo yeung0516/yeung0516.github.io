@@ -379,17 +379,23 @@ tailwind.config = {
         setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
       }).catch(() => {
         // Fallback for older browsers
-        const ta = document.createElement('textarea');
-        ta.value = address;
-        ta.style.position = 'fixed';
-        ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        const btn = document.getElementById('copyText');
-        btn.textContent = '已複製 ✓';
-        setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = address;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          const btn = document.getElementById('copyText');
+          btn.textContent = '已複製 ✓';
+          setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+        } catch (e) {
+          const btn = document.getElementById('copyText');
+          btn.textContent = '複製失敗';
+          setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+        }
       });
     }
 
