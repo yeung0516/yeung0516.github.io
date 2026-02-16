@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東京行程 2026 | Tokyo Itinerary</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗼</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['"Noto Sans TC"', 'sans-serif'],
+      },
+      colors: {
+        sakura: '#f8c8d4',
+        ink: '#2c2c2c',
+        washi: '#faf8f5',
+        stone: '#6b7280',
+        matcha: '#6b8e6b',
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', sans-serif; }
+  .day-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.3s ease; opacity: 0; }
+  .day-content.open { max-height: 3000px; opacity: 1; transition: max-height 0.6s ease-in, opacity 0.3s ease; }
+  .day-chevron { transition: transform 0.3s ease; }
+  .day-chevron.rotate { transform: rotate(180deg); }
+  .copy-btn:active { transform: scale(0.95); }
+  .hero-img { object-fit: cover; }
+  .day-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+</style>
+</head>
+<body class="bg-washi text-ink min-h-screen">
+
+  <!-- ===== HEADER ===== -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://source.unsplash.com/random/1200x600/?tokyo,cityscape" alt="Tokyo" class="w-full h-full hero-img opacity-30">
+    </div>
+    <div class="relative bg-gradient-to-b from-washi/80 to-washi px-4 pt-10 pb-8 text-center">
+      <p class="text-sm text-stone tracking-widest uppercase mb-1">2026.02.17 — 02.23</p>
+      <h1 class="text-3xl md:text-4xl font-black tracking-tight">東京 7 日行程</h1>
+      <p class="text-stone mt-1 text-sm">Tokyo Itinerary for Hong Kong Travellers</p>
+      <div class="flex justify-center gap-3 mt-4 text-xs text-stone">
+        <span><i class="fa-solid fa-plane-arrival mr-1"></i>HB320 → NRT 16:00</span>
+        <span><i class="fa-solid fa-plane-departure mr-1"></i>HB321 NRT 15:00</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 pb-16">
+
+    <!-- ===== ACCOMMODATION ===== -->
+    <section class="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div class="flex flex-col sm:flex-row">
+        <div class="sm:w-1/3 h-40 sm:h-auto">
+          <img src="https://source.unsplash.com/random/400x300/?japanese,room" alt="Accommodation" class="w-full h-full object-cover">
+        </div>
+        <div class="p-5 flex-1">
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-hotel text-sakura"></i>住宿：雅荘 Miyabi-so
+          </h2>
+          <p class="text-sm text-stone mt-2 leading-relaxed">
+            <i class="fa-solid fa-location-dot mr-1"></i>〒136-0071 東京都江東區龜戶 3-47-8
+          </p>
+          <p class="text-xs text-stone mt-1">Kameido, Koto City — 近JR龜戶站，出行方便</p>
+          <button id="copyBtn" onclick="copyAddress()" class="copy-btn mt-3 inline-flex items-center gap-2 bg-ink text-white text-xs font-medium px-4 py-2 rounded-full hover:bg-gray-700 transition">
+            <i class="fa-regular fa-copy"></i>
+            <span id="copyText">複製地址</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ITINERARY ===== -->
+    <section class="mt-8 space-y-4" id="itinerary">
+
+      <!-- DAY 1 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 1</span>
+            <h3 class="text-base font-bold mt-0.5">2月17日（二）— 抵達＆在地風味</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?tokyo,airport" alt="Day 1" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">16:00</span>
+                <span>抵達成田機場 NRT（航班 HB320）。乘坐<strong>京成線</strong>前往押上／龜戶方向。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">傍晚</span>
+                <span>到達龜戶，辦理入住。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
+                <div>
+                  <strong>亀戸餃子（Kameido Gyoza）</strong>— 龜戶傳奇名店，超正！餐牌簡單直接，只賣餃子。排隊太長的話可轉去 <strong>Kameido Horumon</strong>（燒內臟）。
+                </div>
+              </li>
+            </ul>
+            <div class="mt-3 text-xs text-stone bg-gray-50 rounded-lg px-3 py-2">
+              <i class="fa-solid fa-moon mr-1"></i>長途機後好好休息，唔好太搏。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 2</span>
+            <h3 class="text-base font-bold mt-0.5">2月18日（三）— 獵物日（手錶＆模型）</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?nakano,broadway" alt="Day 2" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">上午</span>
+                <div>
+                  <strong>中野百老匯（Nakano Broadway）</strong>— 二手 Rolex／Omega 聖地！必去 <strong>Jackroad</strong>、<strong>Kame-Kichi</strong>。同場有 <strong>Mandarake</strong>（中古玩具天堂）。一日搞掂手錶需求。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">午餐</span>
+                <span><strong>牛かつ もと村（Beef Cutlet Moto）</strong>— 中野或新宿食，CP值高，必食！</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">下午</span>
+                <div>
+                  <strong>秋葉原（Akihabara）</strong>— Radio Kaikan 買新款 Figure。睇啱價錢先出手，唔使急。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
+                <span><strong>神田藪蕎麥（Kanda Yabu Soba）</strong>— 歷史名店，氣氛悠閒，蕎麥麵正到爆。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 3 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 3</span>
+            <h3 class="text-base font-bold mt-0.5">2月19日（四）— 下町散策（隱世路線）</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?yanaka,tokyo" alt="Day 3" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">上午／午餐</span>
+                <div>
+                  <strong>谷中銀座（Yanaka Ginza）</strong>— 「谷根千」地區，老東京風情。貓雕像打卡、街頭小食（Menchi-katsu 炸肉餅必食）。步行強度低，輕鬆行。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">下午</span>
+                <div>
+                  <strong>清澄白河（Kiyosumi-shirakawa）</strong>— 東京「咖啡之街」。去 <strong>Blue Bottle</strong> 旗艦店或本地烘焙店。再行<strong>清澄庭園</strong>，超 Zen、好靚。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
+                <div>
+                  <strong>門前仲町</strong>一帶 — Deep Tokyo 居酒屋街。「辰巳新道（Tatsumi Shindo）」影相一流。
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 4 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 4</span>
+            <h3 class="text-base font-bold mt-0.5">2月20日（五）— 潮流＆Shopping</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?shimokitazawa,tokyo" alt="Day 4" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">上午</span>
+                <div>
+                  <strong>下北澤（Shimokitazawa）</strong>— 去「<strong>Reload</strong>」同「<strong>Mikan Shimokita</strong>」。潮流古著、靚 Cafe，好啱打卡放上 IG。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">下午</span>
+                <div>
+                  <strong>涉谷 Scramble Square</strong>— 上 <strong>Shibuya Sky</strong> 睇日落景色，正到冇朋友！
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
+                <div>
+                  涉谷 <strong>Uobei 壽司</strong>（高科技迴轉壽司）或高級燒肉 <strong>Toraji</strong>，睇心情揀。
+                </div>
+              </li>
+            </ul>
+            <div class="mt-3 text-xs text-stone bg-gray-50 rounded-lg px-3 py-2">
+              <i class="fa-solid fa-circle-info mr-1"></i>Shibuya Sky 需要提前預約！記得上網訂飛。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 5 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 5</span>
+            <h3 class="text-base font-bold mt-0.5">2月21日（六）— 重頭戲（KKday 一日遊）</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?mount,fuji" alt="Day 5" class="w-full h-36 object-cover rounded-xl mb-4">
+            <div class="bg-sakura/20 border border-sakura/40 rounded-xl px-4 py-3 mb-4">
+              <p class="text-sm font-bold">
+                <i class="fa-solid fa-bus mr-1"></i>參加 KKday Tour: 河口湖冬季煙火大會＆新倉山淺間公園＆新鮮草莓採摘吃到飽 含溫泉體驗（新宿出發）
+              </p>
+            </div>
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">早上</span>
+                <span>早起前往<strong>新宿中心大樓（Shinjuku Center Building）</strong>集合。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">全日</span>
+                <div>
+                  <strong>富士山絕景</strong>、<strong>即摘草莓放題</strong>、<strong>冬季煙火大會</strong>— 精華盡在今日！
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">~20:00</span>
+                <span>回到新宿。食碗快 Ramen（<strong>一蘭</strong>或 <strong>AFURI</strong>），之後返龜戶休息。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 6 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 6</span>
+            <h3 class="text-base font-bold mt-0.5">2月22日（日）— 輕鬆東東京</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?tokyo,skytree" alt="Day 6" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">上午</span>
+                <div>
+                  <strong>龜戶天神社（Kameido Tenjin Shrine）</strong>— 睇天氣，2月尾可能有<strong>梅花（Ume）</strong>盛開，好靚。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">午餐</span>
+                <div>
+                  <strong>錦糸町（Kinshicho）</strong>— 就近食飯，「<strong>Termina</strong>」或 <strong>Parco</strong> 都有嘢食。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">下午</span>
+                <div>
+                  <strong>東京晴空塔城（Solamachi）</strong>— 買手信同零食（<strong>Press Butter Sand</strong> 必買）。唔使上塔，人多就算。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
+                <span>龜戶附近居酒屋，慢慢食。開始執行李準備回程。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 7 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 7</span>
+            <h3 class="text-base font-bold mt-0.5">2月23日（一）— 回程</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://source.unsplash.com/random/600x250/?narita,airport" alt="Day 7" class="w-full h-36 object-cover rounded-xl mb-4">
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">早上</span>
+                <span>最後一餐便利店早餐（Lawson 炸雞必食）。10:00 前退房。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">交通</span>
+                <div>
+                  乘<strong>總武線</strong>到成田機場（需轉線）或直接搭<strong>京成 Skyliner</strong>。
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">13:00</span>
+                <span>抵達機場，辦理 HB321 登機手續。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">15:00</span>
+                <span><i class="fa-solid fa-plane-departure mr-1"></i>起飛！東京，下次見！✈️</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== NOTES ===== -->
+    <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-clipboard-list mr-2 text-matcha"></i>行前備忘</h2>
+      <ul class="space-y-2 text-sm text-stone leading-relaxed">
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>Shibuya Sky 需提前網上預約（Day 4）</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>KKday Tour 確認集合時間及地點（Day 5）</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>Suica / Pasmo 交通卡到埗即買</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>帶定現金，好多小店唔收卡</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>2月東京天氣凍（約 5-10°C），記得帶禦寒衫</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>二手 Rolex 限 Day 2 一日搞掂，唔好分心</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="text-center text-xs text-stone/60 py-8 border-t border-gray-100 mt-8">
+    <p>東京行程 2026 · Made with <i class="fa-solid fa-heart text-sakura"></i> for HK Travellers</p>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Copy hotel address
+    function copyAddress() {
+      const address = '〒136-0071 東京都江東區龜戶 3-47-8 雅荘 Miyabi-so';
+      navigator.clipboard.writeText(address).then(() => {
+        const btn = document.getElementById('copyText');
+        btn.textContent = '已複製 ✓';
+        setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+      }).catch(() => {
+        // Fallback for older browsers
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = address;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          const btn = document.getElementById('copyText');
+          btn.textContent = '已複製 ✓';
+          setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+        } catch (e) {
+          const btn = document.getElementById('copyText');
+          btn.textContent = '複製失敗';
+          setTimeout(() => { btn.textContent = '複製地址'; }, 2000);
+        }
+      });
+    }
+
+    // Toggle collapsible day sections
+    function toggleDay(button) {
+      const content = button.nextElementSibling;
+      const chevron = button.querySelector('.day-chevron');
+      content.classList.toggle('open');
+      chevron.classList.toggle('rotate');
+    }
+
+    // Auto-open the current day based on date
+    function autoOpenToday() {
+      const today = new Date();
+      const tripDays = [
+        new Date(2026, 1, 17), // Feb 17
+        new Date(2026, 1, 18),
+        new Date(2026, 1, 19),
+        new Date(2026, 1, 20),
+        new Date(2026, 1, 21),
+        new Date(2026, 1, 22),
+        new Date(2026, 1, 23),
+      ];
+      let openIndex = 0; // Default to Day 1
+      for (let i = 0; i < tripDays.length; i++) {
+        if (today.toDateString() === tripDays[i].toDateString()) {
+          openIndex = i;
+          break;
+        }
+      }
+      const cards = document.querySelectorAll('.day-card');
+      if (cards[openIndex]) {
+        const btn = cards[openIndex].querySelector('button');
+        toggleDay(btn);
+      }
+    }
+
+    autoOpenToday();
+  </script>
+</body>
+</html>
