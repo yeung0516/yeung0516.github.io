@@ -35,12 +35,23 @@ if (window.tailwind) tailwind.config = {
   html { scroll-behavior: smooth; }
   body { font-family: 'Noto Sans TC', sans-serif; }
   .day-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.3s ease; opacity: 0; }
-  .day-content.open { max-height: 3000px; opacity: 1; transition: max-height 0.6s ease-in, opacity 0.3s ease; }
+  .day-content.open { max-height: 5000px; opacity: 1; transition: max-height 0.6s ease-in, opacity 0.3s ease; }
   .day-chevron { transition: transform 0.3s ease; }
   .day-chevron.rotate { transform: rotate(180deg); }
   .copy-btn:active { transform: scale(0.95); }
   .hero-img { object-fit: cover; }
   .day-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  /* Event crossout */
+  .event-item { cursor: pointer; transition: opacity 0.4s ease, transform 0.3s ease; position: relative; border-radius: 8px; padding: 2px 4px; margin: -2px -4px; }
+  .event-item:hover { background: rgba(248,200,212,0.10); }
+  .event-item.crossed { text-decoration: line-through; text-decoration-color: #f8c8d4; opacity: 0.4; }
+  .event-item.removing { opacity: 0; transform: translateX(30px); max-height: 0; margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
+  /* Weather card */
+  .weather-card { background: linear-gradient(135deg, #e0f2fe 0%, #f0e7ff 50%, #fef3c7 100%); }
+  .weather-icon { font-size: 2.5rem; line-height: 1; }
+  /* Shopping / Events / Restaurant sections */
+  .shop-tag { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: 9999px; font-weight: 500; }
+  .event-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; padding: 2px 10px; border-radius: 9999px; font-weight: 600; }
 </style>
 </head>
 <body class="bg-washi text-ink min-h-screen">
@@ -62,6 +73,20 @@ if (window.tailwind) tailwind.config = {
   </header>
 
   <main class="max-w-2xl mx-auto px-4 pb-16">
+
+    <!-- ===== WEATHER (moved to top & prettified) ===== -->
+    <section class="mt-6 weather-card rounded-2xl border border-gray-100 shadow-sm p-5 overflow-hidden">
+      <div class="flex items-start justify-between">
+        <div>
+          <h2 class="text-base font-bold mb-1"><i class="fa-solid fa-cloud-sun mr-2 text-sakura"></i>東京即時天氣</h2>
+          <p class="text-xs text-stone">資料來源：<a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Open-Meteo</a>（Tokyo）</p>
+        </div>
+        <div id="weatherIcon" class="weather-icon">🌤</div>
+      </div>
+      <div id="weatherData" class="mt-3 text-sm text-ink">
+        <div class="flex items-center gap-2 text-stone"><i class="fa-solid fa-spinner fa-spin text-sakura"></i> 載入中...</div>
+      </div>
+    </section>
 
     <!-- ===== ACCOMMODATION ===== -->
     <section class="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
@@ -101,18 +126,18 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day1/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 1" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">14:30</span>
-                <span>抵達成田機場 NRT（航班 HB320）。乘坐<strong>京成線</strong>前往押上／龜戶方向。</span>
+                <span>抵達<a href="https://www.narita-airport.jp/ch2/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()">成田機場 NRT</a>（航班 HB320）。乘坐<a href="https://www.keisei.co.jp/keisei/tetudou/accessj/index.php" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>京成線</strong></a>前往押上／龜戶方向。</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">傍晚</span>
                 <span>到達龜戶，辦理入住。</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
                 <div>
-                  <strong>亀戸餃子（Kameido Gyoza）</strong>— 龜戶傳奇名店，超正！餐牌簡單直接，只賣餃子。排隊太長的話可轉去 <strong>Kameido Horumon</strong>（燒內臟）。
+                  <a href="https://www.google.com/maps/search/亀戸餃子" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>亀戸餃子（Kameido Gyoza）</strong></a>— 龜戶傳奇名店，超正！餐牌簡單直接，只賣餃子。排隊太長嘅話可轉去 <a href="https://www.google.com/maps/search/Kameido+Horumon" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Kameido Horumon</strong></a>（燒內臟）。
                 </div>
               </li>
             </ul>
@@ -136,25 +161,25 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day2/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 2" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
                 <div>
-                  <strong>中野百老匯（Nakano Broadway）</strong>— 二手 Rolex／Omega 聖地！必去 <strong>Jackroad</strong>、<strong>Kame-Kichi</strong>。同場有 <strong>Mandarake</strong>（中古玩具天堂）。一日搞掂手錶需求。
+                  <a href="https://www.google.com/maps/place/Nakano+Broadway" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>中野百老匯（Nakano Broadway）</strong></a>— 二手 Rolex／Omega 聖地！必去 <a href="https://www.jackroad.co.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Jackroad</strong></a>、<strong>Kame-Kichi</strong>。同場有 <a href="https://www.mandarake.co.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Mandarake</strong></a>（中古玩具天堂）。一日搞掂手錶需求。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">午餐</span>
-                <span><strong>牛かつ もと村（Beef Cutlet Moto）</strong>— 中野或新宿食，CP值高，必食！</span>
+                <span><a href="https://www.google.com/maps/search/牛かつ+もと村" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>牛かつ もと村（Beef Cutlet Moto）</strong></a>— 中野或新宿食，CP 值高，必食！</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">下午</span>
                 <div>
-                  <strong>秋葉原（Akihabara）</strong>— Radio Kaikan 買新款 Figure。睇啱價錢先出手，唔使急。
+                  <a href="https://www.google.com/maps/place/Akihabara" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>秋葉原（Akihabara）</strong></a>— <a href="https://www.akihabara-radiokaikan.co.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()">Radio Kaikan</a> 買新款 Figure。睇啱價錢先出手，唔使急。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
-                <span><strong>神田藪蕎麥（Kanda Yabu Soba）</strong>— 歷史名店，氣氛悠閒，蕎麥麵正到爆。</span>
+                <span><a href="https://www.google.com/maps/search/神田藪蕎麥" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>神田藪蕎麥（Kanda Yabu Soba）</strong></a>— 歷史名店，氣氛悠閒，蕎麥麵正到爆。</span>
               </li>
             </ul>
           </div>
@@ -174,22 +199,22 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day3/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 3" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">上午／午餐</span>
                 <div>
-                  <strong>谷中銀座（Yanaka Ginza）</strong>— 「谷根千」地區，老東京風情。貓雕像打卡、街頭小食（Menchi-katsu 炸肉餅必食）。步行強度低，輕鬆行。
+                  <a href="https://www.google.com/maps/place/Yanaka+Ginza" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>谷中銀座（Yanaka Ginza）</strong></a>— 「谷根千」地區，老東京風情。貓雕像打卡、街頭小食（Menchi-katsu 炸肉餅必食）。步行強度低，輕鬆行。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">下午</span>
                 <div>
-                  <strong>清澄白河（Kiyosumi-shirakawa）</strong>— 東京「咖啡之街」。去 <strong>Blue Bottle</strong> 旗艦店或本地烘焙店。再行<strong>清澄庭園</strong>，超 Zen、好靚。
+                  <a href="https://www.google.com/maps/place/Kiyosumi-Shirakawa" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>清澄白河（Kiyosumi-shirakawa）</strong></a>— 東京「咖啡之街」。去 <a href="https://bluebottlecoffee.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Blue Bottle</strong></a> 旗艦店或本地烘焙店。再行<a href="https://www.google.com/maps/place/Kiyosumi+Garden" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>清澄庭園</strong></a>，超 Zen、好靚。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
                 <div>
-                  <strong>門前仲町</strong>一帶 — Deep Tokyo 居酒屋街。「辰巳新道（Tatsumi Shindo）」影相一流。
+                  <a href="https://www.google.com/maps/place/Monzen-nakacho" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>門前仲町</strong></a>一帶 — Deep Tokyo 居酒屋街。「辰巳新道（Tatsumi Shindo）」影相一流。
                 </div>
               </li>
             </ul>
@@ -210,22 +235,22 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day4/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 4" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
                 <div>
-                  <strong>下北澤（Shimokitazawa）</strong>— 去「<strong>Reload</strong>」同「<strong>Mikan Shimokita</strong>」。潮流古著、靚 Cafe，好啱打卡放上 IG。
+                  <a href="https://www.google.com/maps/place/Shimokitazawa" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>下北澤（Shimokitazawa）</strong></a>— 去「<a href="https://reload-shimokitazawa.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Reload</strong></a>」同「<strong>Mikan Shimokita</strong>」。潮流古著、靚 Cafe，好啱打卡放上 IG。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">下午</span>
                 <div>
-                  <strong>涉谷 Scramble Square</strong>— 上 <a href="https://www.shibuya-scramble-square.com/sky/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Shibuya Sky</a> 睇日落景色，正到冇朋友！
+                  <strong>涉谷 Scramble Square</strong>— 上 <a href="https://www.shibuya-scramble-square.com/sky/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()">Shibuya Sky</a> 睇日落景色，正到冇朋友！
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
                 <div>
-                  涉谷 <strong>Uobei 壽司</strong>（高科技迴轉壽司）或高級燒肉 <strong>Toraji</strong>，睇心情揀。
+                  涉谷 <a href="https://www.google.com/maps/search/Uobei+壽司+涉谷" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Uobei 壽司</strong></a>（高科技迴轉壽司）或高級燒肉 <strong>Toraji</strong>，睇心情揀。
                 </div>
               </li>
             </ul>
@@ -249,25 +274,25 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day5/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 5" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
                 <div>
-                  <strong>龜戶天神社（Kameido Tenjin Shrine）</strong>— 睇天氣，2月尾可能有<strong>梅花（Ume）</strong>盛開，好靚。
+                  <a href="https://www.google.com/maps/place/Kameido+Tenjin+Shrine" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>龜戶天神社（Kameido Tenjin Shrine）</strong></a>— 睇天氣，2月尾可能有<strong>梅花（Ume）</strong>盛放，好靚。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">午餐</span>
                 <div>
-                  <strong>錦糸町（Kinshicho）</strong>— 就近食飯，「<strong>Termina</strong>」或 <strong>Parco</strong> 都有嘢食。
+                  <a href="https://www.google.com/maps/place/Kinshicho" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>錦糸町（Kinshicho）</strong></a>— 就近食飯，「<strong>Termina</strong>」或 <strong>Parco</strong> 都有嘢食。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">下午</span>
                 <div>
-                  <strong>東京晴空塔城（Solamachi）</strong>— 買手信同零食（<strong>Press Butter Sand</strong> 必買）。唔使上塔，人多就算。
+                  <a href="https://www.tokyo-solamachi.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>東京晴空塔城（Solamachi）</strong></a>— 買手信同零食（<a href="https://www.pressbutterfactory.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>Press Butter Sand</strong></a> 必買）。唔使上塔，人多就算。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
                 <span>龜戶附近居酒屋，慢慢食。開始執行李準備回程。</span>
               </li>
@@ -294,19 +319,19 @@ if (window.tailwind) tailwind.config = {
               </p>
             </div>
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">早上</span>
-                <span>早起前往<strong>新宿中心大樓（Shinjuku Center Building）</strong>集合。</span>
+                <span>早起前往<a href="https://www.google.com/maps/place/Shinjuku+Center+Building" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>新宿中心大樓（Shinjuku Center Building）</strong></a>集合。</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">全日</span>
                 <div>
-                  <strong>富士山絕景</strong>、<strong>即摘草莓放題</strong>、<strong>冬季煙火大會</strong>— 精華盡在今日！
+                  <strong>富士山絕景</strong>、<strong>即摘草莓放題</strong>、<strong>冬季煙火大會</strong>— 精華盡喺今日！
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">~20:00</span>
-                <span>回到新宿。食碗快 Ramen（<strong>一蘭</strong>或 <strong>AFURI</strong>），之後返龜戶休息。</span>
+                <span>返到新宿。食碗快 Ramen（<a href="https://www.google.com/maps/search/一蘭拉麵+新宿" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>一蘭</strong></a>或 <a href="https://afuri.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>AFURI</strong></a>），之後返龜戶休息。</span>
               </li>
             </ul>
           </div>
@@ -326,21 +351,21 @@ if (window.tailwind) tailwind.config = {
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day7/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 7" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">早上</span>
-                <span>最後一餐便利店早餐（Lawson 炸雞必食）。10:00 前退房。</span>
+                <span>最後一餐便利店早餐（<a href="https://www.lawson.co.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()">Lawson</a> 炸雞必食）。10:00 前退房。</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">交通</span>
                 <div>
-                  乘<strong>總武線</strong>到成田機場（需轉線）或直接搭<strong>京成 Skyliner</strong>。
+                  乘<strong>總武線</strong>到成田機場（需轉線）或直接搭<a href="https://www.keisei.co.jp/keisei/tetudou/skyliner/us/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold" onclick="event.stopPropagation()"><strong>京成 Skyliner</strong></a>。
                 </div>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">13:00</span>
                 <span>抵達機場，辦理 HB321 登機手續。</span>
               </li>
-              <li class="flex gap-3">
+              <li class="event-item flex gap-3" onclick="crossOutEvent(this)">
                 <span class="text-stone font-medium whitespace-nowrap">15:00</span>
                 <span><i class="fa-solid fa-plane-departure mr-1"></i>起飛！東京，下次見！✈️</span>
               </li>
@@ -359,16 +384,142 @@ if (window.tailwind) tailwind.config = {
         <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">KKday Tour 確認集合時間及地點（Day 6）</a></li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.jreast.co.jp/multi/en/pass/suica.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Suica / Pasmo 交通卡到埗即買</a></li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>帶定現金，好多小店唔收卡</li>
-        <li><i class="fa-solid fa-check text-matcha mr-2"></i>2月東京天氣凍（約 5-10°C），記得帶禦寒衫</li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i>2月東京天氣凍（約 5-10°C），記得帶夠保暖衫</li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>二手 Rolex 限 Day 2 一日搞掂，唔好分心</li>
       </ul>
     </section>
 
-    <!-- ===== WEATHER ===== -->
+    <!-- old weather section removed — now at top -->
+
+    <!-- ===== TOKYO SHOPPING GUIDE ===== -->
     <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-      <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-cloud-sun mr-2 text-sakura"></i>東京即時天氣</h2>
-      <p class="text-xs text-stone mb-2">資料來源：<a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Open-Meteo</a>（Tokyo）</p>
-      <div id="weatherData" class="text-sm text-stone">載入中...</div>
+      <h2 class="text-base font-bold mb-4"><i class="fa-solid fa-bag-shopping mr-2 text-sakura"></i>東京購物指南</h2>
+
+      <!-- Souvenir -->
+      <div class="mb-4">
+        <h3 class="text-sm font-bold mb-2 flex items-center gap-2"><span class="shop-tag bg-pink-100 text-pink-600">🎁 手信篇</span></h3>
+        <ul class="space-y-2 text-sm text-stone leading-relaxed">
+          <li class="flex gap-2"><span>•</span><a href="https://www.tokyo-banana.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Tokyo Banana（東京芭娜娜）</a>— 東京經典手信，機場同各大車站有售。</li>
+          <li class="flex gap-2"><span>•</span><a href="https://www.pressbutterfactory.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Press Butter Sand</a>— 牛油夾心餅，必買！晴空塔城 Solamachi 有店。</li>
+          <li class="flex gap-2"><span>•</span><strong>白色戀人（Shiroi Koibito）</strong>— 北海道名物，東京各手信店都有。</li>
+          <li class="flex gap-2"><span>•</span><a href="https://www.yoku-moku.jp/en/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Yoku Moku 雪茄蛋卷</a>— 日本送禮首選，包裝精美。</li>
+          <li class="flex gap-2"><span>•</span><strong>抹茶類手信</strong>— 茶之菓、伊藤久右衛門，各大百貨公司地下食品層有售。</li>
+        </ul>
+      </div>
+
+      <!-- Food -->
+      <div class="mb-4">
+        <h3 class="text-sm font-bold mb-2 flex items-center gap-2"><span class="shop-tag bg-amber-100 text-amber-700">🍱 食品篇</span></h3>
+        <ul class="space-y-2 text-sm text-stone leading-relaxed">
+          <li class="flex gap-2"><span>•</span><a href="https://www.donki.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">驚安殿堂（Don Quijote）</a>— 零食天堂！藥妝、零食一次過買齊，秋葉原、新宿、涉谷都有分店。</li>
+          <li class="flex gap-2"><span>•</span><strong>柿之種（Kakinotane）</strong>— 各種口味限定版，便利店同超市有售。</li>
+          <li class="flex gap-2"><span>•</span><strong>薯條三兄弟（Jagapokkuru）</strong>— 北海道人氣零食，成田機場有售。</li>
+          <li class="flex gap-2"><span>•</span><strong>地下食品層（Depachika）</strong>— 新宿伊勢丹、銀座三越嘅地庫，各式精緻甜點、便當。</li>
+        </ul>
+      </div>
+
+      <!-- Luxurious -->
+      <div>
+        <h3 class="text-sm font-bold mb-2 flex items-center gap-2"><span class="shop-tag bg-violet-100 text-violet-600">💎 名牌篇</span></h3>
+        <ul class="space-y-2 text-sm text-stone leading-relaxed">
+          <li class="flex gap-2"><span>•</span><a href="https://www.ginza6.tokyo/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">GINZA SIX</a>— 銀座最新地標，集合各大名牌旗艦店。</li>
+          <li class="flex gap-2"><span>•</span><a href="https://www.isetan.mistore.jp/shinjuku.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">新宿伊勢丹</a>— 日本最頂級百貨公司，名牌同日系設計師品牌齊全。</li>
+          <li class="flex gap-2"><span>•</span><a href="https://www.omotesandohills.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">表參道 Hills</a>— 建築大師安藤忠雄設計，高級時裝同生活品味。</li>
+          <li class="flex gap-2"><span>•</span><strong>中野 Jackroad / Kame-Kichi</strong>— 二手名錶專門店（Day 2 行程已涵蓋）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== RESTAURANT PICKS ===== -->
+    <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-utensils mr-2 text-sakura"></i>餐廳精選</h2>
+      <p class="text-xs text-stone mb-3">精選推介 · 評分資料來自 <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Google Maps</a></p>
+      <div id="restaurantPicks" class="space-y-3">
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🥟</span>
+          <div class="flex-1">
+            <a href="https://www.google.com/maps/search/亀戸餃子" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">亀戸餃子（Kameido Gyoza）</a>
+            <p class="text-xs text-stone mt-0.5">龜戶傳奇餃子店，餐牌只有餃子。地道口味，必食！</p>
+            <span class="text-xs text-amber-500">⭐ 4.1 · 龜戶</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🥩</span>
+          <div class="flex-1">
+            <a href="https://www.google.com/maps/search/牛かつ+もと村+新宿" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">牛かつ もと村（Beef Cutlet Moto）</a>
+            <p class="text-xs text-stone mt-0.5">炸牛排名店，石板自己煎熟度，CP 值極高。</p>
+            <span class="text-xs text-amber-500">⭐ 4.3 · 新宿 / 中野</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🍜</span>
+          <div class="flex-1">
+            <a href="https://www.google.com/maps/search/神田藪蕎麥" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">神田藪蕎麥（Kanda Yabu Soba）</a>
+            <p class="text-xs text-stone mt-0.5">創業百年歷史名店，蕎麥麵正到爆，氣氛悠閒。</p>
+            <span class="text-xs text-amber-500">⭐ 4.0 · 神田</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🍣</span>
+          <div class="flex-1">
+            <a href="https://www.google.com/maps/search/Uobei+壽司+涉谷" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">Uobei 壽司（涉谷）</a>
+            <p class="text-xs text-stone mt-0.5">高科技迴轉壽司，平板落單、新幹線送到座位，好玩又平。</p>
+            <span class="text-xs text-amber-500">⭐ 4.2 · 涉谷</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🍜</span>
+          <div class="flex-1">
+            <a href="https://www.google.com/maps/search/一蘭拉麵+新宿" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">一蘭拉麵（新宿）</a>
+            <p class="text-xs text-stone mt-0.5">豚骨拉麵名店，獨立座位，自訂口味。快食首選。</p>
+            <span class="text-xs text-amber-500">⭐ 4.3 · 新宿</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xl">🍜</span>
+          <div class="flex-1">
+            <a href="https://afuri.com/" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">AFURI 柚子鹽拉麵</a>
+            <p class="text-xs text-stone mt-0.5">清爽柚子鹽拉麵，女仔都鍾意。新宿、惠比壽都有分店。</p>
+            <span class="text-xs text-amber-500">⭐ 4.2 · 新宿 / 惠比壽</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EVENT NOTIFICATIONS ===== -->
+    <section class="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-calendar-star mr-2 text-sakura"></i>東京活動速遞（2月17–23日）</h2>
+      <p class="text-xs text-stone mb-3">旅程期間東京周邊嘅大型 / 中型活動，唔係日常舉辦嘅特別活動。</p>
+      <div class="space-y-3" id="eventList">
+        <div class="p-3 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="event-badge bg-pink-100 text-pink-600">🎆 2月22日（日）</span>
+          </div>
+          <a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">河口湖冬季煙火大會</a>
+          <p class="text-xs text-stone mt-0.5">每年1至2月嘅週末舉行，富士山下放煙火，已包含喺 Day 6 KKday Tour。</p>
+        </div>
+        <div class="p-3 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="event-badge bg-amber-100 text-amber-700">🌸 2月中旬至3月</span>
+          </div>
+          <a href="https://www.gotokyo.org/en/spot/ev093/index.html" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">龜戶天神社 梅花祭</a>
+          <p class="text-xs text-stone mt-0.5">龜戶天神社嘅梅花祭（梅まつり），約300棵梅樹盛放。就喺住處附近，Day 5 可以去。</p>
+        </div>
+        <div class="p-3 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="event-badge bg-violet-100 text-violet-600">🏯 2月17–23日</span>
+          </div>
+          <a href="https://www.gotokyo.org/en/spot/ev086/index.html" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">湯島天神 梅花祭</a>
+          <p class="text-xs text-stone mt-0.5">文京區湯島天滿宮，每年2月中至3月初舉行，係東京最出名嘅梅花景點之一。</p>
+        </div>
+        <div class="p-3 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="event-badge bg-blue-100 text-blue-600">🎭 2月下旬</span>
+          </div>
+          <a href="https://www.timeout.com/tokyo/things-to-do/best-events-in-tokyo-this-month" target="_blank" rel="noopener noreferrer" class="font-bold text-sm underline decoration-sakura/70 hover:text-sakura">查看更多東京當月活動（Time Out Tokyo）</a>
+          <p class="text-xs text-stone mt-0.5">實時更新嘅東京活動情報，可以即時查閱最新嘅期間限定活動、展覽、市集等等。</p>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -417,6 +568,18 @@ if (window.tailwind) tailwind.config = {
       chevron.classList.toggle('rotate');
     }
 
+    // Cross out an event item with animation then remove
+    function crossOutEvent(el) {
+      if (el.classList.contains('crossed') || el.classList.contains('removing')) return;
+      el.classList.add('crossed');
+      setTimeout(() => {
+        el.classList.add('removing');
+        el.addEventListener('transitionend', () => { el.remove(); }, { once: true });
+        // Fallback removal if transitionend doesn't fire
+        setTimeout(() => { if (el.parentNode) el.remove(); }, 600);
+      }, 500);
+    }
+
     // Auto-open the current day based on date
     function autoOpenToday() {
       const today = new Date();
@@ -444,33 +607,44 @@ if (window.tailwind) tailwind.config = {
     }
 
     function weatherCodeLabel(code) {
-      // Common weather codes used in this itinerary UI (partial Open-Meteo mapping).
       const map = {
-        0: '晴天',
-        1: '大致天晴',
-        2: '多雲',
-        3: '陰天',
-        45: '有霧',
-        48: '凍霧',
-        51: '毛毛雨',
-        61: '有雨',
-        71: '有雪',
-        95: '雷暴'
+        0: '☀️ 晴天',
+        1: '🌤 大致天晴',
+        2: '⛅ 多雲',
+        3: '☁️ 陰天',
+        45: '🌫 有霧',
+        48: '🌫 凍霧',
+        51: '🌦 毛毛雨',
+        61: '🌧 有雨',
+        71: '🌨 有雪',
+        95: '⛈ 雷暴'
       };
-      return map[code] || '天氣狀況更新中';
+      return map[code] || '🌡 天氣狀況更新中';
+    }
+
+    function weatherIcon(code) {
+      const map = { 0:'☀️', 1:'🌤', 2:'⛅', 3:'☁️', 45:'🌫', 48:'🌫', 51:'🌦', 61:'🌧', 71:'🌨', 95:'⛈' };
+      return map[code] || '🌡';
     }
 
     async function loadWeather() {
       const weatherData = document.getElementById('weatherData');
+      const weatherIconEl = document.getElementById('weatherIcon');
       try {
         const response = await fetch(TOKYO_WEATHER_API);
         if (!response.ok) throw new Error('Weather API error');
         const data = await response.json();
         const current = data.current;
-        weatherData.innerHTML = `東京目前：<strong>${current.temperature_2m}°C</strong> · ${weatherCodeLabel(current.weather_code)} · 風速 ${current.wind_speed_10m} km/h`;
+        weatherIconEl.textContent = weatherIcon(current.weather_code);
+        weatherData.innerHTML = `
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-bold text-ink">${current.temperature_2m}°C</span>
+          </div>
+          <p class="text-sm text-stone mt-1">${weatherCodeLabel(current.weather_code)} · 風速 ${current.wind_speed_10m} km/h</p>
+        `;
       } catch (error) {
         console.error('Failed to load weather data:', error);
-        weatherData.textContent = '天氣資料暫時未能讀取，請稍後再試。';
+        weatherData.innerHTML = '<p class="text-stone text-sm">天氣資料暫時未能讀取，請稍後再試。</p>';
       }
     }
 
