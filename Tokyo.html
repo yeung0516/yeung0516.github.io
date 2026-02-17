@@ -401,7 +401,7 @@ if (window.tailwind) tailwind.config = {
         <ul class="space-y-2 text-sm text-stone leading-relaxed">
           <li class="flex gap-2"><span>•</span><a href="https://www.tokyo-banana.jp/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Tokyo Banana（東京芭娜娜）</a>— 東京經典手信，機場同各大車站有售。</li>
           <li class="flex gap-2"><span>•</span><a href="https://www.pressbutterfactory.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Press Butter Sand</a>— 牛油夾心餅，必買！晴空塔城 Solamachi 有店。</li>
-          <li class="flex gap-2"><span>•</span><strong>白色戀人（Shiroi Koibito）</strong>— 北海道名物，東京各手信店都有。</li>
+          <li class="flex gap-2"><span>•</span><a href="https://www.google.com/maps/search/白色戀人+東京" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">白色戀人（Shiroi Koibito）</a>— 北海道名物，東京各手信店都有。</li>
           <li class="flex gap-2"><span>•</span><a href="https://www.yoku-moku.jp/en/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">Yoku Moku 雪茄蛋卷</a>— 日本送禮首選，包裝精美。</li>
           <li class="flex gap-2"><span>•</span><strong>抹茶類手信</strong>— 茶之菓、伊藤久右衛門，各大百貨公司地下食品層有售。</li>
         </ul>
@@ -414,7 +414,7 @@ if (window.tailwind) tailwind.config = {
           <li class="flex gap-2"><span>•</span><a href="https://www.donki.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">驚安殿堂（Don Quijote）</a>— 零食天堂！藥妝、零食一次過買齊，秋葉原、新宿、涉谷都有分店。</li>
           <li class="flex gap-2"><span>•</span><strong>柿之種（Kakinotane）</strong>— 各種口味限定版，便利店同超市有售。</li>
           <li class="flex gap-2"><span>•</span><strong>薯條三兄弟（Jagapokkuru）</strong>— 北海道人氣零食，成田機場有售。</li>
-          <li class="flex gap-2"><span>•</span><strong>地下食品層（Depachika）</strong>— 新宿伊勢丹、銀座三越嘅地庫，各式精緻甜點、便當。</li>
+          <li class="flex gap-2"><span>•</span><strong>地下食品層（Depachika）</strong>— <a href="https://www.isetan.mistore.jp/shinjuku.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">新宿伊勢丹</a>、<a href="https://www.mitsukoshi.mistore.jp/ginza.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura font-semibold">銀座三越</a>嘅地庫，各式精緻甜點、便當。</li>
         </ul>
       </div>
 
@@ -575,7 +575,7 @@ if (window.tailwind) tailwind.config = {
       setTimeout(() => {
         el.classList.add('removing');
         el.addEventListener('transitionend', () => { el.remove(); }, { once: true });
-        // Fallback removal if transitionend doesn't fire
+        // Fallback removal if transitionend doesn't fire (matches CSS transition duration)
         setTimeout(() => { if (el.parentNode) el.remove(); }, 600);
       }, 500);
     }
