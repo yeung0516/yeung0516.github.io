@@ -55,7 +55,7 @@ if (window.tailwind) tailwind.config = {
       <h1 class="text-3xl md:text-4xl font-black tracking-tight">東京 7 日行程</h1>
       <p class="text-stone mt-1 text-sm">Tokyo Itinerary for Hong Kong Travellers</p>
       <div class="flex justify-center gap-3 mt-4 text-xs text-stone">
-        <span><i class="fa-solid fa-plane-arrival mr-1"></i>HB320 → NRT 16:00</span>
+        <span><i class="fa-solid fa-plane-arrival mr-1"></i>HB320 → NRT 14:30</span>
         <span><i class="fa-solid fa-plane-departure mr-1"></i>HB321 NRT 15:00</span>
       </div>
     </div>
@@ -102,7 +102,7 @@ if (window.tailwind) tailwind.config = {
             <img src="https://picsum.photos/seed/tokyo-day1/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 1" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
-                <span class="text-stone font-medium whitespace-nowrap">16:00</span>
+                <span class="text-stone font-medium whitespace-nowrap">14:30</span>
                 <span>抵達成田機場 NRT（航班 HB320）。乘坐<strong>京成線</strong>前往押上／龜戶方向。</span>
               </li>
               <li class="flex gap-3">
@@ -241,50 +241,13 @@ if (window.tailwind) tailwind.config = {
         <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
           <div>
             <span class="text-xs font-medium text-sakura tracking-wide">DAY 5</span>
-            <h3 class="text-base font-bold mt-0.5">2月21日（六）— 重頭戲（KKday 一日遊）</h3>
+            <h3 class="text-base font-bold mt-0.5">2月21日（六）— 輕鬆東東京</h3>
           </div>
           <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
         </button>
         <div class="day-content">
           <div class="px-5 pb-5">
             <img src="https://picsum.photos/seed/tokyo-day5/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 5" class="w-full h-36 object-cover rounded-xl mb-4">
-            <div class="bg-sakura/20 border border-sakura/40 rounded-xl px-4 py-3 mb-4">
-              <p class="text-sm font-bold">
-                <i class="fa-solid fa-bus mr-1"></i>參加 KKday Tour: <a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">河口湖冬季煙火大會＆新倉山淺間公園＆新鮮草莓採摘吃到飽 含溫泉體驗（新宿出發）</a>
-              </p>
-            </div>
-            <ul class="space-y-3 text-sm leading-relaxed">
-              <li class="flex gap-3">
-                <span class="text-stone font-medium whitespace-nowrap">早上</span>
-                <span>早起前往<strong>新宿中心大樓（Shinjuku Center Building）</strong>集合。</span>
-              </li>
-              <li class="flex gap-3">
-                <span class="text-stone font-medium whitespace-nowrap">全日</span>
-                <div>
-                  <strong>富士山絕景</strong>、<strong>即摘草莓放題</strong>、<strong>冬季煙火大會</strong>— 精華盡在今日！
-                </div>
-              </li>
-              <li class="flex gap-3">
-                <span class="text-stone font-medium whitespace-nowrap">~20:00</span>
-                <span>回到新宿。食碗快 Ramen（<strong>一蘭</strong>或 <strong>AFURI</strong>），之後返龜戶休息。</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- DAY 6 -->
-      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
-        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
-          <div>
-            <span class="text-xs font-medium text-sakura tracking-wide">DAY 6</span>
-            <h3 class="text-base font-bold mt-0.5">2月22日（日）— 輕鬆東東京</h3>
-          </div>
-          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
-        </button>
-        <div class="day-content">
-          <div class="px-5 pb-5">
-            <img src="https://picsum.photos/seed/tokyo-day6/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 6" class="w-full h-36 object-cover rounded-xl mb-4">
             <ul class="space-y-3 text-sm leading-relaxed">
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">上午</span>
@@ -307,6 +270,43 @@ if (window.tailwind) tailwind.config = {
               <li class="flex gap-3">
                 <span class="text-stone font-medium whitespace-nowrap">晚餐</span>
                 <span>龜戶附近居酒屋，慢慢食。開始執行李準備回程。</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 6 -->
+      <div class="day-card bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-shadow">
+        <button onclick="toggleDay(this)" class="w-full text-left px-5 py-4 flex items-center justify-between group">
+          <div>
+            <span class="text-xs font-medium text-sakura tracking-wide">DAY 6</span>
+            <h3 class="text-base font-bold mt-0.5">2月22日（日）— 重頭戲（KKday 一日遊）</h3>
+          </div>
+          <i class="fa-solid fa-chevron-down text-stone day-chevron"></i>
+        </button>
+        <div class="day-content">
+          <div class="px-5 pb-5">
+            <img src="https://picsum.photos/seed/tokyo-day6/600/250" onerror="this.onerror=null;this.src=window.imageFallback;" alt="Day 6" class="w-full h-36 object-cover rounded-xl mb-4">
+            <div class="bg-sakura/20 border border-sakura/40 rounded-xl px-4 py-3 mb-4">
+              <p class="text-sm font-bold">
+                <i class="fa-solid fa-bus mr-1"></i>參加 KKday Tour: <a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">河口湖冬季煙火大會＆新倉山淺間公園＆新鮮草莓採摘吃到飽 含溫泉體驗（新宿出發）</a>
+              </p>
+            </div>
+            <ul class="space-y-3 text-sm leading-relaxed">
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">早上</span>
+                <span>早起前往<strong>新宿中心大樓（Shinjuku Center Building）</strong>集合。</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">全日</span>
+                <div>
+                  <strong>富士山絕景</strong>、<strong>即摘草莓放題</strong>、<strong>冬季煙火大會</strong>— 精華盡在今日！
+                </div>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-stone font-medium whitespace-nowrap">~20:00</span>
+                <span>回到新宿。食碗快 Ramen（<strong>一蘭</strong>或 <strong>AFURI</strong>），之後返龜戶休息。</span>
               </li>
             </ul>
           </div>
@@ -356,7 +356,7 @@ if (window.tailwind) tailwind.config = {
       <h2 class="text-base font-bold mb-3"><i class="fa-solid fa-clipboard-list mr-2 text-matcha"></i>行前備忘</h2>
       <ul class="space-y-2 text-sm text-stone leading-relaxed">
         <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.shibuya-scramble-square.com/sky/ticket/" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Shibuya Sky 需提前網上預約（Day 4）</a></li>
-        <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">KKday Tour 確認集合時間及地點（Day 5）</a></li>
+        <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.kkday.com/zh-tw/product/128343" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">KKday Tour 確認集合時間及地點（Day 6）</a></li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i><a href="https://www.jreast.co.jp/multi/en/pass/suica.html" target="_blank" rel="noopener noreferrer" class="underline decoration-sakura/70 hover:text-sakura">Suica / Pasmo 交通卡到埗即買</a></li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>帶定現金，好多小店唔收卡</li>
         <li><i class="fa-solid fa-check text-matcha mr-2"></i>2月東京天氣凍（約 5-10°C），記得帶禦寒衫</li>
