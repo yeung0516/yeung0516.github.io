@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>體重管理計劃更新 | Weight Management Plan</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Noto Sans HK"', '"Inter"', 'sans-serif'],
+        },
+        colors: {
+          brand: '#0ea5e9',
+          accent: '#8b5cf6',
+          warm: '#f59e0b',
+          success: '#10b981',
+          danger: '#ef4444',
+        }
+      }
+    }
+  }
+</script>
+<!-- MathJax for LaTeX rendering -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
+      displayMath: [['$$', '$$']],
+      tags: 'none'
+    },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans HK', 'Inter', sans-serif; }
+  .hero-gradient {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0c4a6e 100%);
+  }
+  .section-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+  }
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0,0,0,0.06);
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    font-weight: 700;
+    padding: 10px 12px;
+    text-align: left;
+    color: #334155;
+  }
+  .data-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    color: #475569;
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(14,165,233,0.03); }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 8px 0 0; }
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.07);
+    margin: 12px 0;
+  }
+  .formula-box {
+    background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+    border: 1px solid rgba(14,165,233,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+    overflow-x: auto;
+  }
+  .callout {
+    display: flex;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    margin: 12px 0;
+    line-height: 1.6;
+  }
+  .callout-info { background: #eff6ff; border-left: 3px solid #3b82f6; color: #1e40af; }
+  .callout-warn { background: #fffbeb; border-left: 3px solid #f59e0b; color: #92400e; }
+  .callout-success { background: #f0fdf4; border-left: 3px solid #10b981; color: #065f46; }
+  .callout-danger { background: #fef2f2; border-left: 3px solid #ef4444; color: #7f1d1d; }
+  .callout-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  details summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.07);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    font-size: 0.9rem;
+    color: #334155;
+    transition: background 0.2s ease;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: '▼'; margin-left: auto; font-size: 0.7rem; opacity: 0.5; transition: transform 0.3s ease; }
+  details[open] summary::after { transform: rotate(180deg); }
+  details summary:hover { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); }
+  details[open] summary { border-radius: 8px 8px 0 0; border-bottom: none; }
+  .details-body {
+    padding: 16px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(0,0,0,0.07);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.875rem;
+  }
+  .meal-block {
+    margin: 14px 0;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .meal-block h4 {
+    font-weight: 700;
+    color: #0ea5e9;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+  .meal-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .meal-block li {
+    padding: 3px 0 3px 16px;
+    position: relative;
+    color: #475569;
+  }
+  .meal-block li::before { content: '•'; position: absolute; left: 4px; color: #94a3b8; }
+  .code-block {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    margin: 12px 0;
+    white-space: pre-wrap;
+  }
+  .code-block .arr { color: #38bdf8; font-weight: bold; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-purple { background: #ede9fe; color: #6d28d9; }
+  .badge-amber { background: #fef3c7; color: #92400e; }
+  .badge-green { background: #d1fae5; color: #065f46; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-teal { background: #ccfbf1; color: #0f766e; }
+  .badge-rose { background: #ffe4e6; color: #9f1239; }
+  .progress-bar-wrap {
+    background: #e2e8f0;
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-bar { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0ea5e9, #8b5cf6); }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 0.875rem;
+    color: #475569;
+    border-bottom: 1px dashed rgba(0,0,0,0.06);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '□';
+    font-size: 1rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+    margin-top: -1px;
+  }
+  .day-block {
+    background: linear-gradient(135deg, #f0f9ff, #faf5ff);
+    border: 1px solid rgba(14,165,233,0.15);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .day-block h4 {
+    font-weight: 800;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+  strong, b { color: #1e293b; }
+  a { color: #0ea5e9; text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: #0284c7; }
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+    margin: 6px 0 16px;
+  }
+  @media (max-width: 640px) {
+    .section-card { padding: 16px; }
+    .data-table th, .data-table td { padding: 7px 9px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-700 min-h-screen">
+
+<!-- ===== HERO ===== -->
+<header class="hero-gradient text-white relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none opacity-10"
+       style="background-image: radial-gradient(circle at 20% 50%, #38bdf8 0%, transparent 45%), radial-gradient(circle at 80% 20%, #a78bfa 0%, transparent 45%);">
+  </div>
+  <div class="relative max-w-3xl mx-auto px-4 pt-12 pb-10 text-center">
+    <div class="text-5xl mb-3">💪</div>
+    <h1 class="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+      體重管理計劃更新
+      <span class="block text-blue-300 text-2xl md:text-3xl font-bold mt-1">補充資料整合版</span>
+    </h1>
+    <p class="mt-3 text-blue-200 text-sm font-medium">Weight Management &amp; Training Plan · 2026</p>
+    <div class="flex flex-wrap justify-center gap-2 mt-5 text-xs">
+      <span class="bg-blue-500/30 border border-blue-400/40 rounded-full px-3 py-1">⚖️ 目標體重：70 kg</span>
+      <span class="bg-purple-500/30 border border-purple-400/40 rounded-full px-3 py-1">🏋️ 5天/週訓練</span>
+      <span class="bg-emerald-500/30 border border-emerald-400/40 rounded-full px-3 py-1">📉 熱量循環策略</span>
+      <span class="bg-amber-500/30 border border-amber-400/40 rounded-full px-3 py-1">⏱️ 18–24個月計劃</span>
+    </div>
+  </div>
+  <!-- Wave bottom -->
+  <div class="relative" style="margin-top:-2px; line-height:0;">
+    <svg viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;">
+      <path d="M0,27 C360,54 720,0 1080,27 C1260,40 1380,20 1440,27 L1440,54 L0,54Z" fill="#f8fafc"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ===== CONTEXT CALLOUT ===== -->
+<div class="max-w-3xl mx-auto px-4 -mt-2">
+  <div class="callout callout-info">
+    <span class="callout-icon">📋</span>
+    <div>
+      <strong>背景資料：</strong>29歲、Mon–Thu + Sat/Sun 早上可練、週五晚＋週六＋週日預期高熱量。
+      以下為根據最新補充資料修訂後的核心策略。
+    </div>
+  </div>
+</div>
+
+<main class="max-w-3xl mx-auto px-4 pt-4 pb-16">
+
+  <!-- ===== SECTION 1: WHY WEIGHT ISN'T DROPPING ===== -->
+  <section class="section-card">
+    <div class="section-title text-blue-700">
+      <span>🔍</span>
+      <span>一、最重要發現：點解「有控制」但體重仍不跌？</span>
+    </div>
+    <p class="text-sm text-slate-600 mb-4">這是整份更新的靈魂。讓數字說話：</p>
+
+    <h3 class="font-700 text-slate-800 mb-2 text-sm font-bold">▌ 推測你現時的真實熱量狀況</h3>
+
+    <div class="formula-box">
+      <p class="text-xs text-slate-500 mb-2 font-semibold uppercase tracking-wide">基礎代謝率（BMR）— Mifflin–St Jeor 公式</p>
+      $$BMR = 10 \times 90 + 6.25 \times 180 - 5 \times 29 + 5 = \mathbf{1{,}885 \text{ kcal}}$$
+    </div>
+    <div class="formula-box">
+      <p class="text-xs text-slate-500 mb-2 font-semibold uppercase tracking-wide">每日總消耗量（TDEE）× 活動係數 1.55</p>
+      $$TDEE = 1{,}885 \times 1.55 \approx \mathbf{2{,}920 \text{ kcal/天}} \quad \Rightarrow \quad \text{每週維持預算} = 20{,}400 \text{ kcal}$$
+    </div>
+
+    <h3 class="font-bold text-slate-800 mb-2 text-sm mt-4">▌ 估計現時每週實際攝取</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>時段</th>
+            <th>估計每日攝取</th>
+            <th>小計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>週一至週四（有嘗試控制）</td>
+            <td>~2,100 kcal × 4</td>
+            <td><strong>8,400 kcal</strong></td>
+          </tr>
+          <tr>
+            <td>週五（飯局 + 飲酒）</td>
+            <td>~4,000 kcal × 1</td>
+            <td><strong>4,000 kcal</strong></td>
+          </tr>
+          <tr>
+            <td>週六（飲茶 + 午飯 + 晚飯 + drinks）</td>
+            <td>~4,200 kcal × 1</td>
+            <td><strong>4,200 kcal</strong></td>
+          </tr>
+          <tr>
+            <td>週日（輕鬆社交）</td>
+            <td>~3,800 kcal × 1</td>
+            <td><strong>3,800 kcal</strong></td>
+          </tr>
+          <tr style="background:linear-gradient(135deg,#eff6ff,#f0fdf4);">
+            <td><strong>週合計</strong></td>
+            <td></td>
+            <td><strong>≈ 20,400 kcal</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="formula-box">
+      $$\text{實際每週赤字} = 20{,}400 - 20{,}400 = \mathbf{0 \text{ kcal}} \quad \Longrightarrow \quad \text{維持體重，完全合理}$$
+    </div>
+
+    <div class="callout callout-info mt-3">
+      <span class="callout-icon">💡</span>
+      <div>
+        <strong>結論：問題根本唔係你平日控制唔夠，而係週末3日完全把4日赤字抵銷。</strong><br>
+        你的平日努力是真實的，但被一個隱形的「週末黑洞」吞掉了。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: CALORIC CYCLING ===== -->
+  <section class="section-card">
+    <div class="section-title text-purple-700">
+      <span>📐</span>
+      <span>二、升級核心策略：熱量循環（Caloric Cycling）</span>
+    </div>
+    <p class="text-sm text-slate-600 mb-3">
+      策略哲學：<strong>平日嚴格建立赤字 → 週末設上限享受，而非禁絕。</strong><br>
+      這個方式比「每天均等節食」更可持續，也更符合你的社交生活。
+      <a href="https://scienceandiron.net/guide-macro-tracking-body-recomposition/" target="_blank" rel="noopener">[scienceandiron.net]</a>
+    </p>
+
+    <h3 class="font-bold text-slate-800 mb-2 text-sm mt-4">▌ 每週熱量分配藍圖</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>日子</th>
+            <th>類型</th>
+            <th>目標熱量上限</th>
+            <th>核心要求</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>週一</strong></td>
+            <td>重訓 + 嚴格</td>
+            <td><span class="badge badge-blue">1,850 kcal</span></td>
+            <td>守住，不容妥協</td>
+          </tr>
+          <tr>
+            <td><strong>週二</strong></td>
+            <td>重訓 + 嚴格</td>
+            <td><span class="badge badge-blue">1,850 kcal</span></td>
+            <td>同上</td>
+          </tr>
+          <tr>
+            <td><strong>週三</strong></td>
+            <td>重訓 + 嚴格</td>
+            <td><span class="badge badge-blue">1,850 kcal</span></td>
+            <td>同上</td>
+          </tr>
+          <tr>
+            <td><strong>週四</strong></td>
+            <td>重訓 + 嚴格</td>
+            <td><span class="badge badge-blue">1,850 kcal</span></td>
+            <td>同上</td>
+          </tr>
+          <tr>
+            <td><strong>週五</strong></td>
+            <td>輕午餐 + 社交晚餐</td>
+            <td><span class="badge badge-amber">2,900 kcal</span></td>
+            <td>午餐輕，晚上享</td>
+          </tr>
+          <tr>
+            <td><strong>週六</strong></td>
+            <td>早上重訓 + 社交全日</td>
+            <td><span class="badge badge-red">3,200 kcal</span></td>
+            <td>訓練係關鍵前置</td>
+          </tr>
+          <tr>
+            <td><strong>週日</strong></td>
+            <td>社交 + 主動恢復</td>
+            <td><span class="badge badge-amber">2,900 kcal</span></td>
+            <td>設上限即可</td>
+          </tr>
+          <tr style="background:linear-gradient(135deg,#f0fdf4,#eff6ff);">
+            <td><strong>週合計</strong></td>
+            <td></td>
+            <td><span class="badge badge-green">≈ 16,400 kcal</span></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="formula-box mt-4">
+      $$\text{每週赤字} = 20{,}400 - 16{,}400 = \mathbf{4{,}000 \text{ kcal}}$$
+      $$\text{日均等效赤字} = \frac{4{,}000}{7} \approx \mathbf{571 \text{ kcal/天}}$$
+      $$\text{每月理論減脂} = \frac{4{,}000 \times 4.33}{7{,}700} \approx \mathbf{2.25 \text{ kg}} \quad \text{（現實扣除代謝適應後約 } \mathbf{1.3\text{–}1.8 \text{ kg）}}$$
+    </div>
+
+    <div class="callout callout-warn mt-3">
+      <span class="callout-icon">⚠️</span>
+      <div>
+        <strong>這個計劃成敗的唯一關鍵是：週末有沒有守住上限。</strong>
+        週六 3,200 kcal 係「有享受的上限」，唔係「目標」。若週末一日去到 5,000 kcal，全週努力歸零。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: MACRONUTRIENTS ===== -->
+  <section class="section-card">
+    <div class="section-title text-emerald-700">
+      <span>🍱</span>
+      <span>三、平日嚴格日（1,850 kcal）宏量分配</span>
+    </div>
+    <p class="text-sm text-slate-600 mb-3">
+      根據研究，高蛋白攝取（$\geq 2.0$ g/kg）在熱量限制期間可最大程度保住肌肉，同時增加飽腹感。
+      <a href="https://www.barbellmedicine.com/resources/macronutrient-calculator/" target="_blank" rel="noopener">[barbellmedicine.com]</a>
+      <a href="https://scienceandiron.net/guide-macro-tracking-body-recomposition/" target="_blank" rel="noopener">[scienceandiron.net]</a>
+    </p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>宏量營養素</th>
+            <th>每日目標</th>
+            <th>熱量</th>
+            <th>備注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🥩 蛋白質</td>
+            <td><strong>200 g</strong></td>
+            <td>800 kcal (43%)<br>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:43%;background:linear-gradient(90deg,#ef4444,#f97316);"></div></div>
+            </td>
+            <td>最優先，任何情況下守住</td>
+          </tr>
+          <tr>
+            <td>🍚 碳水化合物</td>
+            <td><strong>145 g</strong></td>
+            <td>580 kcal (31%)<br>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:31%;background:linear-gradient(90deg,#f59e0b,#eab308);"></div></div>
+            </td>
+            <td>集中在訓練前後</td>
+          </tr>
+          <tr>
+            <td>🥑 脂肪</td>
+            <td><strong>52 g</strong></td>
+            <td>468 kcal (25%)<br>
+              <div class="progress-bar-wrap"><div class="progress-bar" style="width:25%;background:linear-gradient(90deg,#10b981,#0ea5e9);"></div></div>
+            </td>
+            <td>健康脂肪為主</td>
+          </tr>
+          <tr style="background:linear-gradient(135deg,#f0fdf4,#eff6ff);">
+            <td><strong>合計</strong></td>
+            <td></td>
+            <td><strong>≈ 1,848 kcal</strong></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="mt-4">
+      <summary>🕐 平日每餐時間表範例 ── 點擊展開</summary>
+      <div class="details-body">
+
+        <div class="meal-block">
+          <h4>⏰ 07:30 早餐｜~430 kcal / 蛋白質 ~38g</h4>
+          <ul>
+            <li>燕麥片 60g + 低脂牛奶 200ml</li>
+            <li>全蛋 2隻 + 蛋白 2隻（水煮）</li>
+            <li>黑咖啡（無糖）</li>
+          </ul>
+        </div>
+
+        <div class="meal-block">
+          <h4>⏰ 12:30 午餐｜~500 kcal / 蛋白質 ~45g</h4>
+          <p class="text-xs font-bold text-slate-500 mb-2">最理想：自帶便當</p>
+          <ul>
+            <li>雞胸肉 150–180g + 糙米 130g（熟重）+ 西蘭花/菠菜隨量</li>
+          </ul>
+          <p class="text-xs font-bold text-slate-500 mb-2 mt-2">外食次選：</p>
+          <ul>
+            <li>蒸魚飯 / 烤雞腿飯（要求少油，側邊加點蔬菜）</li>
+            <li>✅ 點餐時問「少油可唔可以」——HK 食堂通常可以配合</li>
+          </ul>
+        </div>
+
+        <div class="meal-block">
+          <h4>⏰ 16:30 訓練前加餐｜~190 kcal / 蛋白質 ~20g</h4>
+          <ul>
+            <li>低脂希臘乳酪 150g + 蓋少量燕麥（20g）</li>
+            <li>或：高蛋白棒（$\geq 20$g 蛋白 / $\leq 230$ kcal）</li>
+          </ul>
+        </div>
+
+        <div class="meal-block">
+          <h4>⏰ 20:30 訓練後晚餐｜~600 kcal / 蛋白質 ~55g</h4>
+          <ul>
+            <li>蛋白質：魚柳/蝦/豆腐/雞胸 200g</li>
+            <li>主食：白飯一碗（130–150g 熟重）——<strong>訓練後碳水補充時機</strong></li>
+            <li>蔬菜：大量（任何都可，少油調味）</li>
+          </ul>
+        </div>
+
+        <div class="meal-block">
+          <h4>⏰ 22:30 睡前（可選，但建議）｜~130 kcal / 蛋白質 ~18g</h4>
+          <ul>
+            <li>低脂希臘乳酪 150g（純味）</li>
+            <li>緩釋酪蛋白（Casein），減少夜間肌肉分解</li>
+          </ul>
+        </div>
+
+        <div class="callout callout-success mt-2">
+          <span class="callout-icon">✅</span>
+          <div><strong>每日合計：≈ 1,850 kcal，蛋白質 ≈ 176–200g ✅</strong></div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ===== SECTION 4: TRAINING PLAN ===== -->
+  <section class="section-card">
+    <div class="section-title text-violet-700">
+      <span>🏋️</span>
+      <span>四、更新訓練計劃（5天/週，配合社交時間表）</span>
+    </div>
+
+    <h3 class="font-bold text-slate-800 mb-2 text-sm">▌ 最終訓練分配</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>日子</th><th>訓練</th><th>時段</th><th>目標</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>週一</strong></td>
+            <td><span class="badge badge-blue">Push</span> 胸 / 肩 / 三頭</td>
+            <td>晚上下班後</td>
+            <td>力量為主</td>
+          </tr>
+          <tr>
+            <td><strong>週二</strong></td>
+            <td><span class="badge badge-purple">Pull</span> 背 / 二頭</td>
+            <td>晚上下班後</td>
+            <td>寬背重點</td>
+          </tr>
+          <tr>
+            <td><strong>週三</strong></td>
+            <td><span class="badge badge-green">Legs</span> 四頭 / 後腿 / 臀</td>
+            <td>晚上下班後</td>
+            <td>最大肌群</td>
+          </tr>
+          <tr>
+            <td><strong>週四</strong></td>
+            <td><span class="badge badge-teal">Upper Full</span> 推+拉結合，中等強度</td>
+            <td>晚上下班後</td>
+            <td>訓練量積累</td>
+          </tr>
+          <tr>
+            <td><strong>週五</strong></td>
+            <td>❌ 完全休息</td>
+            <td>—</td>
+            <td>社交開始</td>
+          </tr>
+          <tr style="background:linear-gradient(135deg,#fef3c7,#fffbeb);">
+            <td><strong>週六</strong></td>
+            <td>🎯 <strong>Full Body Compound</strong></td>
+            <td><strong>早上 07:30–09:00</strong></td>
+            <td>策略性前置</td>
+          </tr>
+          <tr>
+            <td><strong>週日</strong></td>
+            <td>主動恢復（步行 30 分鐘）或完全休息</td>
+            <td>早上可選</td>
+            <td>恢復優先</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="font-bold text-slate-800 mt-5 mb-2 text-sm">🔑 週六早上訓練的戰略意義</h3>
+    <div class="code-block">週六社交日 = 最高熱量攝取日
+<span class="arr">↓</span>
+早上訓練先行 → 消耗糖原 → 創造「代謝窗口」
+<span class="arr">↓</span>
+下午/晚上攝入的碳水 → 優先補充肌肉糖原（而非儲脂）
+<span class="arr">↓</span>
+同樣卡路里，週六的「傷害」比其他日子少</div>
+    <p class="text-xs text-slate-500 mt-2">
+      這並非巧合——這是把週六訓練刻意放在社交之<strong>前</strong>的核心原因。
+      <a href="https://rippedbody.com/how-to-adjust-macros-bulk/" target="_blank" rel="noopener">[rippedbody.com]</a>
+    </p>
+
+    <details class="mt-4">
+      <summary>📋 各訓練日核心動作清單 ── 點擊展開</summary>
+      <div class="details-body">
+
+        <div class="day-block">
+          <h4>💪 週一：Push（推）</h4>
+          <ul class="text-sm text-slate-600 space-y-1 mt-1">
+            <li>• 槓鈴卧推（Barbell Bench Press）4×6-8</li>
+            <li>• 肩推（Overhead Press）3×8-10</li>
+            <li>• 上斜啞鈴推（Incline DB Press）3×10-12</li>
+            <li>• 側平舉（Lateral Raise）3×15</li>
+            <li>• 三頭下壓（Tricep Pushdown）3×12</li>
+          </ul>
+        </div>
+
+        <div class="day-block">
+          <h4>🔙 週二：Pull（拉）</h4>
+          <ul class="text-sm text-slate-600 space-y-1 mt-1">
+            <li>• 引體向上（Weighted Pull-ups 或輔助）4×6-10</li>
+            <li>• 靠背杠鈴划船（Barbell Row）4×6-8</li>
+            <li>• 坐式繩索划船（Cable Row）3×10-12</li>
+            <li>• 面拉（Face Pull）3×15（保護肩關節）</li>
+            <li>• 二頭彎舉（Barbell/Dumbbell Curl）3×10-12</li>
+          </ul>
+        </div>
+
+        <div class="day-block">
+          <h4>🦵 週三：Legs（腿）</h4>
+          <ul class="text-sm text-slate-600 space-y-1 mt-1">
+            <li>• 後蹲（Back Squat）4×5-8（主力動作）</li>
+            <li>• 羅馬尼亞硬拉（RDL）3×8-10</li>
+            <li>• 腿推機（Leg Press）3×12-15</li>
+            <li>• 腿彎舉（Lying Leg Curl）3×12</li>
+            <li>• 臀橋（Hip Thrust）3×12-15</li>
+            <li>• 小腿提踵（Calf Raise）3×15</li>
+          </ul>
+        </div>
+
+        <div class="day-block">
+          <h4>🔄 週四：Upper Full（上身全面）</h4>
+          <ul class="text-sm text-slate-600 space-y-1 mt-1">
+            <li>• 啞鈴上斜推（Incline DB Press）3×10</li>
+            <li>• 寬握繩索下拉（Wide Grip Lat Pulldown）3×10</li>
+            <li>• 啞鈴肩推（DB Shoulder Press）3×10</li>
+            <li>• T-bar Row 或單手啞鈴划船 3×10</li>
+            <li>• 繩索飛鳥 2×15</li>
+            <li>• 保護性面拉 2×20</li>
+            <li>• 二、三頭各 2 組收尾</li>
+          </ul>
+        </div>
+
+        <div class="day-block" style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border-color:rgba(245,158,11,0.3);">
+          <h4 style="color:#b45309;">🎯 週六：Full Body Compound（策略性全身）</h4>
+          <p class="text-xs text-amber-700 mb-2">重點：<strong>動作多樣、強度中等、效率高</strong></p>
+          <ul class="text-sm text-slate-600 space-y-1 mt-1">
+            <li>• 硬拉（Conventional Deadlift）3×5（主力）</li>
+            <li>• 深蹲（Front Squat 或 Goblet Squat）3×8</li>
+            <li>• 引體向上（Pull-ups）3×Max</li>
+            <li>• 農夫行走（Farmer's Carry）2×40m</li>
+            <li>• 核心（Dead Bug / Pallof Press）2組</li>
+            <li>• 可加：10–15分鐘划船機（低強度，呼應划艇背景 ✅）</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- ===== SECTION 5: WEEKEND STRATEGY ===== -->
+  <section class="section-card">
+    <div class="section-title text-amber-700">
+      <span>🍻</span>
+      <span>五、週末飲食傷害限制策略（最重要新增）</span>
+    </div>
+
+    <!-- Friday -->
+    <div class="mb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge badge-amber text-sm px-3 py-1">週五（社交起點）</span>
+        <span class="text-sm text-slate-500 font-semibold">目標 ≤ 2,900 kcal</span>
+      </div>
+      <div class="callout callout-info mb-2">
+        <span class="callout-icon">💡</span>
+        <div><strong>核心策略：「午餐省熱量，晚上有得享」</strong></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>時段</th><th>行動</th></tr></thead>
+          <tbody>
+            <tr><td>午餐</td><td>輕便（便當/沙律 ≤ 500 kcal）——<strong>刻意為晚上預留空間</strong></td></tr>
+            <tr><td>出發前</td><td>飲一大杯水，不要空肚去飯局（空肚 = 暴食的開始）</td></tr>
+            <tr><td>晚餐</td><td>先食蛋白質+蔬菜，最後才食飯/麵；唔需要清光所有澱粉</td></tr>
+            <tr><td>飲酒</td><td>最多 <strong>3 杯上限</strong>；dry white wine / spirits + soda &gt; 生啤 &gt; Cocktail</td></tr>
+            <tr><td>宵夜</td><td>盡量 skip；若非去不可，選清湯火鍋或少量蛋白質類</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Saturday -->
+    <div class="mb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge badge-red text-sm px-3 py-1">週六（最高風險日）</span>
+        <span class="text-sm text-slate-500 font-semibold">目標 ≤ 3,200 kcal</span>
+      </div>
+      <div class="callout callout-warn mb-2">
+        <span class="callout-icon">💡</span>
+        <div><strong>核心策略：「朝早練完，全日享受但設頂」</strong></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>時段</th><th>行動</th></tr></thead>
+          <tbody>
+            <tr style="background:#fff7ed;">
+              <td>07:30</td>
+              <td>❗ <strong>先落gym，無得商量</strong> ── 即使昨晚飲多了，也要去練</td>
+            </tr>
+            <tr><td>訓練後</td><td>蛋白奶昔（25-30g 蛋白）+ 香蕉 1 條；≈ 250 kcal</td></tr>
+            <tr><td>午餐</td><td>正常食，選蛋白主導菜式（燒烤/蒸魚/鐵板 &gt; 油炸）</td></tr>
+            <tr><td>下午</td><td>避免零食不停、bubble tea；選黑咖啡或凍水</td></tr>
+            <tr><td>晚餐</td><td>可以享受，但 <strong>3,200 kcal 係全日上限</strong>，唔係晚餐目標</td></tr>
+            <tr><td>飲酒</td><td>上限 <strong>4 杯</strong>（上限唔係目標）；每杯間插一杯水</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sunday -->
+    <div class="mb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="badge badge-green text-sm px-3 py-1">週日（緩衝恢復日）</span>
+        <span class="text-sm text-slate-500 font-semibold">目標 ≤ 2,900 kcal</span>
+      </div>
+      <div class="callout callout-success mb-2">
+        <span class="callout-icon">💡</span>
+        <div><strong>核心策略：「飲茶控分量，下午 reset 模式」</strong></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>時段</th><th>行動</th></tr></thead>
+          <tbody>
+            <tr><td>飲茶</td><td>每款點心 <strong>最多 1-2 件</strong>；蒸餃 &gt; 炸件；少叫腸粉（高碳高油）</td></tr>
+            <tr><td>下午茶</td><td>避免甜品；奶茶選凍走甜或改黑咖啡</td></tr>
+            <tr><td>晚餐</td><td>若下午已食得多，晚餐以清淡為主（家常菜/湯麵）</td></tr>
+            <tr><td>早上</td><td>步行 30 分鐘（輕鬆，非正式訓練）── 促進消化 + 恢復</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Alcohol -->
+    <div class="mt-4">
+      <h3 class="font-bold text-slate-800 mb-2 text-sm">🍺 酒精的隱藏效應（特別提示）</h3>
+      <p class="text-sm text-slate-600 mb-2">酒精每克含 $7 \text{ kcal}$ ，但比熱量本身更危險的是：</p>
+      <div class="formula-box">
+        $$\text{飲酒} \rightarrow \text{自控力下降} \rightarrow \text{宵夜衝動} \rightarrow \text{實際損害} \times 2\text{–}3\text{ 倍}$$
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>常見飲酒選擇</th><th>每杯熱量</th></tr></thead>
+          <tbody>
+            <tr><td>🍺 生啤 500ml</td><td>~215 kcal</td></tr>
+            <tr><td>🍷 Dry White Wine 150ml</td><td>~120 kcal</td></tr>
+            <tr><td>🥃 Spirits（Whisky/Gin）+ Soda 單份</td><td>~90–100 kcal</td></tr>
+            <tr><td>🍹 Cocktail（Mojito/Margarita）</td><td>~200–280 kcal</td></tr>
+            <tr><td>🍶 日本清酒 180ml</td><td>~200 kcal</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-warn mt-3">
+        <span class="callout-icon">⭐</span>
+        <div>
+          <strong>最實用建議：每次社交前心中設定飲酒數量，而非「看情況」。</strong>
+          「看情況」永遠係輸。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: MONTHLY PROGRESS ===== -->
+  <section class="section-card">
+    <div class="section-title text-sky-700">
+      <span>📊</span>
+      <span>六、更新版每月進度預期</span>
+    </div>
+    <p class="text-sm text-slate-600 mb-3">整合新策略（Fri/Sat/Sun上限管理 + 5天重訓）後的修訂預期：</p>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>時間段</th>
+            <th>預期體重</th>
+            <th>每月平均降幅</th>
+            <th>以29歲身體重組效率計算</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>第0個月</td>
+            <td><strong>90 kg</strong></td>
+            <td>基線</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>第1–2個月</td>
+            <td>88–89 kg</td>
+            <td>~0.5–1 kg</td>
+            <td>適應期：糖原/水分流失為主，計個磅面睇</td>
+          </tr>
+          <tr>
+            <td>第3–5個月</td>
+            <td>84–87 kg</td>
+            <td>~1.2–1.5 kg</td>
+            <td>真實脂肪開始持續流失，衣服開始明顯鬆</td>
+          </tr>
+          <tr>
+            <td>第6–9個月</td>
+            <td>80–83 kg</td>
+            <td>~1–1.5 kg</td>
+            <td>肩膊/手臂線條出現，停滯期首次挑戰</td>
+          </tr>
+          <tr>
+            <td>第10–12個月</td>
+            <td>76–80 kg</td>
+            <td>~1–1.2 kg</td>
+            <td>明顯精壯，上腹肌肉隱約可見</td>
+          </tr>
+          <tr>
+            <td>第13–17個月</td>
+            <td>72–75 kg</td>
+            <td>~0.8–1 kg</td>
+            <td>全面線條改善，人生最佳狀態</td>
+          </tr>
+          <tr style="background:linear-gradient(135deg,#fef3c7,#fffbeb);">
+            <td><strong>第18–24個月</strong></td>
+            <td><strong>~70 kg</strong></td>
+            <td><strong>~0.5–0.8 kg</strong></td>
+            <td><strong>🎯 目標達成</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-info mt-3">
+      <span class="callout-icon">📌</span>
+      <div>
+        <strong>特別說明：</strong>29歲是身體重組的黃金視窗。睾酮水平正處峰值，只要蛋白質充足 + 訓練有效，
+        <strong>即使在熱量赤字下，部分肌肉增長仍可同步發生</strong>。
+        這令你的最終體型可能優於原先預期的15%體脂；實際視覺效果可能達到 12–14% 體脂水準。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 7: WEEKLY CHECKLIST ===== -->
+  <section class="section-card">
+    <div class="section-title text-indigo-700">
+      <span>✅</span>
+      <span>七、整合後的每週執行清單</span>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <!-- Mon-Thu -->
+      <div class="day-block">
+        <h4 class="font-black text-sm text-slate-700 mb-3">📅 週一至週四（4天全力執行）</h4>
+        <ul class="checklist list-none p-0 space-y-1">
+          <li>早餐按計劃食</li>
+          <li>午餐自帶便當 or 選擇得當</li>
+          <li>訓練前加餐</li>
+          <li>完成訓練</li>
+          <li>訓練後高蛋白晚餐</li>
+          <li>全日蛋白質達 200g</li>
+          <li>總熱量 ≤ 1,850 kcal</li>
+        </ul>
+      </div>
+
+      <!-- Friday -->
+      <div class="day-block" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:rgba(245,158,11,0.2);">
+        <h4 class="font-black text-sm text-amber-700 mb-3">🌙 週五</h4>
+        <ul class="checklist list-none p-0 space-y-1">
+          <li>午餐輕便（≤ 500 kcal）</li>
+          <li>出發前飲足水</li>
+          <li>晚餐享受但保持意識</li>
+          <li>飲酒上限 3 杯</li>
+          <li>全日 ≤ 2,900 kcal（包括晚餐）</li>
+        </ul>
+      </div>
+
+      <!-- Saturday -->
+      <div class="day-block" style="background:linear-gradient(135deg,#fff7ed,#fef9ef);border-color:rgba(239,68,68,0.2);">
+        <h4 class="font-black text-sm text-red-700 mb-3">🏋️ 週六</h4>
+        <ul class="checklist list-none p-0 space-y-1">
+          <li>07:30 準時落gym（首要任務）</li>
+          <li>訓練後補蛋白 + 水果</li>
+          <li>全日 ≤ 3,200 kcal（上限）</li>
+          <li>晚餐酒精上限 4 杯</li>
+        </ul>
+      </div>
+
+      <!-- Sunday -->
+      <div class="day-block" style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-color:rgba(16,185,129,0.2);">
+        <h4 class="font-black text-sm text-emerald-700 mb-3">☀️ 週日</h4>
+        <ul class="checklist list-none p-0 space-y-1">
+          <li>輕鬆步行 30 分鐘</li>
+          <li>飲茶/午餐控份量</li>
+          <li>全日 ≤ 2,900 kcal</li>
+          <li>精神上「重設」，準備好迎接下週週一</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL SECTION ===== -->
+  <section class="section-card" style="background:linear-gradient(135deg,rgba(15,23,42,0.97),rgba(30,27,75,0.97));color:#e2e8f0;">
+    <div class="section-title" style="color:#7dd3fc;border-color:rgba(255,255,255,0.1);">
+      <span>💬</span>
+      <span>最後補充：給你直說的現實評估</span>
+    </div>
+    <p class="text-sm leading-relaxed mb-3" style="color:#cbd5e1;">
+      你過去的記錄說明一切——你有能力從 92 kg 減至 69 kg。問題從來不是能力，是<strong style="color:#7dd3fc;">方向和系統</strong>。
+    </p>
+    <p class="text-sm leading-relaxed mb-3" style="color:#cbd5e1;">
+      你的核心問題現在已經被精確識別：<strong style="color:#f9a8d4;">週末熱量黑洞</strong>。
+    </p>
+    <p class="text-sm leading-relaxed mb-3" style="color:#cbd5e1;">
+      這份計劃不要求你放棄社交生活，只是在週末設一條「上限線」，同時讓平日的嚴格發揮價值。
+      執行率達到 <strong style="color:#86efac;">75–80%</strong> 就已足夠。
+    </p>
+    <div class="p-3 rounded-lg mt-4" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);">
+      <p class="text-sm" style="color:#fca5a5;">
+        <strong>唯一的警告：</strong>週末的「有限度享受」必須是真正有限度的。如果每週五六日仍然無上限，任何計劃都無法繞過熱力學基本定律。
+      </p>
+    </div>
+    <p class="text-sm mt-4 leading-relaxed" style="color:#cbd5e1;">
+      你願意接受更嚴格的餐飲控制——這就係成功的起點。
+      <a href="https://generationiron.com/meal-planning-hardgainers/" target="_blank" rel="noopener" style="color:#7dd3fc;">[generationiron.com]</a>
+      <a href="https://rippedbody.com/how-to-adjust-macros-bulk/" target="_blank" rel="noopener" style="color:#7dd3fc;">[rippedbody.com]</a>
+    </p>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+  <p>體重管理計劃更新 · Weight Management Plan · 2026</p>
+  <p class="mt-1">內容基於電郵補充資料整合版 · Traditional Chinese</p>
+</footer>
+
+</body>
+</html>
