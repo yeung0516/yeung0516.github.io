@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Russian Learning | Учим Русский Язык</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇷🇺</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4ff;
+  --card-bg:#ffffff;
+  --ru-accent:#c62828;
+  --ru-blue:#1565c0;
+  --ru-white:#fafafa;
+  --key1:#e91e63;
+  --key2:#9c27b0;
+  --key3:#2196f3;
+  --key4:#00897b;
+  --key5:#ff6f00;
+  --key6:#6a1b9a;
+  --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.14);
+  --radius:16px;
+  --max-w:900px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Noto Sans','Noto Sans TC','Noto Sans SC',system-ui,-apple-system,sans-serif;
+  background:var(--bg);
+  color:#333;
+  line-height:1.7;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ========== HERO ========== */
+.hero{
+  background:linear-gradient(135deg,#1565c0 0%,#c62828 50%,#fafafa 100%);
+  padding:60px 20px 50px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 50%,rgba(255,255,255,0.15) 0%,transparent 50%),
+    radial-gradient(circle at 80% 30%,rgba(255,255,255,0.1) 0%,transparent 40%);
+}
+.hero h1{
+  font-size:clamp(28px,6vw,48px);
+  font-weight:900;
+  color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,0.3);
+  position:relative;
+  letter-spacing:1px;
+}
+.hero .subtitle{
+  font-size:clamp(13px,3vw,18px);
+  color:rgba(255,255,255,0.92);
+  margin-top:8px;
+  position:relative;
+  font-weight:400;
+}
+.hero .flag-row{
+  margin-top:18px;
+  font-size:clamp(28px,5vw,42px);
+  position:relative;
+}
+
+/* ========== LANGUAGE SWITCHER ========== */
+.lang-bar{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:16px 20px;
+  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.lang-btn{
+  padding:8px 18px;
+  border:2px solid #ddd;
+  border-radius:24px;
+  background:#fff;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  transition:all .25s ease;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.lang-btn:hover{border-color:var(--ru-blue);color:var(--ru-blue)}
+.lang-btn.active{
+  background:var(--ru-blue);
+  color:#fff;
+  border-color:var(--ru-blue);
+}
+
+/* ========== MAIN CONTAINER ========== */
+.container{
+  max-width:var(--max-w);
+  margin:0 auto;
+  padding:24px 16px 60px;
+}
+
+/* ========== SCENARIO CARDS ========== */
+.scenario-card{
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-bottom:28px;
+  overflow:hidden;
+  transition:box-shadow .3s ease,transform .2s ease;
+}
+.scenario-card:hover{
+  box-shadow:var(--shadow-hover);
+  transform:translateY(-2px);
+}
+.card-header{
+  padding:20px 24px 16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.card-num{
+  width:44px;height:44px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:18px;
+  flex-shrink:0;
+}
+.card-header h2{
+  font-size:clamp(16px,3.5vw,20px);
+  font-weight:700;
+  color:#333;
+}
+.card-header .scene-icon{font-size:24px;flex-shrink:0}
+
+.card-body{padding:20px 24px 24px}
+
+/* ========== RUSSIAN TEXT ========== */
+.ru-text{
+  font-size:clamp(17px,3.5vw,22px);
+  line-height:1.8;
+  color:#1a1a1a;
+  margin-bottom:16px;
+  padding:18px 20px;
+  background:linear-gradient(135deg,#fce4ec 0%,#e3f2fd 100%);
+  border-radius:12px;
+  border-left:5px solid var(--ru-accent);
+  position:relative;
+}
+.ru-text .kw{
+  font-weight:700;
+  padding:1px 5px;
+  border-radius:4px;
+  white-space:nowrap;
+}
+.kw1{background:rgba(233,30,99,0.15);color:#c2185b}
+.kw2{background:rgba(156,39,176,0.15);color:#7b1fa2}
+.kw3{background:rgba(33,150,243,0.15);color:#1565c0}
+.kw4{background:rgba(0,137,123,0.15);color:#00695c}
+.kw5{background:rgba(255,111,0,0.15);color:#e65100}
+.kw6{background:rgba(106,27,154,0.15);color:#4a148c}
+
+/* ========== SPEAK BUTTON ========== */
+.speak-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 16px;
+  background:linear-gradient(135deg,var(--ru-accent),#d32f2f);
+  color:#fff;
+  border:none;
+  border-radius:24px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  transition:all .25s ease;
+  margin-bottom:16px;
+  font-family:inherit;
+}
+.speak-btn:hover{
+  background:linear-gradient(135deg,#b71c1c,#c62828);
+  transform:scale(1.05);
+}
+.speak-btn:active{transform:scale(0.97)}
+.speak-btn.playing{
+  animation:pulse-glow 1.2s infinite;
+}
+@keyframes pulse-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(198,40,40,0.4)}
+  50%{box-shadow:0 0 0 10px rgba(198,40,40,0)}
+}
+.speak-icon{font-size:18px}
+
+/* ========== TRANSLATION BLOCK ========== */
+.translation{
+  margin-top:12px;
+  padding:14px 18px;
+  border-radius:10px;
+  font-size:clamp(14px,3vw,16px);
+  line-height:1.7;
+}
+.trans-en{background:#e8f5e9;border-left:4px solid #43a047;color:#2e7d32}
+.trans-hk{background:#fff3e0;border-left:4px solid #fb8c00;color:#e65100}
+.trans-tw{background:#fce4ec;border-left:4px solid #ec407a;color:#c2185b}
+.trans-cn{background:#e3f2fd;border-left:4px solid #42a5f5;color:#1565c0}
+.trans-label{
+  display:inline-block;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  padding:2px 8px;
+  border-radius:4px;
+  margin-bottom:6px;
+}
+.trans-en .trans-label{background:#43a047;color:#fff}
+.trans-hk .trans-label{background:#fb8c00;color:#fff}
+.trans-tw .trans-label{background:#ec407a;color:#fff}
+.trans-cn .trans-label{background:#42a5f5;color:#fff}
+
+/* ========== PRONUNCIATION GUIDE ========== */
+.pronun{
+  color:#888;
+  font-size:clamp(12px,2.5vw,14px);
+  font-style:italic;
+  margin-top:4px;
+}
+
+/* ========== CARD GRADIENT BORDERS ========== */
+.grad-1{background:linear-gradient(90deg,#e91e63,#ff5722) padding-box,linear-gradient(90deg,#e91e63,#ff5722) border-box;}
+.grad-2{background:linear-gradient(90deg,#9c27b0,#673ab7) padding-box,linear-gradient(90deg,#9c27b0,#673ab7) border-box;}
+.grad-3{background:linear-gradient(90deg,#2196f3,#03a9f4) padding-box,linear-gradient(90deg,#2196f3,#03a9f4) border-box;}
+.grad-4{background:linear-gradient(90deg,#00897b,#26a69a) padding-box,linear-gradient(90deg,#00897b,#26a69a) border-box;}
+.grad-5{background:linear-gradient(90deg,#ff6f00,#ffa000) padding-box,linear-gradient(90deg,#ff6f00,#ffa000) border-box;}
+.grad-6{background:linear-gradient(90deg,#6a1b9a,#ab47bc) padding-box,linear-gradient(90deg,#6a1b9a,#ab47bc) border-box;}
+.grad-7{background:linear-gradient(90deg,#1565c0,#42a5f5) padding-box,linear-gradient(90deg,#1565c0,#42a5f5) border-box;}
+.grad-8{background:linear-gradient(90deg,#2e7d32,#66bb6a) padding-box,linear-gradient(90deg,#2e7d32,#66bb6a) border-box;}
+.grad-9{background:linear-gradient(90deg,#d84315,#ff7043) padding-box,linear-gradient(90deg,#d84315,#ff7043) border-box;}
+.grad-10{background:linear-gradient(90deg,#4527a0,#7e57c2) padding-box,linear-gradient(90deg,#4527a0,#7e57c2) border-box;}
+
+/* ========== FOOTER ========== */
+.footer{
+  text-align:center;
+  padding:32px 20px;
+  color:#999;
+  font-size:13px;
+  border-top:1px solid #e0e0e0;
+  max-width:var(--max-w);
+  margin:0 auto;
+}
+.footer a{color:var(--ru-blue);text-decoration:none}
+
+/* ========== KEY PHRASE LEGEND ========== */
+.legend{
+  background:#fff;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px 24px;
+  margin-bottom:28px;
+}
+.legend h3{font-size:16px;font-weight:700;margin-bottom:10px;color:#555}
+.legend-items{display:flex;flex-wrap:wrap;gap:8px}
+.legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:13px;
+  padding:4px 10px;
+  border-radius:6px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:600px){
+  .hero{padding:40px 16px 36px}
+  .card-header{padding:16px 16px 12px;gap:10px}
+  .card-body{padding:16px 16px 20px}
+  .card-num{width:36px;height:36px;font-size:15px}
+  .lang-bar{gap:5px;padding:10px 12px}
+  .lang-btn{padding:6px 12px;font-size:12px}
+  .ru-text{padding:14px 14px;font-size:16px}
+  .translation{padding:12px 14px}
+}
+@media(min-width:601px) and (max-width:1024px){
+  .container{padding:24px 24px 60px}
+}
+@media(min-width:1025px){
+  .container{padding:32px 16px 80px}
+}
+/* safe area for notched iPhones */
+@supports(padding:max(0px)){
+  .hero{padding-top:max(60px,env(safe-area-inset-top))}
+  .footer{padding-bottom:max(32px,env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="flag-row">🇷🇺</div>
+  <h1>Учим Русский Язык</h1>
+  <p class="subtitle">Russian for Beginners · 10 Real-Life Conversations</p>
+</header>
+
+<!-- ===== LANGUAGE SWITCHER ===== -->
+<nav class="lang-bar" id="langBar">
+  <button class="lang-btn active" data-lang="all" onclick="switchLang('all')">All</button>
+  <button class="lang-btn" data-lang="en" onclick="switchLang('en')">🇬🇧 English</button>
+  <button class="lang-btn" data-lang="hk" onclick="switchLang('hk')">🇭🇰 繁體(港)</button>
+  <button class="lang-btn" data-lang="tw" onclick="switchLang('tw')">🇹🇼 繁體(台)</button>
+  <button class="lang-btn" data-lang="cn" onclick="switchLang('cn')">🇨🇳 简体中文</button>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="container" id="content"></main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  🇷🇺 Russian Learning Module · Free GitHub Pages ·
+  <a href="index.html">Home</a>
+</footer>
+
+<script>
+/* ==============================================================
+   DATA — 10 Russian Conversational Scenarios
+   ============================================================== */
+const scenarios = [
+  {
+    id:1, icon:'☕', scene:'At a Café',
+    sceneHk:'在咖啡店', sceneTw:'在咖啡廳', sceneCn:'在咖啡店',
+    ru:'<span class="kw kw1">Здравствуйте!</span> Можно мне, <span class="kw kw3">пожалуйста</span>, один <span class="kw kw4">капучино</span> и <span class="kw kw5">круассан</span>. <span class="kw kw2">Сколько это стоит?</span>',
+    ruPlain:'Здравствуйте! Можно мне, пожалуйста, один капучино и круассан. Сколько это стоит?',
+    pronun:'Zdra-STVUY-tye! MOZH-na mnye, pa-ZHA-lus-ta, a-DEEN ka-pu-CHEE-na ee krua-SAN. SKOL-ka EH-ta STO-eet?',
+    en:'Hello! May I have, please, one cappuccino and a croissant. How much does it cost?',
+    hk:'你好！麻煩你，我想要一杯卡布奇諾同一個牛角包。呢個幾多錢？',
+    tw:'你好！麻煩你，我想要一杯卡布奇諾和一個可頌。這個多少錢？',
+    cn:'你好！麻烦你，我想要一杯卡布奇诺和一个羊角面包。这个多少钱？',
+    keywords:['Здравствуйте – Hello (formal)','пожалуйста – please','капучино – cappuccino','круассан – croissant','Сколько это стоит? – How much does it cost?']
+  },
+  {
+    id:2, icon:'🚕', scene:'Taking a Taxi',
+    sceneHk:'搭的士', sceneTw:'搭計程車', sceneCn:'打出租车',
+    ru:'<span class="kw kw1">Добрый день!</span> <span class="kw kw3">Отвезите</span> меня, пожалуйста, в <span class="kw kw4">центр города</span>. <span class="kw kw2">Сколько будет стоить</span> поездка? Я могу <span class="kw kw5">оплатить картой</span>?',
+    ruPlain:'Добрый день! Отвезите меня, пожалуйста, в центр города. Сколько будет стоить поездка? Я могу оплатить картой?',
+    pronun:'DOB-ry dyen! At-vye-ZEE-tye mye-NYA, pa-ZHA-lus-ta, v TSENTR GO-ra-da. SKOL-ka BU-dyet STO-eet pa-YEZD-ka? Ya ma-GU a-pla-TEET KAR-toy?',
+    en:'Good afternoon! Please take me to the city center. How much will the trip cost? Can I pay by card?',
+    hk:'午安！麻煩載我去市中心。呢程車幾多錢？我可唔可以用卡嚟俾錢？',
+    tw:'午安！麻煩載我到市中心。這趟車多少錢？我可以刷卡嗎？',
+    cn:'下午好！麻烦载我到市中心。这趟车多少钱？我能刷卡吗？',
+    keywords:['Добрый день – Good afternoon','Отвезите – Take (me) / Drive (me)','центр города – city center','Сколько будет стоить – How much will it cost','оплатить картой – pay by card']
+  },
+  {
+    id:3, icon:'🏨', scene:'Checking into a Hotel',
+    sceneHk:'酒店入住', sceneTw:'飯店入住', sceneCn:'酒店入住',
+    ru:'<span class="kw kw1">Добрый вечер!</span> У меня <span class="kw kw3">бронирование</span> на имя Ли. Вот мой <span class="kw kw4">паспорт</span>. <span class="kw kw2">Во сколько завтрак?</span> И есть ли <span class="kw kw5">Wi-Fi</span> в номере?',
+    ruPlain:'Добрый вечер! У меня бронирование на имя Ли. Вот мой паспорт. Во сколько завтрак? И есть ли Wi-Fi в номере?',
+    pronun:'DOB-ry VYE-cher! U mye-NYA bra-nee-RA-va-nee-ye na EE-mya Lee. Vot moy PAS-part. Va SKOL-ka ZAF-trak? Ee yest lee Wi-Fi v NO-mye-rye?',
+    en:'Good evening! I have a reservation under the name Lee. Here is my passport. What time is breakfast? And is there Wi-Fi in the room?',
+    hk:'晚上好！我有個訂房，名係李。呢個係我護照。早餐幾點開始？房間有冇Wi-Fi？',
+    tw:'晚安！我有訂房，名字是李。這是我的護照。早餐幾點？房間有Wi-Fi嗎？',
+    cn:'晚上好！我有预订，名字叫李。这是我的护照。早餐几点？房间有Wi-Fi吗？',
+    keywords:['Добрый вечер – Good evening','бронирование – reservation','паспорт – passport','Во сколько завтрак? – What time is breakfast?','Wi-Fi – Wi-Fi']
+  },
+  {
+    id:4, icon:'🛒', scene:'At the Supermarket',
+    sceneHk:'喺超級市場', sceneTw:'在超市', sceneCn:'在超市',
+    ru:'<span class="kw kw1">Извините</span>, <span class="kw kw3">где находится</span> отдел с <span class="kw kw4">молочными продуктами</span>? И ещё мне нужен <span class="kw kw5">свежий хлеб</span>. <span class="kw kw2">У вас есть</span> пакет?',
+    ruPlain:'Извините, где находится отдел с молочными продуктами? И ещё мне нужен свежий хлеб. У вас есть пакет?',
+    pronun:'Eez-vee-NEE-tye, gdye na-KHO-dee-tsa at-DYEL s ma-LOCH-ny-mee pra-DUK-ta-mee? Ee ye-SHCHO mnye NU-zhen SVYE-zhiy khlyeb. U vas yest pa-KYET?',
+    en:'Excuse me, where is the dairy section? And I also need fresh bread. Do you have a bag?',
+    hk:'唔好意思，奶製品喺邊度？仲有我要新鮮麵包。你哋有冇膠袋？',
+    tw:'不好意思，乳製品區在哪裡？另外我需要新鮮麵包。你們有袋子嗎？',
+    cn:'不好意思，乳制品在哪里？另外我需要新鲜面包。你们有袋子吗？',
+    keywords:['Извините – Excuse me','где находится – where is','молочные продукты – dairy products','свежий хлеб – fresh bread','У вас есть – Do you have']
+  },
+  {
+    id:5, icon:'🚇', scene:'On the Metro',
+    sceneHk:'喺地鐵', sceneTw:'在地鐵', sceneCn:'在地铁',
+    ru:'<span class="kw kw1">Скажите, пожалуйста</span>, эта <span class="kw kw3">линия</span> идёт до <span class="kw kw4">Красной площади</span>? Мне нужно <span class="kw kw2">пересесть</span> на другую линию? <span class="kw kw5">Сколько остановок</span> ещё?',
+    ruPlain:'Скажите, пожалуйста, эта линия идёт до Красной площади? Мне нужно пересесть на другую линию? Сколько остановок ещё?',
+    pronun:'Ska-ZHEE-tye, pa-ZHA-lus-ta, EH-ta LEE-nee-ya ee-DYOT da KRAS-noy PLO-shcha-dee? Mnye NUZH-na pye-rye-SEST na dru-GU-yu LEE-nee-yu? SKOL-ka as-ta-NO-vak ye-SHCHO?',
+    en:'Could you tell me please, does this line go to Red Square? Do I need to transfer to another line? How many stops are left?',
+    hk:'唔該，呢條線去唔去到紅場㗎？我使唔使轉去另一條線？仲有幾多個站？',
+    tw:'請問，這條線有到紅場嗎？我需要轉乘其他線嗎？還有幾站？',
+    cn:'请问，这条线到红场吗？我需要换乘其他线吗？还有几站？',
+    keywords:['Скажите, пожалуйста – Tell me please','линия – line','Красная площадь – Red Square','пересесть – to transfer','Сколько остановок – How many stops']
+  },
+  {
+    id:6, icon:'🍽️', scene:'Ordering at a Restaurant',
+    sceneHk:'餐廳落單', sceneTw:'餐廳點餐', sceneCn:'餐厅点餐',
+    ru:'Я хотел бы <span class="kw kw3">меню</span>, пожалуйста. <span class="kw kw1">Что вы рекомендуете?</span> Я попробую <span class="kw kw4">борщ</span> и <span class="kw kw5">пельмени</span>. И <span class="kw kw2">стакан воды</span>, пожалуйста.',
+    ruPlain:'Я хотел бы меню, пожалуйста. Что вы рекомендуете? Я попробую борщ и пельмени. И стакан воды, пожалуйста.',
+    pronun:'Ya kha-TYEL by mye-NYU, pa-ZHA-lus-ta. Shto vy rye-ka-myen-DU-ye-tye? Ya pa-PRO-bu-yu borshch ee pyel-MYE-nee. Ee sta-KAN va-DY, pa-ZHA-lus-ta.',
+    en:'I would like the menu, please. What do you recommend? I\'ll try borscht and pelmeni. And a glass of water, please.',
+    hk:'我想要餐牌，唔該。你推薦咩嘢？我試吓羅宋湯同水餃。仲要一杯水，唔該。',
+    tw:'我想要菜單，麻煩你。你推薦什麼？我想試試羅宋湯和水餃。還要一杯水，麻煩。',
+    cn:'我想要菜单，麻烦你。你推荐什么？我想试试罗宋汤和水饺。还要一杯水，麻烦。',
+    keywords:['меню – menu','Что вы рекомендуете? – What do you recommend?','борщ – borscht','пельмени – pelmeni (dumplings)','стакан воды – glass of water']
+  },
+  {
+    id:7, icon:'🏥', scene:'At the Pharmacy',
+    sceneHk:'喺藥房', sceneTw:'在藥局', sceneCn:'在药店',
+    ru:'<span class="kw kw1">Здравствуйте!</span> У меня <span class="kw kw3">болит голова</span> и немного <span class="kw kw4">температура</span>. <span class="kw kw2">Что вы посоветуете?</span> Мне нужно <span class="kw kw5">лекарство от простуды</span>.',
+    ruPlain:'Здравствуйте! У меня болит голова и немного температура. Что вы посоветуете? Мне нужно лекарство от простуды.',
+    pronun:'Zdra-STVUY-tye! U mye-NYA ba-LEET ga-la-VA ee nye-MNO-ga tyem-pye-ra-TU-ra. Shto vy pa-sa-VYE-tu-ye-tye? Mnye NUZH-na lye-KAR-stva at pra-STU-dy.',
+    en:'Hello! I have a headache and a slight fever. What do you recommend? I need cold medicine.',
+    hk:'你好！我頭痛，仲有少少發燒。你建議食咩藥？我要感冒藥。',
+    tw:'你好！我頭痛，還有一點發燒。你建議吃什麼？我需要感冒藥。',
+    cn:'你好！我头痛，还有一点发烧。你建议吃什么？我需要感冒药。',
+    keywords:['Здравствуйте – Hello','болит голова – headache','температура – fever / temperature','Что вы посоветуете? – What do you advise?','лекарство от простуды – cold medicine']
+  },
+  {
+    id:8, icon:'📸', scene:'Asking for Directions / Sightseeing',
+    sceneHk:'問路／觀光', sceneTw:'問路／觀光', sceneCn:'问路／观光',
+    ru:'<span class="kw kw1">Простите</span>, <span class="kw kw3">как пройти</span> к <span class="kw kw4">Эрмитажу</span>? Это <span class="kw kw2">далеко</span> отсюда? Можно <span class="kw kw5">пешком</span> дойти или лучше на <span class="kw kw6">автобусе</span>?',
+    ruPlain:'Простите, как пройти к Эрмитажу? Это далеко отсюда? Можно пешком дойти или лучше на автобусе?',
+    pronun:'Pra-STEE-tye, kak pray-TEE k Er-mee-TA-zhu? EH-ta da-lye-KO at-SYU-da? MOZH-na pyesh-KOM day-TEE EE-lee LUCH-she na af-TO-bu-sye?',
+    en:'Excuse me, how do I get to the Hermitage? Is it far from here? Can I walk there or is it better by bus?',
+    hk:'唔好意思，去隱士廬博物館點行㗎？離呢度遠唔遠？行路去得唔得，定係搭巴士好啲？',
+    tw:'不好意思，請問怎麼走到冬宮博物館？離這裡遠嗎？可以走路去還是搭公車比較好？',
+    cn:'不好意思，请问怎么走到冬宫博物馆？离这里远吗？可以走路去还是坐公交比较好？',
+    keywords:['Простите – Excuse me / Sorry','как пройти – how to get to','Эрмитаж – the Hermitage','далеко – far','пешком – on foot','автобус – bus']
+  },
+  {
+    id:9, icon:'📞', scene:'Making a Phone Call',
+    sceneHk:'打電話', sceneTw:'打電話', sceneCn:'打电话',
+    ru:'<span class="kw kw1">Алло</span>, <span class="kw kw3">это ресторан</span> «Москва»? Я хотел бы <span class="kw kw4">забронировать столик</span> на <span class="kw kw2">сегодня вечером</span>, на <span class="kw kw5">два человека</span>. В <span class="kw kw6">семь часов</span>, пожалуйста.',
+    ruPlain:'Алло, это ресторан «Москва»? Я хотел бы забронировать столик на сегодня вечером, на два человека. В семь часов, пожалуйста.',
+    pronun:'A-LLO, EH-ta ryes-ta-RAN «Mask-VA»? Ya kha-TYEL by za-bra-NEE-ra-vat STO-leek na sye-VOD-nya VYE-che-ram, na dva chye-la-VYE-ka. V syem cha-SOF, pa-ZHA-lus-ta.',
+    en:'Hello, is this the restaurant "Moscow"? I would like to reserve a table for tonight, for two people. At seven o\'clock, please.',
+    hk:'喂，呢度係「莫斯科」餐廳嗎？我想訂枱，今晚，兩位。七點鐘，唔該。',
+    tw:'喂，請問是「莫斯科」餐廳嗎？我想訂位，今天晚上，兩位。七點鐘，麻煩你。',
+    cn:'喂，请问是「莫斯科」餐厅吗？我想订位，今天晚上，两个人。七点钟，麻烦你。',
+    keywords:['Алло – Hello (on phone)','это ресторан – is this the restaurant','забронировать столик – reserve a table','сегодня вечером – tonight','два человека – two people','семь часов – seven o\'clock']
+  },
+  {
+    id:10, icon:'👋', scene:'Saying Goodbye / Thank You',
+    sceneHk:'道別／道謝', sceneTw:'道別／道謝', sceneCn:'道别／道谢',
+    ru:'<span class="kw kw1">Спасибо большое</span> за всё! Мне очень <span class="kw kw3">понравилось</span> в России. <span class="kw kw4">Люди здесь</span> очень <span class="kw kw5">добрые</span>. <span class="kw kw2">До свидания!</span> <span class="kw kw6">До встречи!</span>',
+    ruPlain:'Спасибо большое за всё! Мне очень понравилось в России. Люди здесь очень добрые. До свидания! До встречи!',
+    pronun:'Spa-SEE-ba bal-SHO-ye za fsyo! Mnye O-chen pan-RA-vee-las v Ra-SEE-ee. LYU-dee zdyes O-chen DOB-ry-ye. Da svee-DA-nee-ya! Da FSTRYE-chee!',
+    en:'Thank you so much for everything! I really enjoyed my time in Russia. The people here are very kind. Goodbye! See you again!',
+    hk:'非常多謝你哋嘅一切！我好鍾意喺俄羅斯嘅時光。呢度啲人好友善。再見！下次見！',
+    tw:'非常感謝你們的一切！我非常喜歡在俄羅斯的日子。這裡的人非常親切。再見！下次見！',
+    cn:'非常感谢你们的一切！我非常喜欢在俄罗斯的时光。这里的人非常友善。再见！下次见！',
+    keywords:['Спасибо большое – Thank you very much','понравилось – enjoyed','Люди здесь – People here','добрые – kind','До свидания – Goodbye','До встречи – See you again']
+  }
+];
+
+const gradColors = [
+  '#e91e63','#9c27b0','#2196f3','#00897b','#ff6f00',
+  '#6a1b9a','#1565c0','#2e7d32','#d84315','#4527a0'
+];
+
+/* ==============================================================
+   STATE
+   ============================================================== */
+let currentLang = 'all';
+
+/* ==============================================================
+   TEXT-TO-SPEECH — Web Speech API + Google TTS fallback
+   ============================================================== */
+let speakingId = null;
+let currentAudio = null;
+
+function speakRussian(text, btnEl) {
+  // Stop any current speech
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  window.speechSynthesis && window.speechSynthesis.cancel();
+
+  // Remove playing class from all buttons
+  document.querySelectorAll('.speak-btn.playing').forEach(function(b) { b.classList.remove('playing'); });
+
+  // If clicking the same button that's playing, just stop
+  if (speakingId === btnEl.dataset.id) {
+    speakingId = null;
+    return;
+  }
+  speakingId = btnEl.dataset.id;
+  btnEl.classList.add('playing');
+
+  // Try Web Speech API first
+  if ('speechSynthesis' in window) {
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'ru-RU';
+    utter.rate = 0.85;
+    utter.pitch = 1;
+
+    // Try to find a Russian voice
+    var voices = window.speechSynthesis.getVoices();
+    var ruVoice = voices.find(function(v) { return v.lang && v.lang.startsWith('ru'); });
+    if (ruVoice) utter.voice = ruVoice;
+
+    utter.onend = function() {
+      btnEl.classList.remove('playing');
+      speakingId = null;
+    };
+    utter.onerror = function() {
+      // Fallback to Google TTS
+      playGoogleTTS(text, btnEl);
+    };
+    window.speechSynthesis.speak(utter);
+  } else {
+    // Fallback to Google TTS
+    playGoogleTTS(text, btnEl);
+  }
+}
+
+function playGoogleTTS(text, btnEl) {
+  // Google Translate TTS — free, no API key needed, limited to ~200 chars
+  var chunks = splitText(text, 180);
+  playChunks(chunks, 0, btnEl);
+}
+
+function splitText(text, maxLen) {
+  var parts = [];
+  var sentences = text.split(/(?<=[.!?])\s+/);
+  var current = '';
+  for (var i = 0; i < sentences.length; i++) {
+    if ((current + ' ' + sentences[i]).trim().length > maxLen && current.length > 0) {
+      parts.push(current.trim());
+      current = sentences[i];
+    } else {
+      current = (current + ' ' + sentences[i]).trim();
+    }
+  }
+  if (current.length > 0) parts.push(current.trim());
+  return parts;
+}
+
+function playChunks(chunks, index, btnEl) {
+  if (index >= chunks.length || speakingId !== btnEl.dataset.id) {
+    btnEl.classList.remove('playing');
+    speakingId = null;
+    currentAudio = null;
+    return;
+  }
+  var encodedText = encodeURIComponent(chunks[index]);
+  var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ru&client=tw-ob&q=' + encodedText;
+  var audio = new Audio(url);
+  currentAudio = audio;
+  audio.playbackRate = 0.9;
+  audio.onended = function() {
+    playChunks(chunks, index + 1, btnEl);
+  };
+  audio.onerror = function() {
+    btnEl.classList.remove('playing');
+    speakingId = null;
+    currentAudio = null;
+  };
+  audio.play().catch(function() {
+    btnEl.classList.remove('playing');
+    speakingId = null;
+    currentAudio = null;
+  });
+}
+
+// Preload voices
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = function() {
+    window.speechSynthesis.getVoices();
+  };
+}
+
+/* ==============================================================
+   LANGUAGE SWITCHING
+   ============================================================== */
+function switchLang(lang) {
+  currentLang = lang;
+  // Update buttons
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Show/hide translations
+  document.querySelectorAll('.translation').forEach(function(el) {
+    if (lang === 'all') {
+      el.style.display = 'block';
+    } else {
+      el.style.display = el.classList.contains('trans-' + lang) ? 'block' : 'none';
+    }
+  });
+}
+
+/* ==============================================================
+   RENDER CARDS
+   ============================================================== */
+function renderCards() {
+  var container = document.getElementById('content');
+  var html = '';
+
+  // Legend
+  html += '<div class="legend">';
+  html += '<h3>🎨 Key Phrase Color Guide</h3>';
+  html += '<div class="legend-items">';
+  html += '<span class="legend-item kw1">Greetings / Key Phrases</span>';
+  html += '<span class="legend-item kw2">Questions / Farewells</span>';
+  html += '<span class="legend-item kw3">Actions / Verbs</span>';
+  html += '<span class="legend-item kw4">Places / Nouns</span>';
+  html += '<span class="legend-item kw5">Food / Objects</span>';
+  html += '<span class="legend-item kw6">Time / Extra</span>';
+  html += '</div></div>';
+
+  for (var i = 0; i < scenarios.length; i++) {
+    var s = scenarios[i];
+    var color = gradColors[i];
+
+    html += '<article class="scenario-card">';
+
+    // Header
+    html += '<div class="card-header">';
+    html += '<div class="card-num" style="background:' + color + '">' + s.id + '</div>';
+    html += '<div><h2>' + s.icon + ' ' + s.scene + '</h2>';
+    html += '<div style="font-size:13px;color:#888;margin-top:2px">' + s.sceneHk + ' · ' + s.sceneTw + ' · ' + s.sceneCn + '</div>';
+    html += '</div></div>';
+
+    // Body
+    html += '<div class="card-body">';
+
+    // Russian text
+    html += '<div class="ru-text" style="border-left-color:' + color + '">' + s.ru + '</div>';
+
+    // Pronunciation
+    html += '<div class="pronun">📖 ' + s.pronun + '</div>';
+
+    // Speak button
+    html += '<button class="speak-btn" data-id="' + s.id + '" onclick="speakRussian(\'' + escapeForAttr(s.ruPlain) + '\', this)">';
+    html += '<span class="speak-icon">🔊</span> Listen / Послушать</button>';
+
+    // Keywords
+    html += '<div style="margin:12px 0 14px;display:flex;flex-wrap:wrap;gap:6px">';
+    for (var k = 0; k < s.keywords.length; k++) {
+      var kwClass = 'kw' + ((k % 6) + 1);
+      html += '<span class="kw ' + kwClass + '" style="font-size:12px;padding:3px 8px;border-radius:6px">' + s.keywords[k] + '</span>';
+    }
+    html += '</div>';
+
+    // Translations
+    html += '<div class="translation trans-en"><div class="trans-label">🇬🇧 English</div><div>' + s.en + '</div></div>';
+    html += '<div class="translation trans-hk" style="margin-top:8px"><div class="trans-label">🇭🇰 繁體中文（香港）</div><div>' + s.hk + '</div></div>';
+    html += '<div class="translation trans-tw" style="margin-top:8px"><div class="trans-label">🇹🇼 繁體中文（台灣）</div><div>' + s.tw + '</div></div>';
+    html += '<div class="translation trans-cn" style="margin-top:8px"><div class="trans-label">🇨🇳 简体中文（中国）</div><div>' + s.cn + '</div></div>';
+
+    html += '</div></article>';
+  }
+
+  container.innerHTML = html;
+}
+
+function escapeForAttr(str) {
+  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+/* ==============================================================
+   INIT
+   ============================================================== */
+renderCards();
+</script>
+</body>
+</html>
