@@ -825,19 +825,19 @@ function escapeForAttr(str) {
    DAILY VISITOR COUNTER (localStorage-based for static hosting)
    ============================================================== */
 (function() {
-  var today = new Date().toISOString().slice(0, 10);
+  var today = new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0');
   var storageKey = 'spain_visitor_counter';
   var data = null;
   try {
     data = JSON.parse(localStorage.getItem(storageKey));
-  } catch(e) { /* ignore */ }
+  } catch(e) { console.warn('Visitor counter: could not read localStorage', e); }
   if (!data || data.date !== today) {
     data = { date: today, count: 0 };
   }
   data.count++;
   try {
     localStorage.setItem(storageKey, JSON.stringify(data));
-  } catch(e) { /* ignore */ }
+  } catch(e) { console.warn('Visitor counter: could not write localStorage', e); }
   var el = document.getElementById('visitCount');
   if (el) { el.textContent = data.count; }
 })();
