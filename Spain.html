@@ -752,6 +752,30 @@ function escapeForAttr(str) {
     return svg;
   }
 
+  // Collision padding around content elements
+  var pad = 8;
+
+  // Check if walker rect overlaps any content element
+  function hitsContent(wx, wy) {
+    var walkerRect = {left: wx, top: wy, right: wx + size, bottom: wy + size};
+    var elems = document.querySelectorAll('.hero, .lang-bar, .container, .footer, .card, .legend');
+    for (var i = 0; i < elems.length; i++) {
+      var r = elems[i].getBoundingClientRect();
+      // Skip elements not visible in viewport
+      if (r.width === 0 && r.height === 0) continue;
+      var pr = {left: r.left - pad, top: r.top - pad, right: r.right + pad, bottom: r.bottom + pad};
+      if (walkerRect.left < pr.right && walkerRect.right > pr.left &&
+          walkerRect.top < pr.bottom && walkerRect.bottom > pr.top) {
+        return r;
+      }
+    }
+    return null;
+  }
+
+  // Place walker in a valid starting position (bottom-right corner, safe area)
+  x = window.innerWidth - size - 20;
+  y = window.innerHeight - size - 20;
+
   function updatePosition() {
     // Random direction changes
     if (Math.random() < 0.02) {
@@ -761,16 +785,14 @@ function escapeForAttr(str) {
     var nx = x + Math.cos(angle) * speed;
     var ny = y + Math.sin(angle) * speed;
 
-    // Bounce off edges
+    // Bounce off viewport edges
     var maxX = window.innerWidth - size;
     var maxY = window.innerHeight - size;
 
-    // Keep within horizontal bounds
     if (nx < 0 || nx > maxX) {
       angle = Math.PI - angle;
       nx = Math.max(0, Math.min(maxX, nx));
     }
-    // Keep within vertical bounds (fixed position, so use viewport)
     if (ny < 10) {
       angle = -angle;
       ny = 10;
@@ -778,6 +800,30 @@ function escapeForAttr(str) {
     if (ny > maxY - 10) {
       angle = -angle;
       ny = maxY - 10;
+    }
+
+    // Bounce off content elements to avoid overlapping text
+    var hit = hitsContent(nx, ny);
+    if (hit) {
+      // Determine which side the walker is approaching from and reflect
+      var cx = nx + size / 2;
+      var cy = ny + size / 2;
+      var elemCX = (hit.left + hit.right) / 2;
+      var elemCY = (hit.top + hit.bottom) / 2;
+      var dx = cx - elemCX;
+      var dy = cy - elemCY;
+
+      // Reflect based on the dominant axis of approach
+      if (Math.abs(dx) / (hit.width / 2 + size / 2) > Math.abs(dy) / (hit.height / 2 + size / 2)) {
+        angle = Math.PI - angle;
+      } else {
+        angle = -angle;
+      }
+      // Add small random perturbation to avoid getting stuck
+      angle += (Math.random() - 0.5) * 0.3;
+      // Stay at previous safe position
+      nx = x;
+      ny = y;
     }
 
     x = nx;
