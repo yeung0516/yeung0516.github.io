@@ -475,6 +475,8 @@ let currentLang = 'all';
    ============================================================== */
 let speakingId = null;
 let currentAudio = null;
+var GOOGLE_TTS_MAX_CHARS = 180;
+var GOOGLE_TTS_PLAYBACK_RATE = 0.9;
 
 function speakRussian(text, btnEl) {
   // Stop any current speech
@@ -524,13 +526,13 @@ function speakRussian(text, btnEl) {
 
 function playGoogleTTS(text, btnEl) {
   // Google Translate TTS — free, no API key needed, limited to ~200 chars
-  var chunks = splitText(text, 180);
+  var chunks = splitText(text, GOOGLE_TTS_MAX_CHARS);
   playChunks(chunks, 0, btnEl);
 }
 
 function splitText(text, maxLen) {
   var parts = [];
-  var sentences = text.split(/(?<=[.!?])\s+/);
+  var sentences = text.split(/[.!?]\s+/);
   var current = '';
   for (var i = 0; i < sentences.length; i++) {
     if ((current + ' ' + sentences[i]).trim().length > maxLen && current.length > 0) {
@@ -555,7 +557,7 @@ function playChunks(chunks, index, btnEl) {
   var url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ru&client=tw-ob&q=' + encodedText;
   var audio = new Audio(url);
   currentAudio = audio;
-  audio.playbackRate = 0.9;
+  audio.playbackRate = GOOGLE_TTS_PLAYBACK_RATE;
   audio.onended = function() {
     playChunks(chunks, index + 1, btnEl);
   };
