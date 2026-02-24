@@ -548,8 +548,10 @@ function playGoogleTTS(text, btnEl) {
 
 function splitText(text, maxLen) {
   var parts = [];
-  // Handle Spanish inverted punctuation (¡ ¿) in addition to standard marks
-  var sentences = text.split(/[.!?¡¿]\s+/);
+  // Split text into sentences based on terminal punctuation (. ! ?), keeping the delimiters.
+  // This avoids treating Spanish inverted punctuation (¡ ¿) as sentence terminators
+  // and correctly handles punctuation at end-of-string without trailing whitespace.
+  var sentences = text.match(/[^.!?]+[.!?]?/g) || [text];
   var current = '';
   for (var i = 0; i < sentences.length; i++) {
     if ((current + ' ' + sentences[i]).trim().length > maxLen && current.length > 0) {
