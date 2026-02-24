@@ -541,14 +541,15 @@ function speakSpanish(text, btnEl) {
 }
 
 function playGoogleTTS(text, btnEl) {
-  // Google Translate TTS — free, no API key needed, limited to ~200 chars
+  // Google Translate TTS — free, no API key, unofficial endpoint (may change)
   var chunks = splitText(text, GOOGLE_TTS_MAX_CHARS);
   playChunks(chunks, 0, btnEl);
 }
 
 function splitText(text, maxLen) {
   var parts = [];
-  var sentences = text.split(/[.!?]\s+/);
+  // Handle Spanish inverted punctuation (¡ ¿) in addition to standard marks
+  var sentences = text.split(/[.!?¡¿]\s+/);
   var current = '';
   for (var i = 0; i < sentences.length; i++) {
     if ((current + ' ' + sentences[i]).trim().length > maxLen && current.length > 0) {
@@ -760,23 +761,21 @@ function escapeForAttr(str) {
 
     // Bounce off edges
     var maxX = window.innerWidth - size;
-    var maxY = document.documentElement.scrollHeight - size;
-    var viewTop = window.scrollY;
-    var viewBottom = viewTop + window.innerHeight - size;
+    var maxY = window.innerHeight - size;
 
     // Keep within horizontal bounds
     if (nx < 0 || nx > maxX) {
       angle = Math.PI - angle;
       nx = Math.max(0, Math.min(maxX, nx));
     }
-    // Keep within visible vertical area (roughly)
-    if (ny < viewTop + 10) {
+    // Keep within vertical bounds (fixed position, so use viewport)
+    if (ny < 10) {
       angle = -angle;
-      ny = viewTop + 10;
+      ny = 10;
     }
-    if (ny > viewBottom - 10) {
+    if (ny > maxY - 10) {
       angle = -angle;
-      ny = viewBottom - 10;
+      ny = maxY - 10;
     }
 
     x = nx;
