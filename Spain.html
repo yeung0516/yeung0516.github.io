@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' https://translate.google.com; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
 <title>Spain | Aprende Español</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇪🇸</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -282,17 +285,39 @@ body{
   border-radius:6px;
 }
 
-/* ========== WALKING CHARACTER ========== */
-#walker{
-  position:fixed;
-  z-index:999;
-  pointer-events:none;
+/* ========== WALKING CHARACTER STRIP ========== */
+.walker-strip{
+  position:relative;
+  height:64px;
+  background:linear-gradient(135deg,#fff8e1 0%,#ffebee 100%);
+  border-bottom:2px solid rgba(198,11,30,0.15);
+  overflow:hidden;
+}
+.walker-strip .walker-char{
+  position:absolute;
+  top:0;
   width:64px;
   height:64px;
-  transition:none;
+  pointer-events:none;
   image-rendering:auto;
 }
-#walker svg{width:100%;height:100%}
+.walker-strip .walker-char svg{width:100%;height:100%}
+
+/* ========== VISITOR COUNTER ========== */
+.visitor-counter{
+  position:absolute;
+  top:16px;
+  right:16px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  padding:6px 14px;
+  border-radius:20px;
+  font-size:13px;
+  color:#fff;
+  font-weight:600;
+  z-index:1;
+}
 
 /* ========== RESPONSIVE ========== */
 @media(max-width:600px){
@@ -304,7 +329,9 @@ body{
   .lang-btn{padding:6px 12px;font-size:12px}
   .es-text{padding:14px 14px;font-size:16px}
   .translation{padding:12px 14px}
-  #walker{width:48px;height:48px}
+  .walker-strip{height:48px}
+  .walker-strip .walker-char{width:48px;height:48px}
+  .visitor-counter{top:10px;right:10px;font-size:11px;padding:4px 10px}
 }
 @media(min-width:601px) and (max-width:1024px){
   .container{padding:24px 24px 60px}
@@ -323,18 +350,24 @@ body{
 
 <!-- ===== HERO ===== -->
 <header class="hero">
+  <div class="visitor-counter" id="visitorCounter">👁️ Today: <span id="visitCount">0</span></div>
   <div class="flag-row">🇪🇸</div>
   <h1>Aprende Español</h1>
   <p class="subtitle">Spanish for Beginners · 10 Real-Life Conversations</p>
 </header>
 
-<!-- ===== LANGUAGE SWITCHER ===== -->
+<!-- ===== WALKING CHARACTER STRIP ===== -->
+<div class="walker-strip" id="walkerStrip">
+  <div class="walker-char" id="walker"></div>
+</div>
+
+<!-- ===== LANGUAGE SWITCHER (multi-select) ===== -->
 <nav class="lang-bar" id="langBar">
-  <button class="lang-btn active" data-lang="all" onclick="switchLang('all')">All</button>
-  <button class="lang-btn" data-lang="en" onclick="switchLang('en')">🇬🇧 English</button>
-  <button class="lang-btn" data-lang="hk" onclick="switchLang('hk')">🇭🇰 繁體(港)</button>
-  <button class="lang-btn" data-lang="tw" onclick="switchLang('tw')">🇹🇼 繁體(台)</button>
-  <button class="lang-btn" data-lang="cn" onclick="switchLang('cn')">🇨🇳 简体中文</button>
+  <button class="lang-btn active" data-lang="all" onclick="toggleLang('all')">All</button>
+  <button class="lang-btn active" data-lang="en" onclick="toggleLang('en')">🇬🇧 English</button>
+  <button class="lang-btn active" data-lang="hk" onclick="toggleLang('hk')">🇭🇰 繁體(港)</button>
+  <button class="lang-btn active" data-lang="tw" onclick="toggleLang('tw')">🇹🇼 繁體(台)</button>
+  <button class="lang-btn active" data-lang="cn" onclick="toggleLang('cn')">🇨🇳 简体中文</button>
 </nav>
 
 <!-- ===== MAIN CONTENT ===== -->
@@ -343,11 +376,8 @@ body{
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
   🇪🇸 Spanish Learning Module · Free GitHub Pages ·
-  <a href="index.html">Home</a>
+  <a href="index.html" rel="noopener noreferrer">Home</a>
 </footer>
-
-<!-- ===== WALKING CHARACTER ===== -->
-<div id="walker"></div>
 
 <script>
 /* ==============================================================
@@ -484,7 +514,7 @@ var gradColors = [
 /* ==============================================================
    STATE
    ============================================================== */
-var currentLang = 'all';
+var activeLangs = new Set(['en','hk','tw','cn']);
 
 /* ==============================================================
    TEXT-TO-SPEECH — Web Speech API + Google TTS fallback
@@ -601,21 +631,46 @@ if ('speechSynthesis' in window) {
 }
 
 /* ==============================================================
-   LANGUAGE SWITCHING
+   LANGUAGE SWITCHING — multi-select
    ============================================================== */
-function switchLang(lang) {
-  currentLang = lang;
-  // Update buttons
-  document.querySelectorAll('.lang-btn').forEach(function(b) {
-    b.classList.toggle('active', b.dataset.lang === lang);
-  });
-  // Show/hide translations
-  document.querySelectorAll('.translation').forEach(function(el) {
-    if (lang === 'all') {
-      el.style.display = 'block';
+function toggleLang(lang) {
+  var allLangs = ['en','hk','tw','cn'];
+  if (lang === 'all') {
+    var allActive = allLangs.every(function(l) { return activeLangs.has(l); });
+    if (allActive) {
+      activeLangs.clear();
     } else {
-      el.style.display = el.classList.contains('trans-' + lang) ? 'block' : 'none';
+      allLangs.forEach(function(l) { activeLangs.add(l); });
     }
+  } else {
+    if (activeLangs.has(lang)) {
+      activeLangs.delete(lang);
+    } else {
+      activeLangs.add(lang);
+    }
+  }
+  updateLangUI();
+}
+
+function updateLangUI() {
+  var allLangs = ['en','hk','tw','cn'];
+  var allActive = allLangs.every(function(l) { return activeLangs.has(l); });
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    var bLang = b.dataset.lang;
+    if (bLang === 'all') {
+      b.classList.toggle('active', allActive);
+    } else {
+      b.classList.toggle('active', activeLangs.has(bLang));
+    }
+  });
+  document.querySelectorAll('.translation').forEach(function(el) {
+    var show = false;
+    allLangs.forEach(function(l) {
+      if (activeLangs.has(l) && el.classList.contains('trans-' + l)) {
+        show = true;
+      }
+    });
+    el.style.display = show ? 'block' : 'none';
   });
 }
 
@@ -689,61 +744,53 @@ function escapeForAttr(str) {
 }
 
 /* ==============================================================
-   WALKING SPANISH CHARACTER — birdview anime style
+   WALKING SPANISH CHARACTER — horizontal strip below header
    ============================================================== */
 (function() {
+  var strip = document.getElementById('walkerStrip');
   var walker = document.getElementById('walker');
   var size = 64;
-  var x = Math.random() * (window.innerWidth - size);
-  var y = Math.random() * (window.innerHeight - size);
-  var angle = Math.random() * Math.PI * 2;
-  var speed = 1.2;
+  var speed = 1.5;
   var facingRight = true;
   var frame = 0;
   var frameCount = 0;
+  var x = Math.random() * (strip.offsetWidth - size);
+  var directionTimer = null;
 
-  // Draw the Spanish-style character as inline SVG
+  // Responsive size
+  if (window.innerWidth <= 600) { size = 48; }
+
+  function pickDirection() {
+    facingRight = Math.random() < 0.5;
+    var delay = (Math.random() * 6 + 2) * 1000; // 2 to 8 seconds
+    directionTimer = setTimeout(pickDirection, delay);
+  }
+  pickDirection();
+
   function drawCharacter(stepping) {
     var legOffset = stepping ? 3 : -3;
     var armOffset = stepping ? -4 : 4;
-    // Spanish-style character: sombrero/hat, red sash, flamenco-inspired
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"'
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="' + size + '" height="' + size + '"'
       + ' style="transform:scaleX(' + (facingRight ? 1 : -1) + ')">'
-      // Shadow
       + '<ellipse cx="32" cy="60" rx="14" ry="4" fill="rgba(0,0,0,0.13)"/>'
-      // Left leg
       + '<rect x="25" y="46" width="5" height="12" rx="2" fill="#2c2c2c" transform="translate(' + (-legOffset) + ',0)"/>'
-      // Right leg
       + '<rect x="34" y="46" width="5" height="12" rx="2" fill="#2c2c2c" transform="translate(' + legOffset + ',0)"/>'
-      // Shoes
       + '<ellipse cx="27.5" cy="58" rx="3.5" ry="2" fill="#1a1a1a" transform="translate(' + (-legOffset) + ',0)"/>'
       + '<ellipse cx="36.5" cy="58" rx="3.5" ry="2" fill="#1a1a1a" transform="translate(' + legOffset + ',0)"/>'
-      // Body (white shirt)
       + '<rect x="23" y="30" width="18" height="18" rx="4" fill="#FFFFFF" stroke="#ddd" stroke-width="0.5"/>'
-      // Red sash / faja
       + '<rect x="23" y="40" width="18" height="4" rx="1" fill="#c60b1e"/>'
-      // Left arm
       + '<rect x="17" y="32" width="5" height="13" rx="2.5" fill="#FFFFFF" stroke="#ddd" stroke-width="0.5" transform="rotate(' + armOffset + ',19.5,32)"/>'
-      // Right arm
       + '<rect x="42" y="32" width="5" height="13" rx="2.5" fill="#FFFFFF" stroke="#ddd" stroke-width="0.5" transform="rotate(' + (-armOffset) + ',44.5,32)"/>'
-      // Hand (left)
       + '<circle cx="19.5" cy="46" r="2.5" fill="#f5c6a0" transform="rotate(' + armOffset + ',19.5,32)"/>'
-      // Hand (right)
       + '<circle cx="44.5" cy="46" r="2.5" fill="#f5c6a0" transform="rotate(' + (-armOffset) + ',44.5,32)"/>'
-      // Neck
       + '<rect x="29" y="26" width="6" height="6" rx="2" fill="#f5c6a0"/>'
-      // Head
       + '<circle cx="32" cy="22" r="10" fill="#f5c6a0"/>'
-      // Eyes
       + '<circle cx="28.5" cy="21" r="1.5" fill="#333"/>'
       + '<circle cx="35.5" cy="21" r="1.5" fill="#333"/>'
-      // Smile
       + '<path d="M29,25 Q32,28 35,25" stroke="#c62828" stroke-width="1.2" fill="none" stroke-linecap="round"/>'
-      // Sombrero cordobés (Spanish hat)
       + '<ellipse cx="32" cy="14" rx="15" ry="4" fill="#1a1a1a"/>'
       + '<rect x="25" y="6" width="14" height="9" rx="3" fill="#1a1a1a"/>'
       + '<rect x="26" y="8" width="12" height="2" rx="1" fill="#c60b1e"/>'
-      // Small Spanish flag on hat
       + '<rect x="39" y="4" width="1" height="8" fill="#666"/>'
       + '<rect x="40" y="4" width="6" height="2.5" fill="#c60b1e"/>'
       + '<rect x="40" y="6.5" width="6" height="2" fill="#ffc400"/>'
@@ -752,101 +799,47 @@ function escapeForAttr(str) {
     return svg;
   }
 
-  // Collision padding around content elements
-  var pad = 8;
-
-  // Check if walker rect overlaps any content element
-  function hitsContent(wx, wy) {
-    var walkerRect = {left: wx, top: wy, right: wx + size, bottom: wy + size};
-    var elems = document.querySelectorAll('.hero, .lang-bar, .container, .footer, .card, .legend');
-    for (var i = 0; i < elems.length; i++) {
-      var r = elems[i].getBoundingClientRect();
-      // Skip elements not visible in viewport
-      if (r.width === 0 && r.height === 0) continue;
-      var pr = {left: r.left - pad, top: r.top - pad, right: r.right + pad, bottom: r.bottom + pad};
-      if (walkerRect.left < pr.right && walkerRect.right > pr.left &&
-          walkerRect.top < pr.bottom && walkerRect.bottom > pr.top) {
-        return r;
-      }
-    }
-    return null;
-  }
-
-  // Place walker in a valid starting position (bottom-right corner, safe area)
-  x = window.innerWidth - size - 20;
-  y = window.innerHeight - size - 20;
-
-  function updatePosition() {
-    // Random direction changes
-    if (Math.random() < 0.02) {
-      angle += (Math.random() - 0.5) * Math.PI * 0.5;
+  function animate() {
+    var maxX = strip.offsetWidth - size;
+    if (facingRight) {
+      x += speed;
+      if (x >= maxX) { x = maxX; facingRight = false; }
+    } else {
+      x -= speed;
+      if (x <= 0) { x = 0; facingRight = true; }
     }
 
-    var nx = x + Math.cos(angle) * speed;
-    var ny = y + Math.sin(angle) * speed;
-
-    // Bounce off viewport edges
-    var maxX = window.innerWidth - size;
-    var maxY = window.innerHeight - size;
-
-    if (nx < 0 || nx > maxX) {
-      angle = Math.PI - angle;
-      nx = Math.max(0, Math.min(maxX, nx));
-    }
-    if (ny < 10) {
-      angle = -angle;
-      ny = 10;
-    }
-    if (ny > maxY - 10) {
-      angle = -angle;
-      ny = maxY - 10;
-    }
-
-    // Bounce off content elements to avoid overlapping text
-    var hit = hitsContent(nx, ny);
-    if (hit) {
-      // Determine which side the walker is approaching from and reflect
-      var cx = nx + size / 2;
-      var cy = ny + size / 2;
-      var elemCX = (hit.left + hit.right) / 2;
-      var elemCY = (hit.top + hit.bottom) / 2;
-      var dx = cx - elemCX;
-      var dy = cy - elemCY;
-
-      // Reflect based on the dominant axis of approach
-      if (Math.abs(dx) / (hit.width / 2 + size / 2) > Math.abs(dy) / (hit.height / 2 + size / 2)) {
-        angle = Math.PI - angle;
-      } else {
-        angle = -angle;
-      }
-      // Add small random perturbation to avoid getting stuck
-      angle += (Math.random() - 0.5) * 0.3;
-      // Stay at previous safe position
-      nx = x;
-      ny = y;
-    }
-
-    x = nx;
-    y = ny;
-
-    facingRight = Math.cos(angle) >= 0;
-
-    // Animate walking frames
     frameCount++;
     if (frameCount % 10 === 0) frame = 1 - frame;
 
     walker.innerHTML = drawCharacter(frame === 1);
     walker.style.left = x + 'px';
-    walker.style.top = y + 'px';
-
-    requestAnimationFrame(updatePosition);
+    requestAnimationFrame(animate);
   }
 
-  // Start animation
-  walker.style.position = 'fixed';
   walker.style.left = x + 'px';
-  walker.style.top = y + 'px';
-  requestAnimationFrame(updatePosition);
+  requestAnimationFrame(animate);
+})();
+
+/* ==============================================================
+   DAILY VISITOR COUNTER (localStorage-based for static hosting)
+   ============================================================== */
+(function() {
+  var today = new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0');
+  var storageKey = 'spain_visitor_counter';
+  var data = null;
+  try {
+    data = JSON.parse(localStorage.getItem(storageKey));
+  } catch(e) { console.warn('Visitor counter: could not read localStorage', e); }
+  if (!data || data.date !== today) {
+    data = { date: today, count: 0 };
+  }
+  data.count++;
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(data));
+  } catch(e) { console.warn('Visitor counter: could not write localStorage', e); }
+  var el = document.getElementById('visitCount');
+  if (el) { el.textContent = data.count; }
 })();
 
 /* ==============================================================
