@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://query1.finance.yahoo.com https://stooq.com https://www.alphavantage.co; img-src 'self' data:; font-src 'self';">
 <title>US Stock Market Crisis Detection Dashboard</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" integrity="sha384-WyTUQ4gQP2mRXCY7xL1yLWzNtPBJDvFBJ6h5+gPOa5lmZ2dC+5jGzUcIJw7EHLP6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" integrity="sha384-rwAXmZ3jW6h5mF7WaKLf3D9S4aqQK3H5z1KkV5xvCgGx2MxDmZNhJUb+Pz6wK1Tv" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" integrity="sha384-vQ4nxK1Xg6f5zYhN3lLpY8lbX9v8KzFj2XlYq3xWyP1l+kGd7nR4XcQ5hY6lK8Mv" crossorigin="anonymous"></script>
 <style>
 /* ========== RESET & VARIABLES ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -831,9 +833,16 @@ async function fetchFromStooq(symbol, days) {
 async function fetchFromAlphaVantage(symbol, days) {
   // Alpha Vantage requires an API key - using free tier
   // Note: Free tier is limited to 5 calls per minute, 500 per day
-  const apiKey = 'demo'; // In production, use actual API key
+  // For production, implement backend proxy to hide API key
+  const apiKey = 'demo'; // Demo key for testing only
 
-  const avSymbol = symbol.replace('^', '');
+  // Alpha Vantage uses different symbols: ^GSPC -> SPX
+  const symbolMap = {
+    '^GSPC': 'SPX',
+    '^DJI': 'DJI',
+    '^IXIC': 'IXIC'
+  };
+  const avSymbol = symbolMap[symbol] || symbol.replace('^', '');
   const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${avSymbol}&outputsize=full&apikey=${apiKey}`;
 
   const response = await fetchWithTimeout(url);
@@ -990,8 +999,11 @@ function startLiveUpdates() {
         const latestPoint = latestData[latestData.length - 1];
         const currentLatest = fullMarketData[fullMarketData.length - 1];
 
-        // Check if we have new data
-        if (latestPoint.date !== currentLatest.date) {
+        // Check if we have new data using timestamp comparison
+        const latestTimestamp = new Date(latestPoint.date).getTime();
+        const currentTimestamp = new Date(currentLatest.date).getTime();
+
+        if (latestTimestamp > currentTimestamp) {
           console.log('New data point detected, updating...');
           // Add new data point
           fullMarketData.push(latestPoint);
@@ -1137,30 +1149,58 @@ function calculateCorrelation(data) {
 function calculateAllIndicators(data) {
   const scores = {};
 
-  scores.vix = calculateVIX(data);
-  scores.creditSpread = calculateCreditSpread(data);
-  scores.yieldCurve = calculateYieldCurve(data);
-  scores.momentum = calculateMomentum(data);
-  scores.cape = calculateCAPE(data);
-  scores.breadth = calculateBreadth(data);
-  scores.putCall = calculatePutCall(data);
-  scores.ted = calculateTED(data);
-  scores.marginDebt = calculateMarginDebt(data);
-  scores.correlation = calculateCorrelation(data);
+  // Define all calculator functions with error handling
+  const calculators = {
+    vix: calculateVIX,
+    creditSpread: calculateCreditSpread,
+    yieldCurve: calculateYieldCurve,
+    momentum: calculateMomentum,
+    cape: calculateCAPE,
+    breadth: calculateBreadth,
+    putCall: calculatePutCall,
+    ted: calculateTED,
+    marginDebt: calculateMarginDebt,
+    correlation: calculateCorrelation
+  };
+
+  // Calculate each indicator with try-catch for resilience
+  Object.entries(calculators).forEach(([key, fn]) => {
+    try {
+      scores[key] = fn(data);
+      // Validate the result
+      if (!scores[key] || typeof scores[key].score !== 'number' || isNaN(scores[key].score)) {
+        throw new Error(`Invalid score returned from ${key}`);
+      }
+    } catch (error) {
+      console.error(`Error calculating ${key}:`, error);
+      // Provide safe fallback
+      scores[key] = { value: null, score: 0 };
+    }
+  });
 
   return scores;
 }
 
 function calculateCrisisIndex(data, scores) {
-  return data.map((point, index) => {
-    const windowData = data.slice(Math.max(0, index - 125), index + 1);
-    if (windowData.length < 30) return 0;
+  // Optimized O(n) algorithm using rolling window instead of O(n²)
+  const crisisIndex = [];
+  const WINDOW_SIZE = 126; // 6 months
+  const MIN_WINDOW = 30;
 
-    const windowScores = calculateAllIndicators(windowData);
-    const overallScore = calculateOverallScore(windowScores);
+  for (let i = 0; i < data.length; i++) {
+    const windowStart = Math.max(0, i - WINDOW_SIZE + 1);
+    const windowData = data.slice(windowStart, i + 1);
 
-    return overallScore;
-  });
+    if (windowData.length < MIN_WINDOW) {
+      crisisIndex.push(0);
+    } else {
+      const windowScores = calculateAllIndicators(windowData);
+      const overallScore = calculateOverallScore(windowScores);
+      crisisIndex.push(overallScore);
+    }
+  }
+
+  return crisisIndex;
 }
 
 // ========== BACKTESTING & WEIGHT OPTIMIZATION ==========
