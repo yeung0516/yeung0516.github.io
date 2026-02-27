@@ -15,3 +15,6 @@ Interactive Russian language learning module featuring 10 real-life conversation
 
 ### 🇪🇸 [Spanish Language Learning](Spain.html)
 Spanish language learning module with 10 conversational scenarios and a unique animated walking character. Features the same multi-language translation system and TTS support as the Russian module, plus an inline SVG Spanish-style character that wanders the page with boundary-aware collision detection to avoid overlapping text content.
+
+### 🫐 [Blueberry Washing Guide](Berry.html)
+Comprehensive blueberry washing and health guide (藍莓清洗完全指南) designed for Hong Kong households. Features detailed step-by-step washing instructions with illustrated visuals, extensive health benefits section backed by academic research, interactive origin guide covering 8 major blueberry-producing regions worldwide, and seasonal harvest calendar with sweetness ratings by region. Built with Traditional Chinese (Hong Kong) language, gradient styling, and smooth animations for an engaging educational experience.
