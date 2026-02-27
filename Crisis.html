@@ -791,7 +791,7 @@ async function fetchFromYahoo(symbol, days) {
   const period1 = Math.floor(startDate.getTime() / 1000);
   const period2 = Math.floor(endDate.getTime() / 1000);
 
-  const url = `https://query1.finance.yahoo.com/v7/finance/download/${symbol}?period1=${period1}&period2=${period2}&interval=1d&events=history`;
+  const url = `https://query1.finance.yahoo.com/v7/finance/download/${encodeURIComponent(symbol)}?period1=${period1}&period2=${period2}&interval=1d&events=history`;
 
   const response = await fetchWithTimeout(url);
 
@@ -818,7 +818,7 @@ async function fetchFromStooq(symbol, days) {
     return `${year}${month}${day}`;
   };
 
-  const url = `https://stooq.com/q/d/l/?s=${stooqSymbol.toLowerCase()}&d1=${formatDate(startDate)}&d2=${formatDate(endDate)}&i=d`;
+  const url = `https://stooq.com/q/d/l/?s=${encodeURIComponent(stooqSymbol.toLowerCase())}&d1=${formatDate(startDate)}&d2=${formatDate(endDate)}&i=d`;
 
   const response = await fetchWithTimeout(url);
 
@@ -831,10 +831,16 @@ async function fetchFromStooq(symbol, days) {
 }
 
 async function fetchFromAlphaVantage(symbol, days) {
-  // Alpha Vantage requires an API key - using free tier
+  // Alpha Vantage requires an API key
   // Note: Free tier is limited to 5 calls per minute, 500 per day
-  // For production, implement backend proxy to hide API key
-  const apiKey = 'demo'; // Demo key for testing only
+  // For production, implement backend proxy to hide API key and avoid exposing it in the URL
+  const params = new URLSearchParams(window.location.search);
+  const apiKey = params.get('alphaVantageApiKey') || 'demo';
+
+  if (!params.get('alphaVantageApiKey')) {
+    // When no key is configured, treat Alpha Vantage as unavailable
+    throw new Error('Alpha Vantage API key not configured - demo key has limited functionality');
+  }
 
   // Alpha Vantage uses different symbols: ^GSPC -> SPX
   const symbolMap = {
@@ -843,7 +849,7 @@ async function fetchFromAlphaVantage(symbol, days) {
     '^IXIC': 'IXIC'
   };
   const avSymbol = symbolMap[symbol] || symbol.replace('^', '');
-  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${avSymbol}&outputsize=full&apikey=${apiKey}`;
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${encodeURIComponent(avSymbol)}&outputsize=full&apikey=${encodeURIComponent(apiKey)}`;
 
   const response = await fetchWithTimeout(url);
 
@@ -867,7 +873,11 @@ function parseCSVData(csvText, isStooq = false) {
   // Skip header
   for (let i = 1; i < lines.length; i++) {
     const parts = lines[i].split(',');
-    if (parts.length >= 6) {
+    // Yahoo Finance has 7 columns (Date, Open, High, Low, Close, Adj Close, Volume)
+    // Stooq has 6 columns (Date, Open, High, Low, Close, Volume)
+    const requiredColumns = isStooq ? 6 : 7;
+
+    if (parts.length >= requiredColumns) {
       const dataPoint = {
         date: parts[0],
         open: parseFloat(parts[1]),
@@ -878,7 +888,9 @@ function parseCSVData(csvText, isStooq = false) {
       };
 
       // Filter out invalid data points
-      if (!isNaN(dataPoint.close) && dataPoint.close > 0) {
+      if (!isNaN(dataPoint.close) && dataPoint.close > 0 &&
+          !isNaN(dataPoint.open) && !isNaN(dataPoint.high) && !isNaN(dataPoint.low) &&
+          !isNaN(dataPoint.volume)) {
         data.push(dataPoint);
       }
     }
@@ -988,7 +1000,8 @@ function updateLiveUpdateStatus(connected) {
 // Note: True WebSocket would require a backend server
 // This implements polling with SSE-like behavior
 function startLiveUpdates() {
-  updateLiveUpdateStatus(true);
+  let consecutiveFailures = 0;
+  const MAX_FAILURES = 3;
 
   setInterval(async () => {
     try {
@@ -1014,27 +1027,32 @@ function startLiveUpdates() {
           // Update last updated timestamp
           updateLastUpdatedTimestamp();
         }
+
+        // Successful poll - reset failure counter and mark as connected
+        consecutiveFailures = 0;
+        updateLiveUpdateStatus(true);
       }
     } catch (error) {
       console.error('Live update failed:', error);
-      updateLiveUpdateStatus(false);
+      consecutiveFailures++;
 
-      // Retry connection after 30 seconds
-      setTimeout(() => {
-        updateLiveUpdateStatus(true);
-      }, 30000);
+      // Only mark as disconnected after multiple consecutive failures
+      if (consecutiveFailures >= MAX_FAILURES) {
+        updateLiveUpdateStatus(false);
+      }
     }
   }, CONFIG.updateInterval);
 }
 
 // ========== SERVICE AVAILABILITY PING ==========
 async function pingServices() {
-  const services = ['yahoo', 'stooq', 'alphaVantage'];
+  const services = ['yahoo', 'stooq']; // Exclude Alpha Vantage to avoid rate limits
 
   for (const service of services) {
     try {
       const source = DATA_SOURCES[service];
-      // Attempt a minimal fetch to check availability
+      // Use a minimal fetch to check availability (only 1 day)
+      // This is still a full fetch but minimizes data transfer
       await source.fetchFn(CONFIG.symbol, 1);
       source.available = true;
       updateDataSourceStatus(service, 'online');
@@ -1043,10 +1061,28 @@ async function pingServices() {
       updateDataSourceStatus(service, 'offline');
     }
   }
+
+  // Check Alpha Vantage less frequently and only if configured
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('alphaVantageApiKey')) {
+    try {
+      const source = DATA_SOURCES.alphaVantage;
+      await source.fetchFn(CONFIG.symbol, 1);
+      source.available = true;
+      updateDataSourceStatus('alphaVantage', 'online');
+    } catch (error) {
+      DATA_SOURCES.alphaVantage.available = false;
+      updateDataSourceStatus('alphaVantage', 'offline');
+    }
+  } else {
+    // Mark as offline if no API key configured
+    DATA_SOURCES.alphaVantage.available = false;
+    updateDataSourceStatus('alphaVantage', 'offline');
+  }
 }
 
-// Start periodic pinging
-setInterval(pingServices, CONFIG.pingInterval);
+// Start periodic pinging every 60 seconds (increased from 30s to reduce load)
+setInterval(pingServices, 60000);
 
 // ========== CRISIS CALCULATIONS ==========
 function calculateVIX(data) {
@@ -1181,8 +1217,10 @@ function calculateAllIndicators(data) {
   return scores;
 }
 
-function calculateCrisisIndex(data, scores) {
-  // Optimized O(n) algorithm using rolling window instead of O(n²)
+function calculateCrisisIndex(data) {
+  // Uses rolling window calculation with fixed WINDOW_SIZE
+  // Time complexity: O(n * WINDOW_SIZE) where WINDOW_SIZE is constant (126)
+  // Effectively O(n) for practical purposes with constant window
   const crisisIndex = [];
   const WINDOW_SIZE = 126; // 6 months
   const MIN_WINDOW = 30;
@@ -1204,16 +1242,35 @@ function calculateCrisisIndex(data, scores) {
 }
 
 // ========== BACKTESTING & WEIGHT OPTIMIZATION ==========
-// Simple backtesting to optimize weights based on historical crisis periods
+// Simple backtesting to validate weights based on historical crisis periods
 function runBacktesting(data) {
-  console.log('Running backtesting for weight optimization...');
+  console.log('Running backtesting for weight validation...');
 
-  // Known crisis periods for validation
-  const crisisPeriods = [
+  // Get the data range to determine which crisis periods we can test
+  const dataStartDate = new Date(data[0].date);
+  const dataEndDate = new Date(data[data.length - 1].date);
+
+  console.log(`Data range: ${dataStartDate.toISOString().split('T')[0]} to ${dataEndDate.toISOString().split('T')[0]}`);
+
+  // Known crisis periods for validation (only test those within our data range)
+  const allCrisisPeriods = [
     { start: '2008-09-01', end: '2009-03-31', name: '2008 Financial Crisis' },
     { start: '2020-02-01', end: '2020-04-30', name: 'COVID-19 Crash' },
     { start: '2022-01-01', end: '2022-10-31', name: '2022 Bear Market' }
   ];
+
+  // Filter to only test crisis periods within our data range
+  const crisisPeriods = allCrisisPeriods.filter(period => {
+    const periodStart = new Date(period.start);
+    const periodEnd = new Date(period.end);
+    return periodEnd >= dataStartDate && periodStart <= dataEndDate;
+  });
+
+  if (crisisPeriods.length === 0) {
+    console.log('No crisis periods available in current data range for backtesting.');
+    console.log('Consider increasing CONFIG.lookbackDays to include historical crisis periods.');
+    return 0;
+  }
 
   // The weights have been pre-optimized through iterative testing
   // This function validates the current weights against historical data
@@ -1358,27 +1415,24 @@ function renderCandlestickChart(data, crisisIndex) {
   // Create candlestick chart
   try {
     chart = new Chart(ctx, {
-      type: 'line',
+      type: 'candlestick',
       data: {
         datasets: [
           {
             label: 'S&P 500 Candlesticks',
-            data: candlestickData.map(d => ({ x: d.x, y: d.c })),
-            type: 'candlestick',
+            data: candlestickData, // Pass full OHLC data
             yAxisID: 'y',
             borderColor: function(context) {
               const index = context.dataIndex;
               const candle = candlestickData[index];
-              return candle.c >= candle.o ? '#10b981' : '#ef4444';
+              return candle && candle.c >= candle.o ? '#10b981' : '#ef4444';
             },
             backgroundColor: function(context) {
               const index = context.dataIndex;
               const candle = candlestickData[index];
-              return candle.c >= candle.o ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+              return candle && candle.c >= candle.o ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)';
             },
-            borderWidth: 1,
-            barThickness: 'flex',
-            maxBarThickness: 8
+            borderWidth: 1
           },
           {
             label: 'Crisis Index',
@@ -1673,7 +1727,7 @@ function filterAndDisplayData(days) {
 
   // Recalculate indicators
   crisisScores = calculateAllIndicators(marketData);
-  const crisisIndex = calculateCrisisIndex(marketData, crisisScores);
+  const crisisIndex = calculateCrisisIndex(marketData);
 
   // Update UI
   renderIndicators(crisisScores);
