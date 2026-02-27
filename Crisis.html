@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://query1.finance.yahoo.com https://query2.finance.yahoo.com https://stooq.com https://api.allorigins.win https://corsproxy.io https://api.stlouisfed.org https://trends.google.com; img-src 'self' data:; font-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://query1.finance.yahoo.com https://query2.finance.yahoo.com https://stooq.com https://api.allorigins.win https://corsproxy.io https://api.stlouisfed.org https://trends.google.com https://*.githubusercontent.com https://raw.githubusercontent.com https://cdn.jsdelivr.net; img-src 'self' data:; font-src 'self';">
 <title>美股市場危機偵測儀表板 | US Stock Market Crisis Detection Dashboard</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
@@ -13,34 +13,8 @@
 /* ========== RESET & VARIABLES ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ========== DARK THEME (Default) ========== */
+/* ========== LIGHT THEME (Default & Only) ========== */
 :root {
-  --bg: #0a0e27;
-  --bg2: #121630;
-  --bg3: #1a1f3a;
-  --border: rgba(255,255,255,0.1);
-  --text-primary: #e0e7ff;
-  --text-secondary: #a5b4fc;
-  --text-muted: #6b7280;
-  --accent-danger: #ef4444;
-  --accent-warning: #f59e0b;
-  --accent-success: #10b981;
-  --accent-info: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --gradient-danger: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  --glow-danger: rgba(239, 68, 68, 0.3);
-  --glow-warning: rgba(245, 158, 11, 0.3);
-  --glow-success: rgba(16, 185, 129, 0.3);
-  --chart-grid: rgba(255,255,255,0.05);
-  --chart-label: #a5b4fc;
-  --tooltip-bg: rgba(18, 22, 48, 0.95);
-  --card-shadow: rgba(0,0,0,0.3);
-}
-
-/* ========== LIGHT THEME ========== */
-[data-theme="light"] {
   --bg: #f8fafc;
   --bg2: #ffffff;
   --bg3: #f1f5f9;
@@ -82,56 +56,23 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 10%, rgba(239, 68, 68, 0.15) 0%, transparent 40%),
-    radial-gradient(ellipse at 80% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 10%, rgba(239, 68, 68, 0.06) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 30%, rgba(139, 92, 246, 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.3s ease;
 }
 
-[data-theme="light"] body::before {
-  opacity: 0.3;
-}
 
-/* ========== THEME TOGGLE ========== */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 600;
-}
-
-.theme-toggle:hover {
-  background: var(--bg);
-  border-color: var(--accent-info);
-  color: var(--accent-info);
-}
-
-.theme-toggle-icon {
-  font-size: 16px;
-  transition: transform 0.3s ease;
-}
-
-.theme-toggle:hover .theme-toggle-icon {
-  transform: rotate(20deg);
-}
 
 /* ========== HEADER ========== */
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 14, 39, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
 }
@@ -462,7 +403,7 @@ body::before {
 }
 
 .formula {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.05);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
@@ -581,16 +522,10 @@ body::before {
     <div class="logo">
       📊 危機偵測儀表板
     </div>
-    <div style="display: flex; align-items: center; gap: 16px;">
-      <button class="theme-toggle" id="themeToggle" title="切換主題">
-        <span class="theme-toggle-icon" id="themeIcon">🌙</span>
-        <span id="themeLabel">深色模式</span>
-      </button>
-      <div class="crisis-score">
-        <span style="color: var(--text-muted);">綜合危機指數:</span>
-        <span class="score-value" id="overallScore">--</span>
-        <span style="color: var(--text-muted);">/100</span>
-      </div>
+    <div class="crisis-score">
+      <span style="color: var(--text-muted);">綜合危機指數:</span>
+      <span class="score-value" id="overallScore">--</span>
+      <span style="color: var(--text-muted);">/100</span>
     </div>
   </div>
 </header>
@@ -716,7 +651,6 @@ function saveSession(data) {
     const session = {
       version: SESSION_VERSION,
       timestamp: Date.now(),
-      theme: data.theme || 'dark',
       timeframe: data.timeframe || 365,
       lastViewedIndicators: data.lastViewedIndicators || [],
       preferences: data.preferences || {}
@@ -738,38 +672,6 @@ function updateSessionStatus(saved) {
   }
 }
 
-// ========== THEME MANAGEMENT ==========
-function initTheme() {
-  const session = loadSession();
-  const savedTheme = session?.theme || 'dark';
-  setTheme(savedTheme);
-}
-
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  const icon = document.getElementById('themeIcon');
-  const label = document.getElementById('themeLabel');
-  if (icon && label) {
-    icon.textContent = theme === 'dark' ? '🌙' : '☀️';
-    label.textContent = theme === 'dark' ? '深色模式' : '淺色模式';
-  }
-  // Save to session
-  const session = loadSession() || {};
-  session.theme = theme;
-  saveSession(session);
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  const newTheme = current === 'dark' ? 'light' : 'dark';
-  setTheme(newTheme);
-  // Redraw chart with new theme colors
-  if (marketData && marketData.length > 0) {
-    const crisisIndex = calculateCrisisIndex(marketData);
-    renderCandlestickChart(marketData, crisisIndex);
-  }
-}
-
 // ========== CONFIGURATION ==========
 const CONFIG = {
   symbol: '^GSPC', // S&P 500
@@ -783,6 +685,7 @@ const CONFIG = {
 };
 
 // ========== CORS PROXY SERVICES ==========
+// Multiple proxies for reliability. If one fails, try the next.
 const CORS_PROXIES = [
   { name: 'AllOrigins', url: 'https://api.allorigins.win/raw?url=' },
   { name: 'CorsProxy.io', url: 'https://corsproxy.io/?' }
@@ -821,6 +724,7 @@ const FRED_SERIES = {
 
 let fredData = {};
 let currentDataSource = null;
+let fredFetchAttempted = false;
 
 // ========== METHODOLOGY DEFINITIONS WITH OPTIMIZED WEIGHTS ==========
 // Weights optimized through backtesting across multiple crisis periods (2008, 2011, 2015, 2018, 2020, 2022)
@@ -1224,20 +1128,6 @@ async function fetchFromYahoo(symbol, days) {
 
   throw new Error('Yahoo Finance API failed with all methods');
 }
-    try {
-      const proxyUrl = proxy.url + encodeURIComponent(baseUrl);
-      const response = await fetchWithTimeout(proxyUrl);
-      if (response.ok) {
-        const json = await response.json();
-        return parseYahooV8Data(json);
-      }
-    } catch (e) {
-      console.log(`${proxy.name} proxy failed for Yahoo:`, e.message);
-    }
-  }
-
-  throw new Error('Yahoo Finance API failed with all methods');
-}
 
 async function fetchFromStooq(symbol, days) {
   // Stooq uses different symbol format: ^GSPC becomes ^SPX
@@ -1364,6 +1254,91 @@ async function fetchMarketDataWithFallback(days = CONFIG.lookbackDays) {
   throw new Error('All data sources failed. Please check your internet connection and try again.');
 }
 
+// ========== FRED DATA FETCHING ==========
+// FRED API requires a free API key from https://fred.stlouisfed.org/docs/api/api_key.html
+// Without a key, we attempt to fetch but gracefully fall back to proxy calculations
+async function fetchFredSeries(seriesId, days = 3650) {
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
+  const formatDate = (d) => d.toISOString().split('T')[0];
+
+  // Try multiple URL patterns
+  const urls = [
+    `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&observation_start=${formatDate(startDate)}&observation_end=${formatDate(endDate)}&file_type=json&api_key=DEMO_KEY`
+  ];
+
+  for (const url of urls) {
+    // Try direct fetch first
+    try {
+      const response = await fetchWithTimeout(url, 10000);
+      if (response.ok) {
+        const json = await response.json();
+        if (json.observations && json.observations.length > 0) {
+          return json.observations
+            .filter(obs => obs.value !== '.')
+            .map(obs => ({ date: obs.date, value: parseFloat(obs.value) }));
+        }
+      }
+    } catch (e) {
+      // Expected - FRED may require valid API key
+    }
+
+    // Try via CORS proxy
+    for (const proxy of CORS_PROXIES) {
+      try {
+        const proxyUrl = proxy.url + encodeURIComponent(url);
+        const response = await fetchWithTimeout(proxyUrl, 10000);
+        if (response.ok) {
+          const json = await response.json();
+          if (json.observations && json.observations.length > 0) {
+            return json.observations
+              .filter(obs => obs.value !== '.')
+              .map(obs => ({ date: obs.date, value: parseFloat(obs.value) }));
+          }
+        }
+      } catch (e) {
+        // Continue to next proxy
+      }
+    }
+  }
+
+  return null;
+}
+
+async function fetchAllFredData() {
+  if (fredFetchAttempted) return;
+  fredFetchAttempted = true;
+
+  console.log('Fetching FRED economic data...');
+  updateDataSourceStatus('fred', 'checking');
+
+  let successCount = 0;
+  const seriesToFetch = ['VIXCLS', 'T10Y2Y', 'BAMLH0A0HYM2', 'DFF', 'UMCSENT'];
+
+  for (const seriesId of seriesToFetch) {
+    try {
+      const data = await fetchFredSeries(seriesId);
+      if (data && data.length > 0) {
+        fredData[seriesId] = data;
+        successCount++;
+        console.log(`FRED ${seriesId}: ${data.length} observations loaded`);
+      }
+    } catch (e) {
+      console.warn(`Failed to fetch FRED ${seriesId}:`, e.message);
+    }
+  }
+
+  if (successCount > 0) {
+    updateDataSourceStatus('fred', 'online');
+    console.log(`FRED data loaded: ${successCount}/${seriesToFetch.length} series`);
+  } else {
+    updateDataSourceStatus('fred', 'offline');
+    console.log('FRED data unavailable - using proxy calculations');
+  }
+}
+
 // ========== STATUS BAR UPDATES ==========
 function updateDataSourceStatus(source, status) {
   const statusMap = {
@@ -1486,26 +1461,62 @@ function calculateVIX(data) {
   const volatility = Math.sqrt(variance * 252) * 100;
 
   const vixProxy = volatility;
+function calculateVIX(data) {
+  // Use actual FRED VIX data if available
+  if (fredData.VIXCLS && fredData.VIXCLS.length > 0) {
+    const latestVix = fredData.VIXCLS[fredData.VIXCLS.length - 1].value;
+    const score = Math.max(0, Math.min(100, (latestVix - 15) / 35 * 100));
+    return { value: latestVix, score: score, source: 'FRED' };
+  }
+
+  // Fallback: calculate VIX proxy from price volatility
+  const returns = [];
+  for (let i = 1; i < Math.min(30, data.length); i++) {
+    const ret = Math.log(data[data.length - i].close / data[data.length - i - 1].close);
+    returns.push(ret);
+  }
+
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.reduce((sum, ret) => sum + Math.pow(ret - mean, 2), 0) / returns.length;
+  const volatility = Math.sqrt(variance * 252) * 100;
+
+  const vixProxy = volatility;
   const score = Math.max(0, Math.min(100, (vixProxy - 15) / 35 * 100));
 
-  return { value: vixProxy, score: score };
+  return { value: vixProxy, score: score, source: 'proxy' };
 }
 
 function calculateCreditSpread(data) {
+  // Use actual FRED credit spread data if available
+  if (fredData.BAMLH0A0HYM2 && fredData.BAMLH0A0HYM2.length > 0) {
+    const latestSpread = fredData.BAMLH0A0HYM2[fredData.BAMLH0A0HYM2.length - 1].value;
+    const score = Math.max(0, Math.min(100, (latestSpread - 3.0) / 7.0 * 100));
+    return { value: latestSpread, score: score, source: 'FRED' };
+  }
+
+  // Fallback: estimate from VIX proxy
   const vix = calculateVIX(data);
   const spread = 3.0 + (vix.value - 15) * 0.15;
   const score = Math.max(0, Math.min(100, (spread - 3.0) / 7.0 * 100));
 
-  return { value: spread, score: score };
+  return { value: spread, score: score, source: 'proxy' };
 }
 
 function calculateYieldCurve(data) {
+  // Use actual FRED yield curve data if available
+  if (fredData.T10Y2Y && fredData.T10Y2Y.length > 0) {
+    const latestSpread = fredData.T10Y2Y[fredData.T10Y2Y.length - 1].value;
+    const score = Math.max(0, Math.min(100, -latestSpread * 50));
+    return { value: latestSpread, score: score, source: 'FRED' };
+  }
+
+  // Fallback: estimate from market momentum
   const recent = data.slice(-60);
   const momentum = (recent[recent.length - 1].close - recent[0].close) / recent[0].close * 100;
   const spread = 0.5 - momentum * 0.05;
   const score = Math.max(0, Math.min(100, -spread * 50));
 
-  return { value: spread, score: score };
+  return { value: spread, score: score, source: 'proxy' };
 }
 
 function calculateMomentum(data) {
@@ -1605,15 +1616,22 @@ function calculateISM(data) {
 }
 
 function calculateFedFunds(data) {
-  // Simulate Fed Funds rate change impact
-  // In production, fetch from FRED API
-  const vix = calculateVIX(data);
+  // Use actual FRED Fed Funds rate data if available
+  if (fredData.DFF && fredData.DFF.length > 30) {
+    const recent = fredData.DFF.slice(-180);
+    const latest = recent[recent.length - 1].value;
+    const older = recent[0].value;
+    const rateChange = Math.abs(latest - older);
+    const score = Math.max(0, Math.min(100, rateChange * 20));
+    return { value: rateChange, score: score, source: 'FRED' };
+  }
 
-  // Higher VIX often correlates with rate policy uncertainty
+  // Fallback: simulate based on VIX proxy
+  const vix = calculateVIX(data);
   const rateChange = 0.5 + vix.value * 0.02;
   const score = Math.max(0, Math.min(100, Math.abs(rateChange) * 20));
 
-  return { value: rateChange, score: score };
+  return { value: rateChange, score: score, source: 'proxy' };
 }
 
 function calculateDollarIndex(data) {
@@ -1628,14 +1646,19 @@ function calculateDollarIndex(data) {
 }
 
 function calculateConsumerSentiment(data) {
-  // Simulate consumer sentiment based on market performance
-  const momentum = calculateMomentum(data);
+  // Use actual FRED consumer sentiment data if available
+  if (fredData.UMCSENT && fredData.UMCSENT.length > 0) {
+    const latestSentiment = fredData.UMCSENT[fredData.UMCSENT.length - 1].value;
+    const score = Math.max(0, Math.min(100, (85 - latestSentiment) * 2));
+    return { value: latestSentiment, score: score, source: 'FRED' };
+  }
 
-  // Consumer sentiment tracks market conditions
+  // Fallback: simulate consumer sentiment based on market performance
+  const momentum = calculateMomentum(data);
   const sentiment = Math.min(100, Math.max(50, 80 + momentum.value * 0.3));
   const score = Math.max(0, Math.min(100, (85 - sentiment) * 2));
 
-  return { value: sentiment, score: score };
+  return { value: sentiment, score: score, source: 'proxy' };
 }
 
 function calculateAllIndicators(data) {
@@ -1930,12 +1953,11 @@ function renderCandlestickChart(data, crisisIndex) {
 
   const ctx = document.getElementById('mainChart').getContext('2d');
 
-  // Get theme-aware colors
-  const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
-  const labelColor = isDarkMode ? '#e0e7ff' : '#1e293b';
-  const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)';
-  const tooltipBg = isDarkMode ? 'rgba(18, 22, 48, 0.95)' : 'rgba(255, 255, 255, 0.98)';
-  const tooltipBorder = isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+  // Light theme colors
+  const labelColor = '#1e293b';
+  const gridColor = 'rgba(0,0,0,0.06)';
+  const tooltipBg = 'rgba(255, 255, 255, 0.98)';
+  const tooltipBorder = 'rgba(0,0,0,0.08)';
 
   // Prepare candlestick data
   const candlestickData = data.map((d, i) => ({
@@ -2010,7 +2032,7 @@ function renderCandlestickChart(data, crisisIndex) {
           tooltip: {
             backgroundColor: tooltipBg,
             titleColor: labelColor,
-            bodyColor: isDarkMode ? '#a5b4fc' : '#475569',
+            bodyColor: '#475569',
             borderColor: tooltipBorder,
             borderWidth: 1,
             padding: 12,
@@ -2048,7 +2070,7 @@ function renderCandlestickChart(data, crisisIndex) {
               color: gridColor
             },
             ticks: {
-              color: isDarkMode ? '#a5b4fc' : '#475569',
+              color: '#475569',
               font: { size: 11 }
             }
           },
@@ -2059,7 +2081,7 @@ function renderCandlestickChart(data, crisisIndex) {
               color: gridColor
             },
             ticks: {
-              color: isDarkMode ? '#a5b4fc' : '#475569',
+              color: '#475569',
               font: { size: 11 },
               callback: function(value) {
                 return '$' + value.toFixed(0);
@@ -2106,12 +2128,11 @@ function renderCandlestickChart(data, crisisIndex) {
 function renderLineChart(data, crisisIndex) {
   const ctx = document.getElementById('mainChart').getContext('2d');
 
-  // Get theme-aware colors
-  const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
-  const labelColor = isDarkMode ? '#e0e7ff' : '#1e293b';
-  const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)';
-  const tooltipBg = isDarkMode ? 'rgba(18, 22, 48, 0.95)' : 'rgba(255, 255, 255, 0.98)';
-  const tooltipBorder = isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)';
+  // Light theme colors
+  const labelColor = '#1e293b';
+  const gridColor = 'rgba(0,0,0,0.06)';
+  const tooltipBg = 'rgba(255, 255, 255, 0.98)';
+  const tooltipBorder = 'rgba(0,0,0,0.08)';
 
   const priceData = data.map((d, i) => ({
     x: new Date(d.date).getTime(),
@@ -2174,7 +2195,7 @@ function renderLineChart(data, crisisIndex) {
         tooltip: {
           backgroundColor: tooltipBg,
           titleColor: labelColor,
-          bodyColor: isDarkMode ? '#a5b4fc' : '#475569',
+          bodyColor: '#475569',
           borderColor: tooltipBorder,
           borderWidth: 1,
           padding: 12,
@@ -2196,7 +2217,7 @@ function renderLineChart(data, crisisIndex) {
             color: gridColor
           },
           ticks: {
-            color: isDarkMode ? '#a5b4fc' : '#475569',
+            color: '#475569',
             font: { size: 11 }
           }
         },
@@ -2207,7 +2228,7 @@ function renderLineChart(data, crisisIndex) {
             color: gridColor
           },
           ticks: {
-            color: isDarkMode ? '#a5b4fc' : '#475569',
+            color: '#475569',
             font: { size: 11 },
             callback: function(value) {
               return '$' + value.toFixed(0);
@@ -2334,39 +2355,9 @@ function updateLastUpdatedTimestamp() {
 
   updateNote.textContent = `最後更新: ${timestamp} (香港時間)`;
 }
-  let updateNote = document.getElementById('lastUpdated');
-
-  const timestamp = new Date().toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'America/New_York'
-  });
-
-  if (!updateNote) {
-    updateNote = document.createElement('p');
-    updateNote.style.marginTop = '12px';
-    updateNote.style.color = 'var(--accent-success)';
-    updateNote.id = 'lastUpdated';
-    footer.insertBefore(updateNote, footer.firstChild);
-  }
-
-  updateNote.textContent = `Last updated: ${timestamp} EST`;
-}
 
 async function init() {
   try {
-    // Initialize theme from session
-    initTheme();
-
-    // Setup theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('click', toggleTheme);
-    }
-
     document.getElementById('loadingChart').innerHTML = `
       <div class="loading">
         <div class="spinner"></div>
@@ -2396,6 +2387,9 @@ async function init() {
       runBacktesting(fullMarketData);
     }
 
+    // Fetch FRED economic data in parallel (non-blocking)
+    fetchAllFredData().catch(e => console.warn('FRED fetch error:', e));
+
     // Setup timeframe controls
     setupTimeframeControls();
 
@@ -2416,7 +2410,6 @@ async function init() {
 
     // Save session state
     saveSession({
-      theme: document.documentElement.getAttribute('data-theme') || 'dark',
       timeframe: CONFIG.currentTimeframe
     });
 
