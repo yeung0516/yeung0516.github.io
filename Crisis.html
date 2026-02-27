@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://query1.finance.yahoo.com https://stooq.com https://www.alphavantage.co; img-src 'self' data:; font-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://query1.finance.yahoo.com https://query2.finance.yahoo.com https://stooq.com https://api.allorigins.win https://corsproxy.io; img-src 'self' data:; font-src 'self';">
 <title>US Stock Market Crisis Detection Dashboard</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" integrity="sha384-WyTUQ4gQP2mRXCY7xL1yLWzNtPBJDvFBJ6h5+gPOa5lmZ2dC+5jGzUcIJw7EHLP6" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" integrity="sha384-rwAXmZ3jW6h5mF7WaKLf3D9S4aqQK3H5z1KkV5xvCgGx2MxDmZNhJUb+Pz6wK1Tv" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" integrity="sha384-vQ4nxK1Xg6f5zYhN3lLpY8lbX9v8KzFj2XlYq3xWyP1l+kGd7nR4XcQ5hY6lK8Mv" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js" crossorigin="anonymous"></script>
 <style>
 /* ========== RESET & VARIABLES ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -508,10 +508,6 @@ body::before {
     <span>Stooq</span>
   </div>
   <div class="api-status">
-    <span class="status-indicator status-checking" id="alphaVantageStatus"></span>
-    <span>Alpha Vantage</span>
-  </div>
-  <div class="api-status">
     <span class="status-indicator status-checking" id="liveUpdateStatus"></span>
     <span id="liveUpdateText">Live Updates: Connecting...</span>
   </div>
@@ -567,7 +563,7 @@ body::before {
 
 <!-- ========== FOOTER ========== -->
 <footer class="footer">
-  <p>Data sources: Yahoo Finance API, Stooq, Alpha Vantage (with automatic fallback)</p>
+  <p>Data sources: Yahoo Finance API, Stooq (with automatic fallback via CORS proxies)</p>
   <p>Crisis detection models based on academic research with backtested optimized weights</p>
   <p style="margin-top: 12px;">
     <strong>Disclaimer:</strong> This dashboard is for educational and informational purposes only.
@@ -587,6 +583,12 @@ const CONFIG = {
   backtestingEnabled: true
 };
 
+// ========== CORS PROXY SERVICES ==========
+const CORS_PROXIES = [
+  { name: 'AllOrigins', url: 'https://api.allorigins.win/raw?url=' },
+  { name: 'CorsProxy.io', url: 'https://corsproxy.io/?' }
+];
+
 // ========== DATA SOURCES ==========
 const DATA_SOURCES = {
   yahoo: {
@@ -600,12 +602,6 @@ const DATA_SOURCES = {
     priority: 2,
     available: false,
     fetchFn: fetchFromStooq
-  },
-  alphaVantage: {
-    name: 'Alpha Vantage',
-    priority: 3,
-    available: false,
-    fetchFn: fetchFromAlphaVantage
   }
 };
 
@@ -784,23 +780,37 @@ async function fetchWithTimeout(url, timeout = CONFIG.apiTimeout) {
 }
 
 async function fetchFromYahoo(symbol, days) {
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  // Use Yahoo Finance v8 chart API (JSON format, more reliable than v7 CSV download)
+  const rangeMap = { 1: '5d', 7: '5d', 30: '1mo', 90: '3mo', 180: '6mo', 365: '1y', 730: '2y' };
+  const range = Object.entries(rangeMap).reduce((acc, [k, v]) => days <= parseInt(k) ? acc || v : v, null) || '2y';
+  const baseUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=${range}&interval=1d`;
 
-  const period1 = Math.floor(startDate.getTime() / 1000);
-  const period2 = Math.floor(endDate.getTime() / 1000);
-
-  const url = `https://query1.finance.yahoo.com/v7/finance/download/${encodeURIComponent(symbol)}?period1=${period1}&period2=${period2}&interval=1d&events=history`;
-
-  const response = await fetchWithTimeout(url);
-
-  if (!response.ok) {
-    throw new Error('Yahoo Finance API failed');
+  // Try direct fetch first (may work if Yahoo allows CORS)
+  try {
+    const response = await fetchWithTimeout(baseUrl);
+    if (response.ok) {
+      const json = await response.json();
+      return parseYahooV8Data(json);
+    }
+  } catch (e) {
+    console.log('Direct Yahoo fetch failed, trying CORS proxies...', e.message);
   }
 
-  const csvText = await response.text();
-  return parseCSVData(csvText);
+  // Try through CORS proxies
+  for (const proxy of CORS_PROXIES) {
+    try {
+      const proxyUrl = proxy.url + encodeURIComponent(baseUrl);
+      const response = await fetchWithTimeout(proxyUrl);
+      if (response.ok) {
+        const json = await response.json();
+        return parseYahooV8Data(json);
+      }
+    } catch (e) {
+      console.log(`${proxy.name} proxy failed for Yahoo:`, e.message);
+    }
+  }
+
+  throw new Error('Yahoo Finance API failed with all methods');
 }
 
 async function fetchFromStooq(symbol, days) {
@@ -818,52 +828,52 @@ async function fetchFromStooq(symbol, days) {
     return `${year}${month}${day}`;
   };
 
-  const url = `https://stooq.com/q/d/l/?s=${encodeURIComponent(stooqSymbol.toLowerCase())}&d1=${formatDate(startDate)}&d2=${formatDate(endDate)}&i=d`;
+  const baseUrl = `https://stooq.com/q/d/l/?s=${encodeURIComponent(stooqSymbol.toLowerCase())}&d1=${formatDate(startDate)}&d2=${formatDate(endDate)}&i=d`;
 
-  const response = await fetchWithTimeout(url);
-
-  if (!response.ok) {
-    throw new Error('Stooq API failed');
+  // Stooq always needs a CORS proxy from browser
+  for (const proxy of CORS_PROXIES) {
+    try {
+      const proxyUrl = proxy.url + encodeURIComponent(baseUrl);
+      const response = await fetchWithTimeout(proxyUrl);
+      if (response.ok) {
+        const csvText = await response.text();
+        const data = parseCSVData(csvText, true);
+        if (data && data.length > 0) return data;
+      }
+    } catch (e) {
+      console.log(`${proxy.name} proxy failed for Stooq:`, e.message);
+    }
   }
 
-  const csvText = await response.text();
-  return parseCSVData(csvText, true); // Stooq has different format
+  throw new Error('Stooq API failed with all proxies');
 }
 
-async function fetchFromAlphaVantage(symbol, days) {
-  // Alpha Vantage requires an API key
-  // Note: Free tier is limited to 5 calls per minute, 500 per day
-  // For production, implement backend proxy to hide API key and avoid exposing it in the URL
-  const params = new URLSearchParams(window.location.search);
-  const apiKey = params.get('alphaVantageApiKey') || 'demo';
+function parseYahooV8Data(json) {
+  const result = json.chart?.result?.[0];
+  if (!result || !result.timestamp) throw new Error('Invalid Yahoo V8 response');
 
-  if (!params.get('alphaVantageApiKey')) {
-    // When no key is configured, treat Alpha Vantage as unavailable
-    throw new Error('Alpha Vantage API key not configured - demo key has limited functionality');
+  const timestamps = result.timestamp;
+  const quote = result.indicators.quote[0];
+  const data = [];
+
+  for (let i = 0; i < timestamps.length; i++) {
+    if (quote.open[i] != null && quote.close[i] != null &&
+        quote.high[i] != null && quote.low[i] != null) {
+      const date = new Date(timestamps[i] * 1000);
+      const dateStr = date.toISOString().split('T')[0];
+      data.push({
+        date: dateStr,
+        open: quote.open[i],
+        high: quote.high[i],
+        low: quote.low[i],
+        close: quote.close[i],
+        volume: quote.volume[i] || 0
+      });
+    }
   }
 
-  // Alpha Vantage uses different symbols: ^GSPC -> SPX
-  const symbolMap = {
-    '^GSPC': 'SPX',
-    '^DJI': 'DJI',
-    '^IXIC': 'IXIC'
-  };
-  const avSymbol = symbolMap[symbol] || symbol.replace('^', '');
-  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${encodeURIComponent(avSymbol)}&outputsize=full&apikey=${encodeURIComponent(apiKey)}`;
-
-  const response = await fetchWithTimeout(url);
-
-  if (!response.ok) {
-    throw new Error('Alpha Vantage API failed');
-  }
-
-  const jsonData = await response.json();
-
-  if (jsonData['Error Message'] || jsonData['Note']) {
-    throw new Error('Alpha Vantage API limit reached or error');
-  }
-
-  return parseAlphaVantageData(jsonData, days);
+  if (data.length === 0) throw new Error('No valid data points in Yahoo V8 response');
+  return data;
 }
 
 function parseCSVData(csvText, isStooq = false) {
@@ -899,36 +909,6 @@ function parseCSVData(csvText, isStooq = false) {
   return data;
 }
 
-function parseAlphaVantageData(jsonData, days) {
-  const timeSeries = jsonData['Time Series (Daily)'];
-  if (!timeSeries) {
-    throw new Error('Invalid Alpha Vantage response');
-  }
-
-  const data = [];
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - days);
-
-  Object.keys(timeSeries).forEach(date => {
-    const dateObj = new Date(date);
-    if (dateObj >= cutoffDate) {
-      const dayData = timeSeries[date];
-      data.push({
-        date: date,
-        open: parseFloat(dayData['1. open']),
-        high: parseFloat(dayData['2. high']),
-        low: parseFloat(dayData['3. low']),
-        close: parseFloat(dayData['4. close']),
-        volume: parseFloat(dayData['5. volume'])
-      });
-    }
-  });
-
-  // Sort by date ascending
-  data.sort((a, b) => new Date(a.date) - new Date(b.date));
-  return data;
-}
-
 async function fetchMarketDataWithFallback(days = CONFIG.lookbackDays) {
   const sortedSources = Object.entries(DATA_SOURCES)
     .sort((a, b) => a[1].priority - b[1].priority);
@@ -955,15 +935,14 @@ async function fetchMarketDataWithFallback(days = CONFIG.lookbackDays) {
     }
   }
 
-  throw new Error('All data sources failed. Cannot proceed without real data.');
+  throw new Error('All data sources failed. Please check your internet connection and try again.');
 }
 
 // ========== STATUS BAR UPDATES ==========
 function updateDataSourceStatus(source, status) {
   const statusMap = {
     yahoo: 'yahooStatus',
-    stooq: 'stooqStatus',
-    alphaVantage: 'alphaVantageStatus'
+    stooq: 'stooqStatus'
   };
 
   const elementId = statusMap[source];
@@ -1046,42 +1025,23 @@ function startLiveUpdates() {
 
 // ========== SERVICE AVAILABILITY PING ==========
 async function pingServices() {
-  const services = ['yahoo', 'stooq']; // Exclude Alpha Vantage to avoid rate limits
+  const services = ['yahoo', 'stooq'];
 
   for (const service of services) {
     try {
       const source = DATA_SOURCES[service];
       // Use a minimal fetch to check availability (only 1 day)
-      // This is still a full fetch but minimizes data transfer
       await source.fetchFn(CONFIG.symbol, 1);
       source.available = true;
       updateDataSourceStatus(service, 'online');
     } catch (error) {
-      source.available = false;
+      DATA_SOURCES[service].available = false;
       updateDataSourceStatus(service, 'offline');
     }
   }
-
-  // Check Alpha Vantage less frequently and only if configured
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('alphaVantageApiKey')) {
-    try {
-      const source = DATA_SOURCES.alphaVantage;
-      await source.fetchFn(CONFIG.symbol, 1);
-      source.available = true;
-      updateDataSourceStatus('alphaVantage', 'online');
-    } catch (error) {
-      DATA_SOURCES.alphaVantage.available = false;
-      updateDataSourceStatus('alphaVantage', 'offline');
-    }
-  } else {
-    // Mark as offline if no API key configured
-    DATA_SOURCES.alphaVantage.available = false;
-    updateDataSourceStatus('alphaVantage', 'offline');
-  }
 }
 
-// Start periodic pinging every 60 seconds (increased from 30s to reduce load)
+// Start periodic pinging every 60 seconds
 setInterval(pingServices, 60000);
 
 // ========== CRISIS CALCULATIONS ==========
@@ -1810,7 +1770,7 @@ async function init() {
         <div style="font-size: 48px; margin-bottom: 12px;">⚠️</div>
         <div style="margin-bottom: 16px; font-size: 18px; font-weight: 700;">Unable to Load Market Data</div>
         <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
-          All data sources (Yahoo Finance, Stooq, Alpha Vantage) are currently unavailable.
+          All data sources (Yahoo Finance, Stooq) are currently unavailable.
           <br>Please check your internet connection and try again.
         </div>
         <div style="font-size: 13px; color: var(--accent-danger); margin-bottom: 20px;">
@@ -1835,7 +1795,6 @@ async function init() {
     // Update all status indicators to offline
     updateDataSourceStatus('yahoo', 'offline');
     updateDataSourceStatus('stooq', 'offline');
-    updateDataSourceStatus('alphaVantage', 'offline');
     updateLiveUpdateStatus(false);
 
     document.getElementById('dataSourceIndicator').className = 'status-indicator status-offline';
