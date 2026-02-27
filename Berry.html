@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>藍莓清洗指南 | 健康生活指南</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8f9fc;
+  --bg2: #ffffff;
+  --berry-dark: #2e3f6e;
+  --berry-blue: #4a5f8f;
+  --berry-light: #8ba3d5;
+  --berry-glow: #5d7ab8;
+  --accent: #6b8ed5;
+  --purple-deep: #6b5b9c;
+  --purple-light: #9d8ec7;
+  --green-leaf: #5a8f5a;
+  --green-light: #a8d5a8;
+  --text-dark: #1e293b;
+  --text-med: #334155;
+  --text-light: #64748b;
+  --text-lighter: #94a3b8;
+  --border: rgba(0,0,0,0.08);
+  --shadow: rgba(0,0,0,0.1);
+  --gradient-berry: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-green: linear-gradient(135deg, #5a8f5a 0%, #7ab87a 100%);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(103, 126, 234, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 30%, rgba(118, 75, 162, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 80%, rgba(90, 143, 90, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-med);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+
+/* ========== HEADER ========== */
+.header {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 20px 60px;
+  text-align: center;
+  background: linear-gradient(160deg, #e0e7ff 0%, #ddd6fe 40%, #e8f4e8 100%);
+}
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(103, 126, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(118, 75, 162, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.header-content {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.berry-emoji {
+  font-size: 80px;
+  animation: float 3s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+.header-title {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-top: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #5a8f5a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-subtitle {
+  margin-top: 12px;
+  font-size: clamp(14px, 2.5vw, 18px);
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* ========== WAVE DIVIDER ========== */
+.wave {
+  position: relative;
+  margin-top: -2px;
+  line-height: 0;
+}
+.wave svg {
+  display: block;
+  width: 100%;
+}
+
+/* ========== CONTAINER ========== */
+.container {
+  max-width: 1100px;
+  margin: -40px auto 0;
+  padding: 0 20px 60px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ========== SECTION CARDS ========== */
+.section {
+  background: var(--bg2);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.section-title {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 800;
+  color: var(--berry-dark);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 16px;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: var(--gradient-berry);
+  border-radius: 2px;
+}
+.section-icon {
+  font-size: clamp(28px, 5vw, 36px);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* ========== HEALTH BENEFITS ========== */
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+.benefit-card {
+  background: linear-gradient(135deg, rgba(103, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.03) 100%);
+  border: 1px solid rgba(103, 126, 234, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+.benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(103, 126, 234, 0.15);
+}
+.benefit-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+.benefit-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--berry-dark);
+  margin-bottom: 8px;
+}
+.benefit-text {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+/* ========== CITATIONS ========== */
+.citations {
+  margin-top: 32px;
+  padding: 20px;
+  background: rgba(103, 126, 234, 0.03);
+  border-left: 4px solid var(--berry-glow);
+  border-radius: 8px;
+}
+.citations-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--berry-dark);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.citation {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+.citation::before {
+  content: '📚';
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+}
+.citation a {
+  color: var(--berry-glow);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.citation a:hover {
+  border-bottom-color: var(--berry-glow);
+}
+
+/* ========== WASHING STEPS ========== */
+.steps-container {
+  margin-top: 28px;
+}
+.step {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.step:last-child {
+  margin-bottom: 0;
+}
+.step-number {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  background: var(--gradient-berry);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(103, 126, 234, 0.3);
+  position: relative;
+  z-index: 2;
+}
+.step-content {
+  flex: 1;
+  padding-top: 4px;
+}
+.step-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--berry-dark);
+  margin-bottom: 12px;
+}
+.step-description {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+.step-image {
+  width: 100%;
+  max-width: 500px;
+  height: 280px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(103, 126, 234, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+.step-illustration {
+  font-size: 120px;
+  opacity: 0.15;
+  position: absolute;
+}
+.step-visual {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 30px;
+}
+.visual-emoji {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 16px;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.visual-label {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--berry-dark);
+  background: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* ========== ORIGIN MAP ========== */
+.origin-intro {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 28px;
+  line-height: 1.8;
+}
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+.region-card {
+  background: linear-gradient(135deg, rgba(90, 143, 90, 0.05) 0%, rgba(122, 184, 122, 0.03) 100%);
+  border: 1px solid rgba(90, 143, 90, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+.region-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(90, 143, 90, 0.15);
+}
+.region-flag {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+.region-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green-leaf);
+  margin-bottom: 8px;
+}
+.region-details {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+.map-container {
+  margin-top: 32px;
+  background: linear-gradient(135deg, #e8f4e8 0%, #f0f7ff 100%);
+  border-radius: 20px;
+  padding: 40px;
+  border: 2px solid rgba(90, 143, 90, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+.map-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-leaf);
+  text-align: center;
+  margin-bottom: 28px;
+}
+.world-map {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.map-region {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(90, 143, 90, 0.15);
+  width: 100%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+.map-region:hover {
+  transform: translateX(8px);
+  box-shadow: 0 4px 16px rgba(90, 143, 90, 0.2);
+}
+.map-emoji {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.map-info {
+  flex: 1;
+}
+.map-location {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-leaf);
+}
+.map-note {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* ========== SEASONALITY ========== */
+.season-intro {
+  font-size: 15px;
+  color: var(--text-light);
+  margin-bottom: 28px;
+  line-height: 1.8;
+}
+.seasons-grid {
+  display: grid;
+  gap: 24px;
+  margin-top: 28px;
+}
+.season-row {
+  background: linear-gradient(135deg, rgba(103, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.02) 100%);
+  border: 1px solid rgba(103, 126, 234, 0.12);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+.season-row:hover {
+  box-shadow: 0 6px 24px rgba(103, 126, 234, 0.12);
+}
+.season-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.season-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+.season-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--berry-dark);
+}
+.season-months {
+  font-size: 14px;
+  color: var(--text-lighter);
+  margin-top: 4px;
+}
+.season-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.season-detail {
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(103, 126, 234, 0.1);
+}
+.season-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--berry-glow);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+.season-text {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+.sweetness-bar {
+  margin-top: 12px;
+  height: 8px;
+  background: rgba(103, 126, 234, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.sweetness-fill {
+  height: 100%;
+  background: var(--gradient-berry);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  margin-top: 60px;
+  padding: 32px 20px;
+  text-align: center;
+  background: rgba(103, 126, 234, 0.02);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+}
+.footer-text {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+.footer-emoji {
+  font-size: 24px;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+/* ========== TIPS BOX ========== */
+.tips-box {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(90, 143, 90, 0.06) 0%, rgba(122, 184, 122, 0.04) 100%);
+  border-left: 4px solid var(--green-leaf);
+  border-radius: 8px;
+}
+.tips-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-leaf);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tips-list {
+  list-style: none;
+  padding: 0;
+}
+.tips-list li {
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 6px 0 6px 24px;
+  position: relative;
+  line-height: 1.7;
+}
+.tips-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--green-leaf);
+  font-weight: 700;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .section {
+    padding: 28px 20px;
+  }
+  .step {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .step-number {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  .step-image {
+    height: 240px;
+  }
+  .visual-emoji {
+    font-size: 64px;
+  }
+  .visual-label {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  .map-container {
+    padding: 24px 16px;
+  }
+  .map-region {
+    padding: 12px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-content">
+    <div class="berry-emoji">🫐</div>
+    <h1 class="header-title">藍莓清洗完全指南</h1>
+    <p class="header-subtitle">健康飲食由正確清潔開始 · 香港家居實用指引</p>
+  </div>
+</header>
+
+<!-- ===== WAVE DIVIDER ===== -->
+<div class="wave">
+  <svg viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,27 C360,54 720,0 1080,27 C1260,40 1380,20 1440,27 L1440,54 L0,54Z" fill="#f8f9fc"/>
+  </svg>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container">
+
+  <!-- ===== HEALTH BENEFITS SECTION ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon">💊</span>
+      藍莓的健康益處
+    </h2>
+    <p style="font-size: 15px; color: var(--text-light); line-height: 1.8;">
+      藍莓被譽為「超級水果」，含有豐富的抗氧化劑、維他命和纖維。研究顯示，定期食用藍莓對身體有多方面的健康益處。
+    </p>
+
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-icon">🧠</div>
+        <h3 class="benefit-title">增強記憶力</h3>
+        <p class="benefit-text">
+          藍莓含有豐富的類黃酮，研究證實能改善認知功能，減緩與年齡相關的記憶力衰退。哈佛大學研究顯示，每週食用藍莓的長者認知能力下降速度可延緩2.5年。
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">❤️</div>
+        <h3 class="benefit-title">保護心血管</h3>
+        <p class="benefit-text">
+          藍莓中的花青素有助於降低血壓和改善血管功能。美國心臟協會研究指出，每天食用一杯藍莓可降低15%的心血管疾病風險。
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">👁️</div>
+        <h3 class="benefit-title">維護視力健康</h3>
+        <p class="benefit-text">
+          藍莓含有大量花青素和維他命A，能保護視網膜、減緩視力退化。對於長時間使用電子產品的現代人特別有益。
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">🛡️</div>
+        <h3 class="benefit-title">抗氧化功效</h3>
+        <p class="benefit-text">
+          藍莓的ORAC值（抗氧化能力）在水果中排名第一。強大的抗氧化能力有助於對抗自由基，延緩細胞老化，降低慢性疾病風險。
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">🌿</div>
+        <h3 class="benefit-title">改善消化系統</h3>
+        <p class="benefit-text">
+          藍莓富含膳食纖維，有助於促進腸道蠕動、改善消化功能。同時含有益生元，能滋養腸道益菌，維護腸道健康。
+        </p>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-icon">💪</div>
+        <h3 class="benefit-title">增強免疫力</h3>
+        <p class="benefit-text">
+          藍莓含有豐富的維他命C和抗氧化物質，能增強免疫系統功能。研究顯示能減少上呼吸道感染的發生率。
+        </p>
+      </div>
+    </div>
+
+    <div class="citations">
+      <div class="citations-title">學術研究來源</div>
+      <div class="citation">
+        Devore, E. E., et al. (2012). "Dietary intakes of berries and flavonoids in relation to cognitive decline." <em>Annals of Neurology</em>, 72(1), 135-143.
+        <a href="https://doi.org/10.1002/ana.23594" target="_blank" rel="noopener">https://doi.org/10.1002/ana.23594</a>
+      </div>
+      <div class="citation">
+        Cassidy, A., et al. (2013). "Habitual intake of flavonoid subclasses and incident hypertension in adults." <em>American Journal of Clinical Nutrition</em>, 97(2), 454-464.
+        <a href="https://doi.org/10.3945/ajcn.112.036061" target="_blank" rel="noopener">https://doi.org/10.3945/ajcn.112.036061</a>
+      </div>
+      <div class="citation">
+        Kalt, W., et al. (2020). "Recent research on the health benefits of blueberries and their anthocyanins." <em>Advances in Nutrition</em>, 11(2), 224-236.
+        <a href="https://doi.org/10.1093/advances/nmz065" target="_blank" rel="noopener">https://doi.org/10.1093/advances/nmz065</a>
+      </div>
+      <div class="citation">
+        Krikorian, R., et al. (2010). "Blueberry supplementation improves memory in older adults." <em>Journal of Agricultural and Food Chemistry</em>, 58(7), 3996-4000.
+        <a href="https://doi.org/10.1021/jf9029332" target="_blank" rel="noopener">https://doi.org/10.1021/jf9029332</a>
+      </div>
+      <div class="citation">
+        美國農業部營養數據庫 (USDA FoodData Central). Blueberries, raw nutritional information.
+        <a href="https://fdc.nal.usda.gov/" target="_blank" rel="noopener">https://fdc.nal.usda.gov/</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WASHING GUIDE SECTION ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon">🚿</span>
+      正確清洗藍莓步驟
+    </h2>
+    <p style="font-size: 15px; color: var(--text-light); line-height: 1.8;">
+      藍莓表皮細嫩，容易殘留農藥和雜質。遵循正確的清洗方法，既能去除污染物，又能保持藍莓的新鮮度和營養價值。
+    </p>
+
+    <div class="steps-container">
+      <!-- Step 1 -->
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3 class="step-title">準備清水和容器</h3>
+          <p class="step-description">
+            使用大碗或盆子，注入室溫清水。水量要足夠讓藍莓完全浸泡。避免使用過熱或過冷的水，以免破壞藍莓表皮的保護層。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">💧</div>
+            <div class="step-visual">
+              <span class="visual-emoji">🥣</span>
+              <div class="visual-label">準備清水容器</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3 class="step-title">加入白醋或食鹽</h3>
+          <p class="step-description">
+            在清水中加入1-2湯匙白醋或半茶匙食鹽。醋的酸性和鹽的滲透作用能有效去除農藥殘留和細菌，同時不會影響藍莓的味道。攪拌均勻後，讓溶液混合完全。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">🧂</div>
+            <div class="step-visual">
+              <span class="visual-emoji">🫗</span>
+              <div class="visual-label">加入白醋或鹽</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3 class="step-title">輕柔浸泡藍莓</h3>
+          <p class="step-description">
+            將藍莓放入溶液中，輕輕攪動讓每顆藍莓都能接觸到清潔液。浸泡5-10分鐘。不要用力搓揉，因為藍莓表皮很薄，容易破損。浸泡期間可見雜質和污垢浮起。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">🫐</div>
+            <div class="step-visual">
+              <span class="visual-emoji">⏱️</span>
+              <div class="visual-label">浸泡 5-10 分鐘</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3 class="step-title">用流動清水沖洗</h3>
+          <p class="step-description">
+            使用過濾器或漏勺撈起藍莓，在流動的清水下沖洗2-3次。這個步驟能徹底清除醋味或鹽份，確保藍莓乾淨衛生。沖洗時動作要輕柔，避免損壞果實。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">🚰</div>
+            <div class="step-visual">
+              <span class="visual-emoji">💦</span>
+              <div class="visual-label">流水沖洗乾淨</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h3 class="step-title">小心瀝乾水分</h3>
+          <p class="step-description">
+            將藍莓平鋪在乾淨的廚房紙巾或乾淨布巾上，輕輕吸乾表面水分。也可以用沙拉脫水器輕輕旋轉瀝乾。保持藍莓乾燥能延長保存時間，防止發霉。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">📄</div>
+            <div class="step-visual">
+              <span class="visual-emoji">🧻</span>
+              <div class="visual-label">用紙巾吸乾水分</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h3 class="step-title">適當儲存保鮮</h3>
+          <p class="step-description">
+            確保藍莓完全乾燥後，存放在密封容器中。在容器底部鋪一層廚房紙巾吸收多餘水氣。放入雪櫃冷藏保存，最佳溫度為1-4°C。正確儲存的藍莓可保鮮5-7天。
+          </p>
+          <div class="step-image">
+            <div class="step-illustration">❄️</div>
+            <div class="step-visual">
+              <span class="visual-emoji">🧊</span>
+              <div class="visual-label">冷藏保鮮儲存</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-title">💡 清洗小貼士</div>
+      <ul class="tips-list">
+        <li>不要提前清洗藍莓，只在食用前才清洗，以保持最佳新鮮度</li>
+        <li>如發現有破損或發霉的藍莓，應立即挑出避免影響其他果實</li>
+        <li>藍莓表面的白霜（果粉）是天然保護層，清洗時不必完全去除</li>
+        <li>有機藍莓同樣需要清洗，因為可能沾有塵土和細菌</li>
+        <li>冷凍藍莓不需要解凍即可清洗，用冷水快速沖洗即可</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== ORIGIN GUIDE SECTION ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon">🌍</span>
+      藍莓產地指南
+    </h2>
+    <p class="origin-intro">
+      藍莓原產於北美洲，現已在全球多個地區廣泛種植。不同產地的藍莓因氣候、土壤和品種差異，在風味、大小和營養成分上各有特色。了解藍莓產地有助於選購最適合的優質藍莓。
+    </p>
+
+    <div class="regions-grid">
+      <div class="region-card">
+        <div class="region-flag">🇺🇸</div>
+        <h3 class="region-name">美國</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>緬因州、密歇根州、俄勒岡州、華盛頓州<br>
+          <strong>特色：</strong>全球最大生產國，品種多樣，果粒飽滿，甜度高。野生藍莓主要來自緬因州。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇨🇦</div>
+        <h3 class="region-name">加拿大</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>不列顛哥倫比亞省、魁北克省、新斯科舍省<br>
+          <strong>特色：</strong>野生藍莓品質優良，果味濃郁，抗氧化成分特別豐富。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇨🇱</div>
+        <h3 class="region-name">智利</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>中部和南部地區<br>
+          <strong>特色：</strong>南半球主要供應國，反季節供應。果粒大、外觀佳，香港冬季主要進口來源。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇵🇪</div>
+        <h3 class="region-name">秘魯</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>利馬、拉利伯塔德<br>
+          <strong>特色：</strong>近年快速發展的產區，全年供應，果粒大且甜度佳，出口量持續增長。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇦🇺</div>
+        <h3 class="region-name">澳洲</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>新南威爾斯、維多利亞州<br>
+          <strong>特色：</strong>品質穩定，果肉結實，保鮮期長，適合長途運輸到亞洲市場。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇳🇿</div>
+        <h3 class="region-name">紐西蘭</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>北島和南島<br>
+          <strong>特色：</strong>環境純淨，品質優良，有機藍莓比例高，風味清新獨特。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇨🇳</div>
+        <h3 class="region-name">中國</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>雲南、貴州、山東、遼寧<br>
+          <strong>特色：</strong>近年產量激增，品種改良迅速，價格相對親民，本地供應便利。
+        </p>
+      </div>
+
+      <div class="region-card">
+        <div class="region-flag">🇪🇸</div>
+        <h3 class="region-name">西班牙</h3>
+        <p class="region-details">
+          <strong>主要產區：</strong>韋爾瓦省<br>
+          <strong>特色：</strong>歐洲主要生產國，早春供應市場，果粒中等，酸甜均衡。
+        </p>
+      </div>
+    </div>
+
+    <div class="map-container">
+      <h3 class="map-title">🗺️ 全球藍莓主要產區分布</h3>
+      <div class="world-map">
+        <div class="map-region">
+          <div class="map-emoji">🌎</div>
+          <div class="map-info">
+            <div class="map-location">北美洲（美國、加拿大）</div>
+            <div class="map-note">全球最大產區 · 野生與栽培品種齊全 · 6-9月盛產</div>
+          </div>
+        </div>
+
+        <div class="map-region">
+          <div class="map-emoji">🌎</div>
+          <div class="map-info">
+            <div class="map-location">南美洲（智利、秘魯）</div>
+            <div class="map-note">反季節供應 · 11月-3月供應北半球 · 出口導向型</div>
+          </div>
+        </div>
+
+        <div class="map-region">
+          <div class="map-emoji">🌍</div>
+          <div class="map-info">
+            <div class="map-location">歐洲（西班牙、波蘭）</div>
+            <div class="map-note">區域性生產 · 春夏季供應 · 有機種植比例高</div>
+          </div>
+        </div>
+
+        <div class="map-region">
+          <div class="map-emoji">🌏</div>
+          <div class="map-info">
+            <div class="map-location">亞太區（中國、澳洲、紐西蘭）</div>
+            <div class="map-note">快速增長市場 · 本地化生產 · 縮短供應鏈</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEASONALITY SECTION ===== -->
+  <section class="section">
+    <h2 class="section-title">
+      <span class="section-icon">📅</span>
+      藍莓季節性與甜度指南
+    </h2>
+    <p class="season-intro">
+      藍莓的收穫期和甜度隨產地和季節變化而不同。了解各地藍莓的最佳產季，有助於在香港市場選購最新鮮、最美味的藍莓。盛產期的藍莓不僅價格較實惠，風味和營養價值也達到高峰。
+    </p>
+
+    <div class="seasons-grid">
+      <!-- Spring -->
+      <div class="season-row">
+        <div class="season-header">
+          <div class="season-icon">🌸</div>
+          <div>
+            <div class="season-title">春季 (3-5月)</div>
+            <div class="season-months">三月 · 四月 · 五月</div>
+          </div>
+        </div>
+        <div class="season-content">
+          <div class="season-detail">
+            <div class="season-label">主要產地</div>
+            <div class="season-text">智利、秘魯（尾季）<br>西班牙、澳洲（開始）<br>美國加州（早期）</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">供應特點</div>
+            <div class="season-text">南半球尾季，價格開始回升。北半球早期品種上市，新鮮度高但產量有限。</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">甜度表現</div>
+            <div class="season-text">智利與秘魯：甜度佳 ★★★★☆<br>其他產地：中等 ★★★☆☆</div>
+            <div class="sweetness-bar">
+              <div class="sweetness-fill" style="width: 75%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summer -->
+      <div class="season-row">
+        <div class="season-header">
+          <div class="season-icon">☀️</div>
+          <div>
+            <div class="season-title">夏季 (6-8月)</div>
+            <div class="season-months">六月 · 七月 · 八月</div>
+          </div>
+        </div>
+        <div class="season-content">
+          <div class="season-detail">
+            <div class="season-label">主要產地</div>
+            <div class="season-text">美國（全境盛產）<br>加拿大<br>波蘭、英國</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">供應特點</div>
+            <div class="season-text">全球最大產量季節，供應充足。野生藍莓大量上市，是品嚐頂級藍莓的最佳時機。</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">甜度表現</div>
+            <div class="season-text">北美產：極佳 ★★★★★<br>野生藍莓：風味濃郁 ★★★★★</div>
+            <div class="sweetness-bar">
+              <div class="sweetness-fill" style="width: 95%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Autumn -->
+      <div class="season-row">
+        <div class="season-header">
+          <div class="season-icon">🍂</div>
+          <div>
+            <div class="season-title">秋季 (9-11月)</div>
+            <div class="season-months">九月 · 十月 · 十一月</div>
+          </div>
+        </div>
+        <div class="season-content">
+          <div class="season-detail">
+            <div class="season-label">主要產地</div>
+            <div class="season-text">美國（尾季）<br>中國（雲南、貴州）<br>南美洲（開始）</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">供應特點</div>
+            <div class="season-text">北半球產季結束，南半球開始供應。產地切換期，供應較少，價格上升。</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">甜度表現</div>
+            <div class="season-text">中國產：良好 ★★★☆☆<br>早期南美產：中上 ★★★★☆</div>
+            <div class="sweetness-bar">
+              <div class="sweetness-fill" style="width: 70%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Winter -->
+      <div class="season-row">
+        <div class="season-header">
+          <div class="season-icon">❄️</div>
+          <div>
+            <div class="season-title">冬季 (12-2月)</div>
+            <div class="season-months">十二月 · 一月 · 二月</div>
+          </div>
+        </div>
+        <div class="season-content">
+          <div class="season-detail">
+            <div class="season-label">主要產地</div>
+            <div class="season-text">智利（盛產）<br>秘魯<br>澳洲、紐西蘭</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">供應特點</div>
+            <div class="season-text">南半球盛產期，是香港市場的主要供應季節。智利藍莓大量進口，供應穩定，價格相對合理。</div>
+          </div>
+          <div class="season-detail">
+            <div class="season-label">甜度表現</div>
+            <div class="season-text">智利產：優良 ★★★★☆<br>秘魯產：極佳 ★★★★★</div>
+            <div class="sweetness-bar">
+              <div class="sweetness-fill" style="width: 88%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tips-box">
+      <div class="tips-title">🛒 選購建議</div>
+      <ul class="tips-list">
+        <li><strong>最佳品質期：</strong>6-8月（北美產）和12-2月（南美產）是全年藍莓品質最佳的兩個時段</li>
+        <li><strong>價格優勢：</strong>盛產季節購買最划算，淡季價格可能高出50-100%</li>
+        <li><strong>新鮮度判斷：</strong>選擇果粉完整、果粒飽滿結實、無破損發霉的藍莓</li>
+        <li><strong>產地標示：</strong>留意包裝上的產地和包裝日期，選擇運輸時間較短的產地</li>
+        <li><strong>有機選擇：</strong>藍莓名列「農藥殘留較高」水果榜，有預算可優先選擇有機認證產品</li>
+        <li><strong>冷凍替代：</strong>非產季時可選擇急凍藍莓，營養價值與新鮮藍莓相近且價格實惠</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p class="footer-text">
+    本指南旨在提供實用的藍莓清洗和選購資訊，幫助香港家庭享受健康美味的藍莓。<br>
+    定期食用藍莓，為您和家人的健康加分。
+  </p>
+  <div class="footer-emoji">🫐💙</div>
+</footer>
+
+<script>
+// Smooth scroll to top button (if needed in future)
+// Add any interactive features here
+console.log('藍莓清洗指南頁面已載入 🫐');
+
+// Intersection Observer for animations
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(20px)';
+    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(section);
+  });
+}
+</script>
+
+</body>
+</html>
