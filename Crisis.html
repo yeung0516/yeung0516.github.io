@@ -1450,18 +1450,6 @@ setInterval(pingServices, 60000);
 
 // ========== CRISIS CALCULATIONS ==========
 function calculateVIX(data) {
-  const returns = [];
-  for (let i = 1; i < Math.min(30, data.length); i++) {
-    const ret = Math.log(data[data.length - i].close / data[data.length - i - 1].close);
-    returns.push(ret);
-  }
-
-  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
-  const variance = returns.reduce((sum, ret) => sum + Math.pow(ret - mean, 2), 0) / returns.length;
-  const volatility = Math.sqrt(variance * 252) * 100;
-
-  const vixProxy = volatility;
-function calculateVIX(data) {
   // Use actual FRED VIX data if available
   if (fredData.VIXCLS && fredData.VIXCLS.length > 0) {
     const latestVix = fredData.VIXCLS[fredData.VIXCLS.length - 1].value;
