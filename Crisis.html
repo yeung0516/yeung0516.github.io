@@ -2346,14 +2346,37 @@ function updateLastUpdatedTimestamp() {
   updateNote.textContent = `最後更新: ${timestamp} (香港時間)`;
 }
 
+function getEarliestDateFromSeries(series) {
+  if (!Array.isArray(series) || series.length === 0) return null;
+  const firstPoint = series[0];
+  if (!firstPoint) return null;
+
+  // Try common field names for the timestamp; fall back safely if not present.
+  const raw =
+    firstPoint.date !== undefined ? firstPoint.date :
+    firstPoint.time !== undefined ? firstPoint.time :
+    firstPoint.timestamp !== undefined ? firstPoint.timestamp :
+    null;
+
+  if (!raw) return null;
+  const d = new Date(raw);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 async function loadFullHistoryInBackground() {
   try {
     if (CONFIG.lookbackDays <= INITIAL_LOOKBACK_DAYS) return;
 
     const longData = await fetchMarketDataWithFallback(CONFIG.lookbackDays);
     if (!longData || longData.length === 0) return;
-    if (fullMarketData && longData.length <= fullMarketData.length) return;
 
+    if (fullMarketData) {
+      const longStart = getEarliestDateFromSeries(longData);
+      const fullStart = getEarliestDateFromSeries(fullMarketData);
+      // If the new data does not extend the history further back in time,
+      // there is no need to replace the existing fullMarketData.
+      if (longStart && fullStart && longStart >= fullStart) return;
+    }
     fullMarketData = interpolateMissingData(longData);
     const quality = validateDataQuality(fullMarketData);
     console.log(`Full data quality (background): ${quality.message}`);
