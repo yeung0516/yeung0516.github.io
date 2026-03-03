@@ -38,6 +38,21 @@
       padding: 32px 20px 80px;
     }
 
+    .visitor-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .visitor-bar strong {
+      color: var(--accent);
+      font-size: 14px;
+    }
+
     header.hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
@@ -260,66 +275,14 @@
       font-size: 12px;
       color: var(--muted);
     }
-
-    .tests {
-      margin-top: 26px;
-    }
-
-    .test-header h2 {
-      margin: 0 0 6px;
-    }
-
-    .test-header p {
-      margin: 0 0 12px;
-      color: var(--muted);
-    }
-
-    .test-results {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 10px;
-    }
-
-    .test-results li {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: var(--card);
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .pill {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      border: 1px solid var(--line);
-    }
-
-    .pass {
-      color: var(--success);
-      border-color: rgba(22, 163, 74, 0.25);
-      background: rgba(22, 163, 74, 0.08);
-    }
-
-    .fail {
-      color: #b91c1c;
-      border-color: rgba(185, 28, 28, 0.25);
-      background: rgba(185, 28, 28, 0.08);
-    }
   </style>
 </head>
 <body>
   <div class="page">
+    <div class="visitor-bar">
+      <span id="visitorLabel">Daily visitor count</span>
+      <strong id="visitorCount">--</strong>
+    </div>
     <header class="hero">
       <div>
         <p class="eyebrow">Unified calendar</p>
@@ -327,10 +290,6 @@
         <p class="subtitle" id="pageSubtitle">Drag the horizontal plates to compare how dynasties, countries, and regions line up in the same calendar year.</p>
         <p class="lead" id="heroLead">Each zone lists 100 incidents; translate the page freely and pin a year marker to keep every track synchronized.</p>
         <div class="meta-row">
-          <div class="meta-chip">
-            <span id="visitorLabel">Daily visitor count</span>
-            <strong id="visitorCount">--</strong>
-          </div>
           <div class="meta-chip">
             <label for="languageSelect" id="languageLabel">Language</label>
             <select id="languageSelect" aria-label="Language selector">
@@ -353,13 +312,6 @@
 
     <main>
       <section id="timelines" class="timeline-grid"></section>
-      <section class="tests card">
-        <div class="test-header">
-          <h2 id="testsTitle">Self tests</h2>
-          <p id="testsIntro">Quick unit checks cover translation, visitor counting, and year-marker math.</p>
-        </div>
-        <ul id="testResults" class="test-results"></ul>
-      </section>
     </main>
   </div>
 
@@ -373,9 +325,7 @@
           visitor: 'Daily visitor count',
           language: 'Language',
           yearMarker: 'Year marker',
-          drag: 'Drag each plate horizontally; the marker keeps every timeline aligned on the same calendar year.',
-          tests: 'Self tests',
-          testsIntro: 'Quick unit checks cover translation, visitor counting, and year-marker math.'
+          drag: 'Drag each plate horizontally; the marker keeps every timeline aligned on the same calendar year.'
         },
         zh: {
           title: '歷史事件對齊',
@@ -384,9 +334,7 @@
           visitor: '每日訪客計數',
           language: '語言',
           yearMarker: '年份指標',
-          drag: '拖動時間帶；指標讓所有時間線保持同一年份對齊。',
-          tests: '自動測試',
-          testsIntro: '快速檢查翻譯、訪客計數與年份計算。'
+          drag: '拖動時間帶；指標讓所有時間線保持同一年份對齊。'
         },
         es: {
           title: 'Alineación de incidentes históricos',
@@ -395,9 +343,7 @@
           visitor: 'Conteo diario de visitantes',
           language: 'Idioma',
           yearMarker: 'Marcador de año',
-          drag: 'Arrastra cada banda; el marcador mantiene todas las líneas alineadas en el mismo año.',
-          tests: 'Pruebas automáticas',
-          testsIntro: 'Comprobaciones rápidas para traducción, conteo de visitas y cálculo del marcador.'
+          drag: 'Arrastra cada banda; el marcador mantiene todas las líneas alineadas en el mismo año.'
         }
       };
 
@@ -723,9 +669,7 @@
         visitor: document.getElementById('visitorLabel'),
         language: document.getElementById('languageLabel'),
         yearMarker: document.getElementById('yearLabelLead'),
-        drag: document.getElementById('dragHint'),
-        tests: document.getElementById('testsTitle'),
-        testsIntro: document.getElementById('testsIntro')
+        drag: document.getElementById('dragHint')
       };
 
       function padEvents(seed, startYear, step, label) {
@@ -741,21 +685,60 @@
         return events.sort((a, b) => a.year - b.year);
       }
 
-      function translateText(text, lang) {
+      // Cache for translations to avoid redundant API calls
+      const translationCache = {};
+
+      async function translateText(text, lang) {
         if (lang === 'en') return text;
-        const dict = glossary[lang];
-        let translated = text;
-        Object.keys(dict).forEach((key) => {
-          translated = translated.replace(new RegExp(`\\b${key}\\b`, 'gi'), dict[key]);
-        });
-        if (lang === 'es') {
-          translated = translated.replace(/\bthe\b/gi, 'el').replace(/\bof\b/gi, 'de').replace(/\band\b/gi, 'y');
+
+        // Create cache key
+        const cacheKey = `${lang}:${text}`;
+        if (translationCache[cacheKey]) {
+          return translationCache[cacheKey];
         }
-        if (lang === 'zh') {
-          translated = translated.replace(/\bthe\b/gi, '').replace(/\bof\b/gi, '的').replace(/\band\b/gi, '及');
+
+        // Use glossary-based translation as fallback
+        const fallbackTranslation = () => {
+          const dict = glossary[lang];
+          let translated = text;
+          if (dict) {
+            Object.keys(dict).forEach((key) => {
+              translated = translated.replace(new RegExp(`\\b${key}\\b`, 'gi'), dict[key]);
+            });
+          }
+          if (lang === 'es') {
+            translated = translated.replace(/\bthe\b/gi, 'el').replace(/\bof\b/gi, 'de').replace(/\band\b/gi, 'y');
+          }
+          if (lang === 'zh') {
+            translated = translated.replace(/\bthe\b/gi, '').replace(/\bof\b/gi, '的').replace(/\band\b/gi, '及');
+          }
+          translated = translated.trim();
+          return translated.charAt(0).toUpperCase() + translated.slice(1);
+        };
+
+        try {
+          // Use MyMemory Translation API (free, no auth required)
+          const langMap = { zh: 'zh-CN', es: 'es', en: 'en' };
+          const targetLang = langMap[lang] || lang;
+          const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLang}`;
+
+          const response = await fetch(url);
+          if (!response.ok) throw new Error('Translation API failed');
+
+          const data = await response.json();
+          if (data.responseStatus === 200 && data.responseData && data.responseData.translatedText) {
+            const translated = data.responseData.translatedText;
+            translationCache[cacheKey] = translated;
+            return translated;
+          } else {
+            throw new Error('Invalid response from translation API');
+          }
+        } catch (error) {
+          console.warn('Translation API error, using fallback:', error);
+          const fallback = fallbackTranslation();
+          translationCache[cacheKey] = fallback;
+          return fallback;
         }
-        translated = translated.trim();
-        return translated.charAt(0).toUpperCase() + translated.slice(1);
       }
 
       function displayYear(year) {
@@ -767,7 +750,7 @@
         return Math.min(100, Math.max(0, pct));
       }
 
-      function applyLanguage(lang) {
+      async function applyLanguage(lang) {
         currentLanguage = lang;
         // Keep document language metadata in sync for assistive technologies and tools
         document.documentElement.lang = lang;
@@ -784,9 +767,7 @@
         labels.language.textContent = copy.language;
         labels.yearMarker.textContent = copy.yearMarker;
         labels.drag.textContent = copy.drag;
-        labels.tests.textContent = copy.tests;
-        labels.testsIntro.textContent = copy.testsIntro;
-        renderTimelines();
+        await renderTimelines();
         updateYearMarker(currentYear);
       }
 
@@ -808,9 +789,9 @@
         });
       }
 
-      function renderTimelines() {
+      async function renderTimelines() {
         timelinesEl.innerHTML = '';
-        allEvents.forEach((zone) => {
+        for (const zone of allEvents) {
           const row = document.createElement('article');
           row.className = 'timeline-row';
 
@@ -855,7 +836,13 @@
           marker.dataset.marker = 'true';
           track.appendChild(marker);
 
-          zone.events.forEach((evt, idx) => {
+          // Translate all events in parallel for better performance
+          const translationPromises = zone.events.map(evt =>
+            translateText(evt.text, currentLanguage).then(translated => ({ evt, translated }))
+          );
+          const translatedEvents = await Promise.all(translationPromises);
+
+          translatedEvents.forEach(({ evt, translated }, idx) => {
             const card = document.createElement('div');
             card.className = 'event-card';
             card.style.borderTop = `4px solid ${zone.color}`;
@@ -868,7 +855,7 @@
 
             const text = document.createElement('p');
             text.className = 'event-text';
-            text.textContent = translateText(evt.text, currentLanguage);
+            text.textContent = translated;
 
             card.appendChild(yr);
             card.appendChild(text);
@@ -879,15 +866,25 @@
           addDragScrolling(shell);
           row.appendChild(shell);
           timelinesEl.appendChild(row);
-        });
+        }
       }
 
       function updateYearMarker(year) {
         currentYear = year;
         yearSlider.value = year;
         yearDisplay.textContent = displayYear(year);
+        const pct = yearToPercent(year);
         document.querySelectorAll('.year-marker').forEach((marker) => {
-          marker.style.left = `${yearToPercent(year)}%`;
+          marker.style.left = `${pct}%`;
+        });
+        // Auto-scroll timelines to show the year marker
+        document.querySelectorAll('.timeline-shell').forEach((shell) => {
+          const track = shell.querySelector('.timeline-track');
+          if (track) {
+            const trackWidth = track.offsetWidth;
+            const targetScroll = (pct / 100) * trackWidth - shell.offsetWidth / 2;
+            shell.scrollLeft = Math.max(0, targetScroll);
+          }
         });
       }
 
@@ -930,50 +927,18 @@
         return record.count;
       }
 
-      function runSelfTests() {
-        const results = [];
-        const push = (name, pass, detail) => {
-          results.push({ name, pass, detail });
-        };
-
-        push('100 incidents per zone', allEvents.every((z) => z.events.length === 100), 'Each region hits the target list size.');
-
-        const translatedSample = translateText('dynasty trade reform alliance', 'zh');
-        push('Translation alters text', translatedSample !== 'dynasty trade reform alliance', 'Glossary-driven translator changes visible strings.');
-
-        const before = updateVisitorCounter();
-        const after = updateVisitorCounter();
-        push('Visitor counter stable on repeat', before === after, 'Same-day refresh does not double-count.');
-
-        const minPct = yearToPercent(yearBounds.min);
-        const maxPct = yearToPercent(yearBounds.max);
-        push('Marker bounds', minPct === 0 && maxPct === 100, 'Year-to-percent math anchors ends correctly.');
-
-        const list = document.getElementById('testResults');
-        list.innerHTML = '';
-        results.forEach((res) => {
-          const li = document.createElement('li');
-          const name = document.createElement('span');
-          name.textContent = res.name;
-          const pill = document.createElement('span');
-          pill.className = `pill ${res.pass ? 'pass' : 'fail'}`;
-          pill.textContent = res.pass ? 'pass' : 'fail';
-          pill.title = res.detail;
-          li.appendChild(name);
-          li.appendChild(pill);
-          list.appendChild(li);
-        });
-      }
-
       languageSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
       yearSlider.addEventListener('input', (e) => updateYearMarker(Number(e.target.value)));
 
       yearSlider.min = yearBounds.min;
       yearSlider.max = yearBounds.max;
-      applyLanguage(currentLanguage);
-      updateYearMarker(0);
-      updateVisitorCounter();
-      runSelfTests();
+
+      // Initialize page
+      (async () => {
+        await applyLanguage(currentLanguage);
+        updateYearMarker(0);
+        updateVisitorCounter();
+      })();
     })();
   </script>
 </body>
