@@ -21,3 +21,6 @@ Comprehensive blueberry washing and health guide (藍莓清洗完全指南) desi
 
 ### 📊 [US Stock Market Crisis Detection Dashboard](Crisis.html)
 Real-time financial crisis detection system using 10 academic and practitioner-proven methodologies with efficiency-weighted scoring. Features interactive charts showing S&P 500 historical prices overlaid with a composite crisis index, live indicator monitoring (VIX, Credit Spreads, Yield Curve, Market Momentum, CAPE Ratio, Market Breadth, Put-Call Ratio, TED Spread, Margin Debt, Cross-Asset Correlation), comprehensive methodology section with mathematical formulas and academic citations, and graceful error handling with fallback visualizations. Built with Chart.js for data visualization, responsive dark-themed design, and real-time market data integration via Yahoo Finance API.
+
+### History Incident Alignment (History.html)
+White-themed horizontal timelines that align 100 incidents per region (East Asia, Europe, Middle East & Africa, Americas & Oceania) on a unified calendar year. Includes draggable timeline plates, language toggles (English, 中文, Español), a daily visitor counter that avoids duplicate refreshes, and inline self-tests for translation, marker math, and counting logic.
