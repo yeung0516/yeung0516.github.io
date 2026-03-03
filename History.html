@@ -769,6 +769,13 @@
 
       function applyLanguage(lang) {
         currentLanguage = lang;
+        // Keep document language metadata in sync for assistive technologies and tools
+        document.documentElement.lang = lang;
+        if (lang === 'ar' || lang === 'he' || lang === 'fa' || lang === 'ur') {
+          document.documentElement.dir = 'rtl';
+        } else {
+          document.documentElement.dir = 'ltr';
+        }
         const copy = uiCopy[lang];
         labels.title.textContent = copy.title;
         labels.subtitle.textContent = copy.subtitle;
@@ -886,13 +893,39 @@
 
       function updateVisitorCounter() {
         const key = 'history-visitor-record';
-        const today = new Date().toISOString().slice(0, 10);
-        const record = JSON.parse(localStorage.getItem(key) || '{"count":0,"lastDay":""}');
-        if (record.lastDay !== today) {
-          record.count = (record.count || 0) + 1;
-          record.lastDay = today;
-          localStorage.setItem(key, JSON.stringify(record));
+        const now = new Date();
+        const today =
+          now.getFullYear() +
+          '-' +
+          String(now.getMonth() + 1).padStart(2, '0') +
+          '-' +
+          String(now.getDate()).padStart(2, '0');
+
+        let record = { count: 0, lastDay: '' };
+
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              record = parsed;
+            }
+          }
+
+          if (record.lastDay !== today) {
+            // New day: reset the counter so it reflects today's count, not a cumulative total.
+            record.count = 1;
+            record.lastDay = today;
+            localStorage.setItem(key, JSON.stringify(record));
+          }
+        } catch (e) {
+          // Fall back to an in-memory counter if storage is unavailable or corrupted.
+          if (record.lastDay !== today) {
+            record.count = 1;
+            record.lastDay = today;
+          }
         }
+
         visitorCountEl.textContent = record.count;
         return record.count;
       }
