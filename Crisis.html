@@ -684,6 +684,8 @@ const CONFIG = {
   missingDataThreshold: 0.3 // Allow up to 30% missing data points
 };
 
+const INITIAL_LOOKBACK_DAYS = 730; // Quick load 2 years, then extend in background
+
 // ========== CORS PROXY SERVICES ==========
 // Multiple proxies for reliability. If one fails, try the next.
 const CORS_PROXIES = [
@@ -2344,18 +2346,41 @@ function updateLastUpdatedTimestamp() {
   updateNote.textContent = `最後更新: ${timestamp} (香港時間)`;
 }
 
+async function loadFullHistoryInBackground() {
+  try {
+    if (CONFIG.lookbackDays <= INITIAL_LOOKBACK_DAYS) return;
+
+    const longData = await fetchMarketDataWithFallback(CONFIG.lookbackDays);
+    if (!longData || longData.length === 0) return;
+    if (fullMarketData && longData.length <= fullMarketData.length) return;
+
+    fullMarketData = interpolateMissingData(longData);
+    const quality = validateDataQuality(fullMarketData);
+    console.log(`Full data quality (background): ${quality.message}`);
+
+    if (CONFIG.backtestingEnabled) {
+      runBacktesting(fullMarketData);
+    }
+
+    filterAndDisplayData(CONFIG.currentTimeframe);
+    console.log(`Background 10-year load complete: ${fullMarketData.length} points`);
+  } catch (error) {
+    console.warn('Background full-history load failed:', error);
+  }
+}
+
 async function init() {
   try {
     document.getElementById('loadingChart').innerHTML = `
       <div class="loading">
         <div class="spinner"></div>
         <div style="color: var(--text-muted);">正在從多個數據源獲取市場數據...</div>
-        <div style="color: var(--text-muted); font-size: 12px; margin-top: 8px;">載入10年歷史數據中，請稍候...</div>
+        <div style="color: var(--text-muted); font-size: 12px; margin-top: 8px;">優先載入近2年數據，10年歷史將於背景續傳...</div>
       </div>
     `;
 
-    // Fetch full 10-year data
-    fullMarketData = await fetchMarketDataWithFallback(CONFIG.lookbackDays);
+    // Fetch initial 2-year data for fast display
+    fullMarketData = await fetchMarketDataWithFallback(INITIAL_LOOKBACK_DAYS);
 
     if (!fullMarketData || fullMarketData.length === 0) {
       throw new Error('無法獲取市場數據');
@@ -2366,7 +2391,7 @@ async function init() {
 
     // Validate data quality
     const quality = validateDataQuality(fullMarketData);
-    console.log(`Full data quality: ${quality.message}`);
+    console.log(`Initial data quality: ${quality.message}`);
 
     console.log(`Loaded ${fullMarketData.length} data points from ${DATA_SOURCES[currentDataSource].nameCN || DATA_SOURCES[currentDataSource].name}`);
 
@@ -2400,6 +2425,9 @@ async function init() {
     saveSession({
       timeframe: CONFIG.currentTimeframe
     });
+
+    // Continue loading full 10-year history in background
+    loadFullHistoryInBackground();
 
     console.log('Crisis Detection Dashboard initialized successfully');
 
