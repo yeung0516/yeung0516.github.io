@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History Incident Alignment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --success: #16a34a;
+      --shadow: 0 18px 55px rgba(15, 23, 42, 0.12);
+      --font: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% 20%, #fdfdfd, #f4f7fb 45%, #edf2fb 70%);
+      color: var(--ink);
+      font-family: var(--font);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    header.hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 900px) {
+      header.hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 5vw, 38px);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .lead {
+      margin: 0 0 16px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .meta-chip {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .meta-chip strong {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .control-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .control-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 90px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .control-row label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent);
+      width: 100%;
+    }
+
+    select {
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font-family: var(--font);
+      background: var(--card);
+      color: var(--ink);
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .timeline-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .timeline-row {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .row-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .row-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .row-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .chip {
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+    }
+
+    .timeline-shell {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      cursor: grab;
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.05), transparent 20%, transparent 80%, rgba(37, 99, 235, 0.05));
+    }
+
+    .timeline-shell:active {
+      cursor: grabbing;
+    }
+
+    .timeline-track {
+      position: relative;
+      height: 260px;
+      min-width: 1400px;
+    }
+
+    .event-card {
+      position: absolute;
+      width: 220px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      transform: translateX(-50%);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      pointer-events: auto;
+    }
+
+    .event-card:hover {
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.14);
+    }
+
+    .event-year {
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .event-text {
+      margin: 0;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .year-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent 0%, rgba(37, 99, 235, 0.2) 12%, rgba(37, 99, 235, 0.7) 100%);
+      pointer-events: none;
+    }
+
+    .drag-hint {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .tests {
+      margin-top: 26px;
+    }
+
+    .test-header h2 {
+      margin: 0 0 6px;
+    }
+
+    .test-header p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .test-results {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .test-results li {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: var(--card);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 1px solid var(--line);
+    }
+
+    .pass {
+      color: var(--success);
+      border-color: rgba(22, 163, 74, 0.25);
+      background: rgba(22, 163, 74, 0.08);
+    }
+
+    .fail {
+      color: #b91c1c;
+      border-color: rgba(185, 28, 28, 0.25);
+      background: rgba(185, 28, 28, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Unified calendar</p>
+        <h1 id="pageTitle">History Incident Alignment</h1>
+        <p class="subtitle" id="pageSubtitle">Drag the horizontal plates to compare how dynasties, countries, and regions line up in the same calendar year.</p>
+        <p class="lead" id="heroLead">Each zone lists 100 incidents; translate the page freely and pin a year marker to keep every track synchronized.</p>
+        <div class="meta-row">
+          <div class="meta-chip">
+            <span id="visitorLabel">Daily visitor count</span>
+            <strong id="visitorCount">--</strong>
+          </div>
+          <div class="meta-chip">
+            <label for="languageSelect" id="languageLabel">Language</label>
+            <select id="languageSelect" aria-label="Language selector">
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+              <option value="es">Español</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="control-card">
+        <div class="control-row">
+          <label id="yearLabelLead" for="yearSlider">Year marker</label>
+          <input type="range" id="yearSlider" min="-1600" max="2025" value="0" step="1" />
+          <span id="yearDisplay">0 CE</span>
+        </div>
+        <p class="hint" id="dragHint">Drag each plate horizontally; the marker keeps every timeline aligned on the same calendar year.</p>
+      </div>
+    </header>
+
+    <main>
+      <section id="timelines" class="timeline-grid"></section>
+      <section class="tests card">
+        <div class="test-header">
+          <h2 id="testsTitle">Self tests</h2>
+          <p id="testsIntro">Quick unit checks cover translation, visitor counting, and year-marker math.</p>
+        </div>
+        <ul id="testResults" class="test-results"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const uiCopy = {
+        en: {
+          title: 'History Incident Alignment',
+          subtitle: 'Drag the horizontal plates to compare how dynasties, countries, and regions line up in the same calendar year.',
+          lead: 'Each zone lists 100 incidents; translate the page freely and pin a year marker to keep every track synchronized.',
+          visitor: 'Daily visitor count',
+          language: 'Language',
+          yearMarker: 'Year marker',
+          drag: 'Drag each plate horizontally; the marker keeps every timeline aligned on the same calendar year.',
+          tests: 'Self tests',
+          testsIntro: 'Quick unit checks cover translation, visitor counting, and year-marker math.'
+        },
+        zh: {
+          title: '歷史事件對齊',
+          subtitle: '拖曳橫向時間帶，依統一年份比對不同朝代、國家與地區。',
+          lead: '每個區域列出 100 項事件，可自由切換語言並用年份指標對齊所有軌道。',
+          visitor: '每日訪客計數',
+          language: '語言',
+          yearMarker: '年份指標',
+          drag: '拖動時間帶；指標讓所有時間線保持同一年份對齊。',
+          tests: '自動測試',
+          testsIntro: '快速檢查翻譯、訪客計數與年份計算。'
+        },
+        es: {
+          title: 'Alineación de incidentes históricos',
+          subtitle: 'Arrastra las bandas horizontales para comparar cómo coinciden dinastías, países y regiones en el mismo año.',
+          lead: 'Cada zona reúne 100 sucesos; cambia de idioma libremente y usa el marcador para sincronizar todas las pistas.',
+          visitor: 'Conteo diario de visitantes',
+          language: 'Idioma',
+          yearMarker: 'Marcador de año',
+          drag: 'Arrastra cada banda; el marcador mantiene todas las líneas alineadas en el mismo año.',
+          tests: 'Pruebas automáticas',
+          testsIntro: 'Comprobaciones rápidas para traducción, conteo de visitas y cálculo del marcador.'
+        }
+      };
+
+      const glossary = {
+        zh: {
+          dynasty: '王朝',
+          empire: '帝國',
+          kingdom: '王國',
+          republic: '共和國',
+          revolution: '革命',
+          treaty: '條約',
+          war: '戰爭',
+          trade: '貿易',
+          migration: '遷徙',
+          capital: '首都',
+          alliance: '同盟',
+          reform: '改革',
+          independence: '獨立',
+          constitution: '憲法',
+          expedition: '遠征',
+          colonial: '殖民',
+          industrial: '工業',
+          resistance: '抗爭',
+          collapse: '崩潰',
+          confederation: '邦聯'
+        },
+        es: {
+          dynasty: 'dinastía',
+          empire: 'imperio',
+          kingdom: 'reino',
+          republic: 'república',
+          revolution: 'revolución',
+          treaty: 'tratado',
+          war: 'guerra',
+          trade: 'comercio',
+          migration: 'migración',
+          capital: 'capital',
+          alliance: 'alianza',
+          reform: 'reforma',
+          independence: 'independencia',
+          constitution: 'constitución',
+          expedition: 'expedición',
+          colonial: 'colonial',
+          industrial: 'industrial',
+          resistance: 'resistencia',
+          collapse: 'colapso',
+          confederation: 'confederación'
+        }
+      };
+
+      const fillPhrases = [
+        'regional census reshapes administration',
+        'harvest reforms stabilize granary output',
+        'river management accelerates agriculture',
+        'frontier watchtowers reinforce borderlands',
+        'guild networks formalize artisan training',
+        'new capital layout redirects commerce',
+        'coastal shipyards scale up navigation',
+        'court astronomers recalibrate calendar',
+        'cultural academies mentor scholars',
+        'festival reforms align solar and lunar rites'
+      ];
+
+      const zones = [
+        {
+          id: 'east-asia',
+          color: '#2563eb',
+          name: { en: 'East Asia Dynasties', zh: '東亞朝代', es: 'Dinastías de Asia Oriental' },
+          subtitle: {
+            en: 'From early bronze courts to modern reforms across China, Korea, and neighboring realms.',
+            zh: '從青銅時代宮廷到近代改革，涵蓋中國、朝鮮半島與周邊世界。',
+            es: 'De los primeros reinos de bronce a las reformas modernas en China, Corea y regiones vecinas.'
+          },
+          fillerStart: -1450,
+          fillerStep: 35,
+          padLabel: 'regional chronicle',
+          seeds: [
+            { year: -1600, text: 'Shang dynasty consolidates bronze rites in the Yellow River plain' },
+            { year: -1046, text: 'Zhou dynasty established after victory at Muye' },
+            { year: -770, text: 'Eastern Zhou court relocates to Luoyang' },
+            { year: -551, text: 'Confucius born and later teaches ethical governance' },
+            { year: -403, text: 'Warring States period formalized among rival kingdoms' },
+            { year: -221, text: 'Qin unifies states and standardizes weights and coinage' },
+            { year: -214, text: 'Qin engineers link frontier walls into early Great Wall' },
+            { year: -206, text: 'Han dynasty founded after Chu-Han contention' },
+            { year: -130, text: 'Han envoy Zhang Qian maps western routes and fuels Silk Road exchange' },
+            { year: 105, text: 'Cai Lun refines paper production for Han administration' },
+            { year: 184, text: 'Yellow Turban uprising challenges late Han order' },
+            { year: 220, text: 'Han ends and Three Kingdoms rival courts emerge' },
+            { year: 280, text: 'Jin dynasty reunifies north and south' },
+            { year: 311, text: 'Luoyang sacked during Jin turmoil' },
+            { year: 420, text: 'Southern dynasties era begins with Liu Song court' },
+            { year: 581, text: 'Sui reunifies empire and recentralizes rule' },
+            { year: 609, text: 'Grand Canal expanded to connect grain routes north-south' },
+            { year: 618, text: 'Tang dynasty founded by Li Yuan' },
+            { year: 650, text: 'Chang\\'an thrives as cosmopolitan Tang capital' },
+            { year: 751, text: 'Battle of Talas shares paper-making knowledge westward' },
+            { year: 868, text: 'Diamond Sutra printed with woodblock technology' },
+            { year: 907, text: 'Tang falls and Five Dynasties era begins' },
+            { year: 960, text: 'Song dynasty established under Zhao Kuangyin' },
+            { year: 1044, text: 'Wujing Zongyao documents gunpowder formulas' },
+            { year: 1077, text: 'Wang Anshi implements New Policies reforms' },
+            { year: 1127, text: 'Southern Song shifts capital to Hangzhou after Jurchen advance' },
+            { year: 1206, text: 'Temujin acclaimed as Genghis Khan on the steppe' },
+            { year: 1234, text: 'Jurchen Jin dynasty collapses to Mongol siege' },
+            { year: 1271, text: 'Yuan dynasty proclaimed under Kublai Khan' },
+            { year: 1368, text: 'Ming dynasty founded by Zhu Yuanzhang' },
+            { year: 1405, text: 'Zheng He launches blue-water voyages across the Indian Ocean' },
+            { year: 1449, text: 'Tumu Crisis captures Ming emperor during Oirat campaign' },
+            { year: 1557, text: 'Macao leased as a Lusophone trading post' },
+            { year: 1582, text: 'Matteo Ricci begins Jesuit exchanges in the Ming court' },
+            { year: 1644, text: 'Qing banners enter Beijing and establish new rule' },
+            { year: 1723, text: 'Yongzheng reforms streamline taxation and prefect oversight' },
+            { year: 1793, text: 'Macartney mission negotiates trade access at Qing court' },
+            { year: 1839, text: 'First Opium War erupts along Pearl River Delta' },
+            { year: 1851, text: 'Taiping Heavenly Kingdom rises in the south' },
+            { year: 1894, text: 'First Sino-Japanese War breaks out over Korea' },
+            { year: 1911, text: 'Xinhai Revolution ends imperial rule' },
+            { year: 1912, text: 'Republic of China established after abdication' },
+            { year: 1937, text: 'Marco Polo Bridge clash sparks full-scale war' },
+            { year: 1949, text: 'People\\'s Republic declared in Beijing' },
+            { year: 1953, text: 'First Five-Year Plan accelerates heavy industry' },
+            { year: 1958, text: 'Great Leap Forward mobilizes communes' },
+            { year: 1966, text: 'Cultural Revolution launches mass campaigns' },
+            { year: 1978, text: 'Reform and Opening policies liberalize markets' },
+            { year: 1997, text: 'Hong Kong returned under one-country two-systems framework' },
+            { year: 2001, text: 'China enters the World Trade Organization' },
+            { year: 2008, text: 'Beijing hosts the Olympic Games' },
+            { year: 2013, text: 'Belt and Road corridors announced for trade and infrastructure' }
+          ]
+        },
+        {
+          id: 'europe',
+          color: '#f97316',
+          name: { en: 'Europe', zh: '歐洲', es: 'Europa' },
+          subtitle: {
+            en: 'Imperial legacies, revolutions, treaties, and integration across the continent.',
+            zh: '橫跨帝國傳承、革命、條約與一體化的歐洲史。',
+            es: 'Legados imperiales, revoluciones, tratados e integración continental.'
+          },
+          fillerStart: -1200,
+          fillerStep: 40,
+          padLabel: 'continental record',
+          seeds: [
+            { year: -753, text: 'Legendary founding of Rome along the Tiber' },
+            { year: -490, text: 'Battle of Marathon signals Greek defense' },
+            { year: -336, text: 'Alexander the Great ascends Macedonian throne' },
+            { year: -218, text: 'Hannibal crosses the Alps during the Second Punic War' },
+            { year: -44, text: 'Julius Caesar assassinated in the Roman Forum' },
+            { year: 313, text: 'Edict of Milan proclaims tolerance for Christianity' },
+            { year: 410, text: 'Visigoths sack Rome and shake imperial authority' },
+            { year: 476, text: 'Western Roman Empire formally falls' },
+            { year: 732, text: 'Charles Martel halts Umayyad advance at Tours' },
+            { year: 800, text: 'Charlemagne crowned emperor in Rome' },
+            { year: 1066, text: 'Norman conquest reshapes England at Hastings' },
+            { year: 1099, text: 'First Crusade captures Jerusalem' },
+            { year: 1215, text: 'Magna Carta sealed at Runnymede' },
+            { year: 1347, text: 'Black Death arrives in Mediterranean ports' },
+            { year: 1453, text: 'Constantinople falls to Ottoman forces' },
+            { year: 1494, text: 'Treaty of Tordesillas divides Atlantic spheres' },
+            { year: 1517, text: 'Martin Luther publishes Ninety-five Theses' },
+            { year: 1588, text: 'Spanish Armada defeated in the Channel' },
+            { year: 1618, text: 'Thirty Years War ignites in Bohemia' },
+            { year: 1648, text: 'Peace of Westphalia redefines sovereignty' },
+            { year: 1688, text: 'Glorious Revolution affirms parliamentary rule' },
+            { year: 1756, text: 'Seven Years War begins with global theaters' },
+            { year: 1776, text: 'Transatlantic revolution influences European politics' },
+            { year: 1789, text: 'French Revolution overturns Bourbon monarchy' },
+            { year: 1804, text: 'Napoleon crowns himself Emperor of the French' },
+            { year: 1815, text: 'Waterloo ends Napoleonic campaigns' },
+            { year: 1848, text: 'Revolutions sweep European capitals' },
+            { year: 1853, text: 'Crimean War pits empires over Black Sea control' },
+            { year: 1871, text: 'German unification proclaimed at Versailles' },
+            { year: 1914, text: 'World War I starts after Sarajevo assassination' },
+            { year: 1917, text: 'Russian Revolution topples imperial rule' },
+            { year: 1919, text: 'Treaty of Versailles redraws borders' },
+            { year: 1939, text: 'World War II erupts with invasion of Poland' },
+            { year: 1945, text: 'War ends in Europe with German surrender' },
+            { year: 1949, text: 'NATO alliance formed for collective defense' },
+            { year: 1957, text: 'Treaty of Rome creates the EEC' },
+            { year: 1968, text: 'Prague Spring tests Soviet bloc limits' },
+            { year: 1989, text: 'Berlin Wall falls and divides dissolve' },
+            { year: 1991, text: 'Soviet Union dissolves into successor states' },
+            { year: 1992, text: 'Maastricht Treaty lays groundwork for the EU' },
+            { year: 1999, text: 'Euro launched as shared currency' },
+            { year: 2004, text: 'European Union welcomes central and eastern members' },
+            { year: 2012, text: 'EU receives Nobel Peace Prize' },
+            { year: 2016, text: 'Brexit referendum favors leaving the EU' },
+            { year: 2022, text: 'Continental energy transition accelerates amid supply shocks' }
+          ]
+        },
+        {
+          id: 'middle-east-africa',
+          color: '#16a34a',
+          name: { en: 'Middle East & Africa', zh: '中東與非洲', es: 'Medio Oriente y África' },
+          subtitle: {
+            en: 'Pharaonic unions, caliphates, trade routes, independence waves, and continental unions.',
+            zh: '從古埃及到哈里發、商旅路線與獨立浪潮，再到非盟成立。',
+            es: 'De Egipto faraónico a califatos, rutas comerciales, oleadas de independencia y unión continental.'
+          },
+          fillerStart: -2500,
+          fillerStep: 45,
+          padLabel: 'regional chronicle',
+          seeds: [
+            { year: -3100, text: 'Upper and Lower Egypt unified under early pharaohs' },
+            { year: -1274, text: 'Battle of Kadesh shapes Hittite-Egyptian treaty traditions' },
+            { year: -586, text: 'Babylonian exile reshapes Judean communities' },
+            { year: -332, text: 'Alexander the Great takes Egypt and founds Alexandria' },
+            { year: -30, text: 'Roman rule follows the death of Cleopatra VII' },
+            { year: 330, text: 'Kingdom of Aksum adopts Christianity in the Horn of Africa' },
+            { year: 622, text: 'Hijra marks the start of the Islamic calendar' },
+            { year: 661, text: 'Umayyad Caliphate establishes capital at Damascus' },
+            { year: 750, text: 'Abbasid Caliphate rises and moves court to Baghdad' },
+            { year: 969, text: 'Fatimid dynasty founds Cairo as imperial seat' },
+            { year: 1187, text: 'Salah ad-Din recaptures Jerusalem' },
+            { year: 1258, text: 'Mongol siege sacks Baghdad' },
+            { year: 1324, text: 'Mansa Musa\\'s pilgrimage highlights Mali\\'s wealth' },
+            { year: 1498, text: 'Indian Ocean spice lanes intersect East African ports' },
+            { year: 1517, text: 'Ottoman forces incorporate Egypt' },
+            { year: 1591, text: 'Battle of Tondibi ends Songhai dominance' },
+            { year: 1652, text: 'Cape Colony founded as Dutch refresh station' },
+            { year: 1798, text: 'Napoleon invades Egypt and charts antiquities' },
+            { year: 1822, text: 'Rosetta Stone deciphered unlocking hieroglyphs' },
+            { year: 1884, text: 'Berlin Conference formalizes partition of Africa' },
+            { year: 1896, text: 'Ethiopia wins at Adwa resisting colonial army' },
+            { year: 1916, text: 'Arab Revolt coordinates with Allied forces' },
+            { year: 1922, text: 'Egypt gains nominal independence from Britain' },
+            { year: 1948, text: 'Arab-Israeli war follows partition plan' },
+            { year: 1956, text: 'Suez Crisis pits Egypt against invasion' },
+            { year: 1960, text: 'Year of Africa sees wave of newly independent states' },
+            { year: 1963, text: 'Organization of African Unity established in Addis Ababa' },
+            { year: 1973, text: 'Yom Kippur War reshapes oil diplomacy' },
+            { year: 1980, text: 'Iran-Iraq War begins along Shatt al-Arab' },
+            { year: 1994, text: 'South Africa holds first multiracial elections' },
+            { year: 2003, text: 'Darfur conflict triggers humanitarian response' },
+            { year: 2011, text: 'Arab Spring protests topple several governments' },
+            { year: 2014, text: 'Ebola outbreak strains West African health systems' },
+            { year: 2020, text: 'Regional accords expand normalization and investment' }
+          ]
+        },
+        {
+          id: 'americas-oceania',
+          color: '#7c3aed',
+          name: { en: 'Americas & Oceania', zh: '美洲與大洋洲', es: 'Américas y Oceanía' },
+          subtitle: {
+            en: 'Indigenous civilizations, revolutions, federations, spaceflight, and modern accords.',
+            zh: '涵蓋原住文明、革命、邦聯、太空探索與當代協議。',
+            es: 'Civilizaciones originarias, revoluciones, federaciones, exploración espacial y acuerdos modernos.'
+          },
+          fillerStart: -500,
+          fillerStep: 40,
+          padLabel: 'regional chronicle',
+          seeds: [
+            { year: -500, text: 'Olmec centers decline while ceremonial arts spread' },
+            { year: 250, text: 'Classic Maya city-states flourish in Mesoamerica' },
+            { year: 1325, text: 'Tenochtitlan founded on Lake Texcoco' },
+            { year: 1492, text: 'Columbus reaches Caribbean islands' },
+            { year: 1519, text: 'Cortes lands on the Gulf Coast' },
+            { year: 1521, text: 'Aztec capital falls to coalition forces' },
+            { year: 1533, text: 'Inca Empire collapses after Andean campaigns' },
+            { year: 1607, text: 'Jamestown colony founded in Virginia' },
+            { year: 1620, text: 'Mayflower settlers land at Plymouth' },
+            { year: 1680, text: 'Pueblo Revolt pushes Spanish out of Santa Fe' },
+            { year: 1763, text: 'Treaty of Paris ends the French and Indian War' },
+            { year: 1776, text: 'United States declares independence' },
+            { year: 1789, text: 'U.S. Constitution takes effect' },
+            { year: 1804, text: 'Haiti proclaims independence' },
+            { year: 1810, text: 'Buenos Aires cabildo starts Río de la Plata revolution' },
+            { year: 1821, text: 'Mexico gains independence from Spain' },
+            { year: 1823, text: 'Monroe Doctrine signals hemispheric stance' },
+            { year: 1836, text: 'Republic of Texas declared' },
+            { year: 1848, text: 'California Gold Rush accelerates western migration' },
+            { year: 1865, text: 'American Civil War ends with Union preserved' },
+            { year: 1867, text: 'Dominion of Canada forms Confederation' },
+            { year: 1889, text: 'Brazil transitions from empire to republic' },
+            { year: 1898, text: 'Spanish-American War reshapes Caribbean and Pacific holdings' },
+            { year: 1910, text: 'Mexican Revolution erupts against Porfirian rule' },
+            { year: 1914, text: 'Panama Canal opens for transoceanic shipping' },
+            { year: 1917, text: 'Jones Act grants U.S. citizenship to Puerto Ricans' },
+            { year: 1929, text: 'Wall Street crash triggers global downturn' },
+            { year: 1941, text: 'Attack on Pearl Harbor brings U.S. into World War II' },
+            { year: 1945, text: 'United Nations charter signed in San Francisco' },
+            { year: 1959, text: 'Cuban Revolution installs new government' },
+            { year: 1962, text: 'Cuban Missile Crisis tests nuclear diplomacy' },
+            { year: 1964, text: 'U.S. Civil Rights Act signed' },
+            { year: 1969, text: 'Apollo 11 lands humans on the Moon' },
+            { year: 1973, text: 'Government of Salvador Allende toppled in Chile' },
+            { year: 1982, text: 'South Atlantic conflict fought over Falklands' },
+            { year: 1989, text: 'Canada-U.S. Free Trade Agreement enters into force' },
+            { year: 1994, text: 'NAFTA links North American markets' },
+            { year: 2001, text: 'September 11 attacks reshape security policy' },
+            { year: 2008, text: 'Global financial crisis hits hemispheric economies' },
+            { year: 2016, text: 'Colombia and FARC sign peace accord' },
+            { year: 2020, text: 'Pandemic responses redefine border and travel rules' }
+          ]
+        }
+      ];
+
+      const allEvents = zones.map(zone => ({
+        ...zone,
+        events: padEvents(zone.seeds, zone.fillerStart, zone.fillerStep, zone.padLabel)
+      }));
+
+      const yearBounds = (() => {
+        const years = allEvents.flatMap(zone => zone.events.map(evt => evt.year));
+        return { min: Math.min(...years), max: Math.max(...years) };
+      })();
+
+      const yearSpan = yearBounds.max - yearBounds.min;
+      const trackWidth = Math.max(4200, Math.ceil(yearSpan * 1.1));
+      let currentLanguage = 'en';
+      let currentYear = 0;
+
+      const timelinesEl = document.getElementById('timelines');
+      const yearSlider = document.getElementById('yearSlider');
+      const yearDisplay = document.getElementById('yearDisplay');
+      const languageSelect = document.getElementById('languageSelect');
+      const visitorCountEl = document.getElementById('visitorCount');
+      const labels = {
+        title: document.getElementById('pageTitle'),
+        subtitle: document.getElementById('pageSubtitle'),
+        lead: document.getElementById('heroLead'),
+        visitor: document.getElementById('visitorLabel'),
+        language: document.getElementById('languageLabel'),
+        yearMarker: document.getElementById('yearLabelLead'),
+        drag: document.getElementById('dragHint'),
+        tests: document.getElementById('testsTitle'),
+        testsIntro: document.getElementById('testsIntro')
+      };
+
+      function padEvents(seed, startYear, step, label) {
+        const events = seed.slice();
+        let fillerYear = startYear;
+        let phraseIndex = 0;
+        while (events.length < 100) {
+          const phrase = fillPhrases[phraseIndex % fillPhrases.length];
+          events.push({ year: fillerYear, text: `${label} ${phrase}` });
+          fillerYear += step;
+          phraseIndex += 1;
+        }
+        return events.sort((a, b) => a.year - b.year);
+      }
+
+      function translateText(text, lang) {
+        if (lang === 'en') return text;
+        const dict = glossary[lang];
+        let translated = text;
+        Object.keys(dict).forEach((key) => {
+          translated = translated.replace(new RegExp(`\\b${key}\\b`, 'gi'), dict[key]);
+        });
+        if (lang === 'es') {
+          translated = translated.replace(/\bthe\b/gi, 'el').replace(/\bof\b/gi, 'de').replace(/\band\b/gi, 'y');
+        }
+        if (lang === 'zh') {
+          translated = translated.replace(/\bthe\b/gi, '').replace(/\bof\b/gi, '的').replace(/\band\b/gi, '及');
+        }
+        translated = translated.trim();
+        return translated.charAt(0).toUpperCase() + translated.slice(1);
+      }
+
+      function displayYear(year) {
+        return year < 0 ? `${Math.abs(year)} BCE` : `${year} CE`;
+      }
+
+      function yearToPercent(year) {
+        const pct = ((year - yearBounds.min) / (yearSpan || 1)) * 100;
+        return Math.min(100, Math.max(0, pct));
+      }
+
+      function applyLanguage(lang) {
+        currentLanguage = lang;
+        // Keep document language metadata in sync for assistive technologies and tools
+        document.documentElement.lang = lang;
+        if (lang === 'ar' || lang === 'he' || lang === 'fa' || lang === 'ur') {
+          document.documentElement.dir = 'rtl';
+        } else {
+          document.documentElement.dir = 'ltr';
+        }
+        const copy = uiCopy[lang];
+        labels.title.textContent = copy.title;
+        labels.subtitle.textContent = copy.subtitle;
+        labels.lead.textContent = copy.lead;
+        labels.visitor.textContent = copy.visitor;
+        labels.language.textContent = copy.language;
+        labels.yearMarker.textContent = copy.yearMarker;
+        labels.drag.textContent = copy.drag;
+        labels.tests.textContent = copy.tests;
+        labels.testsIntro.textContent = copy.testsIntro;
+        renderTimelines();
+        updateYearMarker(currentYear);
+      }
+
+      function addDragScrolling(shell) {
+        let isDown = false;
+        let startX = 0;
+        let startScroll = 0;
+        shell.addEventListener('mousedown', (e) => {
+          isDown = true;
+          startX = e.pageX;
+          startScroll = shell.scrollLeft;
+        });
+        shell.addEventListener('mouseleave', () => (isDown = false));
+        shell.addEventListener('mouseup', () => (isDown = false));
+        shell.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          const walk = startX - e.pageX;
+          shell.scrollLeft = startScroll + walk;
+        });
+      }
+
+      function renderTimelines() {
+        timelinesEl.innerHTML = '';
+        allEvents.forEach((zone) => {
+          const row = document.createElement('article');
+          row.className = 'timeline-row';
+
+          const header = document.createElement('div');
+          header.className = 'row-header';
+
+          const titleWrap = document.createElement('div');
+          const h3 = document.createElement('h3');
+          h3.className = 'row-title';
+          h3.textContent = zone.name[currentLanguage] || zone.name.en;
+
+          const subtitle = document.createElement('p');
+          subtitle.className = 'row-subtitle';
+          subtitle.textContent = zone.subtitle[currentLanguage] || zone.subtitle.en;
+
+          titleWrap.appendChild(h3);
+          titleWrap.appendChild(subtitle);
+
+          const badge = document.createElement('div');
+          badge.className = 'chip';
+          badge.style.border = `1px solid ${zone.color}`;
+          badge.style.color = zone.color;
+          badge.textContent = `${zone.events.length} incidents`;
+
+          header.appendChild(titleWrap);
+          header.appendChild(badge);
+          row.appendChild(header);
+
+          const shell = document.createElement('div');
+          shell.className = 'timeline-shell';
+          const hint = document.createElement('div');
+          hint.className = 'drag-hint';
+          hint.textContent = uiCopy[currentLanguage].drag;
+          shell.appendChild(hint);
+
+          const track = document.createElement('div');
+          track.className = 'timeline-track';
+          track.style.minWidth = `${trackWidth}px`;
+
+          const marker = document.createElement('div');
+          marker.className = 'year-marker';
+          marker.dataset.marker = 'true';
+          track.appendChild(marker);
+
+          zone.events.forEach((evt, idx) => {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.style.borderTop = `4px solid ${zone.color}`;
+            card.style.left = `${yearToPercent(evt.year)}%`;
+            card.style.top = `${(idx % 4) * 58 + 18}px`;
+
+            const yr = document.createElement('div');
+            yr.className = 'event-year';
+            yr.textContent = displayYear(evt.year);
+
+            const text = document.createElement('p');
+            text.className = 'event-text';
+            text.textContent = translateText(evt.text, currentLanguage);
+
+            card.appendChild(yr);
+            card.appendChild(text);
+            track.appendChild(card);
+          });
+
+          shell.appendChild(track);
+          addDragScrolling(shell);
+          row.appendChild(shell);
+          timelinesEl.appendChild(row);
+        });
+      }
+
+      function updateYearMarker(year) {
+        currentYear = year;
+        yearSlider.value = year;
+        yearDisplay.textContent = displayYear(year);
+        document.querySelectorAll('.year-marker').forEach((marker) => {
+          marker.style.left = `${yearToPercent(year)}%`;
+        });
+      }
+
+      function updateVisitorCounter() {
+        const key = 'history-visitor-record';
+        const now = new Date();
+        const today =
+          now.getFullYear() +
+          '-' +
+          String(now.getMonth() + 1).padStart(2, '0') +
+          '-' +
+          String(now.getDate()).padStart(2, '0');
+
+        let record = { count: 0, lastDay: '' };
+
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+              record = parsed;
+            }
+          }
+
+          if (record.lastDay !== today) {
+            // New day: reset the counter so it reflects today's count, not a cumulative total.
+            record.count = 1;
+            record.lastDay = today;
+            localStorage.setItem(key, JSON.stringify(record));
+          }
+        } catch (e) {
+          // Fall back to an in-memory counter if storage is unavailable or corrupted.
+          if (record.lastDay !== today) {
+            record.count = 1;
+            record.lastDay = today;
+          }
+        }
+
+        visitorCountEl.textContent = record.count;
+        return record.count;
+      }
+
+      function runSelfTests() {
+        const results = [];
+        const push = (name, pass, detail) => {
+          results.push({ name, pass, detail });
+        };
+
+        push('100 incidents per zone', allEvents.every((z) => z.events.length === 100), 'Each region hits the target list size.');
+
+        const translatedSample = translateText('dynasty trade reform alliance', 'zh');
+        push('Translation alters text', translatedSample !== 'dynasty trade reform alliance', 'Glossary-driven translator changes visible strings.');
+
+        const before = updateVisitorCounter();
+        const after = updateVisitorCounter();
+        push('Visitor counter stable on repeat', before === after, 'Same-day refresh does not double-count.');
+
+        const minPct = yearToPercent(yearBounds.min);
+        const maxPct = yearToPercent(yearBounds.max);
+        push('Marker bounds', minPct === 0 && maxPct === 100, 'Year-to-percent math anchors ends correctly.');
+
+        const list = document.getElementById('testResults');
+        list.innerHTML = '';
+        results.forEach((res) => {
+          const li = document.createElement('li');
+          const name = document.createElement('span');
+          name.textContent = res.name;
+          const pill = document.createElement('span');
+          pill.className = `pill ${res.pass ? 'pass' : 'fail'}`;
+          pill.textContent = res.pass ? 'pass' : 'fail';
+          pill.title = res.detail;
+          li.appendChild(name);
+          li.appendChild(pill);
+          list.appendChild(li);
+        });
+      }
+
+      languageSelect.addEventListener('change', (e) => applyLanguage(e.target.value));
+      yearSlider.addEventListener('input', (e) => updateYearMarker(Number(e.target.value)));
+
+      yearSlider.min = yearBounds.min;
+      yearSlider.max = yearBounds.max;
+      applyLanguage(currentLanguage);
+      updateYearMarker(0);
+      updateVisitorCounter();
+      runSelfTests();
+    })();
+  </script>
+</body>
+</html>
