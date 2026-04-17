@@ -264,11 +264,12 @@ const prev = reports[reports.length - 2];
 /* ============================================================
    HELPERS
    ============================================================ */
-function delta(cur, old){ return +(cur - old).toFixed(2); }
+function delta(current, previous){ return +(current - previous).toFixed(2); }
+// 'down' CSS class = green (improvement), 'up' = red (deterioration)
 function deltaClass(d, lowerIsBetter){
   if(d === 0) return 'neutral';
   if(lowerIsBetter) return d < 0 ? 'down' : 'up';
-  return d > 0 ? 'down' : 'up'; // higher is better → 'down' class = green
+  return d > 0 ? 'down' : 'up';
 }
 function deltaStr(d, unit){
   const sign = d > 0 ? '+' : '';
@@ -315,15 +316,18 @@ const sharedPlugins = {
     {label:'BMR',        val:latest.bmr_kcal, unit:'kcal',d:delta(latest.bmr_kcal,prev.bmr_kcal),lib:false},
     {label:'體內年齡',   val:latest.body_age, unit:'歲',  d:delta(latest.body_age,prev.body_age),lib:true},
   ];
+  const frag = document.createDocumentFragment();
   kpis.forEach(k=>{
     const cls = deltaClass(k.d, k.lib);
-    grid.innerHTML += `
-      <div class="kpi-card">
-        <div class="kpi-label">${k.label}</div>
-        <div class="kpi-value">${k.val}<span class="kpi-unit"> ${k.unit}</span></div>
-        <div class="kpi-delta ${cls}">${deltaStr(k.d, k.unit)}</div>
-      </div>`;
+    const card = document.createElement('div');
+    card.className = 'kpi-card';
+    card.innerHTML =
+      '<div class="kpi-label">'+k.label+'</div>'+
+      '<div class="kpi-value">'+k.val+'<span class="kpi-unit"> '+k.unit+'</span></div>'+
+      '<div class="kpi-delta '+cls+'">'+deltaStr(k.d, k.unit)+'</div>';
+    frag.appendChild(card);
   });
+  grid.appendChild(frag);
 })();
 
 /* ============================================================
@@ -525,7 +529,7 @@ new Chart(document.getElementById('chartSegFat'), {
   const body = document.getElementById('tableBody');
   const cols = ['日期','體重 kg','BMI','體脂率 %','脂肪 kg','肌肉 kg','骨骼肌 kg','SMI','內臟脂肪','BMR kcal','體內年齡','體水份 kg','體水份 %','ECW/TBW %'];
 
-  head.innerHTML = cols.map(c=>'<th>'+c+'</th>').join('');
+  cols.forEach(c=>{const th=document.createElement('th');th.textContent=c;head.appendChild(th);});
 
   reports.forEach(r=>{
     const cells = [
@@ -533,7 +537,9 @@ new Chart(document.getElementById('chartSegFat'), {
       r.smm, r.smi, r.visceral, r.bmr_kcal, r.body_age,
       r.tbw_kg, r.tbw_pct, r.ecw_tbw
     ];
-    body.innerHTML += '<tr>' + cells.map(c=>'<td>'+c+'</td>').join('') + '</tr>';
+    const tr = document.createElement('tr');
+    cells.forEach(c=>{const td=document.createElement('td');td.textContent=c;tr.appendChild(td);});
+    body.appendChild(tr);
   });
 })();
 </script>
