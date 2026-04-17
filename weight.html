@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>身體組成分析 | Body Composition Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#f8f9fa;--bg2:#ffffff;
+    --glass:rgba(255,255,255,0.85);
+    --bdr:rgba(0,0,0,0.08);
+    --t1:#1e293b;--t2:#334155;--t3:#64748b;--t4:#94a3b8;
+    --blue:#0ea5e9;--purple:#8b5cf6;--amber:#f59e0b;--green:#10b981;--red:#ef4444;--teal:#14b8a6;--rose:#f43f5e;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Noto Sans HK','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--bg);
+    background-image:
+      radial-gradient(ellipse at 10% 40%,rgba(14,165,233,.05) 0%,transparent 55%),
+      radial-gradient(ellipse at 90% 15%,rgba(139,92,246,.04) 0%,transparent 55%),
+      radial-gradient(ellipse at 50% 95%,rgba(245,158,11,.03) 0%,transparent 50%);
+    background-attachment:fixed;color:var(--t2);min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Hero */
+  .hero-gradient{
+    background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 40%,#0c4a6e 100%);
+  }
+
+  /* Section card */
+  .section-card{
+    background:var(--glass);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--bdr);
+    border-radius:16px;padding:24px;margin-bottom:20px;
+    box-shadow:0 2px 16px rgba(0,0,0,0.05);
+  }
+  .section-title{
+    font-size:1.15rem;font-weight:800;
+    display:flex;align-items:center;gap:8px;
+    margin-bottom:16px;padding-bottom:10px;
+    border-bottom:2px solid rgba(0,0,0,0.06);
+    color:var(--t1);
+  }
+
+  /* Chart wrappers */
+  .chart-wrap{
+    position:relative;width:100%;margin:12px 0;
+  }
+  .chart-wrap canvas{width:100%!important;}
+
+  /* KPI cards */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:12px;margin:16px 0;
+  }
+  .kpi-card{
+    background:linear-gradient(135deg,#f0f9ff,#faf5ff);
+    border:1px solid rgba(14,165,233,0.12);
+    border-radius:12px;padding:14px;text-align:center;
+    transition:transform 0.2s ease,box-shadow 0.2s ease;
+  }
+  .kpi-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,0.08);}
+  .kpi-label{font-size:0.72rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;}
+  .kpi-value{font-size:1.35rem;font-weight:900;color:var(--t1);}
+  .kpi-unit{font-size:0.7rem;font-weight:500;color:var(--t4);}
+  .kpi-delta{font-size:0.7rem;font-weight:700;margin-top:2px;}
+  .kpi-delta.up{color:var(--red);}
+  .kpi-delta.down{color:var(--green);}
+  .kpi-delta.neutral{color:var(--t4);}
+
+  /* Data table */
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid rgba(0,0,0,0.07);margin:12px 0;}
+  .data-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+  .data-table th{
+    background:linear-gradient(135deg,#f1f5f9,#e2e8f0);
+    font-weight:700;padding:10px 12px;text-align:left;color:var(--t2);
+    position:sticky;top:0;
+  }
+  .data-table td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,0.05);color:var(--t3);vertical-align:middle;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table tr:hover td{background:rgba(14,165,233,0.03);}
+  .data-table th:first-child{border-radius:8px 0 0 0;}
+  .data-table th:last-child{border-radius:0 8px 0 0;}
+
+  /* Two-col layout */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media(max-width:768px){
+    .two-col{grid-template-columns:1fr;}
+    .section-card{padding:16px;}
+    .kpi-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}
+    .data-table th,.data-table td{padding:7px 9px;font-size:0.78rem;}
+  }
+
+  /* Callout */
+  .callout{display:flex;gap:10px;padding:14px 16px;border-radius:10px;font-size:0.85rem;margin:12px 0;line-height:1.6;}
+  .callout-info{background:#eff6ff;border-left:3px solid #3b82f6;color:#1e40af;}
+
+  /* Badge */
+  .badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+  .badge-blue{background:#dbeafe;color:#1d4ed8;}
+  .badge-green{background:#d1fae5;color:#065f46;}
+  .badge-amber{background:#fef3c7;color:#92400e;}
+  .badge-red{background:#fee2e2;color:#991b1b;}
+
+  /* Footer */
+  footer{text-align:center;padding:24px 16px;font-size:0.75rem;color:var(--t4);}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero-gradient text-white relative overflow-hidden" style="color:#fff;">
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.1;background-image:radial-gradient(circle at 20% 50%,#38bdf8 0%,transparent 45%),radial-gradient(circle at 80% 20%,#a78bfa 0%,transparent 45%);"></div>
+  <div style="position:relative;max-width:768px;margin:0 auto;padding:48px 16px 40px;text-align:center;">
+    <div style="font-size:3rem;margin-bottom:12px;">📊</div>
+    <h1 style="font-size:clamp(1.5rem,5vw,2.25rem);font-weight:900;letter-spacing:-0.5px;line-height:1.2;">
+      身體組成分析儀表板
+      <span style="display:block;color:#93c5fd;font-size:clamp(1rem,3vw,1.5rem);font-weight:700;margin-top:4px;">Body Composition Dashboard</span>
+    </h1>
+    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;">EFX24 Health Score System · 4 Reports · 2026-03 to 2026-04</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;font-size:0.75rem;">
+      <span style="background:rgba(59,130,246,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:999px;padding:4px 12px;">👤 男 · 29歲 · 180 cm</span>
+      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;">📅 4次量測</span>
+      <span style="background:rgba(16,185,129,0.3);border:1px solid rgba(52,211,153,0.4);border-radius:999px;padding:4px 12px;">🔬 InBody 數據</span>
+    </div>
+  </div>
+  <div style="position:relative;margin-top:-2px;line-height:0;">
+    <svg viewBox="0 0 1440 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;">
+      <path d="M0,27 C360,54 720,0 1080,27 C1260,40 1380,20 1440,27 L1440,54 L0,54Z" fill="#f8f9fa"/>
+    </svg>
+  </div>
+</header>
+
+<main style="max-width:768px;margin:0 auto;padding:16px 16px 48px;">
+
+  <!-- ===== LATEST KPI CARDS ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span>最新量測摘要 (2026-04-17)</span></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+  </section>
+
+  <!-- ===== WEIGHT & BMI TREND ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#8b5cf6;"><span>⚖️</span><span>體重 / BMI 趨勢</span></div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chartWeightBmi"></canvas></div>
+  </section>
+
+  <!-- ===== BODY COMPOSITION TREND ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#10b981;"><span>🏋️</span><span>體脂率 / 骨骼肌率趨勢</span></div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chartBodyComp"></canvas></div>
+  </section>
+
+  <!-- ===== FAT vs MUSCLE MASS ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#f59e0b;"><span>📐</span><span>脂肪量 vs 肌肉量 (kg)</span></div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chartFatMuscle"></canvas></div>
+  </section>
+
+  <!-- ===== TWO-COL: VISCERAL FAT + BODY WATER ===== -->
+  <div class="two-col">
+    <section class="section-card">
+      <div class="section-title" style="color:#ef4444;font-size:1rem;"><span>🫀</span><span>內臟脂肪等級</span></div>
+      <div class="chart-wrap" style="height:250px;"><canvas id="chartVisceral"></canvas></div>
+    </section>
+    <section class="section-card">
+      <div class="section-title" style="color:#14b8a6;font-size:1rem;"><span>💧</span><span>體水份 (kg / %)</span></div>
+      <div class="chart-wrap" style="height:250px;"><canvas id="chartWater"></canvas></div>
+    </section>
+  </div>
+
+  <!-- ===== BASAL METABOLIC RATE ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#f43f5e;"><span>🔥</span><span>基礎代謝率 (BMR) / 體內年齡</span></div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chartBmr"></canvas></div>
+  </section>
+
+  <!-- ===== SEGMENTAL ANALYSIS (latest) ===== -->
+  <div class="two-col">
+    <section class="section-card">
+      <div class="section-title" style="color:#0ea5e9;font-size:1rem;"><span>💪</span><span>節段肌肉量 (最新)</span></div>
+      <div class="chart-wrap" style="height:280px;"><canvas id="chartSegMuscle"></canvas></div>
+    </section>
+    <section class="section-card">
+      <div class="section-title" style="color:#f59e0b;font-size:1rem;"><span>🧈</span><span>節段脂肪量 (最新)</span></div>
+      <div class="chart-wrap" style="height:280px;"><canvas id="chartSegFat"></canvas></div>
+    </section>
+  </div>
+
+  <!-- ===== FULL DATA TABLE ===== -->
+  <section class="section-card">
+    <div class="section-title" style="color:#64748b;"><span>📝</span><span>完整數據表</span></div>
+    <div class="table-wrap">
+      <table class="data-table" id="fullTable">
+        <thead><tr id="tableHead"></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  EFX24 Health Score System · efx24_report_bundle_20260417_074146_v3 · Generated as static HTML
+</footer>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const reports = [
+  {
+    id:"report_002", date:"2026-03-03", serial:"MOS1_001422",
+    weight:89.1, bmi:27.5, bf_pct:27.1, bf_kg:24.1, ffm:65.0,
+    muscle:61.6, smm:32.7, smm_pct:36.7, smi:9.0,
+    body_age:43, bmr_kcal:1879, bmr_kj:7862,
+    visceral:13, tbw_kg:41.2, tbw_pct:46.2, ecw_tbw:40.8,
+    seg_muscle:{body:32.5,la:2.8,ra:2.8,ll:11.8,rl:11.7},
+    seg_fat:{body:15.2,la:0.8,ra:0.8,ll:3.7,rl:3.6}
+  },
+  {
+    id:"report_004", date:"2026-03-26", serial:"MOS1_001923",
+    weight:87.9, bmi:27.1, bf_pct:27.4, bf_kg:24.1, ffm:63.8,
+    muscle:60.5, smm:33.2, smm_pct:37.77, smi:9.1,
+    body_age:44, bmr_kcal:1843, bmr_kj:7711,
+    visceral:13, tbw_kg:42.6, tbw_pct:48.5, ecw_tbw:41.8,
+    seg_muscle:{body:31.1,la:3.0,ra:2.9,ll:11.8,rl:11.7},
+    seg_fat:{body:14.7,la:0.9,ra:0.9,ll:3.8,rl:3.8}
+  },
+  {
+    id:"report_003", date:"2026-04-09", serial:"MOS1_002242",
+    weight:87.3, bmi:26.9, bf_pct:26.5, bf_kg:23.1, ffm:64.2,
+    muscle:60.9, smm:32.4, smm_pct:37.11, smi:8.9,
+    body_age:41, bmr_kcal:1852, bmr_kj:7749,
+    visceral:12, tbw_kg:41.0, tbw_pct:47.0, ecw_tbw:41.0,
+    seg_muscle:{body:32.0,la:2.7,ra:2.8,ll:11.8,rl:11.6},
+    seg_fat:{body:14.6,la:0.9,ra:0.8,ll:3.4,rl:3.4}
+  },
+  {
+    id:"report_001", date:"2026-04-17", serial:"MOS1_002407",
+    weight:86.4, bmi:26.7, bf_pct:27.4, bf_kg:23.7, ffm:62.7,
+    muscle:59.5, smm:32.3, smm_pct:37.38, smi:8.9,
+    body_age:44, bmr_kcal:1809, bmr_kj:7569,
+    visceral:12, tbw_kg:41.5, tbw_pct:48.0, ecw_tbw:41.9,
+    seg_muscle:{body:30.7,la:2.9,ra:2.9,ll:11.5,rl:11.5},
+    seg_fat:{body:14.5,la:0.9,ra:0.9,ll:3.7,rl:3.7}
+  }
+];
+
+const labels = reports.map(r => r.date);
+const latest = reports[reports.length - 1];
+const prev = reports[reports.length - 2];
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function delta(current, previous){ return +(current - previous).toFixed(2); }
+// 'down' CSS class = green (improvement), 'up' = red (deterioration)
+function deltaClass(d, lowerIsBetter){
+  if(d === 0) return 'neutral';
+  if(lowerIsBetter) return d < 0 ? 'down' : 'up';
+  return d > 0 ? 'down' : 'up';
+}
+function deltaStr(d, unit){
+  const sign = d > 0 ? '+' : '';
+  return sign + d.toFixed(1) + ' ' + unit;
+}
+
+/* Chart.js shared options */
+const gridColor = 'rgba(0,0,0,0.06)';
+const fontColor = '#64748b';
+const sharedScaleX = {
+  grid:{display:false},
+  ticks:{font:{size:11,weight:'600'},color:fontColor}
+};
+function sharedScaleY(label,min,max){
+  return {
+    title:{display:true,text:label,font:{size:11,weight:'700'},color:fontColor},
+    grid:{color:gridColor},
+    ticks:{font:{size:11},color:fontColor},
+    ...(min!=null?{min}:{}),
+    ...(max!=null?{max}:{})
+  };
+}
+const sharedPlugins = {
+  legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:16,font:{size:11,weight:'600'}}},
+  tooltip:{
+    backgroundColor:'rgba(15,23,42,0.9)',titleFont:{weight:'700'},bodyFont:{size:12},
+    cornerRadius:8,padding:12,displayColors:true,
+    callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y}
+  }
+};
+
+/* ============================================================
+   KPI CARDS
+   ============================================================ */
+(function renderKpi(){
+  const grid = document.getElementById('kpiGrid');
+  const kpis = [
+    {label:'體重',       val:latest.weight,   unit:'kg',  d:delta(latest.weight,prev.weight),   lib:true},
+    {label:'BMI',        val:latest.bmi,      unit:'',    d:delta(latest.bmi,prev.bmi),         lib:true},
+    {label:'體脂率',     val:latest.bf_pct,   unit:'%',   d:delta(latest.bf_pct,prev.bf_pct),   lib:true},
+    {label:'骨骼肌量',   val:latest.smm,      unit:'kg',  d:delta(latest.smm,prev.smm),         lib:false},
+    {label:'SMI',        val:latest.smi,      unit:'',    d:delta(latest.smi,prev.smi),         lib:false},
+    {label:'內臟脂肪',   val:latest.visceral, unit:'級',  d:delta(latest.visceral,prev.visceral),lib:true},
+    {label:'BMR',        val:latest.bmr_kcal, unit:'kcal',d:delta(latest.bmr_kcal,prev.bmr_kcal),lib:false},
+    {label:'體內年齡',   val:latest.body_age, unit:'歲',  d:delta(latest.body_age,prev.body_age),lib:true},
+  ];
+  const frag = document.createDocumentFragment();
+  kpis.forEach(k=>{
+    const cls = deltaClass(k.d, k.lib);
+    const card = document.createElement('div');
+    card.className = 'kpi-card';
+    card.innerHTML =
+      '<div class="kpi-label">'+k.label+'</div>'+
+      '<div class="kpi-value">'+k.val+'<span class="kpi-unit"> '+k.unit+'</span></div>'+
+      '<div class="kpi-delta '+cls+'">'+deltaStr(k.d, k.unit)+'</div>';
+    frag.appendChild(card);
+  });
+  grid.appendChild(frag);
+})();
+
+/* ============================================================
+   CHART 1 — WEIGHT & BMI
+   ============================================================ */
+new Chart(document.getElementById('chartWeightBmi'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'體重 (kg)',data:reports.map(r=>r.weight),borderColor:'#0ea5e9',backgroundColor:'rgba(14,165,233,0.1)',fill:true,tension:0.35,pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y'},
+      {label:'BMI',data:reports.map(r=>r.bmi),borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.1)',fill:false,tension:0.35,pointRadius:5,pointHoverRadius:7,borderWidth:2.5,borderDash:[6,3],yAxisID:'y1'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:sharedPlugins,
+    scales:{
+      x:sharedScaleX,
+      y:sharedScaleY('kg',84,91),
+      y1:{...sharedScaleY('BMI',26,28.5),position:'right',grid:{drawOnChartArea:false}}
+    }
+  }
+});
+
+/* ============================================================
+   CHART 2 — BODY FAT % & SMM %
+   ============================================================ */
+new Chart(document.getElementById('chartBodyComp'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'體脂率 (%)',data:reports.map(r=>r.bf_pct),borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.1)',fill:true,tension:0.35,pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y'},
+      {label:'骨骼肌率 (%)',data:reports.map(r=>r.smm_pct),borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',fill:true,tension:0.35,pointRadius:5,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y1'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:sharedPlugins,
+    scales:{
+      x:sharedScaleX,
+      y:sharedScaleY('體脂率 %',25,29),
+      y1:{...sharedScaleY('骨骼肌率 %',35,39),position:'right',grid:{drawOnChartArea:false}}
+    }
+  }
+});
+
+/* ============================================================
+   CHART 3 — FAT vs MUSCLE (stacked bar)
+   ============================================================ */
+new Chart(document.getElementById('chartFatMuscle'), {
+  type:'bar',
+  data:{
+    labels,
+    datasets:[
+      {label:'脂肪量 (kg)',data:reports.map(r=>r.bf_kg),backgroundColor:'rgba(245,158,11,0.7)',borderColor:'#f59e0b',borderWidth:1,borderRadius:4},
+      {label:'肌肉量 (kg)',data:reports.map(r=>r.muscle),backgroundColor:'rgba(14,165,233,0.7)',borderColor:'#0ea5e9',borderWidth:1,borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y+' kg'}}},
+    scales:{
+      x:sharedScaleX,
+      y:sharedScaleY('kg',0,null)
+    }
+  }
+});
+
+/* ============================================================
+   CHART 4 — VISCERAL FAT LEVEL
+   ============================================================ */
+new Chart(document.getElementById('chartVisceral'), {
+  type:'bar',
+  data:{
+    labels,
+    datasets:[{
+      label:'內臟脂肪等級',
+      data:reports.map(r=>r.visceral),
+      backgroundColor:reports.map(r=>r.visceral>=13?'rgba(239,68,68,0.7)':'rgba(245,158,11,0.7)'),
+      borderColor:reports.map(r=>r.visceral>=13?'#ef4444':'#f59e0b'),
+      borderWidth:1,borderRadius:6
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,indexAxis:'x',
+    plugins:{...sharedPlugins,legend:{display:false},
+      tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' 等級 '+ctx.parsed.y}}
+    },
+    scales:{
+      x:sharedScaleX,
+      y:{...sharedScaleY('等級',0,20),
+        ticks:{stepSize:5,font:{size:11},color:fontColor}
+      }
+    }
+  }
+});
+
+/* ============================================================
+   CHART 5 — BODY WATER
+   ============================================================ */
+new Chart(document.getElementById('chartWater'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'體水份 (kg)',data:reports.map(r=>r.tbw_kg),borderColor:'#14b8a6',backgroundColor:'rgba(20,184,166,0.1)',fill:true,tension:0.35,pointRadius:5,borderWidth:2.5,yAxisID:'y'},
+      {label:'體水份 (%)',data:reports.map(r=>r.tbw_pct),borderColor:'#06b6d4',backgroundColor:'rgba(6,182,212,0.08)',fill:false,tension:0.35,pointRadius:5,borderWidth:2,borderDash:[5,3],yAxisID:'y1'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:{...sharedPlugins,legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10,weight:'600'}}}},
+    scales:{
+      x:{...sharedScaleX,ticks:{font:{size:10},color:fontColor}},
+      y:sharedScaleY('kg',39,44),
+      y1:{...sharedScaleY('%',44,50),position:'right',grid:{drawOnChartArea:false}}
+    }
+  }
+});
+
+/* ============================================================
+   CHART 6 — BMR & BODY AGE
+   ============================================================ */
+new Chart(document.getElementById('chartBmr'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'BMR (kcal)',data:reports.map(r=>r.bmr_kcal),borderColor:'#f43f5e',backgroundColor:'rgba(244,63,94,0.1)',fill:true,tension:0.35,pointRadius:5,borderWidth:2.5,yAxisID:'y'},
+      {label:'體內年齡',data:reports.map(r=>r.body_age),borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.08)',fill:false,tension:0.35,pointRadius:5,borderWidth:2,borderDash:[5,3],yAxisID:'y1'}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+    plugins:sharedPlugins,
+    scales:{
+      x:sharedScaleX,
+      y:sharedScaleY('kcal',1780,1900),
+      y1:{...sharedScaleY('歲',38,46),position:'right',grid:{drawOnChartArea:false}}
+    }
+  }
+});
+
+/* ============================================================
+   CHART 7 & 8 — SEGMENTAL (latest report)
+   ============================================================ */
+const segLabels = ['軀幹 Body','左臂 L-Arm','右臂 R-Arm','左腿 L-Leg','右腿 R-Leg'];
+const segKeys = ['body','la','ra','ll','rl'];
+
+new Chart(document.getElementById('chartSegMuscle'), {
+  type:'bar',
+  data:{
+    labels:segLabels,
+    datasets:[{
+      label:'肌肉量 (kg)',
+      data:segKeys.map(k=>latest.seg_muscle[k]),
+      backgroundColor:['rgba(14,165,233,0.7)','rgba(56,189,248,0.7)','rgba(56,189,248,0.7)','rgba(2,132,199,0.7)','rgba(2,132,199,0.7)'],
+      borderRadius:6,borderWidth:0
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{...sharedPlugins,legend:{display:false}},
+    scales:{
+      x:{...sharedScaleY('kg',0,null),position:'bottom'},
+      y:{...sharedScaleX,ticks:{font:{size:10,weight:'600'},color:fontColor}}
+    }
+  }
+});
+
+new Chart(document.getElementById('chartSegFat'), {
+  type:'bar',
+  data:{
+    labels:segLabels,
+    datasets:[{
+      label:'脂肪量 (kg)',
+      data:segKeys.map(k=>latest.seg_fat[k]),
+      backgroundColor:['rgba(245,158,11,0.7)','rgba(251,191,36,0.7)','rgba(251,191,36,0.7)','rgba(217,119,6,0.7)','rgba(217,119,6,0.7)'],
+      borderRadius:6,borderWidth:0
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    plugins:{...sharedPlugins,legend:{display:false}},
+    scales:{
+      x:{...sharedScaleY('kg',0,null),position:'bottom'},
+      y:{...sharedScaleX,ticks:{font:{size:10,weight:'600'},color:fontColor}}
+    }
+  }
+});
+
+/* ============================================================
+   FULL DATA TABLE
+   ============================================================ */
+(function renderTable(){
+  const head = document.getElementById('tableHead');
+  const body = document.getElementById('tableBody');
+  const cols = ['日期','體重 kg','BMI','體脂率 %','脂肪 kg','肌肉 kg','骨骼肌 kg','SMI','內臟脂肪','BMR kcal','體內年齡','體水份 kg','體水份 %','ECW/TBW %'];
+
+  cols.forEach(c=>{const th=document.createElement('th');th.textContent=c;head.appendChild(th);});
+
+  reports.forEach(r=>{
+    const cells = [
+      r.date, r.weight, r.bmi, r.bf_pct, r.bf_kg, r.muscle,
+      r.smm, r.smi, r.visceral, r.bmr_kcal, r.body_age,
+      r.tbw_kg, r.tbw_pct, r.ecw_tbw
+    ];
+    const tr = document.createElement('tr');
+    cells.forEach(c=>{const td=document.createElement('td');td.textContent=c;tr.appendChild(td);});
+    body.appendChild(tr);
+  });
+})();
+</script>
+
+</body>
+</html>
