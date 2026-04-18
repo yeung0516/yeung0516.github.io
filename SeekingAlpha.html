@@ -291,6 +291,35 @@ body {
   background: var(--bg3);
 }
 
+/* ========== DATE RANGE BUTTONS ========== */
+.range-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.range-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.range-btn:hover {
+  background: #e2e8f0;
+}
+
+.range-btn.active {
+  background: var(--accent-blue);
+  color: #fff;
+  border-color: var(--accent-blue);
+}
+
 /* ========== LOADING ========== */
 .loading-overlay {
   display: flex;
@@ -370,7 +399,17 @@ body {
 
   <!-- Equity Curve -->
   <div class="card">
-    <div class="card-header">📊 Portfolio Equity Curve (Equal-Weight)</div>
+    <div class="card-header" style="justify-content:space-between; flex-wrap:wrap;">
+      <span>📊 Portfolio Equity Curve (Equal-Weight)</span>
+      <div class="range-bar" id="rangeBar">
+        <button class="range-btn" data-range="YTD">YTD</button>
+        <button class="range-btn" data-range="1Y">1Y</button>
+        <button class="range-btn" data-range="3Y">3Y</button>
+        <button class="range-btn" data-range="5Y">5Y</button>
+        <button class="range-btn" data-range="10Y">10Y</button>
+        <button class="range-btn" data-range="ALL">ALL</button>
+      </div>
+    </div>
     <div class="card-body">
       <div id="chartLoading" class="loading-overlay">
         <div class="spinner"></div>
@@ -423,6 +462,10 @@ const RISK_FREE_RATE = 0.045; // ~4.5% for 2024-2026
 
 let chart = null;
 let rawData = null;
+let fullCommonDates = [];
+let fullPortfolioValue = [];
+let fullPriceMap = {};
+let selectedRange = 'YTD'; // default to YTD (start of 2026)
 
 // ===================== LOAD DATA =====================
 async function loadData() {
@@ -479,21 +522,19 @@ function compute() {
     priceMap[sym] = commonDates.map(d => lookup[d]);
   }
 
-  // 3. Compute portfolio equity curve
+  // 3. Compute portfolio equity curve (full history)
   const n = symbols.length;
   const numDays = commonDates.length;
   let weights = symbols.map(() => 1 / n); // equal weight
   let portfolioValue = [1.0]; // start at $1
 
   for (let i = 1; i < numDays; i++) {
-    // Daily returns for each stock
     const returns = symbols.map((sym, j) => {
       const prev = priceMap[sym][i - 1];
       const curr = priceMap[sym][i];
       return (prev && curr && prev > 0) ? (curr / prev - 1) : 0;
     });
 
-    // Portfolio return = weighted average
     let portReturn = 0;
     for (let j = 0; j < n; j++) {
       portReturn += weights[j] * returns[j];
@@ -503,54 +544,108 @@ function compute() {
     portfolioValue.push(newValue);
 
     if (rebalance) {
-      // Check if new month
       const prevDate = commonDates[i - 1];
       const currDate = commonDates[i];
       if (prevDate.slice(0, 7) !== currDate.slice(0, 7)) {
-        // Rebalance to equal weight
         weights = symbols.map(() => 1 / n);
       } else {
-        // Update weights based on drift
         const totalWeight = weights.reduce((sum, w, j) => sum + w * (1 + returns[j]), 0);
         weights = weights.map((w, j) => (w * (1 + returns[j])) / totalWeight);
       }
     } else {
-      // Buy and hold: weights drift with returns
       const totalWeight = weights.reduce((sum, w, j) => sum + w * (1 + returns[j]), 0);
       weights = weights.map((w, j) => (w * (1 + returns[j])) / totalWeight);
     }
   }
 
-  // 4. Compute metrics
+  // Store full data for range filtering
+  fullCommonDates = commonDates;
+  fullPortfolioValue = portfolioValue;
+  fullPriceMap = priceMap;
+
+  // Render with selected range
+  renderForRange();
+}
+
+// ===================== DATE RANGE FILTER =====================
+function getRangeStartDate(range, dates) {
+  const lastDate = dates[dates.length - 1];
+  const endYear = parseInt(lastDate.slice(0, 4));
+  const endMonth = parseInt(lastDate.slice(5, 7));
+  const endDay = parseInt(lastDate.slice(8, 10));
+
+  switch (range) {
+    case 'YTD': return `${endYear}-01-01`;
+    case '1Y': {
+      const d = new Date(endYear, endMonth - 1, endDay);
+      d.setFullYear(d.getFullYear() - 1);
+      return d.toISOString().slice(0, 10);
+    }
+    case '3Y': {
+      const d = new Date(endYear, endMonth - 1, endDay);
+      d.setFullYear(d.getFullYear() - 3);
+      return d.toISOString().slice(0, 10);
+    }
+    case '5Y': {
+      const d = new Date(endYear, endMonth - 1, endDay);
+      d.setFullYear(d.getFullYear() - 5);
+      return d.toISOString().slice(0, 10);
+    }
+    case '10Y': {
+      const d = new Date(endYear, endMonth - 1, endDay);
+      d.setFullYear(d.getFullYear() - 10);
+      return d.toISOString().slice(0, 10);
+    }
+    default: return dates[0]; // ALL
+  }
+}
+
+function renderForRange() {
+  const symbols = rawData.symbols;
+  const rangeStart = getRangeStartDate(selectedRange, fullCommonDates);
+
+  // Find the index in fullCommonDates where date >= rangeStart
+  // We need the day *before* rangeStart as the baseline for normalization
+  let startIdx = fullCommonDates.findIndex(d => d >= rangeStart);
+  if (startIdx < 0) startIdx = 0;
+  // Use previous day as baseline so first visible day shows day-1 return
+  const baseIdx = Math.max(0, startIdx > 0 ? startIdx - 1 : 0);
+
+  const dates = fullCommonDates.slice(startIdx);
+  const baseValue = fullPortfolioValue[baseIdx];
+  const values = fullPortfolioValue.slice(startIdx).map(v => v / baseValue);
+
+  // Compute metrics for the visible range
   const dailyReturns = [];
-  for (let i = 1; i < portfolioValue.length; i++) {
-    dailyReturns.push(portfolioValue[i] / portfolioValue[i - 1] - 1);
+  for (let i = 1; i < values.length; i++) {
+    dailyReturns.push(values[i] / values[i - 1] - 1);
   }
 
-  const totalReturn = portfolioValue[portfolioValue.length - 1] / portfolioValue[0] - 1;
+  const numDays = dates.length;
+  const totalReturn = values[values.length - 1] / values[0] - 1;
   const years = numDays / 252;
-  const annReturn = Math.pow(1 + totalReturn, 1 / years) - 1;
-  const mean = dailyReturns.reduce((a, b) => a + b, 0) / dailyReturns.length;
-  const variance = dailyReturns.reduce((sum, r) => sum + (r - mean) ** 2, 0) / (dailyReturns.length - 1);
+  const annReturn = years > 0 ? Math.pow(1 + totalReturn, 1 / years) - 1 : totalReturn;
+  const mean = dailyReturns.length > 0 ? dailyReturns.reduce((a, b) => a + b, 0) / dailyReturns.length : 0;
+  const variance = dailyReturns.length > 1 ? dailyReturns.reduce((sum, r) => sum + (r - mean) ** 2, 0) / (dailyReturns.length - 1) : 0;
   const dailyVol = Math.sqrt(variance);
   const annVol = dailyVol * Math.sqrt(252);
-  const sharpe = (annReturn - RISK_FREE_RATE) / annVol;
+  const sharpe = annVol > 0 ? (annReturn - RISK_FREE_RATE) / annVol : 0;
 
   // Max drawdown
   let peak = -Infinity;
   let maxDD = 0;
   let maxDDStart = '', maxDDEnd = '';
-  let currentPeakDate = commonDates[0];
-  for (let i = 0; i < portfolioValue.length; i++) {
-    if (portfolioValue[i] > peak) {
-      peak = portfolioValue[i];
-      currentPeakDate = commonDates[i];
+  let currentPeakDate = dates[0];
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] > peak) {
+      peak = values[i];
+      currentPeakDate = dates[i];
     }
-    const dd = portfolioValue[i] / peak - 1;
+    const dd = values[i] / peak - 1;
     if (dd < maxDD) {
       maxDD = dd;
       maxDDStart = currentPeakDate;
-      maxDDEnd = commonDates[i];
+      maxDDEnd = dates[i];
     }
   }
 
@@ -567,30 +662,38 @@ function compute() {
 
   // Win rate
   const winDays = dailyReturns.filter(r => r > 0).length;
-  const winRate = winDays / dailyReturns.length;
+  const winRate = dailyReturns.length > 0 ? winDays / dailyReturns.length : 0;
 
   // Best / worst day
-  const bestDay = Math.max(...dailyReturns);
-  const worstDay = Math.min(...dailyReturns);
+  const bestDay = dailyReturns.length > 0 ? Math.max(...dailyReturns) : 0;
+  const worstDay = dailyReturns.length > 0 ? Math.min(...dailyReturns) : 0;
 
   // Skewness
-  const skewness = dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 3, 0) / dailyReturns.length;
+  const skewness = dailyReturns.length > 0 && dailyVol > 0
+    ? dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 3, 0) / dailyReturns.length
+    : 0;
 
   // Kurtosis (excess)
-  const kurtosis = dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 4, 0) / dailyReturns.length - 3;
+  const kurtosis = dailyReturns.length > 0 && dailyVol > 0
+    ? dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 4, 0) / dailyReturns.length - 3
+    : 0;
 
-  // 5. Render
-  renderChart(commonDates, portfolioValue);
+  renderChart(dates, values);
   renderMetrics({
     totalReturn, annReturn, annVol, sharpe, sortino, calmar,
     maxDD, maxDDStart, maxDDEnd,
     winRate, bestDay, worstDay,
     skewness, kurtosis,
-    startDate: commonDates[0],
-    endDate: commonDates[commonDates.length - 1],
+    startDate: dates[0],
+    endDate: dates[dates.length - 1],
     tradingDays: numDays,
   });
-  renderHoldings(symbols, priceMap, commonDates);
+  renderHoldings(symbols, fullPriceMap, fullCommonDates, startIdx);
+
+  // Update active button
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.range === selectedRange);
+  });
 }
 
 // ===================== RENDER CHART =====================
@@ -610,6 +713,16 @@ function renderChart(dates, values) {
     chartDates = dates.filter((_, i) => i % step === 0 || i === dates.length - 1);
     chartValues = values.filter((_, i) => i % step === 0 || i === values.length - 1);
   }
+
+  // Auto-pick time unit based on date range
+  const numDays = dates.length;
+  let timeUnit = 'year';
+  if (numDays <= 90) timeUnit = 'week';
+  else if (numDays <= 365) timeUnit = 'month';
+  else if (numDays <= 1500) timeUnit = 'quarter';
+
+  // Use linear scale for shorter ranges, log for longer
+  const useLog = numDays > 365;
 
   chart = new Chart(ctx, {
     type: 'line',
@@ -649,18 +762,18 @@ function renderChart(dates, values) {
       scales: {
         x: {
           type: 'time',
-          time: { unit: 'year', tooltipFormat: 'MMM d, yyyy' },
+          time: { unit: timeUnit, tooltipFormat: 'MMM d, yyyy' },
           grid: { color: 'rgba(0,0,0,0.04)' },
           ticks: { color: '#94a3b8', maxTicksLimit: 12 }
         },
         y: {
-          type: 'logarithmic',
+          type: useLog ? 'logarithmic' : 'linear',
           grid: { color: 'rgba(0,0,0,0.04)' },
           ticks: {
             color: '#94a3b8',
             callback: (v) => '$' + v.toFixed(v < 10 ? 2 : 0),
           },
-          title: { display: true, text: 'Portfolio Value (log scale)', color: '#94a3b8' }
+          title: { display: true, text: useLog ? 'Portfolio Value (log scale)' : 'Portfolio Value', color: '#94a3b8' }
         }
       }
     }
@@ -700,26 +813,27 @@ function renderMetrics(m) {
 }
 
 // ===================== RENDER HOLDINGS =====================
-function renderHoldings(symbols, priceMap, commonDates) {
+function renderHoldings(symbols, priceMap, commonDates, startIdx) {
   const body = document.getElementById('holdingsBody');
   const rows = [];
-  const numDays = commonDates.length;
+  const slicedDates = commonDates.slice(startIdx);
+  const numDays = slicedDates.length;
 
   for (const sym of symbols) {
-    const prices = priceMap[sym];
+    const prices = priceMap[sym].slice(startIdx);
     const first = prices[0];
     const last = prices[prices.length - 1];
     const totalRet = last / first - 1;
     const years = numDays / 252;
-    const annRet = Math.pow(1 + totalRet, 1 / years) - 1;
+    const annRet = years > 0 ? Math.pow(1 + totalRet, 1 / years) - 1 : totalRet;
 
     // Daily returns
     const dr = [];
     for (let i = 1; i < prices.length; i++) {
       if (prices[i - 1] && prices[i]) dr.push(prices[i] / prices[i - 1] - 1);
     }
-    const mean = dr.reduce((a, b) => a + b, 0) / dr.length;
-    const variance = dr.reduce((s, r) => s + (r - mean) ** 2, 0) / (dr.length - 1);
+    const mean = dr.length > 0 ? dr.reduce((a, b) => a + b, 0) / dr.length : 0;
+    const variance = dr.length > 1 ? dr.reduce((s, r) => s + (r - mean) ** 2, 0) / (dr.length - 1) : 0;
     const annVol = Math.sqrt(variance) * Math.sqrt(252);
     const sharpe = annVol > 0 ? (annRet - RISK_FREE_RATE) / annVol : 0;
 
@@ -730,7 +844,7 @@ function renderHoldings(symbols, priceMap, commonDates) {
       if (dd < maxDD) maxDD = dd;
     }
 
-    rows.push({ sym, firstDate: commonDates[0], last, totalRet, annRet, annVol, sharpe, maxDD });
+    rows.push({ sym, firstDate: slicedDates[0], last, totalRet, annRet, annVol, sharpe, maxDD });
   }
 
   body.innerHTML = rows.map(r => `
@@ -750,6 +864,13 @@ function renderHoldings(symbols, priceMap, commonDates) {
 // ===================== EVENTS =====================
 document.getElementById('rebalanceToggle').addEventListener('change', () => {
   if (rawData) compute();
+});
+
+document.getElementById('rangeBar').addEventListener('click', (e) => {
+  const btn = e.target.closest('.range-btn');
+  if (!btn) return;
+  selectedRange = btn.dataset.range;
+  if (fullCommonDates.length > 0) renderForRange();
 });
 
 // ===================== INIT =====================
