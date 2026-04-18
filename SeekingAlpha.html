@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SeekingAlpha Top10 Quant Buy 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js" crossorigin="anonymous"></script>
+<style>
+/* ========== RESET & VARIABLES ========== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #f8fafc;
+  --bg2: #ffffff;
+  --bg3: #f1f5f9;
+  --border: rgba(0,0,0,0.08);
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --accent-blue: #2563eb;
+  --accent-green: #059669;
+  --accent-red: #dc2626;
+  --accent-orange: #d97706;
+  --accent-purple: #7c3aed;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* ========== HEADER ========== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-blue);
+}
+
+.logo span { font-size: 24px; }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.update-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ========== MAIN CONTENT ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+/* ========== CONTROLS ========== */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 24px;
+  transition: background 0.3s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--accent-blue);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+.symbols-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.symbol-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+/* ========== CARD ========== */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* ========== CHART ========== */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 420px;
+}
+
+/* ========== METRICS GRID ========== */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.metric-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.positive { color: var(--accent-green); }
+.negative { color: var(--accent-red); }
+.neutral  { color: var(--text-primary); }
+
+/* ========== HOLDINGS TABLE ========== */
+.holdings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.holdings-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+}
+
+.holdings-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+}
+
+.holdings-table tr:last-child td {
+  border-bottom: none;
+}
+
+.holdings-table tr:hover {
+  background: var(--bg3);
+}
+
+/* ========== LOADING ========== */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg3);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.error-msg {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  padding: 16px 20px;
+  color: var(--accent-red);
+  font-size: 14px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 640px) {
+  .header-content { flex-direction: column; text-align: center; }
+  .chart-container { height: 300px; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <span>📈</span> SeekingAlpha Top10 Quant Buy 2026
+    </div>
+    <div class="header-right">
+      <div class="update-time">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="updateTime">Loading...</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="toggle-group">
+      <span class="toggle-label">Monthly Rebalancing</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="rebalanceToggle" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="symbols-bar" id="symbolsBar"></div>
+  </div>
+
+  <!-- Equity Curve -->
+  <div class="card">
+    <div class="card-header">📊 Portfolio Equity Curve (Equal-Weight)</div>
+    <div class="card-body">
+      <div id="chartLoading" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Fetching stock data...</div>
+      </div>
+      <div class="chart-container" id="chartWrapper" style="display:none;">
+        <canvas id="equityChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk & Return Metrics -->
+  <div class="card">
+    <div class="card-header">📐 Risk & Return Metrics</div>
+    <div class="card-body">
+      <div class="metrics-grid" id="metricsGrid"></div>
+    </div>
+  </div>
+
+  <!-- Holdings -->
+  <div class="card">
+    <div class="card-header">🏷️ Individual Holdings Performance</div>
+    <div class="card-body" style="overflow-x:auto;">
+      <table class="holdings-table" id="holdingsTable">
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>First Date</th>
+            <th>Latest Price</th>
+            <th>Total Return</th>
+            <th>Ann. Return</th>
+            <th>Ann. Vol</th>
+            <th>Sharpe</th>
+            <th>Max DD</th>
+          </tr>
+        </thead>
+        <tbody id="holdingsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Error placeholder -->
+  <div id="errorBox" style="display:none;"></div>
+</main>
+
+<script>
+// ===================== CONFIG =====================
+const DATA_URL = 'data/stocks.json';
+const RISK_FREE_RATE = 0.045; // ~4.5% for 2024-2026
+
+let chart = null;
+let rawData = null;
+
+// ===================== LOAD DATA =====================
+async function loadData() {
+  try {
+    const resp = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    rawData = await resp.json();
+    document.getElementById('updateTime').textContent = 'Updated: ' + new Date(rawData.updated).toLocaleString();
+    document.getElementById('statusDot').style.background = 'var(--accent-green)';
+    renderSymbols();
+    compute();
+  } catch (err) {
+    document.getElementById('chartLoading').innerHTML =
+      `<div class="error-msg">⚠️ Failed to load stock data: ${err.message}<br>The data file may not exist yet. Please trigger the "Update Stock Data" GitHub Action first.</div>`;
+    document.getElementById('statusDot').style.background = 'var(--accent-red)';
+    document.getElementById('statusDot').style.animation = 'none';
+    console.error(err);
+  }
+}
+
+function renderSymbols() {
+  const bar = document.getElementById('symbolsBar');
+  bar.innerHTML = rawData.symbols.map(s => `<span class="symbol-tag">${s}</span>`).join('');
+}
+
+// ===================== COMPUTE PORTFOLIO =====================
+function compute() {
+  const rebalance = document.getElementById('rebalanceToggle').checked;
+  const stocks = rawData.stocks;
+  const symbols = rawData.symbols;
+
+  // 1. Find common date range where ALL stocks have data
+  const dateSets = symbols.map(s => new Set(stocks[s].dates));
+  const allDatesSet = dateSets.reduce((acc, ds) => {
+    const inter = new Set();
+    for (const d of acc) { if (ds.has(d)) inter.add(d); }
+    return inter;
+  });
+
+  const commonDates = [...allDatesSet].sort();
+  if (commonDates.length < 2) {
+    document.getElementById('chartLoading').innerHTML = '<div class="error-msg">Not enough common dates across all stocks.</div>';
+    return;
+  }
+
+  // 2. Build price matrix: { symbol: [close values aligned to commonDates] }
+  const priceMap = {};
+  for (const sym of symbols) {
+    const lookup = {};
+    const s = stocks[sym];
+    for (let i = 0; i < s.dates.length; i++) {
+      lookup[s.dates[i]] = s.close[i];
+    }
+    priceMap[sym] = commonDates.map(d => lookup[d]);
+  }
+
+  // 3. Compute portfolio equity curve
+  const n = symbols.length;
+  const numDays = commonDates.length;
+  let weights = symbols.map(() => 1 / n); // equal weight
+  let portfolioValue = [1.0]; // start at $1
+
+  for (let i = 1; i < numDays; i++) {
+    // Daily returns for each stock
+    const returns = symbols.map((sym, j) => {
+      const prev = priceMap[sym][i - 1];
+      const curr = priceMap[sym][i];
+      return (prev && curr && prev > 0) ? (curr / prev - 1) : 0;
+    });
+
+    // Portfolio return = weighted average
+    let portReturn = 0;
+    for (let j = 0; j < n; j++) {
+      portReturn += weights[j] * returns[j];
+    }
+
+    const newValue = portfolioValue[portfolioValue.length - 1] * (1 + portReturn);
+    portfolioValue.push(newValue);
+
+    if (rebalance) {
+      // Check if new month
+      const prevDate = commonDates[i - 1];
+      const currDate = commonDates[i];
+      if (prevDate.slice(0, 7) !== currDate.slice(0, 7)) {
+        // Rebalance to equal weight
+        weights = symbols.map(() => 1 / n);
+      } else {
+        // Update weights based on drift
+        const totalWeight = weights.reduce((sum, w, j) => sum + w * (1 + returns[j]), 0);
+        weights = weights.map((w, j) => (w * (1 + returns[j])) / totalWeight);
+      }
+    } else {
+      // Buy and hold: weights drift with returns
+      const totalWeight = weights.reduce((sum, w, j) => sum + w * (1 + returns[j]), 0);
+      weights = weights.map((w, j) => (w * (1 + returns[j])) / totalWeight);
+    }
+  }
+
+  // 4. Compute metrics
+  const dailyReturns = [];
+  for (let i = 1; i < portfolioValue.length; i++) {
+    dailyReturns.push(portfolioValue[i] / portfolioValue[i - 1] - 1);
+  }
+
+  const totalReturn = portfolioValue[portfolioValue.length - 1] / portfolioValue[0] - 1;
+  const years = numDays / 252;
+  const annReturn = Math.pow(1 + totalReturn, 1 / years) - 1;
+  const mean = dailyReturns.reduce((a, b) => a + b, 0) / dailyReturns.length;
+  const variance = dailyReturns.reduce((sum, r) => sum + (r - mean) ** 2, 0) / (dailyReturns.length - 1);
+  const dailyVol = Math.sqrt(variance);
+  const annVol = dailyVol * Math.sqrt(252);
+  const sharpe = (annReturn - RISK_FREE_RATE) / annVol;
+
+  // Max drawdown
+  let peak = -Infinity;
+  let maxDD = 0;
+  let maxDDStart = '', maxDDEnd = '';
+  let currentPeakDate = commonDates[0];
+  for (let i = 0; i < portfolioValue.length; i++) {
+    if (portfolioValue[i] > peak) {
+      peak = portfolioValue[i];
+      currentPeakDate = commonDates[i];
+    }
+    const dd = portfolioValue[i] / peak - 1;
+    if (dd < maxDD) {
+      maxDD = dd;
+      maxDDStart = currentPeakDate;
+      maxDDEnd = commonDates[i];
+    }
+  }
+
+  // Sortino ratio
+  const downReturns = dailyReturns.filter(r => r < 0);
+  const downVariance = downReturns.length > 0
+    ? downReturns.reduce((sum, r) => sum + r ** 2, 0) / downReturns.length
+    : 0;
+  const downDev = Math.sqrt(downVariance) * Math.sqrt(252);
+  const sortino = downDev > 0 ? (annReturn - RISK_FREE_RATE) / downDev : 0;
+
+  // Calmar ratio
+  const calmar = maxDD !== 0 ? annReturn / Math.abs(maxDD) : 0;
+
+  // Win rate
+  const winDays = dailyReturns.filter(r => r > 0).length;
+  const winRate = winDays / dailyReturns.length;
+
+  // Best / worst day
+  const bestDay = Math.max(...dailyReturns);
+  const worstDay = Math.min(...dailyReturns);
+
+  // Skewness
+  const skewness = dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 3, 0) / dailyReturns.length;
+
+  // Kurtosis (excess)
+  const kurtosis = dailyReturns.reduce((sum, r) => sum + ((r - mean) / dailyVol) ** 4, 0) / dailyReturns.length - 3;
+
+  // 5. Render
+  renderChart(commonDates, portfolioValue);
+  renderMetrics({
+    totalReturn, annReturn, annVol, sharpe, sortino, calmar,
+    maxDD, maxDDStart, maxDDEnd,
+    winRate, bestDay, worstDay,
+    skewness, kurtosis,
+    startDate: commonDates[0],
+    endDate: commonDates[commonDates.length - 1],
+    tradingDays: numDays,
+  });
+  renderHoldings(symbols, priceMap, commonDates);
+}
+
+// ===================== RENDER CHART =====================
+function renderChart(dates, values) {
+  document.getElementById('chartLoading').style.display = 'none';
+  document.getElementById('chartWrapper').style.display = 'block';
+
+  const ctx = document.getElementById('equityChart').getContext('2d');
+
+  if (chart) chart.destroy();
+
+  // Subsample if > 2000 points for performance
+  let chartDates = dates;
+  let chartValues = values;
+  if (dates.length > 2000) {
+    const step = Math.ceil(dates.length / 2000);
+    chartDates = dates.filter((_, i) => i % step === 0 || i === dates.length - 1);
+    chartValues = values.filter((_, i) => i % step === 0 || i === values.length - 1);
+  }
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartDates,
+      datasets: [{
+        label: 'Portfolio Value ($1 invested)',
+        data: chartValues,
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37, 99, 235, 0.08)',
+        fill: true,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        tension: 0.1,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(255,255,255,0.96)',
+          titleColor: '#1e293b',
+          bodyColor: '#475569',
+          borderColor: 'rgba(0,0,0,0.1)',
+          borderWidth: 1,
+          padding: 12,
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (item) => `$${item.parsed.y.toFixed(4)}`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'time',
+          time: { unit: 'year', tooltipFormat: 'MMM d, yyyy' },
+          grid: { color: 'rgba(0,0,0,0.04)' },
+          ticks: { color: '#94a3b8', maxTicksLimit: 12 }
+        },
+        y: {
+          type: 'logarithmic',
+          grid: { color: 'rgba(0,0,0,0.04)' },
+          ticks: {
+            color: '#94a3b8',
+            callback: (v) => '$' + v.toFixed(v < 10 ? 2 : 0),
+          },
+          title: { display: true, text: 'Portfolio Value (log scale)', color: '#94a3b8' }
+        }
+      }
+    }
+  });
+}
+
+// ===================== RENDER METRICS =====================
+function renderMetrics(m) {
+  const fmt = (v, dec = 2) => (v * 100).toFixed(dec) + '%';
+  const cls = (v) => v >= 0 ? 'positive' : 'negative';
+
+  const metrics = [
+    { label: 'Total Return', value: fmt(m.totalReturn), cls: cls(m.totalReturn) },
+    { label: 'Ann. Return (CAGR)', value: fmt(m.annReturn), cls: cls(m.annReturn) },
+    { label: 'Ann. Volatility', value: fmt(m.annVol), cls: 'neutral' },
+    { label: 'Sharpe Ratio', value: m.sharpe.toFixed(3), cls: m.sharpe >= 0 ? 'positive' : 'negative' },
+    { label: 'Sortino Ratio', value: m.sortino.toFixed(3), cls: m.sortino >= 0 ? 'positive' : 'negative' },
+    { label: 'Calmar Ratio', value: m.calmar.toFixed(3), cls: 'neutral' },
+    { label: 'Max Drawdown', value: fmt(m.maxDD), cls: 'negative', sub: `${m.maxDDStart} → ${m.maxDDEnd}` },
+    { label: 'Win Rate (daily)', value: fmt(m.winRate), cls: 'neutral' },
+    { label: 'Best Day', value: fmt(m.bestDay), cls: 'positive' },
+    { label: 'Worst Day', value: fmt(m.worstDay), cls: 'negative' },
+    { label: 'Skewness', value: m.skewness.toFixed(3), cls: 'neutral' },
+    { label: 'Excess Kurtosis', value: m.kurtosis.toFixed(3), cls: 'neutral' },
+    { label: 'Period', value: `${m.startDate} → ${m.endDate}`, cls: 'neutral', small: true },
+    { label: 'Trading Days', value: m.tradingDays.toLocaleString(), cls: 'neutral' },
+  ];
+
+  const grid = document.getElementById('metricsGrid');
+  grid.innerHTML = metrics.map(m => `
+    <div class="metric-card">
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-value ${m.cls}" ${m.small ? 'style="font-size:14px"' : ''}>${m.value}</div>
+      ${m.sub ? `<div class="metric-sub">${m.sub}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// ===================== RENDER HOLDINGS =====================
+function renderHoldings(symbols, priceMap, commonDates) {
+  const body = document.getElementById('holdingsBody');
+  const rows = [];
+  const numDays = commonDates.length;
+
+  for (const sym of symbols) {
+    const prices = priceMap[sym];
+    const first = prices[0];
+    const last = prices[prices.length - 1];
+    const totalRet = last / first - 1;
+    const years = numDays / 252;
+    const annRet = Math.pow(1 + totalRet, 1 / years) - 1;
+
+    // Daily returns
+    const dr = [];
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i - 1] && prices[i]) dr.push(prices[i] / prices[i - 1] - 1);
+    }
+    const mean = dr.reduce((a, b) => a + b, 0) / dr.length;
+    const variance = dr.reduce((s, r) => s + (r - mean) ** 2, 0) / (dr.length - 1);
+    const annVol = Math.sqrt(variance) * Math.sqrt(252);
+    const sharpe = annVol > 0 ? (annRet - RISK_FREE_RATE) / annVol : 0;
+
+    let peak = -Infinity, maxDD = 0;
+    for (let i = 0; i < prices.length; i++) {
+      if (prices[i] > peak) peak = prices[i];
+      const dd = prices[i] / peak - 1;
+      if (dd < maxDD) maxDD = dd;
+    }
+
+    rows.push({ sym, firstDate: commonDates[0], last, totalRet, annRet, annVol, sharpe, maxDD });
+  }
+
+  body.innerHTML = rows.map(r => `
+    <tr>
+      <td><strong>${r.sym}</strong></td>
+      <td>${r.firstDate}</td>
+      <td>$${r.last.toFixed(2)}</td>
+      <td class="${r.totalRet >= 0 ? 'positive' : 'negative'}">${(r.totalRet * 100).toFixed(2)}%</td>
+      <td class="${r.annRet >= 0 ? 'positive' : 'negative'}">${(r.annRet * 100).toFixed(2)}%</td>
+      <td>${(r.annVol * 100).toFixed(2)}%</td>
+      <td class="${r.sharpe >= 0 ? 'positive' : 'negative'}">${r.sharpe.toFixed(3)}</td>
+      <td class="negative">${(r.maxDD * 100).toFixed(2)}%</td>
+    </tr>
+  `).join('');
+}
+
+// ===================== EVENTS =====================
+document.getElementById('rebalanceToggle').addEventListener('change', () => {
+  if (rawData) compute();
+});
+
+// ===================== INIT =====================
+loadData();
+</script>
+</body>
+</html>
