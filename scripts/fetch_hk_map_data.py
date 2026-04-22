@@ -56,7 +56,14 @@ def add_bearings(stops):
                 stops[i + 1]["lat"], stops[i + 1]["lng"],
             )
         else:
-            stop["bearing_to_next"] = stops[i - 1]["bearing_to_next"] if i > 0 else 0
+            # Last stop: use the approach bearing (second-to-last -> last)
+            if len(stops) >= 2:
+                stop["bearing_to_next"] = calc_bearing(
+                    stops[i - 1]["lat"], stops[i - 1]["lng"],
+                    stop["lat"], stop["lng"],
+                )
+            else:
+                stop["bearing_to_next"] = 0
 
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -1784,7 +1784,7 @@ function renderBusStopsInView() {
     const color   = COMPANY_COLORS[company] || '#ff8f00';
 
     const icon = divIcon(
-      `<div style="background:${color};border:2px solid #333;border-radius:4px;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;box-shadow:1px 1px 0 #333;color:white;font-weight:900;line-height:1;">⬛</div>`,
+      `<div role="img" aria-label="Bus stop" style="background:${color};border:2px solid #333;border-radius:4px;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;box-shadow:1px 1px 0 #333;color:white;font-weight:900;line-height:1;">■</div>`,
       '', [14, 14]
     );
 
@@ -1853,7 +1853,7 @@ function renderBusStopsInView() {
               if (!e.eta) return;
               const diff = Math.round((new Date(e.eta) - Date.now()) / 60000);
               const t    = diff < 0 ? 'Due' : diff === 0 ? 'Arr' : `${diff}m`;
-              etaHtml += `<div class="eta-item"><span class="route-no" style="background:#1e7a3e;">${e.route}</span> → ${e.dest_en || ''} <strong>${t}</strong></div>`;
+              etaHtml += `<div class="eta-item"><span class="route-no" style="background:${COMPANY_COLORS['CTB']};">${e.route}</span> → ${e.dest_en || ''} <strong>${t}</strong></div>`;
             });
             etaHtml += '</div>';
             popupContent.innerHTML = `
@@ -2000,12 +2000,11 @@ function searchBusRoute() {
   }
 
   // Match routes where route number starts with or equals the query
-  const matches = Object.values(busRoutesCache.routes).filter(r =>
-    r.route && (
-      r.route.toUpperCase() === input ||
-      r.route.toUpperCase().startsWith(input)
-    )
-  );
+  const matches = Object.values(busRoutesCache.routes).filter(r => {
+    if (!r.route) return false;
+    const rn = r.route.toUpperCase();
+    return rn === input || rn.startsWith(input);
+  });
 
   if (matches.length === 0) {
     setSearchResult(`❌ Route "${input}" not found`);
