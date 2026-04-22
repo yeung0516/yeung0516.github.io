@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗺️ HK Live Map 香港即時地圖</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- MarkerCluster CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  /* ===== GLOBAL RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+    background: #1a1a2e;
+  }
+
+  /* ===== MAP CONTAINER ===== */
+  #map {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Cartoon-style tile filter */
+  .leaflet-tile-pane {
+    filter: saturate(1.4) contrast(1.05);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 50, 50, 0.7), 4px 4px 0 #333; }
+    50% { box-shadow: 0 0 0 10px rgba(255, 50, 50, 0), 4px 4px 0 #333; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes slideIn {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-8px); }
+    60% { transform: translateY(-4px); }
+  }
+  @keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes warnFlash {
+    0%, 100% { background: #ff1744; }
+    50% { background: #f50057; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== LOADING OVERLAY ===== */
+  #loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.92);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+  }
+  #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+  .loading-globe {
+    font-size: 72px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .loading-text {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .loading-sub {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  .loading-bar-wrap {
+    width: 280px;
+    height: 12px;
+    background: #333;
+    border-radius: 8px;
+    margin-top: 18px;
+    border: 2px solid #555;
+    overflow: hidden;
+  }
+  .loading-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #f9c74f, #f3722c);
+    border-radius: 8px;
+    transition: width 0.4s ease;
+  }
+
+  /* ===== TITLE CARD ===== */
+  #title-card {
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    z-index: 800;
+    background: #fff9c4;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 12px;
+    padding: 8px 14px;
+    animation: bounce 1s ease 0.5s both;
+    cursor: default;
+    max-width: 220px;
+  }
+  #title-card h1 {
+    font-size: 14px;
+    font-weight: 900;
+    color: #1a1a2e;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  #title-card .subtitle {
+    font-size: 10px;
+    color: #555;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* ===== WEATHER WARNING BANNER ===== */
+  #warning-banner {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 900;
+    background: #ff1744;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 6px 20px;
+    border-radius: 0 0 12px 12px;
+    border: 3px solid #333;
+    border-top: none;
+    box-shadow: 4px 4px 0 #333;
+    display: none;
+    animation: warnFlash 1.2s ease infinite;
+    text-align: center;
+    max-width: 600px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #warning-banner.visible { display: block; }
+
+  /* ===== LAYER CONTROL PANEL ===== */
+  #layer-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 800;
+    background: #fff;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 14px;
+    padding: 10px 8px;
+    animation: slideIn 0.6s ease both;
+    min-width: 170px;
+  }
+  #layer-panel h3 {
+    font-size: 12px;
+    font-weight: 900;
+    color: #333;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .layer-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 7px 10px;
+    margin-bottom: 5px;
+    border: 2.5px solid #333;
+    border-radius: 9px;
+    background: #f5f5f5;
+    color: #333;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+    box-shadow: 2px 2px 0 #333;
+    user-select: none;
+  }
+  .layer-btn:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 #333; }
+  .layer-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #333; }
+  .layer-btn.active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 #333;
+    font-weight: 900;
+  }
+
+  /* Layer button colors when active */
+  .layer-btn[data-layer="weather"].active   { background: #bbdefb; border-color: #1565c0; color: #0d47a1; }
+  .layer-btn[data-layer="traffic"].active   { background: #ffcdd2; border-color: #c62828; color: #b71c1c; }
+  .layer-btn[data-layer="bus"].active       { background: #fff9c4; border-color: #f57f17; color: #e65100; }
+  .layer-btn[data-layer="mtr"].active       { background: #f8bbd0; border-color: #880e4f; color: #6a0f49; }
+  .layer-btn[data-layer="carpark"].active   { background: #c8e6c9; border-color: #1b5e20; color: #1b5e20; }
+  .layer-btn[data-layer="housing"].active   { background: #e1bee7; border-color: #6a1b9a; color: #4a148c; }
+  .layer-btn[data-layer="events"].active    { background: #ffe0b2; border-color: #bf360c; color: #bf360c; }
+  .layer-btn[data-layer="health"].active    { background: #fce4ec; border-color: #880e4f; color: #880e4f; }
+
+  .layer-btn .layer-emoji { font-size: 16px; flex-shrink: 0; }
+
+  /* ===== BOTTOM STATUS BAR ===== */
+  #status-bar {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 800;
+    background: rgba(255,255,255,0.95);
+    border: 2.5px solid #333;
+    box-shadow: 3px 3px 0 #333;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    white-space: nowrap;
+  }
+
+  /* ===== LEGEND ===== */
+  #legend {
+    position: absolute;
+    bottom: 60px;
+    right: 10px;
+    z-index: 800;
+    background: #fff;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    min-width: 150px;
+    animation: slideIn 0.7s ease 0.2s both;
+  }
+  #legend h4 {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+    border-bottom: 2px solid #333;
+    padding-bottom: 4px;
+  }
+  .legend-section { margin-bottom: 8px; }
+  .legend-section:last-child { margin-bottom: 0; }
+  .legend-section h5 {
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    color: #555;
+    text-transform: uppercase;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    flex-shrink: 0;
+  }
+
+  /* ===== LEAFLET POPUP CARTOON STYLE ===== */
+  .leaflet-popup-content-wrapper {
+    background: #fffde7 !important;
+    border: 3px solid #333 !important;
+    box-shadow: 4px 4px 0 #333 !important;
+    border-radius: 14px !important;
+    font-family: 'Nunito', sans-serif !important;
+  }
+  .leaflet-popup-tip { background: #fffde7 !important; }
+  .leaflet-popup-content {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    color: #1a1a2e;
+    margin: 10px 14px !important;
+    min-width: 180px;
+    max-width: 280px;
+  }
+  .popup-title {
+    font-size: 15px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+    border-bottom: 2px solid #333;
+    padding-bottom: 4px;
+  }
+  .popup-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+  .popup-label { font-weight: 700; color: #555; }
+  .popup-value { font-weight: 800; color: #1a1a2e; }
+  .popup-eta-list { margin-top: 6px; }
+  .eta-item {
+    background: #fff9c4;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .eta-item .route-no {
+    display: inline-block;
+    background: #f57f17;
+    color: white;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 10px;
+    font-weight: 900;
+    margin-right: 4px;
+  }
+  .popup-loading {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    font-size: 12px;
+    padding: 8px;
+  }
+  .forecast-item {
+    background: #f0f4ff;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ===== WEATHER STATION BADGE (SVG/CSS markers) ===== */
+  .weather-badge {
+    border: 3px solid #333;
+    border-radius: 50%;
+    box-shadow: 2px 2px 0 #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    animation: float 3s ease-in-out infinite;
+    cursor: pointer;
+  }
+
+  /* ===== MTR STATION MARKER ===== */
+  .mtr-station-marker {
+    border: 3px solid #fff;
+    border-radius: 50%;
+    box-shadow: 2px 2px 0 #333;
+    cursor: pointer;
+  }
+
+  /* ===== CARPARK MARKER ===== */
+  .carpark-marker-green { animation: none; }
+  .carpark-marker-red { animation: pulse 1.5s ease infinite; }
+
+  /* ===== FORECAST PANEL ===== */
+  #forecast-panel {
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    z-index: 800;
+    background: #fff;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    min-width: 200px;
+    max-width: 240px;
+    display: none;
+    animation: fadeIn 0.3s ease both;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  #forecast-panel.visible { display: block; }
+  #forecast-panel h4 {
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 4px;
+  }
+  .forecast-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px dashed #ccc;
+    font-size: 11px;
+  }
+  .forecast-row:last-child { border-bottom: none; }
+
+  /* ===== ZOOM CONTROL POSITION ===== */
+  .leaflet-top.leaflet-left .leaflet-control-zoom {
+    margin-top: 10px;
+    margin-left: 10px;
+    border: 3px solid #333 !important;
+    box-shadow: 3px 3px 0 #333 !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+  }
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    color: #333 !important;
+    background: #fff9c4 !important;
+  }
+  .leaflet-control-zoom-in:hover,
+  .leaflet-control-zoom-out:hover {
+    background: #f9c74f !important;
+  }
+
+  /* ===== CLUSTER STYLING ===== */
+  .marker-cluster-small,
+  .marker-cluster-medium,
+  .marker-cluster-large {
+    border: 3px solid #333 !important;
+    box-shadow: 2px 2px 0 #333 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 900 !important;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+  /* ===== TOOLTIP ===== */
+  .leaflet-tooltip {
+    font-family: 'Nunito', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    background: #fffde7 !important;
+    border: 2px solid #333 !important;
+    box-shadow: 2px 2px 0 #333 !important;
+    border-radius: 6px !important;
+    color: #1a1a2e !important;
+    padding: 3px 7px !important;
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay">
+  <div class="loading-globe">🌏</div>
+  <div class="loading-text">HK Live Map 香港即時地圖</div>
+  <div class="loading-sub" id="loading-status">Initializing map…</div>
+  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+</div>
+
+<!-- Map Container -->
+<div id="map"></div>
+
+<!-- Title Card -->
+<div id="title-card">
+  <h1>🗺️ HK Live Map</h1>
+  <div class="subtitle">香港即時地圖 · Live Data</div>
+</div>
+
+<!-- Weather Warning Banner -->
+<div id="warning-banner">⚠️ Loading weather warnings…</div>
+
+<!-- Layer Control Panel -->
+<div id="layer-panel">
+  <h3>🎛️ Layers</h3>
+  <button class="layer-btn active" data-layer="weather"   onclick="toggleLayer('weather')">
+    <span class="layer-emoji">🌤️</span> Weather
+  </button>
+  <button class="layer-btn" data-layer="traffic"  onclick="toggleLayer('traffic')">
+    <span class="layer-emoji">🚗</span> Traffic
+  </button>
+  <button class="layer-btn" data-layer="bus"      onclick="toggleLayer('bus')">
+    <span class="layer-emoji">🚌</span> KMB Bus
+  </button>
+  <button class="layer-btn" data-layer="mtr"      onclick="toggleLayer('mtr')">
+    <span class="layer-emoji">🚇</span> MTR
+  </button>
+  <button class="layer-btn" data-layer="carpark"  onclick="toggleLayer('carpark')">
+    <span class="layer-emoji">🅿️</span> Car Parks
+  </button>
+  <button class="layer-btn" data-layer="housing"  onclick="toggleLayer('housing')">
+    <span class="layer-emoji">🏠</span> Housing
+  </button>
+  <button class="layer-btn" data-layer="events"   onclick="toggleLayer('events')">
+    <span class="layer-emoji">🎭</span> Events
+  </button>
+  <button class="layer-btn" data-layer="health"   onclick="toggleLayer('health')">
+    <span class="layer-emoji">🏥</span> Health
+  </button>
+  <div style="border-top:2px solid #eee; margin-top:6px; padding-top:6px; text-align:center;">
+    <button class="layer-btn" style="background:#e8f5e9; margin-bottom:0;" onclick="showForecast()">
+      <span class="layer-emoji">📅</span> 9-Day Forecast
+    </button>
+  </div>
+</div>
+
+<!-- Status Bar -->
+<div id="status-bar">⏰ Initialising…</div>
+
+<!-- Legend -->
+<div id="legend">
+  <h4>🗺️ Legend</h4>
+  <div class="legend-section">
+    <h5>🌡️ Temperature</h5>
+    <div class="legend-item"><div class="legend-dot" style="background:#42a5f5;"></div> Cool ≤20°C</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ffca28;"></div> Warm 21–28°C</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef5350;"></div> Hot &gt;28°C</div>
+  </div>
+  <div class="legend-section">
+    <h5>🅿️ Car Park</h5>
+    <div class="legend-item"><div class="legend-dot" style="background:#43a047;"></div> &gt;30% Free</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fdd835;"></div> 5–30% Free</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e53935;"></div> &lt;5% Free</div>
+  </div>
+  <div class="legend-section">
+    <h5>🚇 MTR Lines</h5>
+    <div class="legend-item"><div class="legend-dot" style="background:#e30613;"></div> Tsuen Wan (TWL)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0860a8;"></div> Island (ISL)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1daa4d;"></div> Kwun Tong (KTL)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9b2335;"></div> Tuen Ma (TML)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#53b7e8;"></div> East Rail (EAL)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7b3f96;"></div> TKO (TKL)</div>
+  </div>
+</div>
+
+<!-- 9-Day Forecast Panel -->
+<div id="forecast-panel">
+  <h4>📅 9-Day Forecast</h4>
+  <div id="forecast-content"><div class="popup-loading">Loading forecast…</div></div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- MarkerCluster JS -->
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script>
+'use strict';
+
+// ============================================================
+// CONSTANTS & CONFIG
+// ============================================================
+
+const MAP_CENTER = [22.3500, 114.1500];
+const MAP_ZOOM   = 12;
+const REFRESH_MS = 60000; // 60 seconds auto-refresh
+const MAX_BUS_STOPS_PER_RENDER  = 500;
+const MAX_CARPARK_MARKERS_PER_VIEW = 300;
+
+// HKO API endpoints
+const API = {
+  weather:  'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en',
+  warnings: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=en',
+  forecast: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en',
+  kmbStops: 'https://data.etabus.gov.hk/v1/transport/kmb/stop',
+  kmbEta:   (stopId) => `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`,
+  mtrSched: (line, sta) => `https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${line}&sta=${sta}`,
+  carparkInfo: 'https://resource.data.one.gov.hk/td/carpark/basic_info_all.json',
+  carparkVac:  'https://resource.data.one.gov.hk/td/carpark/parking_vacancy_all.json',
+  traffic:     'https://resource.data.one.gov.hk/td/traffic-incidents/trafficIncidents.json',
+};
+
+// Weather station coordinates
+const WEATHER_STATIONS = {
+  'Hong Kong Observatory': { lat: 22.3020, lng: 114.1743 },
+  "King's Park":           { lat: 22.3120, lng: 114.1719 },
+  'Wong Chuk Hang':        { lat: 22.2481, lng: 114.1714 },
+  'Ta Kwu Ling':           { lat: 22.5296, lng: 114.1547 },
+  'Lau Fau Shan':          { lat: 22.4697, lng: 113.9853 },
+  'Tai Po':                { lat: 22.4500, lng: 114.1628 },
+  'Sha Tin':               { lat: 22.3833, lng: 114.1875 },
+  'Tuen Mun':              { lat: 22.3914, lng: 113.9775 },
+  'Tseung Kwan O':         { lat: 22.3069, lng: 114.2592 },
+  'Sai Kung':              { lat: 22.3806, lng: 114.2756 },
+  'Cheung Chau':           { lat: 22.2117, lng: 114.0303 },
+  'Chek Lap Kok':          { lat: 22.3089, lng: 113.9197 },
+  'Tsing Yi':              { lat: 22.3383, lng: 114.1036 },
+  'Shek Kong':             { lat: 22.4369, lng: 114.0839 },
+  'Wetland Park':          { lat: 22.4661, lng: 114.0050 },
+  'Waglan Island':         { lat: 22.1833, lng: 114.3000 },
+  'Stanley':               { lat: 22.2172, lng: 114.2128 },
+  'Kwun Tong':             { lat: 22.3153, lng: 114.2192 },
+};
+
+// MTR line definitions — [code, name, color, stations[]]
+// Each station: [code, name, lat, lng]
+const MTR_LINES = [
+  {
+    code: 'TWL', name: 'Tsuen Wan Line', color: '#e30613',
+    stations: [
+      ['TSW','Tsuen Wan',22.3719,114.1123],
+      ['TWH','Tai Wo Hau',22.3714,114.1258],
+      ['KWH','Kwai Hing',22.3633,114.1314],
+      ['KWF','Kwai Fong',22.3571,114.1258],
+      ['LCK','Lai King',22.3484,114.1278],
+      ['MEF','Mei Foo',22.3381,114.1394],
+      ['LAT','Lai Chi Kok',22.3364,114.1481],
+      ['CSW','Cheung Sha Wan',22.3353,114.1544],
+      ['SSP','Sham Shui Po',22.3306,114.1622],
+      ['PRE','Prince Edward',22.3246,114.1683],
+      ['MOK','Mong Kok',22.3192,114.1697],
+      ['YMT','Yau Ma Tei',22.3125,114.1708],
+      ['JOR','Jordan',22.3050,114.1717],
+      ['TST','Tsim Sha Tsui',22.2975,114.1722],
+      ['ADM','Admiralty',22.2792,114.1650],
+      ['CEN','Central',22.2822,114.1579],
+    ]
+  },
+  {
+    code: 'ISL', name: 'Island Line', color: '#0860a8',
+    stations: [
+      ['KET','Kennedy Town',22.2816,114.1286],
+      ['HKU','HKU',22.2836,114.1353],
+      ['SYP','Sai Ying Pun',22.2844,114.1428],
+      ['SHW','Sheung Wan',22.2864,114.1503],
+      ['CEN','Central',22.2822,114.1579],
+      ['ADM','Admiralty',22.2792,114.1650],
+      ['WAC','Wan Chai',22.2775,114.1731],
+      ['CAB','Causeway Bay',22.2803,114.1839],
+      ['TIH','Tin Hau',22.2819,114.1917],
+      ['FOH','Fortress Hill',22.2875,114.1933],
+      ['NOP','North Point',22.2906,114.1994],
+      ['QUB','Quarry Bay',22.2883,114.2083],
+      ['TAK','Tai Koo',22.2844,114.2164],
+      ['SWH','Sai Wan Ho',22.2825,114.2231],
+      ['SKW','Shau Kei Wan',22.2797,114.2308],
+      ['HFC','Heng Fa Chuen',22.2772,114.2403],
+      ['CHW','Chai Wan',22.2650,114.2378],
+    ]
+  },
+  {
+    code: 'KTL', name: 'Kwun Tong Line', color: '#1daa4d',
+    stations: [
+      ['WHA','Whampoa',22.3053,114.1892],
+      ['HOM','Ho Man Tin',22.3092,114.1808],
+      ['YMT','Yau Ma Tei',22.3125,114.1708],
+      ['MOK','Mong Kok',22.3192,114.1697],
+      ['PRE','Prince Edward',22.3246,114.1683],
+      ['SKM','Shek Kip Mei',22.3319,114.1750],
+      ['KOT','Kowloon Tong',22.3367,114.1783],
+      ['LOF','Lok Fu',22.3386,114.1875],
+      ['WTS','Wong Tai Sin',22.3414,114.1939],
+      ['DIH','Diamond Hill',22.3400,114.2011],
+      ['CHH','Choi Hung',22.3347,114.2094],
+      ['KOB','Kowloon Bay',22.3239,114.2139],
+      ['NTK','Ngau Tau Kok',22.3153,114.2192],
+      ['KWT','Kwun Tong',22.3122,114.2264],
+      ['LAT','Lam Tin',22.3067,114.2336],
+      ['TIK','Tiu Keng Leng',22.3042,114.2528],
+    ]
+  },
+  {
+    // Tuen Ma Line: Wu Kai Sha (east) → Tuen Mun (west), correct station codes & coordinates
+    code: 'TML', name: 'Tuen Ma Line', color: '#9b2335',
+    stations: [
+      ['WKS','Wu Kai Sha',22.4283,114.2808],
+      ['MOS','Ma On Shan',22.4264,114.2383],
+      ['HEO','Heng On',22.4194,114.2433],
+      ['SHM','Shek Mun',22.4036,114.2219],
+      ['CKT','City One',22.3969,114.2186],
+      ['STW','Sha Tin Wai',22.3836,114.2072],
+      ['TAW','Tai Wai',22.3753,114.1789],
+      ['HIK','Hin Keng',22.3619,114.1958],
+      ['DIH','Diamond Hill',22.3400,114.2011],
+      ['KAT','Kai Tak',22.3283,114.2094],
+      ['SUW','Sung Wong Toi',22.3261,114.1972],
+      ['TKW','To Kwa Wan',22.3186,114.1919],
+      ['HOM','Ho Man Tin',22.3092,114.1808],
+      ['HUH','Hung Hom',22.3075,114.1878],
+      ['ETS','East Tsim Sha Tsui',22.2981,114.1758],
+      ['AUS','Austin',22.3019,114.1600],
+      ['NAC','Nam Cheong',22.3300,114.1603],
+      ['MEF','Mei Foo',22.3381,114.1394],
+      ['TWW','Tsuen Wan West',22.3697,114.1086],
+      ['KSR','Kam Sheung Road',22.4183,113.9922],
+      ['YUL','Yuen Long',22.4381,114.0250],
+      ['LMC','Long Ping',22.4525,114.0361],
+      ['TIS','Tin Shui Wai',22.4583,114.0006],
+      ['SIH','Siu Hong',22.4094,113.9750],
+      ['TUM','Tuen Mun',22.3914,113.9761],
+    ]
+  },
+  {
+    // East Rail Line: Admiralty → Lo Wu / Lok Ma Chau
+    code: 'EAL', name: 'East Rail Line', color: '#53b7e8',
+    stations: [
+      ['ADM','Admiralty',22.2792,114.1650],
+      ['EXH','Exhibition Centre',22.2853,114.1736],
+      ['HUH','Hung Hom',22.3075,114.1878],
+      ['MKK','Mong Kok East',22.3211,114.1739],
+      ['KOT','Kowloon Tong',22.3367,114.1783],
+      ['TAW','Tai Wai',22.3753,114.1789],
+      ['SHT','Sha Tin',22.3819,114.1883],
+      ['FO','Fo Tan',22.3761,114.2328],
+      ['UNI','University',22.3975,114.2094],
+      ['TAP','Tai Po Market',22.4508,114.1664],
+      ['TWO','Tai Wo',22.4658,114.1386],
+      ['SHS','Sheung Shui',22.4386,114.1592],
+      ['LOW','Lo Wu',22.5267,114.1197],
+    ]
+  },
+  {
+    code: 'TKL', name: 'Tseung Kwan O Line', color: '#7b3f96',
+    stations: [
+      ['NOP','North Point',22.2906,114.1994],
+      ['QUB','Quarry Bay',22.2883,114.2083],
+      ['YAT','Yau Tong',22.3114,114.2258],
+      ['TIK','Tiu Keng Leng',22.3042,114.2528],
+      ['TKO','Tseung Kwan O',22.3053,114.2656],
+      ['HAK','LOHAS Park',22.2950,114.2706],
+      ['POA','Po Lam',22.2736,114.2519],
+    ]
+  },
+];
+
+// Major HK road/tunnel fallback markers (used if traffic API fails)
+const TRAFFIC_FALLBACK = [
+  { name: 'Cross Harbour Tunnel (Hung Hom)', lat: 22.3028, lng: 114.1906, type: 'Tunnel' },
+  { name: 'Eastern Harbour Crossing',        lat: 22.2983, lng: 114.2153, type: 'Tunnel' },
+  { name: 'Western Harbour Crossing',        lat: 22.2869, lng: 114.1444, type: 'Tunnel' },
+  { name: 'Lion Rock Tunnel',                lat: 22.3464, lng: 114.1811, type: 'Tunnel' },
+  { name: "Tate's Cairn Tunnel",             lat: 22.3567, lng: 114.2039, type: 'Tunnel' },
+  { name: 'Tsing Ma Bridge',                lat: 22.3547, lng: 114.0686, type: 'Bridge' },
+  { name: 'Aberdeen Tunnel',                lat: 22.2564, lng: 114.1622, type: 'Tunnel' },
+];
+
+// Public housing estates
+const PUBLIC_HOUSING = [
+  { name: 'Choi Hung Estate',         lat: 22.3353, lng: 114.2094, type: 'Public', units: 7536  },
+  { name: 'Wong Tai Sin Estate',      lat: 22.3420, lng: 114.1933, type: 'Public', units: 9876  },
+  { name: 'Tsz Wan Shan Estate',      lat: 22.3533, lng: 114.2033, type: 'Public', units: 12000 },
+  { name: 'Kwun Tong Estate',         lat: 22.3097, lng: 114.2283, type: 'Public', units: 8421  },
+  { name: 'Shui Chuen O Estate',      lat: 22.3819, lng: 114.2108, type: 'New',    units: 6800  },
+  { name: 'Tin Shui Wai',             lat: 22.4514, lng: 113.9950, type: 'NT',     units: 45000 },
+  { name: 'Tuen Mun Town Centre',     lat: 22.3914, lng: 113.9756, type: 'NT',     units: 30000 },
+  { name: 'Sha Tin Town Centre',      lat: 22.3817, lng: 114.1883, type: 'NT',     units: 25000 },
+  { name: 'Tseung Kwan O Estate',     lat: 22.3153, lng: 114.2550, type: 'NT',     units: 15000 },
+  { name: 'Lai King Estate',          lat: 22.3483, lng: 114.1275, type: 'Public', units: 11000 },
+  { name: 'Cheung Sha Wan Estate',    lat: 22.3311, lng: 114.1597, type: 'Public', units: 9200  },
+  { name: 'Pok Fu Lam Estate',        lat: 22.2725, lng: 114.1333, type: 'Public', units: 4500  },
+];
+
+// Land development projects
+const LAND_PROJECTS = [
+  { name: 'Kwun Tong Town Centre Redevelopment', lat: 22.3097, lng: 114.2236, status: 'Active'   },
+  { name: 'Hung Shui Kiu/Ha Tsuen NDA',          lat: 22.4575, lng: 114.0178, status: 'Active'   },
+  { name: 'Yuen Long South',                      lat: 22.4011, lng: 114.0172, status: 'Active'   },
+  { name: 'New Territories North',                lat: 22.5078, lng: 114.0619, status: 'Planning' },
+  { name: 'Lantau Tomorrow Vision',               lat: 22.2556, lng: 113.9028, status: 'Planning' },
+  { name: 'East Kowloon Development',             lat: 22.3181, lng: 114.2256, status: 'Active'   },
+];
+
+// Events & cultural venues
+const EVENTS_VENUES = [
+  { name: 'Hong Kong Coliseum',           lat: 22.2981, lng: 114.1783, emoji: '🏟️'  },
+  { name: 'Hong Kong Cultural Centre',    lat: 22.2939, lng: 114.1706, emoji: '🎭'  },
+  { name: 'HK Museum of History',         lat: 22.3058, lng: 114.1783, emoji: '🏛️'  },
+  { name: 'HK Science Museum',            lat: 22.3011, lng: 114.1778, emoji: '🔬'  },
+  { name: 'HK Space Museum',             lat: 22.2942, lng: 114.1700, emoji: '🌌'  },
+  { name: 'HK Disneyland',               lat: 22.3130, lng: 114.0440, emoji: '🎡'  },
+  { name: 'Ocean Park',                  lat: 22.2481, lng: 114.1747, emoji: '🎢'  },
+  { name: 'Hong Kong Park',              lat: 22.2789, lng: 114.1617, emoji: '🌿'  },
+  { name: 'Kowloon Park',                lat: 22.3008, lng: 114.1681, emoji: '🌳'  },
+  { name: 'West Kowloon Cultural District',lat: 22.3011, lng: 114.1600, emoji: '🎨' },
+  { name: 'HKCEC',                       lat: 22.2825, lng: 114.1736, emoji: '🏢'  },
+  { name: 'AsiaWorld-Expo',              lat: 22.3203, lng: 113.9453, emoji: '🏪'  },
+  { name: 'Kai Tak Cruise Terminal',     lat: 22.3103, lng: 114.2158, emoji: '🚢'  },
+  { name: 'Aberdeen Promenade',          lat: 22.2469, lng: 114.1600, emoji: '🎣'  },
+  { name: 'Sha Tin Racecourse',          lat: 22.3819, lng: 114.1883, emoji: '🏇'  },
+  { name: 'Happy Valley Racecourse',     lat: 22.2708, lng: 114.1836, emoji: '🏇'  },
+  { name: 'Ngong Ping 360',              lat: 22.2544, lng: 113.9061, emoji: '🚡'  },
+  { name: 'Victoria Peak Tram',          lat: 22.2758, lng: 114.1475, emoji: '⛰️'  },
+];
+
+// Hospitals
+const HOSPITALS = [
+  { name: 'Queen Mary Hospital',                     lat: 22.2706, lng: 114.1311 },
+  { name: 'Queen Elizabeth Hospital',                lat: 22.3131, lng: 114.1747 },
+  { name: 'Prince of Wales Hospital',                lat: 22.3781, lng: 114.2031 },
+  { name: 'Pamela Youde Nethersole Eastern',         lat: 22.2833, lng: 114.2289 },
+  { name: 'Princess Margaret Hospital',              lat: 22.3511, lng: 114.1250 },
+  { name: 'Tuen Mun Hospital',                       lat: 22.4056, lng: 113.9806 },
+  { name: 'Kwong Wah Hospital',                      lat: 22.3181, lng: 114.1786 },
+  { name: 'United Christian Hospital',               lat: 22.3197, lng: 114.2289 },
+  { name: 'Caritas Medical Centre',                  lat: 22.3408, lng: 114.1417 },
+  { name: 'Yan Chai Hospital',                       lat: 22.3739, lng: 114.1136 },
+  { name: 'North District Hospital',                 lat: 22.4961, lng: 114.1283 },
+  { name: 'Alice Ho Miu Ling Nethersole Hospital',   lat: 22.3867, lng: 114.1650 },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+
+const layerActive = {
+  weather: true,
+  traffic: false,
+  bus:     false,
+  mtr:     false,
+  carpark: false,
+  housing: false,
+  events:  false,
+  health:  false,
+};
+
+// Layer groups (initialised after map)
+let layers = {};
+
+// Cache for carpark basic info
+let carparkInfoCache = null;
+
+// All KMB stops cache
+let kmbStopsCache = null;
+
+// ============================================================
+// INITIALISE MAP
+// ============================================================
+
+const map = L.map('map', {
+  center: MAP_CENTER,
+  zoom: MAP_ZOOM,
+  zoomControl: true,
+});
+
+// CartoDB Voyager tiles
+L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> | HK Gov Open Data',
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }
+).addTo(map);
+
+// Create layer groups
+layers.weather = L.layerGroup().addTo(map);  // active by default
+layers.traffic = L.layerGroup();
+layers.bus      = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60 });
+layers.mtr      = L.layerGroup();
+layers.carpark  = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 50 });
+layers.housing  = L.layerGroup();
+layers.events   = L.layerGroup();
+layers.health   = L.layerGroup();
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+
+/** Set loading bar progress (0–100) */
+function setProgress(pct, msg) {
+  document.getElementById('loading-bar').style.width = pct + '%';
+  if (msg) document.getElementById('loading-status').textContent = msg;
+}
+
+/** Dismiss loading overlay */
+function hideLoading() {
+  const el = document.getElementById('loading-overlay');
+  el.classList.add('hidden');
+  setTimeout(() => el.style.display = 'none', 600);
+}
+
+/** Update status bar timestamp */
+function updateStatus() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-HK', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('status-bar').textContent = `⏰ Last updated: ${t}`;
+}
+
+/** Safe fetch with timeout */
+async function safeFetch(url, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const tid = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(tid);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (e) {
+    clearTimeout(tid);
+    throw e;
+  }
+}
+
+/** Get temp color */
+function tempColor(t) {
+  if (t <= 20) return '#42a5f5';
+  if (t <= 28) return '#ffca28';
+  return '#ef5350';
+}
+
+/** Get temp text color for contrast */
+function tempTextColor(t) {
+  if (t <= 20) return '#fff';
+  if (t <= 28) return '#333';
+  return '#fff';
+}
+
+/** Carpark vacancy color */
+function carparkColor(pct) {
+  if (pct > 30) return '#43a047';
+  if (pct > 5)  return '#fdd835';
+  return '#e53935';
+}
+
+/** Create a simple DivIcon */
+function divIcon(html, className, size) {
+  return L.divIcon({
+    html,
+    className: className || '',
+    iconSize: size || [40, 40],
+    iconAnchor: [(size || [40, 40])[0] / 2, (size || [40, 40])[1] / 2],
+    popupAnchor: [0, -((size || [40, 40])[1] / 2)],
+  });
+}
+
+// ============================================================
+// LAYER TOGGLE
+// ============================================================
+
+function toggleLayer(name) {
+  const btn = document.querySelector(`.layer-btn[data-layer="${name}"]`);
+  layerActive[name] = !layerActive[name];
+
+  if (layerActive[name]) {
+    btn.classList.add('active');
+    map.addLayer(layers[name]);
+    // Load data if layer is newly activated
+    loadLayer(name);
+  } else {
+    btn.classList.remove('active');
+    map.removeLayer(layers[name]);
+  }
+}
+
+/** Load / refresh a specific layer */
+async function loadLayer(name) {
+  switch (name) {
+    case 'weather':  await loadWeatherLayer();  break;
+    case 'traffic':  await loadTrafficLayer();  break;
+    case 'bus':      await loadBusLayer();       break;
+    case 'mtr':      await loadMtrLayer();       break;
+    case 'carpark':  await loadCarparkLayer();   break;
+    case 'housing':  loadHousingLayer();         break;
+    case 'events':   loadEventsLayer();          break;
+    case 'health':   loadHealthLayer();          break;
+  }
+}
+
+// ============================================================
+// WEATHER LAYER
+// ============================================================
+
+async function loadWeatherLayer() {
+  layers.weather.clearLayers();
+  try {
+    const [data, warnings] = await Promise.all([
+      safeFetch(API.weather),
+      safeFetch(API.warnings),
+    ]);
+
+    // Build temperature lookup from API
+    const tempMap = {};
+    const rainfallMap = {};
+
+    if (data.temperature && data.temperature.data) {
+      data.temperature.data.forEach(d => {
+        tempMap[d.place] = d.value;
+      });
+    }
+    if (data.rainfall && data.rainfall.data) {
+      data.rainfall.data.forEach(d => {
+        rainfallMap[d.place] = d.max;
+      });
+    }
+
+    // Place weather markers
+    Object.entries(WEATHER_STATIONS).forEach(([stationName, coords]) => {
+      // Find matching temp (fuzzy match)
+      let temp = null;
+      let matchKey = Object.keys(tempMap).find(k =>
+        k.toLowerCase().includes(stationName.split(' ')[0].toLowerCase()) ||
+        stationName.toLowerCase().includes(k.split(' ')[0].toLowerCase())
+      );
+      if (matchKey) temp = tempMap[matchKey];
+
+      // Rainfall
+      let rain = 0;
+      let rainKey = Object.keys(rainfallMap).find(k =>
+        k.toLowerCase().includes(stationName.split(' ')[0].toLowerCase()) ||
+        stationName.toLowerCase().includes(k.split(' ')[0].toLowerCase())
+      );
+      if (rainKey) rain = rainfallMap[rainKey] || 0;
+
+      const bg    = temp !== null ? tempColor(temp) : '#bbb';
+      const color = temp !== null ? tempTextColor(temp) : '#333';
+      const label = temp !== null ? `${temp}°` : '?°';
+
+      const icon = divIcon(
+        `<div class="weather-badge" style="background:${bg};color:${color};width:38px;height:38px;font-size:11px;box-shadow:2px 2px 0 #333;">
+          ${label}
+        </div>`,
+        '',
+        [38, 38]
+      );
+
+      const marker = L.marker([coords.lat, coords.lng], { icon })
+        .bindTooltip(stationName, { permanent: false, direction: 'top' });
+
+      // Popup with station details + rainfall
+      const rainInfo = rain > 0
+        ? `<div class="popup-row"><span class="popup-label">🌧️ Rainfall</span><span class="popup-value">${rain} mm</span></div>`
+        : '<div class="popup-row"><span class="popup-label">🌧️ Rainfall</span><span class="popup-value">None</span></div>';
+
+      marker.bindPopup(`
+        <div class="popup-title">🌤️ ${stationName}</div>
+        <div class="popup-row">
+          <span class="popup-label">🌡️ Temperature</span>
+          <span class="popup-value" style="color:${bg}">${temp !== null ? temp + '°C' : 'N/A'}</span>
+        </div>
+        ${rainInfo}
+        <div class="popup-row"><span class="popup-label">📍 Location</span><span class="popup-value">${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}</span></div>
+        <div style="font-size:10px;color:#888;margin-top:6px;font-style:italic;">Source: HK Observatory</div>
+      `);
+
+      // Add floating rain indicator if raining
+      if (rain > 0) {
+        const rainIcon = divIcon(
+          `<div style="font-size:16px;animation:float 2s ease-in-out infinite;">🌧️</div>`,
+          '',
+          [20, 20]
+        );
+        L.marker([coords.lat + 0.002, coords.lng], { icon: rainIcon })
+          .bindTooltip(`Rain: ${rain}mm`, { direction: 'top' })
+          .addTo(layers.weather);
+      }
+
+      marker.addTo(layers.weather);
+    });
+
+    // Handle warnings banner
+    const banner = document.getElementById('warning-banner');
+    const activeWarnings = Object.values(warnings).filter(w => w && w.actionCode === 'ISSUE');
+    if (activeWarnings.length > 0) {
+      const warnTexts = activeWarnings.map(w => `⚠️ ${w.name || 'Warning'}`).join('  |  ');
+      banner.textContent = warnTexts;
+      banner.classList.add('visible');
+    } else {
+      banner.classList.remove('visible');
+    }
+
+  } catch (err) {
+    console.warn('Weather layer error:', err);
+    // Show static placeholder markers
+    Object.entries(WEATHER_STATIONS).forEach(([name, coords]) => {
+      const icon = divIcon(
+        `<div class="weather-badge" style="background:#bbb;color:#333;width:38px;height:38px;font-size:11px;">?°</div>`,
+        '', [38, 38]
+      );
+      L.marker([coords.lat, coords.lng], { icon })
+        .bindTooltip(name)
+        .bindPopup(`<div class="popup-title">🌤️ ${name}</div><div class="popup-loading">Weather data unavailable</div>`)
+        .addTo(layers.weather);
+    });
+  }
+}
+
+// ============================================================
+// TRAFFIC LAYER
+// ============================================================
+
+async function loadTrafficLayer() {
+  layers.traffic.clearLayers();
+  let loaded = false;
+
+  try {
+    const data = await safeFetch(API.traffic, 6000);
+    if (data && (data.incidents || data.trafficIncidents || Array.isArray(data))) {
+      const incidents = data.incidents || data.trafficIncidents || data;
+      incidents.forEach(inc => {
+        const lat = parseFloat(inc.lat || inc.latitude || inc.y);
+        const lng = parseFloat(inc.lng || inc.longitude || inc.x);
+        if (!isNaN(lat) && !isNaN(lng)) {
+          const icon = divIcon(
+            `<div style="font-size:20px;animation:pulse 1.5s ease infinite;border:2px solid #333;border-radius:50%;background:#ffcdd2;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">🚧</div>`,
+            '', [32, 32]
+          );
+          L.marker([lat, lng], { icon })
+            .bindPopup(`
+              <div class="popup-title">🚧 Traffic Incident</div>
+              <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${inc.type || inc.incidentType || 'Incident'}</span></div>
+              <div class="popup-row"><span class="popup-label">Info</span><span class="popup-value">${inc.description || inc.dist || 'No details'}</span></div>
+            `)
+            .addTo(layers.traffic);
+          loaded = true;
+        }
+      });
+    }
+  } catch (e) {
+    console.warn('Traffic API failed (likely CORS), using fallback:', e.message);
+  }
+
+  // Fallback: show major road/tunnel markers
+  if (!loaded) {
+    TRAFFIC_FALLBACK.forEach(loc => {
+      const icon = divIcon(
+        `<div style="font-size:18px;border:2.5px solid #333;border-radius:8px;background:#fff9c4;width:34px;height:34px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #333;">${loc.type === 'Bridge' ? '🌉' : '🚇'}</div>`,
+        '', [34, 34]
+      );
+      L.marker([loc.lat, loc.lng], { icon })
+        .bindTooltip(loc.name, { direction: 'top' })
+        .bindPopup(`
+          <div class="popup-title">${loc.type === 'Bridge' ? '🌉' : '🚇'} ${loc.name}</div>
+          <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${loc.type}</span></div>
+          <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#43a047;">● Open</span></div>
+          <div style="font-size:10px;color:#888;margin-top:4px;">Live traffic data unavailable (CORS)</div>
+        `)
+        .addTo(layers.traffic);
+    });
+  }
+}
+
+// ============================================================
+// KMB BUS LAYER
+// ============================================================
+
+async function loadBusLayer() {
+  // Load all stops once and cache
+  if (!kmbStopsCache) {
+    try {
+      setProgress(0, 'Loading KMB stops…');
+      const data = await safeFetch(API.kmbStops, 15000);
+      kmbStopsCache = data.data || [];
+    } catch (e) {
+      console.warn('KMB stops failed:', e);
+      kmbStopsCache = [];
+    }
+  }
+  renderBusStopsInView();
+}
+
+function renderBusStopsInView() {
+  if (!layerActive.bus) return;
+  layers.bus.clearLayers();
+
+  const bounds = map.getBounds();
+  const visible = (kmbStopsCache || []).filter(stop => {
+    const lat = parseFloat(stop.lat);
+    const lng = parseFloat(stop.long);
+    return !isNaN(lat) && !isNaN(lng) && bounds.contains([lat, lng]);
+  });
+
+  // Limit to MAX_BUS_STOPS_PER_RENDER stops per render for performance
+  const toRender = visible.slice(0, MAX_BUS_STOPS_PER_RENDER);
+
+  toRender.forEach(stop => {
+    const lat = parseFloat(stop.lat);
+    const lng = parseFloat(stop.long);
+
+    const icon = divIcon(
+      `<div style="background:#ff8f00;border:2.5px solid #333;border-radius:6px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:10px;box-shadow:2px 2px 0 #333;color:white;font-weight:900;">🚌</div>`,
+      '', [22, 22]
+    );
+
+    const marker = L.marker([lat, lng], { icon })
+      .bindTooltip(stop.name_en || stop.stop, { direction: 'top' });
+
+    marker.on('click', async () => {
+      const popupContent = document.createElement('div');
+      popupContent.innerHTML = `
+        <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
+        <div class="popup-row"><span class="popup-label">Stop ID</span><span class="popup-value">${stop.stop}</span></div>
+        <div class="popup-loading">Loading ETAs…</div>
+      `;
+      marker.bindPopup(popupContent).openPopup();
+
+      try {
+        const etaData = await safeFetch(API.kmbEta(stop.stop), 8000);
+        const etas = etaData.data || [];
+
+        if (etas.length === 0) {
+          popupContent.querySelector('.popup-loading').textContent = 'No ETA data available.';
+          return;
+        }
+
+        // Group by route
+        const byRoute = {};
+        etas.forEach(e => {
+          const key = `${e.route}-${e.dir}-${e.service_type}`;
+          if (!byRoute[key]) byRoute[key] = { route: e.route, dest: e.dest_en, times: [] };
+          if (e.eta) byRoute[key].times.push(new Date(e.eta));
+        });
+
+        let etaHtml = `<div class="popup-eta-list">`;
+        Object.values(byRoute).slice(0, 6).forEach(r => {
+          const times = r.times.map(t => {
+            const diff = Math.round((t - Date.now()) / 60000);
+            return diff < 0 ? 'Due' : diff === 0 ? 'Arr' : `${diff}m`;
+          }).join(' / ');
+          etaHtml += `<div class="eta-item"><span class="route-no">${r.route}</span> → ${r.dest} <strong>${times}</strong></div>`;
+        });
+        etaHtml += `</div>`;
+
+        popupContent.innerHTML = `
+          <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
+          <div class="popup-row"><span class="popup-label">Stop ID</span><span class="popup-value">${stop.stop}</span></div>
+          ${etaHtml}
+          <div style="font-size:10px;color:#888;margin-top:4px;">Showing up to 6 routes</div>
+        `;
+        marker.getPopup().update();
+      } catch (e) {
+        popupContent.querySelector('.popup-loading').textContent = 'ETA unavailable.';
+      }
+    });
+
+    marker.addTo(layers.bus);
+  });
+}
+
+// ============================================================
+// MTR LAYER
+// ============================================================
+
+async function loadMtrLayer() {
+  layers.mtr.clearLayers();
+
+  MTR_LINES.forEach(line => {
+    // Draw polyline connecting stations
+    const latLngs = line.stations.map(s => [s[2], s[3]]);
+    L.polyline(latLngs, {
+      color: line.color,
+      weight: 5,
+      opacity: 0.9,
+      lineJoin: 'round',
+    }).bindTooltip(line.name, { sticky: true }).addTo(layers.mtr);
+
+    // Draw station markers (deduplicate by code)
+    const seen = new Set();
+    line.stations.forEach(sta => {
+      const key = `${sta[0]}_${line.code}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+
+      const icon = divIcon(
+        `<div class="mtr-station-marker" style="background:${line.color};width:14px;height:14px;"></div>`,
+        '', [14, 14]
+      );
+
+      const marker = L.marker([sta[2], sta[3]], { icon })
+        .bindTooltip(`${sta[1]} (${sta[0]})`, { direction: 'top' });
+
+      marker.on('click', async () => {
+        const popupDiv = document.createElement('div');
+        popupDiv.innerHTML = `
+          <div class="popup-title" style="color:${line.color};">🚇 ${sta[1]}</div>
+          <div class="popup-row"><span class="popup-label">Line</span><span class="popup-value">${line.name}</span></div>
+          <div class="popup-row"><span class="popup-label">Code</span><span class="popup-value">${line.code}-${sta[0]}</span></div>
+          <div class="popup-loading">Loading schedule…</div>
+        `;
+        marker.bindPopup(popupDiv).openPopup();
+
+        try {
+          const schedData = await safeFetch(API.mtrSched(line.code, sta[0]), 8000);
+          if (schedData.status === 0) {
+            popupDiv.querySelector('.popup-loading').textContent = 'Schedule unavailable.';
+            return;
+          }
+
+          const staData = schedData.data && schedData.data[`${line.code}-${sta[0]}`];
+          if (!staData) {
+            popupDiv.querySelector('.popup-loading').textContent = 'No schedule data.';
+            return;
+          }
+
+          let schedHtml = '<div class="popup-eta-list">';
+          ['UP', 'DOWN'].forEach(dir => {
+            if (staData[dir]) {
+              staData[dir].slice(0, 3).forEach(train => {
+                const time = train.time ? train.time.split(' ')[1] : 'Soon';
+                const dest = train.dest || '?';
+                schedHtml += `<div class="eta-item"><span class="route-no">${dir}</span> → ${dest} <strong>${time}</strong></div>`;
+              });
+            }
+          });
+          schedHtml += '</div>';
+
+          popupDiv.innerHTML = `
+            <div class="popup-title" style="color:${line.color};">🚇 ${sta[1]}</div>
+            <div class="popup-row"><span class="popup-label">Line</span><span class="popup-value">${line.name}</span></div>
+            <div class="popup-row"><span class="popup-label">Code</span><span class="popup-value">${line.code}-${sta[0]}</span></div>
+            ${schedHtml}
+          `;
+          marker.getPopup().update();
+        } catch (e) {
+          const el = popupDiv.querySelector('.popup-loading');
+          if (el) el.textContent = 'Schedule unavailable.';
+        }
+      });
+
+      marker.addTo(layers.mtr);
+    });
+  });
+}
+
+// ============================================================
+// CAR PARK LAYER
+// ============================================================
+
+async function loadCarparkLayer() {
+  layers.carpark.clearLayers();
+
+  try {
+    // Load basic info once
+    if (!carparkInfoCache) {
+      const infoData = await safeFetch(API.carparkInfo, 10000);
+      carparkInfoCache = {};
+      const parks = infoData.parks || infoData.carparks || infoData.features || infoData || [];
+      const arr = Array.isArray(parks) ? parks : Object.values(parks);
+      arr.forEach(p => {
+        const id = p.park_id || p.id || p.carpark_id;
+        if (id) carparkInfoCache[id] = p;
+      });
+    }
+
+    // Fetch live vacancy
+    const vacData = await safeFetch(API.carparkVac, 10000);
+    const vacancies = vacData.parks || vacData.carparks || vacData || [];
+    const vacArr = Array.isArray(vacancies) ? vacancies : Object.values(vacancies);
+
+    const bounds = map.getBounds();
+    let rendered = 0;
+
+    vacArr.forEach(vac => {
+      const id = vac.park_id || vac.id || vac.carpark_id;
+      const info = carparkInfoCache[id] || {};
+
+      const lat = parseFloat(vac.latitude || vac.lat || info.latitude || info.lat);
+      const lng = parseFloat(vac.longitude || vac.lng || info.longitude || info.lng);
+      if (isNaN(lat) || isNaN(lng)) return;
+      if (!bounds.contains([lat, lng])) return;
+      if (rendered++ > MAX_CARPARK_MARKERS_PER_VIEW) return; // limit per view
+
+      // Calculate vacancy percentage (null when capacity unknown)
+      const total  = parseInt(vac.capacity || vac.spaces || 0);
+      const vacant = parseInt(vac.vacancy  || vac.available || 0);
+      const pct    = total > 0 ? Math.round((vacant / total) * 100) : null;
+      const color  = pct !== null ? carparkColor(pct) : '#9e9e9e';
+      const pulse  = pct !== null && pct < 5 ? 'animation:pulse 1.5s ease infinite;' : '';
+
+      const icon = divIcon(
+        `<div style="background:${color};border:2.5px solid #333;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:2px 2px 0 #333;${pulse}">🅿️</div>`,
+        '', [28, 28]
+      );
+
+      const name = info.name_en || info.name || vac.name || `Car Park ${id}`;
+
+      L.marker([lat, lng], { icon })
+        .bindTooltip(`${name}: ${vacant}/${total} free`, { direction: 'top' })
+        .bindPopup(`
+          <div class="popup-title">🅿️ ${name}</div>
+          <div class="popup-row"><span class="popup-label">Vacant</span><span class="popup-value" style="color:${color}">${vacant} spaces</span></div>
+          <div class="popup-row"><span class="popup-label">Capacity</span><span class="popup-value">${total}</span></div>
+          <div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct !== null ? pct + '%' : 'N/A'}</span></div>
+          ${info.address ? `<div class="popup-row"><span class="popup-label">Address</span><span class="popup-value">${info.address}</span></div>` : ''}
+          <div style="font-size:10px;color:#888;margin-top:4px;">Live data from TD</div>
+        `)
+        .addTo(layers.carpark);
+    });
+
+    if (rendered === 0) {
+      console.info('No car parks in current view');
+    }
+
+  } catch (e) {
+    console.warn('Carpark layer error:', e);
+    // Show info message
+    const center = map.getCenter();
+    L.popup()
+      .setLatLng(center)
+      .setContent('<div class="popup-title">🅿️ Car Parks</div><div class="popup-loading">Data temporarily unavailable</div>')
+      .openOn(map);
+  }
+}
+
+// ============================================================
+// HOUSING LAYER
+// ============================================================
+
+function loadHousingLayer() {
+  layers.housing.clearLayers();
+
+  // Public housing estates
+  PUBLIC_HOUSING.forEach(estate => {
+    const color = estate.type === 'New' ? '#7b1fa2' : estate.type === 'NT' ? '#1565c0' : '#2e7d32';
+    const emoji = estate.type === 'New' ? '🏗️' : estate.type === 'NT' ? '🏘️' : '🏠';
+
+    const icon = divIcon(
+      `<div style="background:${color};border:2.5px solid #333;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:2px 2px 0 #333;">${emoji}</div>`,
+      '', [30, 30]
+    );
+
+    L.marker([estate.lat, estate.lng], { icon })
+      .bindTooltip(estate.name, { direction: 'top' })
+      .bindPopup(`
+        <div class="popup-title">${emoji} ${estate.name}</div>
+        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${estate.type === 'NT' ? 'New Town' : estate.type === 'New' ? 'New Development' : 'Public Housing'}</span></div>
+        <div class="popup-row"><span class="popup-label">Units</span><span class="popup-value">${estate.units.toLocaleString()}</span></div>
+        <div class="popup-row"><span class="popup-label">Coords</span><span class="popup-value">${estate.lat}, ${estate.lng}</span></div>
+      `)
+      .addTo(layers.housing);
+  });
+
+  // Land development projects
+  LAND_PROJECTS.forEach(proj => {
+    const color = proj.status === 'Active' ? '#e65100' : '#5c6bc0';
+    const emoji = proj.status === 'Active' ? '🏗️' : '📋';
+
+    const icon = divIcon(
+      `<div style="background:${color};border:2.5px solid #333;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:2px 2px 0 #333;">${emoji}</div>`,
+      '', [32, 32]
+    );
+
+    L.marker([proj.lat, proj.lng], { icon })
+      .bindTooltip(proj.name, { direction: 'top' })
+      .bindPopup(`
+        <div class="popup-title">${emoji} ${proj.name}</div>
+        <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:${color}">${proj.status}</span></div>
+        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">Land Development</span></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">Source: HKSAR Planning Dept</div>
+      `)
+      .addTo(layers.housing);
+  });
+}
+
+// ============================================================
+// EVENTS / CULTURE LAYER
+// ============================================================
+
+function loadEventsLayer() {
+  layers.events.clearLayers();
+
+  EVENTS_VENUES.forEach(venue => {
+    const icon = divIcon(
+      `<div style="background:#fff;border:2.5px solid #333;border-radius:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:2px 2px 0 #333;">${venue.emoji}</div>`,
+      '', [34, 34]
+    );
+
+    L.marker([venue.lat, venue.lng], { icon })
+      .bindTooltip(venue.name, { direction: 'top' })
+      .bindPopup(`
+        <div class="popup-title">${venue.emoji} ${venue.name}</div>
+        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">Cultural / Recreation</span></div>
+        <div class="popup-row"><span class="popup-label">Location</span><span class="popup-value">${venue.lat.toFixed(4)}, ${venue.lng.toFixed(4)}</span></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">LCSD / Tourism venue</div>
+      `)
+      .addTo(layers.events);
+  });
+}
+
+// ============================================================
+// PUBLIC HEALTH LAYER
+// ============================================================
+
+function loadHealthLayer() {
+  layers.health.clearLayers();
+
+  HOSPITALS.forEach(hospital => {
+    const icon = divIcon(
+      `<div style="background:#e53935;border:2.5px solid #333;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:2px 2px 0 #333;">🏥</div>`,
+      '', [30, 30]
+    );
+
+    L.marker([hospital.lat, hospital.lng], { icon })
+      .bindTooltip(hospital.name, { direction: 'top' })
+      .bindPopup(`
+        <div class="popup-title">🏥 ${hospital.name}</div>
+        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">Public Hospital</span></div>
+        <div class="popup-row"><span class="popup-label">Operator</span><span class="popup-value">Hospital Authority</span></div>
+        <div class="popup-row"><span class="popup-label">A&E</span><span class="popup-value" style="color:#43a047;">● Open 24/7</span></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">HA Hong Kong</div>
+      `)
+      .addTo(layers.health);
+  });
+}
+
+// ============================================================
+// 9-DAY FORECAST
+// ============================================================
+
+let forecastVisible = false;
+
+async function showForecast() {
+  const panel = document.getElementById('forecast-panel');
+  forecastVisible = !forecastVisible;
+
+  if (!forecastVisible) {
+    panel.classList.remove('visible');
+    return;
+  }
+
+  panel.classList.add('visible');
+  document.getElementById('forecast-content').innerHTML = '<div class="popup-loading">Loading forecast…</div>';
+
+  try {
+    const data = await safeFetch(API.forecast, 8000);
+    const forecasts = data.weatherForecast || [];
+
+    if (forecasts.length === 0) {
+      document.getElementById('forecast-content').innerHTML = '<div class="popup-loading">No forecast data.</div>';
+      return;
+    }
+
+    let html = '';
+    forecasts.slice(0, 9).forEach(f => {
+      const date = f.forecastDate || '';
+      const hi   = f.forecastMaxtemp ? f.forecastMaxtemp.value : '–';
+      const lo   = f.forecastMintemp ? f.forecastMintemp.value : '–';
+      const icon = f.forecastIcon ? `https://www.hko.gov.hk/images/HKOWxIconOutline/pic${f.forecastIcon}.png` : '';
+      const desc = f.forecastWeather || '';
+
+      html += `
+        <div class="forecast-row">
+          <div>
+            <div style="font-size:10px;font-weight:800;color:#1a1a2e;">${date}</div>
+            <div style="font-size:9px;color:#666;max-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${desc}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:#ef5350;font-size:10px;font-weight:900;">${hi}°</div>
+            <div style="color:#42a5f5;font-size:10px;font-weight:900;">${lo}°</div>
+          </div>
+        </div>
+      `;
+    });
+
+    document.getElementById('forecast-content').innerHTML = html;
+  } catch (e) {
+    document.getElementById('forecast-content').innerHTML = '<div class="popup-loading">Forecast unavailable.</div>';
+  }
+}
+
+// ============================================================
+// AUTO-REFRESH
+// ============================================================
+
+async function refreshLiveData() {
+  // Refresh weather if active
+  if (layerActive.weather) await loadWeatherLayer();
+  // Refresh carpark if active
+  if (layerActive.carpark) await loadCarparkLayer();
+  updateStatus();
+}
+
+// ============================================================
+// MAP EVENT HANDLERS
+// ============================================================
+
+map.on('moveend', () => {
+  if (layerActive.bus)     renderBusStopsInView();
+  if (layerActive.carpark) loadCarparkLayer();
+});
+
+// ============================================================
+// INITIALIZE APPLICATION
+// ============================================================
+
+async function init() {
+  setProgress(10, 'Initializing map…');
+  await new Promise(r => setTimeout(r, 300));
+
+  setProgress(25, 'Loading weather data…');
+  await loadWeatherLayer();
+
+  setProgress(50, 'Loading static layers…');
+  // Pre-load static layers (fast, no network)
+  // (loaded lazily on toggle)
+
+  setProgress(75, 'Setting up layer system…');
+  await new Promise(r => setTimeout(r, 200));
+
+  setProgress(100, 'Ready! 準備完畢');
+  await new Promise(r => setTimeout(r, 400));
+
+  hideLoading();
+  updateStatus();
+
+  // Auto-refresh every 60s
+  setInterval(refreshLiveData, REFRESH_MS);
+}
+
+// Start!
+init().catch(err => {
+  console.error('Init failed:', err);
+  hideLoading();
+  updateStatus();
+});
+</script>
+</body>
+</html>
