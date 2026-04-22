@@ -2018,11 +2018,15 @@ function populateBusRouteDropdown() {
   // Sort by company then route number
   routeList.sort((a, b) => {
     if (a.company !== b.company) return a.company.localeCompare(b.company);
-    // Try to sort numerically if possible
-    const aNum = parseInt(a.route);
-    const bNum = parseInt(b.route);
-    if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
-    return a.route.localeCompare(b.route);
+
+    const routeCompare = a.route.localeCompare(b.route, undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    if (routeCompare !== 0) return routeCompare;
+
+    if (a.bound !== b.bound) return a.bound.localeCompare(b.bound);
+    return a.key.localeCompare(b.key);
   });
 
   // Add options
