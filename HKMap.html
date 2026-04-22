@@ -848,7 +848,6 @@ const API = {
   weather:  'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en',
   warnings: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=en',
   forecast: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en',
-  kmbStops: 'https://data.etabus.gov.hk/v1/transport/kmb/stop',
   kmbEta:   (stopId) => `https://data.etabus.gov.hk/v1/transport/kmb/stop-eta/${stopId}`,
   mtrSched: (line, sta) => `https://rt.data.gov.hk/v1/transport/mtr/getSchedule.php?line=${line}&sta=${sta}`,
   carparkInfo: 'https://resource.data.one.gov.hk/td/carpark/basic_info_all.json',
