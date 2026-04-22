@@ -31,12 +31,31 @@ Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager 
 | Layer | Data Source | Update Frequency |
 |---|---|---|
 | 🌤️ **Weather** | Hong Kong Observatory Open Data API | Real-time |
-| 🚗 **Traffic** | Transport Department TD API | Real-time |
-| 🚌 **KMB Bus** | KMB/LWB ETA Open Data API | Every minute |
+| 🚗 **Traffic** | TD Speed Map API + cached hourly snapshot | Every 2 min (live) / Hourly (CI cache) |
+| 🚌 **KMB Bus** | KMB/LWB ETA Open Data API + cached route data | Every 30s (GPS tracker) |
 | 🚇 **MTR** | MTR Next Train Open Data API | Real-time |
 | 🅿️ **Car Parks** | TD Parking Vacancy API | Every few minutes |
 | 🏠 **Housing** | HK Housing Authority / CSDI reference data | Static |
 | 🎭 **Events & Culture** | LCSD venue reference data | Static |
 | 🏥 **Public Health** | Hospital Authority reference data | Static |
 
-Features: draggable/zoomable map, weather warning banner, per-station temperature badges with float animations, MTR coloured polylines with next-train schedules, carpark vacancy colour coding (green/yellow/red), marker clustering for bus stops and car parks, 60-second auto-refresh for live layers, and comic-book cartoon styling throughout.
+**Traffic Speed Layer** — Color-coded polylines across 10 major expressways (Island Eastern Corridor, Tolo Highway, Tuen Mun Highway, Nathan Road Corridor, Route 8 / Stonecutters Bridge, etc.) showing real-time average vehicle speed versus the posted speed limit. Color scale:
+- 🟢 **Green** ≥70% of speed limit — Free flow
+- 🟠 **Amber** 40–70% — Moderate congestion
+- 🔴 **Red** 20–40% — Slow traffic
+- 🟣 **Purple** <20% — Near standstill
+
+**Bus GPS Tracker** — For KMB routes with cached stop coordinates, the estimated live position of each bus is calculated by linearly interpolating between the previous and next stop using the KMB ETA timestamps. A directional arrow icon rotates to show the direction of travel. Positions update every 30 seconds.
+
+**CI/CD Data Pipeline** — Low-frequency reference data (KMB route stops, TD speed map) is fetched hourly by GitHub Actions (`.github/workflows/update_hk_map_data.yml`) and committed to `data/hk_bus_routes.json` and `data/hk_traffic_speeds.json`. This dramatically reduces client-side API call volume.
+
+**Mobile Landscape Support** — A collapsible layer panel (🎛️ toggle button) ensures all controls remain clickable in phone landscape/portrait mode. Panel auto-hides on screens ≤600 px wide or landscape viewports ≤500 px tall.
+
+Other features: draggable/zoomable map, weather warning banner, per-station temperature badges with float animations, MTR coloured polylines with next-train schedules, carpark vacancy colour coding (green/yellow/red), marker clustering for bus stops and car parks, and comic-book cartoon styling throughout.
+
+#### GitHub Actions Workflows
+
+| Workflow | File | Schedule | Purpose |
+|---|---|---|---|
+| Update Stock Data | `update_stocks.yml` | Hourly (`:15`) | Fetch yfinance stock prices → `data/stocks.json` |
+| Update HK Map Data | `update_hk_map_data.yml` | Hourly (`:30`) | Fetch KMB routes + TD speed map → `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` |
