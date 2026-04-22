@@ -1694,6 +1694,8 @@ async function loadTrafficLayer() {
 let busRoutesCache = null;
 // Bus GPS tracker markers keyed by routeKey (COMPANY_route_bound)
 let busTrackerMarkers = {};
+// Bus stop markers (separate from trackers, only shown when route selected)
+let busStopMarkers = [];
 // ETA cache per route: { routeKey: { ts: timestamp, etas: [...] } }
 const busETACache = {};
 // Highlighted route polylines (from search)
@@ -1714,8 +1716,9 @@ function createBusIcon(routeNo, bearing, company) {
 }
 
 async function loadBusLayer() {
-  layers.bus.clearLayers();
-  busTrackerMarkers = {};
+  // Clear only bus stop markers, keep bus trackers
+  busStopMarkers.forEach(m => layers.bus.removeLayer(m));
+  busStopMarkers = [];
 
   // Load pre-fetched route data for all companies (from GitHub Actions)
   // This replaces the heavy all-KMB-stops call (~4 MB) with a targeted
@@ -1741,21 +1744,22 @@ async function loadBusLayer() {
 function renderBusStopsInView() {
   if (!layerActive.bus) return;
 
-  // Clear and re-render from scratch
-  layers.bus.clearLayers();
-  busTrackerMarkers = {};
+  // Clear only bus stop markers, NOT bus tracker markers
+  busStopMarkers.forEach(m => layers.bus.removeLayer(m));
+  busStopMarkers = [];
 
   if (!busRoutesCache || !busRoutesCache.routes) return;
+
+  // Only show bus stops when a specific route is explicitly selected
+  if (!selectedBusRoute) return;
 
   const bounds = map.getBounds();
 
   // Collect all unique stops in view, aggregating routes per stop
   const stopMap = {}; // stop_id -> { stop_id, name_en, lat, lng, routes[] }
 
-  // Filter routes if a specific route is selected
-  const routesToShow = selectedBusRoute
-    ? [selectedBusRoute]
-    : Object.values(busRoutesCache.routes);
+  // Show stops only for the selected route
+  const routesToShow = [selectedBusRoute];
 
   routesToShow.forEach(route => {
     if (!Array.isArray(route.stops)) return;
@@ -1883,6 +1887,7 @@ function renderBusStopsInView() {
     });
 
     marker.addTo(layers.bus);
+    busStopMarkers.push(marker); // Track bus stop markers separately
   });
 }
 
@@ -2146,7 +2151,7 @@ function clearBusSearch() {
     busRouteHighlight = null;
   }
   selectedBusRoute = null;
-  // Re-render to show all routes
+  // Re-render to hide bus stops (only show when route selected)
   renderBusStopsInView();
 }
 
