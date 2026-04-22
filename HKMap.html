@@ -2005,11 +2005,12 @@ function populateBusRouteDropdown() {
 
   // Collect all unique routes sorted by route number
   const routeList = [];
-  Object.values(busRoutesCache.routes).forEach(route => {
-    if (!route.route) return;
+  Object.entries(busRoutesCache.routes).forEach(([routeMapKey, route]) => {
+    if (!route || !route.route) return;
     const company = route.company || 'KMB';
     const bound = route.bound || 'O';
-    const key = `${company}_${route.route}_${bound}`;
+    const fallbackKey = `${company}_${route.route}_${bound}`;
+    const key = (typeof routeMapKey === 'string' && routeMapKey.trim() !== '') ? routeMapKey : fallbackKey;
     const label = `${company} ${route.route} (${bound === 'O' ? 'Out' : 'In'}): ${route.orig_en || '?'} → ${route.dest_en || '?'}`;
     routeList.push({ key, label, route: route.route, company, bound });
   });
