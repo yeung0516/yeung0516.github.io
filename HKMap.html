@@ -598,6 +598,8 @@
 const MAP_CENTER = [22.3500, 114.1500];
 const MAP_ZOOM   = 12;
 const REFRESH_MS = 60000; // 60 seconds auto-refresh
+const MAX_BUS_STOPS_PER_RENDER  = 500;
+const MAX_CARPARK_MARKERS_PER_VIEW = 300;
 
 // HKO API endpoints
 const API = {
@@ -704,8 +706,8 @@ const MTR_LINES = [
   {
     code: 'TML', name: 'Tuen Ma Line', color: '#9b2335',
     stations: [
-      ['WKS','Wu Kai Sha',22.4444,114.0000],
-      ['KSR','Ma On Shan',22.4244,114.0131],
+      ['WKS','Wu Kai Sha',22.4283,114.2808],
+      ['MOS','Ma On Shan',22.4244,114.2578],
       ['YUL','Heng On',22.4378,114.0306],
       ['LMC','Tai Shui Hang',22.4503,114.0422],
       ['TIS','Che Kung Temple',22.4456,114.0617],
@@ -765,7 +767,7 @@ const TRAFFIC_FALLBACK = [
   { name: 'Eastern Harbour Crossing',        lat: 22.2983, lng: 114.2153, type: 'Tunnel' },
   { name: 'Western Harbour Crossing',        lat: 22.2869, lng: 114.1444, type: 'Tunnel' },
   { name: 'Lion Rock Tunnel',                lat: 22.3464, lng: 114.1811, type: 'Tunnel' },
-  { name: 'Tates Cairn Tunnel',             lat: 22.3567, lng: 114.2039, type: 'Tunnel' },
+  { name: "Tate's Cairn Tunnel",             lat: 22.3567, lng: 114.2039, type: 'Tunnel' },
   { name: 'Tsing Ma Bridge',                lat: 22.3547, lng: 114.0686, type: 'Bridge' },
   { name: 'Aberdeen Tunnel',                lat: 22.2564, lng: 114.1622, type: 'Tunnel' },
 ];
@@ -1195,8 +1197,8 @@ function renderBusStopsInView() {
     return !isNaN(lat) && !isNaN(lng) && bounds.contains([lat, lng]);
   });
 
-  // Limit to 500 stops per render for performance
-  const toRender = visible.slice(0, 500);
+  // Limit to MAX_BUS_STOPS_PER_RENDER stops per render for performance
+  const toRender = visible.slice(0, MAX_BUS_STOPS_PER_RENDER);
 
   toRender.forEach(stop => {
     const lat = parseFloat(stop.lat);
@@ -1383,14 +1385,14 @@ async function loadCarparkLayer() {
       const lng = parseFloat(vac.longitude || vac.lng || info.longitude || info.lng);
       if (isNaN(lat) || isNaN(lng)) return;
       if (!bounds.contains([lat, lng])) return;
-      if (rendered++ > 300) return; // limit per view
+      if (rendered++ > MAX_CARPARK_MARKERS_PER_VIEW) return; // limit per view
 
-      // Calculate vacancy percentage
+      // Calculate vacancy percentage (null when capacity unknown)
       const total  = parseInt(vac.capacity || vac.spaces || 0);
       const vacant = parseInt(vac.vacancy  || vac.available || 0);
-      const pct    = total > 0 ? Math.round((vacant / total) * 100) : 50;
-      const color  = carparkColor(pct);
-      const pulse  = pct < 5 ? 'animation:pulse 1.5s ease infinite;' : '';
+      const pct    = total > 0 ? Math.round((vacant / total) * 100) : null;
+      const color  = pct !== null ? carparkColor(pct) : '#9e9e9e';
+      const pulse  = pct !== null && pct < 5 ? 'animation:pulse 1.5s ease infinite;' : '';
 
       const icon = divIcon(
         `<div style="background:${color};border:2.5px solid #333;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:2px 2px 0 #333;${pulse}">🅿️</div>`,
@@ -1405,7 +1407,7 @@ async function loadCarparkLayer() {
           <div class="popup-title">🅿️ ${name}</div>
           <div class="popup-row"><span class="popup-label">Vacant</span><span class="popup-value" style="color:${color}">${vacant} spaces</span></div>
           <div class="popup-row"><span class="popup-label">Capacity</span><span class="popup-value">${total}</span></div>
-          <div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct}%</span></div>
+          <div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct !== null ? pct + '%' : 'N/A'}</span></div>
           ${info.address ? `<div class="popup-row"><span class="popup-label">Address</span><span class="popup-value">${info.address}</span></div>` : ''}
           <div style="font-size:10px;color:#888;margin-top:4px;">Live data from TD</div>
         `)
