@@ -231,7 +231,6 @@
   .layer-btn[data-layer="bus"].active       { background: #fff9c4; border-color: #f57f17; color: #e65100; }
   .layer-btn[data-layer="mtr"].active       { background: #f8bbd0; border-color: #880e4f; color: #6a0f49; }
   .layer-btn[data-layer="carpark"].active   { background: #c8e6c9; border-color: #1b5e20; color: #1b5e20; }
-  .layer-btn[data-layer="housing"].active   { background: #e1bee7; border-color: #6a1b9a; color: #4a148c; }
   .layer-btn[data-layer="events"].active    { background: #ffe0b2; border-color: #bf360c; color: #bf360c; }
   .layer-btn[data-layer="health"].active    { background: #fce4ec; border-color: #880e4f; color: #880e4f; }
 
@@ -281,6 +280,17 @@
     color: #1a1a2e;
     border-bottom: 2px solid #333;
     padding-bottom: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #legend h4:hover {
+    background: #f0f0f0;
+  }
+  #legend.collapsed .legend-content {
+    display: none;
+  }
+  #legend.collapsed {
+    min-width: auto;
   }
   .legend-section { margin-bottom: 8px; }
   .legend-section:last-child { margin-bottom: 0; }
@@ -711,9 +721,6 @@
   <button class="layer-btn" data-layer="carpark"  onclick="toggleLayer('carpark')">
     <span class="layer-emoji">🅿️</span> Car Parks
   </button>
-  <button class="layer-btn" data-layer="housing"  onclick="toggleLayer('housing')">
-    <span class="layer-emoji">🏠</span> Housing
-  </button>
   <button class="layer-btn" data-layer="events"   onclick="toggleLayer('events')">
     <span class="layer-emoji">🎭</span> Events
   </button>
@@ -732,7 +739,8 @@
 
 <!-- Legend -->
 <div id="legend">
-  <h4>🗺️ Legend</h4>
+  <h4 onclick="toggleLegend()">🗺️ Legend <span id="legend-toggle">▼</span></h4>
+  <div class="legend-content">
   <div class="legend-section">
     <h5>🌡️ Temperature</h5>
     <div class="legend-item"><div class="legend-dot" style="background:#42a5f5;"></div> Cool ≤20°C</div>
@@ -766,6 +774,7 @@
     <div class="legend-item"><div class="legend-dot" style="background:#9b2335;"></div> Tuen Ma (TML)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#53b7e8;"></div> East Rail (EAL)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#7b3f96;"></div> TKO (TKL)</div>
+  </div>
   </div>
 </div>
 
@@ -1010,39 +1019,13 @@ const MTR_LINES = [
 
 // Major HK road/tunnel fallback markers (used if traffic API fails)
 const TRAFFIC_FALLBACK = [
-  { name: 'Cross Harbour Tunnel (Hung Hom)', lat: 22.3028, lng: 114.1906, type: 'Tunnel' },
-  { name: 'Eastern Harbour Crossing',        lat: 22.2983, lng: 114.2153, type: 'Tunnel' },
-  { name: 'Western Harbour Crossing',        lat: 22.2869, lng: 114.1444, type: 'Tunnel' },
-  { name: 'Lion Rock Tunnel',                lat: 22.3464, lng: 114.1811, type: 'Tunnel' },
-  { name: "Tate's Cairn Tunnel",             lat: 22.3567, lng: 114.2039, type: 'Tunnel' },
-  { name: 'Tsing Ma Bridge',                lat: 22.3547, lng: 114.0686, type: 'Bridge' },
-  { name: 'Aberdeen Tunnel',                lat: 22.2564, lng: 114.1622, type: 'Tunnel' },
-];
-
-// Public housing estates
-const PUBLIC_HOUSING = [
-  { name: 'Choi Hung Estate',         lat: 22.3353, lng: 114.2094, type: 'Public', units: 7536  },
-  { name: 'Wong Tai Sin Estate',      lat: 22.3420, lng: 114.1933, type: 'Public', units: 9876  },
-  { name: 'Tsz Wan Shan Estate',      lat: 22.3533, lng: 114.2033, type: 'Public', units: 12000 },
-  { name: 'Kwun Tong Estate',         lat: 22.3097, lng: 114.2283, type: 'Public', units: 8421  },
-  { name: 'Shui Chuen O Estate',      lat: 22.3819, lng: 114.2108, type: 'New',    units: 6800  },
-  { name: 'Tin Shui Wai',             lat: 22.4514, lng: 113.9950, type: 'NT',     units: 45000 },
-  { name: 'Tuen Mun Town Centre',     lat: 22.3914, lng: 113.9756, type: 'NT',     units: 30000 },
-  { name: 'Sha Tin Town Centre',      lat: 22.3817, lng: 114.1883, type: 'NT',     units: 25000 },
-  { name: 'Tseung Kwan O Estate',     lat: 22.3153, lng: 114.2550, type: 'NT',     units: 15000 },
-  { name: 'Lai King Estate',          lat: 22.3483, lng: 114.1275, type: 'Public', units: 11000 },
-  { name: 'Cheung Sha Wan Estate',    lat: 22.3311, lng: 114.1597, type: 'Public', units: 9200  },
-  { name: 'Pok Fu Lam Estate',        lat: 22.2725, lng: 114.1333, type: 'Public', units: 4500  },
-];
-
-// Land development projects
-const LAND_PROJECTS = [
-  { name: 'Kwun Tong Town Centre Redevelopment', lat: 22.3097, lng: 114.2236, status: 'Active'   },
-  { name: 'Hung Shui Kiu/Ha Tsuen NDA',          lat: 22.4575, lng: 114.0178, status: 'Active'   },
-  { name: 'Yuen Long South',                      lat: 22.4011, lng: 114.0172, status: 'Active'   },
-  { name: 'New Territories North',                lat: 22.5078, lng: 114.0619, status: 'Planning' },
-  { name: 'Lantau Tomorrow Vision',               lat: 22.2556, lng: 113.9028, status: 'Planning' },
-  { name: 'East Kowloon Development',             lat: 22.3181, lng: 114.2256, status: 'Active'   },
+  { name: 'Cross Harbour Tunnel (Hung Hom)', lat: 22.3028, lng: 114.1906, type: 'Tunnel', length: 1.86 },
+  { name: 'Eastern Harbour Crossing',        lat: 22.2983, lng: 114.2153, type: 'Tunnel', length: 2.2 },
+  { name: 'Western Harbour Crossing',        lat: 22.2869, lng: 114.1444, type: 'Tunnel', length: 2.0 },
+  { name: 'Lion Rock Tunnel',                lat: 22.3464, lng: 114.1811, type: 'Tunnel', length: 1.4 },
+  { name: "Tate's Cairn Tunnel",             lat: 22.3567, lng: 114.2039, type: 'Tunnel', length: 4.0 },
+  { name: 'Tsing Ma Bridge',                lat: 22.3547, lng: 114.0686, type: 'Bridge', length: 2.2 },
+  { name: 'Aberdeen Tunnel',                lat: 22.2564, lng: 114.1622, type: 'Tunnel', length: 1.87 },
 ];
 
 // Events & cultural venues
@@ -1093,7 +1076,6 @@ const layerActive = {
   bus:     false,
   mtr:     false,
   carpark: false,
-  housing: false,
   events:  false,
   health:  false,
 };
@@ -1137,7 +1119,6 @@ layers.traffic = L.layerGroup();
 layers.bus      = L.layerGroup();
 layers.mtr      = L.layerGroup();
 layers.carpark  = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 50 });
-layers.housing  = L.layerGroup();
 layers.events   = L.layerGroup();
 layers.health   = L.layerGroup();
 
@@ -1275,6 +1256,14 @@ function toggleLayer(name) {
   }
 }
 
+/** Toggle legend collapse state */
+function toggleLegend() {
+  const legend = document.getElementById('legend');
+  const toggle = document.getElementById('legend-toggle');
+  legend.classList.toggle('collapsed');
+  toggle.textContent = legend.classList.contains('collapsed') ? '▶' : '▼';
+}
+
 /** Load / refresh a specific layer */
 async function loadLayer(name) {
   switch (name) {
@@ -1283,7 +1272,6 @@ async function loadLayer(name) {
     case 'bus':      await loadBusLayer();       break;
     case 'mtr':      await loadMtrLayer();       break;
     case 'carpark':  await loadCarparkLayer();   break;
-    case 'housing':  loadHousingLayer();         break;
     case 'events':   loadEventsLayer();          break;
     case 'health':   loadHealthLayer();          break;
   }
@@ -1546,8 +1534,31 @@ function renderTrafficRoads() {
         .addTo(layers.traffic);
     });
 
-    // Static tunnel/bridge markers
+    // Static tunnel/bridge markers with congestion time
     TRAFFIC_FALLBACK.forEach(loc => {
+      // Calculate congestion time based on regional average speed
+      const regionKey = loc.lat > 22.35 ? 'NTE' : (loc.lng < 114.0 ? 'NTW' : (loc.lat < 22.28 ? 'HK' : 'K'));
+      const stats = regionStats[regionKey];
+      let congestionTime = null, normalTime = null, status = 'Open', statusColor = '#43a047';
+
+      if (stats && stats.count > 0 && stats.totalSpeed > 0 && loc.length) {
+        const avgSpeed = Math.round(stats.totalSpeed / stats.count);
+        const normalSpeed = loc.type === 'Tunnel' ? 60 : 80; // Normal speed estimate
+        congestionTime = Math.round((loc.length / avgSpeed) * 60); // minutes
+        normalTime = Math.round((loc.length / normalSpeed) * 60);
+        const delay = congestionTime - normalTime;
+        if (delay > 5) {
+          status = `Heavy congestion (+${delay} min)`;
+          statusColor = '#e53935';
+        } else if (delay > 2) {
+          status = `Moderate traffic (+${delay} min)`;
+          statusColor = '#ff9800';
+        } else {
+          status = `Smooth (${congestionTime} min)`;
+          statusColor = '#43a047';
+        }
+      }
+
       const icon = divIcon(
         `<div style="font-size:18px;border:2.5px solid #333;border-radius:8px;background:#fff9c4;width:34px;height:34px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #333;">${loc.type === 'Bridge' ? '🌉' : '🚇'}</div>`,
         '', [34, 34]
@@ -1557,7 +1568,10 @@ function renderTrafficRoads() {
         .bindPopup(`
           <div class="popup-title">${loc.type === 'Bridge' ? '🌉' : '🚇'} ${loc.name}</div>
           <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${loc.type}</span></div>
-          <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#43a047;">● Open</span></div>
+          <div class="popup-row"><span class="popup-label">Length</span><span class="popup-value">${loc.length} km</span></div>
+          ${congestionTime ? `<div class="popup-row"><span class="popup-label">Travel Time</span><span class="popup-value" style="color:${statusColor}">${congestionTime} min</span></div>` : ''}
+          ${normalTime ? `<div class="popup-row"><span class="popup-label">Normal Time</span><span class="popup-value">${normalTime} min</span></div>` : ''}
+          <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:${statusColor};">● ${status}</span></div>
           <div style="font-size:10px;color:#888;margin-top:4px;">Regional avg data · Approx</div>
         `)
         .addTo(layers.traffic);
@@ -1582,6 +1596,7 @@ function renderTrafficRoads() {
         .bindPopup(`
           <div class="popup-title">${loc.type === 'Bridge' ? '🌉' : '🚇'} ${loc.name}</div>
           <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${loc.type}</span></div>
+          <div class="popup-row"><span class="popup-label">Length</span><span class="popup-value">${loc.length} km</span></div>
           <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#43a047;">● Open</span></div>
           <div style="font-size:10px;color:#888;margin-top:4px;">Live speed data unavailable</div>
         `)
@@ -2299,6 +2314,10 @@ async function loadCarparkLayer() {
 
       const name = info.name_en || info.name || vac.name_en || vac.name || `Car Park ${id}`;
       const addr = info.address_en || info.address || '';
+      const district = info.district_en || info.district || '';
+      const height = info.height_en || info.height || '';
+      const hourlyFee = info.hourly_parking_fee || info.parking_fee || '';
+      const evCharging = info.ev_charging_places || info.ev_charging || '';
 
       L.marker([lat, lng], { icon })
         .bindTooltip(`${name}: ${vacant}${total > 0 ? '/'+total : ''} free`, { direction: 'top' })
@@ -2307,7 +2326,11 @@ async function loadCarparkLayer() {
           <div class="popup-row"><span class="popup-label">Vacant</span><span class="popup-value" style="color:${color}">${vacant} spaces</span></div>
           ${total > 0 ? `<div class="popup-row"><span class="popup-label">Capacity</span><span class="popup-value">${total}</span></div>` : ''}
           ${pct !== null ? `<div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct}%</span></div>` : ''}
+          ${hourlyFee ? `<div class="popup-row"><span class="popup-label">Hourly Fee</span><span class="popup-value">$${hourlyFee}</span></div>` : ''}
+          ${evCharging ? `<div class="popup-row"><span class="popup-label">EV Charging</span><span class="popup-value">⚡ ${evCharging} spaces</span></div>` : ''}
           ${addr ? `<div class="popup-row"><span class="popup-label">Address</span><span class="popup-value">${addr}</span></div>` : ''}
+          ${district ? `<div class="popup-row"><span class="popup-label">District</span><span class="popup-value">${district}</span></div>` : ''}
+          ${height ? `<div class="popup-row"><span class="popup-label">Height Limit</span><span class="popup-value">${height}</span></div>` : ''}
           <div style="font-size:10px;color:#888;margin-top:4px;">Live data from TD</div>
         `)
         .addTo(layers.carpark);
@@ -2325,56 +2348,6 @@ async function loadCarparkLayer() {
       .setContent('<div class="popup-title">🅿️ Car Parks</div><div class="popup-loading">Data temporarily unavailable</div>')
       .openOn(map);
   }
-}
-
-// ============================================================
-// HOUSING LAYER
-// ============================================================
-
-function loadHousingLayer() {
-  layers.housing.clearLayers();
-
-  // Public housing estates
-  PUBLIC_HOUSING.forEach(estate => {
-    const color = estate.type === 'New' ? '#7b1fa2' : estate.type === 'NT' ? '#1565c0' : '#2e7d32';
-    const emoji = estate.type === 'New' ? '🏗️' : estate.type === 'NT' ? '🏘️' : '🏠';
-
-    const icon = divIcon(
-      `<div style="background:${color};border:2.5px solid #333;border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:2px 2px 0 #333;">${emoji}</div>`,
-      '', [30, 30]
-    );
-
-    L.marker([estate.lat, estate.lng], { icon })
-      .bindTooltip(estate.name, { direction: 'top' })
-      .bindPopup(`
-        <div class="popup-title">${emoji} ${estate.name}</div>
-        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${estate.type === 'NT' ? 'New Town' : estate.type === 'New' ? 'New Development' : 'Public Housing'}</span></div>
-        <div class="popup-row"><span class="popup-label">Units</span><span class="popup-value">${estate.units.toLocaleString()}</span></div>
-        <div class="popup-row"><span class="popup-label">Coords</span><span class="popup-value">${estate.lat}, ${estate.lng}</span></div>
-      `)
-      .addTo(layers.housing);
-  });
-
-  // Land development projects
-  LAND_PROJECTS.forEach(proj => {
-    const color = proj.status === 'Active' ? '#e65100' : '#5c6bc0';
-    const emoji = proj.status === 'Active' ? '🏗️' : '📋';
-
-    const icon = divIcon(
-      `<div style="background:${color};border:2.5px solid #333;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:2px 2px 0 #333;">${emoji}</div>`,
-      '', [32, 32]
-    );
-
-    L.marker([proj.lat, proj.lng], { icon })
-      .bindTooltip(proj.name, { direction: 'top' })
-      .bindPopup(`
-        <div class="popup-title">${emoji} ${proj.name}</div>
-        <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:${color}">${proj.status}</span></div>
-        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">Land Development</span></div>
-        <div style="font-size:10px;color:#888;margin-top:4px;">Source: HKSAR Planning Dept</div>
-      `)
-      .addTo(layers.housing);
-  });
 }
 
 // ============================================================

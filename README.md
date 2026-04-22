@@ -26,16 +26,15 @@ Real-time financial crisis detection system using 10 academic and practitioner-p
 White-themed horizontal timelines that align 100 incidents per region (East Asia, Europe, Middle East & Africa, Americas & Oceania) on a unified calendar year. Includes draggable timeline plates, language toggles (English, 中文, Español), a daily visitor counter that avoids duplicate refreshes, and inline self-tests for translation, marker math, and counting logic.
 
 ### 🗺️ [Hong Kong Live Map 香港即時地圖](HKMap.html)
-Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager tiles in a cartoon/anime visual style. Integrates live data from multiple Hong Kong Government Open APIs across 8 toggleable layers:
+Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager tiles in a cartoon/anime visual style. Integrates live data from multiple Hong Kong Government Open APIs across 7 toggleable layers:
 
 | Layer | Data Source | Update Frequency |
 |---|---|---|
 | 🌤️ **Weather** | Hong Kong Observatory Open Data API | Real-time |
-| 🚗 **Traffic** | TD Speed Map API + cached hourly snapshot | Every 2 min (live) / Hourly (CI cache) |
+| 🚗 **Traffic** | TD Speed Map API + cached snapshot | Every 2 min (live) / Every 5 min (CI cache) |
 | 🚌 **KMB Bus** | KMB/LWB ETA Open Data API + cached route data | Every 30s (GPS tracker) |
 | 🚇 **MTR** | MTR Next Train Open Data API | Real-time |
-| 🅿️ **Car Parks** | TD Parking Vacancy API | Every few minutes |
-| 🏠 **Housing** | HK Housing Authority / CSDI reference data | Static |
+| 🅿️ **Car Parks** | TD Parking Vacancy API + Basic Info API | Every few minutes |
 | 🎭 **Events & Culture** | LCSD venue reference data | Static |
 | 🏥 **Public Health** | Hospital Authority reference data | Static |
 
@@ -45,15 +44,23 @@ Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager 
 - 🔴 **Red** 20–40% — Slow traffic
 - 🟣 **Purple** <20% — Near standstill
 
-**Bus Route Selection & Filtering** — A dropdown menu allows users to select any bus route from KMB, CTB/NWFB, or NLB operators. When a route is selected:
-- The map displays only the stops for that specific route
-- A colored polyline traces the route path with direction indicators
-- The map automatically zooms to fit the entire route
-- When the dropdown is cleared, all bus stops for all routes are shown again
+**Tunnel & Bridge Traffic** — Major tunnels and bridges (Cross Harbour Tunnel, Eastern Harbour Crossing, Western Harbour Crossing, Lion Rock Tunnel, Tate's Cairn Tunnel, Aberdeen Tunnel, Tsing Ma Bridge) display real-time congestion metrics including:
+- Calculated travel time based on current traffic speed
+- Normal travel time comparison
+- Delay estimates with color-coded status indicators
+
+**Car Park Information** — Enhanced parking data includes:
+- Real-time vacancy counts and capacity
+- Hourly parking fees
+- Electric vehicle (EV) charging availability
+- Height restrictions and district information
+- Color-coded markers (green/yellow/red) based on availability percentage
 
 **Bus GPS Tracker** — For KMB routes with cached stop coordinates, the estimated live position of each bus is calculated by linearly interpolating between the previous and next stop using the KMB ETA timestamps. A directional arrow icon rotates to show the direction of travel. Positions update every 30 seconds.
 
-**CI/CD Data Pipeline** — Low-frequency reference data (KMB route stops, TD speed map) is fetched every 10 minutes by GitHub Actions (`.github/workflows/update_hk_map_data.yml`) and committed to `data/hk_bus_routes.json` and `data/hk_traffic_speeds.json`. This dramatically reduces client-side API call volume.
+**CI/CD Data Pipeline** — Low-frequency reference data (KMB route stops, TD speed map) is fetched every 5 minutes by GitHub Actions (`.github/workflows/update_hk_map_data.yml`) and committed to `data/hk_bus_routes.json` and `data/hk_traffic_speeds.json`. This dramatically reduces client-side API call volume.
+
+**Collapsible Legend** — Click the legend header to collapse/expand, preventing overlap with other map elements. The legend shows color codes for temperature, traffic speed, car park availability, bus companies, and MTR lines.
 
 **Mobile Landscape Support** — A collapsible layer panel (🎛️ toggle button) ensures all controls remain clickable in phone landscape/portrait mode. Panel auto-hides on screens ≤600 px wide or landscape viewports ≤500 px tall.
 
@@ -64,4 +71,4 @@ Other features: draggable/zoomable map, weather warning banner, per-station temp
 | Workflow | File | Schedule | Purpose |
 |---|---|---|---|
 | Update Stock Data | `update_stocks.yml` | Hourly (`:15`) | Fetch yfinance stock prices → `data/stocks.json` |
-| Update HK Map Data | `update_hk_map_data.yml` | Every 10 minutes | Fetch KMB routes + TD speed map → `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` |
+| Update HK Map Data | `update_hk_map_data.yml` | Every 5 minutes | Fetch KMB routes + TD speed map → `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` |
