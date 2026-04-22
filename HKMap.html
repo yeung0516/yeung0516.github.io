@@ -538,7 +538,7 @@
     animation: fadeIn 0.25s ease both;
   }
   #bus-search-panel.visible { display: flex; }
-  #bus-route-input {
+  #bus-route-select {
     border: 2px solid #ccc;
     border-radius: 7px;
     padding: 5px 8px;
@@ -548,23 +548,11 @@
     flex: 1;
     outline: none;
     color: #333;
-  }
-  #bus-route-input:focus { border-color: #e65100; }
-  #bus-search-btn {
-    background: #e65100;
-    color: #fff;
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 5px 10px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 12px;
-    font-weight: 900;
+    background: white;
     cursor: pointer;
-    box-shadow: 2px 2px 0 #333;
-    white-space: nowrap;
+    min-width: 180px;
   }
-  #bus-search-btn:hover  { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #333; }
-  #bus-search-btn:active { transform: translate(1px,1px);   box-shadow: 1px 1px 0 #333; }
+  #bus-route-select:focus { border-color: #e65100; }
   #bus-search-clear {
     background: #f5f5f5;
     border: 2px solid #ccc;
@@ -601,8 +589,7 @@
   #bus-search-result.visible { display: block; }
   @media (max-width: 600px) {
     #bus-search-panel { min-width: 170px; padding: 5px 7px; font-size: 11px; }
-    #bus-route-input  { font-size: 11px; padding: 4px 6px; }
-    #bus-search-btn   { font-size: 11px; padding: 4px 7px; }
+    #bus-route-select  { font-size: 11px; padding: 4px 6px; }
   }
 
   /* ===== MOBILE PANEL TOGGLE ===== */
@@ -698,9 +685,10 @@
 
 <!-- Bus Route Search Panel (visible when Buses layer is active) -->
 <div id="bus-search-panel">
-  <span style="font-size:16px;flex-shrink:0;">🔍</span>
-  <input type="text" id="bus-route-input" placeholder="Route (e.g. 1, 60X, NLB3)…" maxlength="10" autocomplete="off" />
-  <button id="bus-search-btn" onclick="searchBusRoute()">Go</button>
+  <span style="font-size:16px;flex-shrink:0;">🚌</span>
+  <select id="bus-route-select" onchange="onBusRouteChange()">
+    <option value="">-- Select a bus route --</option>
+  </select>
   <button id="bus-search-clear" onclick="clearBusSearch()" title="Clear">✕</button>
 </div>
 <div id="bus-search-result"></div>
@@ -1722,11 +1710,15 @@ async function loadBusLayer() {
     try {
       setProgress(0, 'Loading bus routes…');
       busRoutesCache = await safeFetch(CACHE.busRoutes, 10000);
+      setProgress(100, 'Bus routes loaded!');
     } catch (e) {
       console.warn('Bus routes cache failed:', e);
       busRoutesCache = null;
     }
   }
+
+  // Populate dropdown after data is loaded
+  populateBusRouteDropdown();
 
   renderBusStopsInView();
   if (busRoutesCache) await refreshBusTrackers();
@@ -1746,7 +1738,12 @@ function renderBusStopsInView() {
   // Collect all unique stops in view, aggregating routes per stop
   const stopMap = {}; // stop_id -> { stop_id, name_en, lat, lng, routes[] }
 
-  Object.values(busRoutesCache.routes).forEach(route => {
+  // Filter routes if a specific route is selected
+  const routesToShow = selectedBusRoute
+    ? [selectedBusRoute]
+    : Object.values(busRoutesCache.routes);
+
+  routesToShow.forEach(route => {
     if (!Array.isArray(route.stops)) return;
     const company = route.company || 'KMB';
     route.stops.forEach(stop => {
@@ -1980,47 +1977,109 @@ async function updateBusPosition(route) {
 // BUS ROUTE SEARCH
 // ============================================================
 
+// Track the currently selected route for filtering
+let selectedBusRoute = null;
+
 function showBusSearchPanel(visible) {
   const panel = document.getElementById('bus-search-panel');
   if (visible) {
     panel.classList.add('visible');
+    populateBusRouteDropdown();
   } else {
     panel.classList.remove('visible');
     clearBusSearch();
   }
 }
 
-function searchBusRoute() {
-  const input = document.getElementById('bus-route-input').value.trim().toUpperCase();
-  if (!input) return;
+function populateBusRouteDropdown() {
+  const select = document.getElementById('bus-route-select');
+  if (!select) return;
+
+  // Clear existing options except the first placeholder
+  select.innerHTML = '<option value="">-- Select a bus route --</option>';
+
+  if (!busRoutesCache || !busRoutesCache.routes) {
+    // Add a loading message
+    select.innerHTML = '<option value="">Loading routes...</option>';
+    return;
+  }
+
+  // Collect all unique routes sorted by route number
+  const routeList = [];
+  Object.values(busRoutesCache.routes).forEach(route => {
+    if (!route.route) return;
+    const company = route.company || 'KMB';
+    const bound = route.bound || 'O';
+    const key = `${company}_${route.route}_${bound}`;
+    const label = `${company} ${route.route} (${bound === 'O' ? 'Out' : 'In'}): ${route.orig_en || '?'} → ${route.dest_en || '?'}`;
+    routeList.push({ key, label, route: route.route, company, bound });
+  });
+
+  // Sort by company then route number
+  routeList.sort((a, b) => {
+    if (a.company !== b.company) return a.company.localeCompare(b.company);
+    // Try to sort numerically if possible
+    const aNum = parseInt(a.route);
+    const bNum = parseInt(b.route);
+    if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+    return a.route.localeCompare(b.route);
+  });
+
+  // Add options
+  routeList.forEach(item => {
+    const option = document.createElement('option');
+    option.value = item.key;
+    option.textContent = item.label;
+    select.appendChild(option);
+  });
+}
+
+function onBusRouteChange() {
+  const select = document.getElementById('bus-route-select');
+  if (!select) return;
+
+  const selectedKey = select.value;
+
+  if (!selectedKey) {
+    // No route selected - clear and show all routes
+    clearBusSearch();
+    return;
+  }
 
   if (!busRoutesCache || !busRoutesCache.routes) {
     setSearchResult('⚠️ Bus data not loaded yet. Please wait and try again.');
     return;
   }
 
-  // Match routes where route number starts with or equals the query
-  const matches = Object.values(busRoutesCache.routes).filter(r => {
-    if (!r.route) return false;
-    const rn = r.route.toUpperCase();
-    return rn === input || rn.startsWith(input);
+  // Find the selected route
+  const route = Object.values(busRoutesCache.routes).find(r => {
+    const company = r.company || 'KMB';
+    const bound = r.bound || 'O';
+    const key = `${company}_${r.route}_${bound}`;
+    return key === selectedKey;
   });
 
-  if (matches.length === 0) {
-    setSearchResult(`❌ Route "${input}" not found`);
+  if (!route) {
+    setSearchResult('❌ Route not found');
     return;
   }
 
-  // Prefer outbound, then first match
-  const route = matches.find(r => r.bound === 'O') || matches[0];
+  selectedBusRoute = route;
   highlightBusRoute(route);
 
-  const color  = COMPANY_COLORS[route.company || 'KMB'] || '#e65100';
-  const extras = matches.length > 1 ? ` <span style="color:#888;">(+${matches.length - 1} more)</span>` : '';
+  const color = COMPANY_COLORS[route.company || 'KMB'] || '#e65100';
   setSearchResult(
     `<span style="color:${color};font-weight:900;">${route.company || 'KMB'}</span> ` +
-    `Route <strong>${route.route}</strong>: ${route.orig_en || '?'} → ${route.dest_en || '?'}${extras}`
+    `Route <strong>${route.route}</strong>: ${route.orig_en || '?'} → ${route.dest_en || '?'}`
   );
+
+  // Re-render bus stops to show only selected route
+  renderBusStopsInView();
+}
+
+function searchBusRoute() {
+  // Legacy function - kept for compatibility but now uses dropdown
+  onBusRouteChange();
 }
 
 function setSearchResult(html) {
@@ -2064,14 +2123,17 @@ function highlightBusRoute(route) {
 }
 
 function clearBusSearch() {
-  const inp = document.getElementById('bus-route-input');
-  if (inp) inp.value = '';
+  const select = document.getElementById('bus-route-select');
+  if (select) select.value = '';
   const res = document.getElementById('bus-search-result');
   if (res) res.classList.remove('visible');
   if (busRouteHighlight) {
     busRouteHighlight.forEach(l => map.removeLayer(l));
     busRouteHighlight = null;
   }
+  selectedBusRoute = null;
+  // Re-render to show all routes
+  renderBusStopsInView();
 }
 
 // ============================================================
@@ -2500,10 +2562,6 @@ async function init() {
     trafficIncidentsCache = null;
     carparkInfoCache      = null;
   }, CACHE_BUST_MS);
-
-  // Keyboard shortcut: Enter to search bus route
-  const inp = document.getElementById('bus-route-input');
-  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') searchBusRoute(); });
 }
 
 // Start!
