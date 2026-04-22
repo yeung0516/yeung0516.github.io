@@ -47,6 +47,7 @@ def fetch_bus_data():
             print(f"  [SKIP] Route {route_no} not found in KMB route list.")
             continue
 
+        # KMB API: bound "O" = outbound, "I" = inbound; legacy single-direction routes use "1"
         bound = route_info.get("bound", "O")
         direction = "outbound" if bound in ("O", "1") else "inbound"
         service_type = route_info.get("service_type", "1")
@@ -111,24 +112,21 @@ def fetch_bus_data():
 
 def fetch_traffic_speeds():
     print("Fetching TD traffic speed map...")
-    urls = [
-        "https://resource.data.one.gov.hk/td/speedmap/speedmap.json",
-    ]
+    primary_url = "https://resource.data.one.gov.hk/td/speedmap/speedmap.json"
     out_path = os.path.join(DATA_DIR, "hk_traffic_speeds.json")
     timestamp = datetime.now(timezone.utc).isoformat()
 
-    for url in urls:
-        data = fetch_json(url, "TD speed map")
-        if data is not None:
-            if isinstance(data, dict):
-                data["updated"] = timestamp
-                data["available"] = True
-            else:
-                data = {"updated": timestamp, "available": True, "data": data}
-            with open(out_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
-            print(f"Saved traffic speed data to {out_path}")
-            return
+    data = fetch_json(primary_url, "TD speed map")
+    if data is not None:
+        if isinstance(data, dict):
+            data["updated"] = timestamp
+            data["available"] = True
+        else:
+            data = {"updated": timestamp, "available": True, "data": data}
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"Saved traffic speed data to {out_path}")
+        return
 
     fallback = {"updated": timestamp, "available": False}
     with open(out_path, "w", encoding="utf-8") as f:
