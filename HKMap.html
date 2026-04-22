@@ -490,6 +490,97 @@
     color: #1a1a2e !important;
     padding: 3px 7px !important;
   }
+
+  /* ===== TRAFFIC SPEED COLOR SCALE ===== */
+  .traffic-speed-badge {
+    border: 2px solid #333;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 9px;
+    font-weight: 900;
+    display: inline-block;
+    color: white;
+  }
+
+  /* ===== BUS TRACKER ICON ===== */
+  .bus-tracker-icon {
+    border: 2.5px solid #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 10px;
+    color: white;
+    box-shadow: 2px 2px 0 #333;
+    cursor: pointer;
+    background: #e65100;
+  }
+
+  /* ===== MOBILE PANEL TOGGLE ===== */
+  #panel-toggle {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 900;
+    background: #fff9c4;
+    border: 2.5px solid #333;
+    box-shadow: 2px 2px 0 #333;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    line-height: 1;
+  }
+  #panel-toggle:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #333; }
+  #panel-toggle:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 #333; }
+
+  /* ===== MOBILE LANDSCAPE & SMALL SCREEN ===== */
+  @media (max-width: 600px), (orientation: landscape) and (max-height: 500px) {
+    #panel-toggle { display: block; }
+    #layer-panel {
+      display: none;
+      max-height: calc(100vh - 24px);
+      overflow-y: auto;
+      top: 10px;
+      right: 10px;
+      padding: 8px 6px;
+    }
+    #layer-panel.panel-open { display: block; }
+    #layer-panel h3 { margin-bottom: 4px; }
+    .layer-btn { padding: 5px 8px; margin-bottom: 3px; font-size: 11px; }
+    #legend { display: none; }
+    #forecast-panel { max-height: calc(100vh - 80px); max-width: 200px; }
+    #title-card { top: 50px; padding: 5px 10px; max-width: 160px; }
+    #title-card h1 { font-size: 12px; }
+    #title-card .subtitle { font-size: 9px; }
+    #status-bar { font-size: 10px; padding: 3px 10px; bottom: 8px; }
+    #warning-banner { font-size: 11px; padding: 4px 12px; max-width: 90vw; }
+  }
+
+  /* ===== TRAFFIC ROAD POPUP ===== */
+  .traffic-speed-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .traffic-speed-bar-bg {
+    flex: 1;
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    border: 1.5px solid #999;
+    overflow: hidden;
+  }
+  .traffic-speed-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+  }
 </style>
 </head>
 <body>
@@ -513,6 +604,9 @@
 
 <!-- Weather Warning Banner -->
 <div id="warning-banner">⚠️ Loading weather warnings…</div>
+
+<!-- Mobile Panel Toggle -->
+<button id="panel-toggle" onclick="togglePanel()" aria-label="Toggle layer panel">🎛️</button>
 
 <!-- Layer Control Panel -->
 <div id="layer-panel">
@@ -561,6 +655,13 @@
     <div class="legend-item"><div class="legend-dot" style="background:#ef5350;"></div> Hot &gt;28°C</div>
   </div>
   <div class="legend-section">
+    <h5>🚗 Traffic Speed</h5>
+    <div class="legend-item"><div class="legend-dot" style="background:#4caf50;"></div> Free ≥70% of limit</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ff9800;"></div> Moderate 40–70%</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f44336;"></div> Slow 20–40%</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9c27b0;"></div> Standstill &lt;20%</div>
+  </div>
+  <div class="legend-section">
     <h5>🅿️ Car Park</h5>
     <div class="legend-item"><div class="legend-dot" style="background:#43a047;"></div> &gt;30% Free</div>
     <div class="legend-item"><div class="legend-dot" style="background:#fdd835;"></div> 5–30% Free</div>
@@ -600,6 +701,44 @@ const MAP_ZOOM   = 12;
 const REFRESH_MS = 60000; // 60 seconds auto-refresh
 const MAX_BUS_STOPS_PER_RENDER  = 500;
 const MAX_CARPARK_MARKERS_PER_VIEW = 300;
+
+// Cached data URLs (served from GitHub Pages, updated by GitHub Actions hourly)
+const CACHE = {
+  busRoutes:     'data/hk_bus_routes.json',
+  trafficSpeeds: 'data/hk_traffic_speeds.json',
+};
+
+// Additional live API endpoints
+const SPEEDMAP_URL = 'https://resource.data.one.gov.hk/td/speedmap/speedmap.json';
+const BUS_REFRESH_MS = 30000; // 30 seconds for bus GPS tracker
+
+// Major road polylines for traffic layer (pre-defined geometry with known speed limits)
+const MAJOR_ROADS = [
+  { id: 'IEC', name: 'Island Eastern Corridor', region: 'HK', speedLimit: 80,
+    coords: [[22.2650,114.2378],[22.2772,114.2403],[22.2797,114.2308],[22.2825,114.2231],
+             [22.2844,114.2164],[22.2883,114.2083],[22.2906,114.1994],[22.2875,114.1933],
+             [22.2803,114.1839],[22.2775,114.1731]] },
+  { id: 'CWB', name: 'Central-Wan Chai Bypass', region: 'HK', speedLimit: 80,
+    coords: [[22.2792,114.1650],[22.2800,114.1700],[22.2803,114.1839]] },
+  { id: 'CHT_K', name: 'Cross Harbour Tunnel (Kowloon Approach)', region: 'K', speedLimit: 70,
+    coords: [[22.3050,114.1717],[22.3028,114.1906],[22.2975,114.1800],[22.2906,114.1703]] },
+  { id: 'KT_BYPASS', name: 'Kwun Tong Bypass', region: 'K', speedLimit: 70,
+    coords: [[22.3239,114.2139],[22.3197,114.2192],[22.3153,114.2192],[22.3122,114.2264]] },
+  { id: 'NATHAN', name: 'Nathan Road Corridor', region: 'K', speedLimit: 50,
+    coords: [[22.3050,114.1717],[22.3125,114.1708],[22.3192,114.1697],[22.3246,114.1683],
+             [22.3306,114.1622],[22.3353,114.1544],[22.3381,114.1394]] },
+  { id: 'ROUTE8', name: 'Route 8 / Stonecutters Bridge', region: 'K', speedLimit: 100,
+    coords: [[22.3300,114.1603],[22.3484,114.1278],[22.3400,114.0950],[22.3233,113.9781]] },
+  { id: 'TUEN_MUN', name: 'Tuen Mun Highway', region: 'NTW', speedLimit: 100,
+    coords: [[22.3697,114.1086],[22.3914,113.9775],[22.4094,113.9750],[22.4583,114.0006]] },
+  { id: 'ROUTE3', name: 'Route 3 / Tsing Lung', region: 'NTW', speedLimit: 100,
+    coords: [[22.3381,114.1394],[22.3484,114.1278],[22.3547,114.0686]] },
+  { id: 'TOLO', name: 'Tolo Highway', region: 'NTE', speedLimit: 100,
+    coords: [[22.3753,114.1789],[22.3819,114.1883],[22.3761,114.2328],
+             [22.3975,114.2094],[22.4508,114.1664]] },
+  { id: 'FANLING', name: 'Fanling Highway', region: 'NTE', speedLimit: 100,
+    coords: [[22.4508,114.1664],[22.4658,114.1386],[22.4961,114.1283]] },
+];
 
 // HKO API endpoints
 const API = {
@@ -949,6 +1088,48 @@ function tempTextColor(t) {
   return '#fff';
 }
 
+/**
+ * Get traffic color from speed ratio (actual/limit) or saturation level string.
+ * @param {string|null} level - 'GOOD','AVERAGE','BAD', or null
+ * @param {number} speedKmh  - actual speed in km/h (0 = unknown)
+ * @param {number} limitKmh  - speed limit in km/h (0 = unknown)
+ */
+function trafficColor(level, speedKmh, limitKmh) {
+  if (speedKmh > 0 && limitKmh > 0) {
+    const ratio = speedKmh / limitKmh;
+    if (ratio >= 0.70) return '#4caf50'; // green  – free flow
+    if (ratio >= 0.40) return '#ff9800'; // amber  – moderate
+    if (ratio >= 0.20) return '#f44336'; // red    – slow
+    return '#9c27b0';                    // purple – near standstill
+  }
+  switch (level) {
+    case 'GOOD':    return '#4caf50';
+    case 'AVERAGE': return '#ff9800';
+    case 'BAD':     return '#f44336';
+    default:        return '#9e9e9e';
+  }
+}
+
+/** Human-readable traffic label */
+function trafficLabel(level, speedKmh, limitKmh) {
+  if (speedKmh > 0 && limitKmh > 0) {
+    const pct = Math.round((speedKmh / limitKmh) * 100);
+    return `${speedKmh} km/h (${pct}% of ${limitKmh} limit)`;
+  }
+  if (speedKmh > 0) return `${speedKmh} km/h`;
+  return level || 'Unknown';
+}
+
+/** Bearing in degrees from point A to point B */
+function calcBearing(lat1, lng1, lat2, lng2) {
+  const toRad = d => d * Math.PI / 180;
+  const dLng  = toRad(lng2 - lng1);
+  const lat1R = toRad(lat1), lat2R = toRad(lat2);
+  const y = Math.sin(dLng) * Math.cos(lat2R);
+  const x = Math.cos(lat1R) * Math.sin(lat2R) - Math.sin(lat1R) * Math.cos(lat2R) * Math.cos(dLng);
+  return ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+}
+
 /** Carpark vacancy color */
 function carparkColor(pct) {
   if (pct > 30) return '#43a047';
@@ -1119,42 +1300,131 @@ async function loadWeatherLayer() {
 }
 
 // ============================================================
-// TRAFFIC LAYER
+// TRAFFIC LAYER — real-time speed vs speed limit, color-coded polylines
 // ============================================================
 
 async function loadTrafficLayer() {
   layers.traffic.clearLayers();
-  let loaded = false;
+
+  // ── 1. Fetch speed data: try cached JSON first, then live API ─────────────
+  let speedRecords = null; // array of { region, road_saturation_level, traffic_speed, ... }
 
   try {
-    const data = await safeFetch(API.traffic, 6000);
-    if (data && (data.incidents || data.trafficIncidents || Array.isArray(data))) {
-      const incidents = data.incidents || data.trafficIncidents || data;
+    const cached = await safeFetch(CACHE.trafficSpeeds, 4000);
+    if (cached && cached.available === true) {
+      const raw = cached.data || cached.SpeedMapPanel || cached;
+      speedRecords = Array.isArray(raw) ? raw : (Array.isArray(Object.values(raw)[0]) ? Object.values(raw).flat() : null);
+    }
+  } catch (_) {}
+
+  if (!speedRecords) {
+    try {
+      const raw = await safeFetch(SPEEDMAP_URL, 6000);
+      if (raw) {
+        speedRecords = Array.isArray(raw) ? raw
+          : (Array.isArray(raw.data) ? raw.data
+          : Array.isArray(raw.SpeedMapPanel) ? raw.SpeedMapPanel : null);
+      }
+    } catch (_) {}
+  }
+
+  // ── 2. Aggregate speeds by region ────────────────────────────────────────
+  const regionStats = {}; // region → { totalSpeed, count, levelCounts }
+  if (speedRecords && speedRecords.length > 0) {
+    speedRecords.forEach(seg => {
+      const region = (seg.region || 'K').toUpperCase();
+      if (!regionStats[region]) regionStats[region] = { totalSpeed: 0, count: 0, levels: {} };
+      const s = regionStats[region];
+      s.totalSpeed += (parseFloat(seg.traffic_speed) || 0);
+      s.count++;
+      const lv = seg.road_saturation_level || 'UNKNOWN';
+      s.levels[lv] = (s.levels[lv] || 0) + 1;
+    });
+  }
+
+  // ── 3. Draw color-coded polylines for pre-defined major roads ─────────────
+  MAJOR_ROADS.forEach(road => {
+    const stats = regionStats[road.region];
+    let color, tooltipSpeed, pct, avgSpeed;
+
+    if (stats && stats.count > 0) {
+      avgSpeed = Math.round(stats.totalSpeed / stats.count);
+      color    = trafficColor(null, avgSpeed, road.speedLimit);
+      pct      = road.speedLimit > 0 ? Math.round((avgSpeed / road.speedLimit) * 100) : 0;
+      tooltipSpeed = trafficLabel(null, avgSpeed, road.speedLimit);
+    } else if (stats) {
+      const dom = Object.entries(stats.levels).sort((a, b) => b[1] - a[1])[0];
+      const lv  = dom ? dom[0] : 'UNKNOWN';
+      color        = trafficColor(lv, 0, 0);
+      tooltipSpeed = lv;
+      pct          = null;
+      avgSpeed     = null;
+    } else {
+      color        = '#9e9e9e';
+      tooltipSpeed = 'No data';
+      pct          = null;
+      avgSpeed     = null;
+    }
+
+    // Outer glow / shadow polyline for cartoon style
+    L.polyline(road.coords, { color: '#333', weight: 8, opacity: 0.3 }).addTo(layers.traffic);
+
+    const poly = L.polyline(road.coords, {
+      color,
+      weight: 5,
+      opacity: 0.9,
+      lineJoin: 'round',
+      lineCap:  'round',
+    });
+
+    const barFill = pct !== null
+      ? `<div class="traffic-speed-bar">
+           <span style="font-size:10px;font-weight:700;color:#555;min-width:22px;">${avgSpeed}km/h</span>
+           <div class="traffic-speed-bar-bg">
+             <div class="traffic-speed-bar-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
+           </div>
+           <span style="font-size:10px;font-weight:800;color:${color};">${pct}%</span>
+         </div>`
+      : '';
+
+    poly.bindPopup(`
+      <div class="popup-title">🚗 ${road.name}</div>
+      <div class="popup-row"><span class="popup-label">🚀 Speed</span><span class="popup-value" style="color:${color};">${tooltipSpeed}</span></div>
+      <div class="popup-row"><span class="popup-label">⚠️ Limit</span><span class="popup-value">${road.speedLimit} km/h</span></div>
+      ${barFill}
+      <div style="font-size:10px;color:#888;margin-top:4px;">Source: TD Speed Map · Region ${road.region}</div>
+    `);
+
+    poly.bindTooltip(`${road.name}: ${tooltipSpeed}`, { sticky: true });
+    poly.addTo(layers.traffic);
+  });
+
+  // ── 4. Also overlay traffic incidents ─────────────────────────────────────
+  try {
+    const incData = await safeFetch(API.traffic, 6000);
+    if (incData) {
+      const incidents = incData.incidents || incData.trafficIncidents || (Array.isArray(incData) ? incData : []);
       incidents.forEach(inc => {
         const lat = parseFloat(inc.lat || inc.latitude || inc.y);
         const lng = parseFloat(inc.lng || inc.longitude || inc.x);
-        if (!isNaN(lat) && !isNaN(lng)) {
-          const icon = divIcon(
-            `<div style="font-size:20px;animation:pulse 1.5s ease infinite;border:2px solid #333;border-radius:50%;background:#ffcdd2;width:32px;height:32px;display:flex;align-items:center;justify-content:center;">🚧</div>`,
-            '', [32, 32]
-          );
-          L.marker([lat, lng], { icon })
-            .bindPopup(`
-              <div class="popup-title">🚧 Traffic Incident</div>
-              <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${inc.type || inc.incidentType || 'Incident'}</span></div>
-              <div class="popup-row"><span class="popup-label">Info</span><span class="popup-value">${inc.description || inc.dist || 'No details'}</span></div>
-            `)
-            .addTo(layers.traffic);
-          loaded = true;
-        }
+        if (isNaN(lat) || isNaN(lng)) return;
+        const icon = divIcon(
+          `<div style="font-size:18px;animation:pulse 1.5s ease infinite;border:2px solid #333;border-radius:50%;background:#ffcdd2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">🚧</div>`,
+          '', [30, 30]
+        );
+        L.marker([lat, lng], { icon })
+          .bindPopup(`
+            <div class="popup-title">🚧 Traffic Incident</div>
+            <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${inc.type || inc.incidentType || 'Incident'}</span></div>
+            <div class="popup-row"><span class="popup-label">Info</span><span class="popup-value">${inc.description || inc.dist || 'No details'}</span></div>
+          `)
+          .addTo(layers.traffic);
       });
     }
-  } catch (e) {
-    console.warn('Traffic API failed (likely CORS), using fallback:', e.message);
-  }
+  } catch (_) {}
 
-  // Fallback: show major road/tunnel markers
-  if (!loaded) {
+  // ── 5. If no speed data at all, fall back to static tunnel/bridge markers ──
+  if (!speedRecords) {
     TRAFFIC_FALLBACK.forEach(loc => {
       const icon = divIcon(
         `<div style="font-size:18px;border:2.5px solid #333;border-radius:8px;background:#fff9c4;width:34px;height:34px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #333;">${loc.type === 'Bridge' ? '🌉' : '🚇'}</div>`,
@@ -1166,7 +1436,7 @@ async function loadTrafficLayer() {
           <div class="popup-title">${loc.type === 'Bridge' ? '🌉' : '🚇'} ${loc.name}</div>
           <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${loc.type}</span></div>
           <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#43a047;">● Open</span></div>
-          <div style="font-size:10px;color:#888;margin-top:4px;">Live traffic data unavailable (CORS)</div>
+          <div style="font-size:10px;color:#888;margin-top:4px;">Live speed data unavailable</div>
         `)
         .addTo(layers.traffic);
     });
@@ -1174,11 +1444,38 @@ async function loadTrafficLayer() {
 }
 
 // ============================================================
-// KMB BUS LAYER
+// KMB BUS LAYER — Bus stops + GPS-estimated live bus positions
 // ============================================================
 
+// Cache for pre-fetched route data (from GitHub Actions)
+let busRoutesCache = null;
+// Bus GPS tracker markers keyed by routeNo
+let busTrackerMarkers = {};
+// ETA cache per route: { routeNo: { ts: timestamp, etas: [...] } }
+const busETACache = {};
+
+/** Create directional bus marker icon */
+function createBusIcon(routeNo, bearing) {
+  const label = routeNo.length <= 4 ? routeNo : '🚌';
+  return L.divIcon({
+    html: `<div style="text-align:center;position:relative;width:40px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" style="display:block;margin:0 auto;transform:rotate(${bearing - 90}deg);">
+        <polygon points="10,2 18,18 10,13 2,18" fill="#e65100" stroke="#333" stroke-width="1.5"/>
+      </svg>
+      <div style="background:#e65100;border:2px solid #333;border-radius:4px;color:white;font-size:9px;font-weight:900;padding:1px 3px;font-family:'Nunito',sans-serif;box-shadow:1px 1px 0 #333;white-space:nowrap;">${label}</div>
+    </div>`,
+    className: '',
+    iconSize: [40, 42],
+    iconAnchor: [20, 21],
+    popupAnchor: [0, -21],
+  });
+}
+
 async function loadBusLayer() {
-  // Load all stops once and cache
+  layers.bus.clearLayers();
+  busTrackerMarkers = {};
+
+  // Load KMB all-stops for display in current view
   if (!kmbStopsCache) {
     try {
       setProgress(0, 'Loading KMB stops…');
@@ -1189,21 +1486,35 @@ async function loadBusLayer() {
       kmbStopsCache = [];
     }
   }
+
+  // Try to load pre-fetched route data for bus GPS tracking
+  if (!busRoutesCache) {
+    try {
+      busRoutesCache = await safeFetch(CACHE.busRoutes, 6000);
+    } catch (_) {
+      busRoutesCache = null;
+    }
+  }
+
   renderBusStopsInView();
+  await refreshBusTrackers();
 }
 
 function renderBusStopsInView() {
   if (!layerActive.bus) return;
-  layers.bus.clearLayers();
 
-  const bounds = map.getBounds();
+  // Clear only static stop markers (not bus tracker markers)
+  // We re-add them all from scratch
+  layers.bus.clearLayers();
+  busTrackerMarkers = {};
+
+  const bounds  = map.getBounds();
   const visible = (kmbStopsCache || []).filter(stop => {
     const lat = parseFloat(stop.lat);
     const lng = parseFloat(stop.long);
     return !isNaN(lat) && !isNaN(lng) && bounds.contains([lat, lng]);
   });
 
-  // Limit to MAX_BUS_STOPS_PER_RENDER stops per render for performance
   const toRender = visible.slice(0, MAX_BUS_STOPS_PER_RENDER);
 
   toRender.forEach(stop => {
@@ -1229,21 +1540,17 @@ function renderBusStopsInView() {
 
       try {
         const etaData = await safeFetch(API.kmbEta(stop.stop), 8000);
-        const etas = etaData.data || [];
-
+        const etas    = etaData.data || [];
         if (etas.length === 0) {
           popupContent.querySelector('.popup-loading').textContent = 'No ETA data available.';
           return;
         }
-
-        // Group by route
         const byRoute = {};
         etas.forEach(e => {
           const key = `${e.route}-${e.dir}-${e.service_type}`;
           if (!byRoute[key]) byRoute[key] = { route: e.route, dest: e.dest_en, times: [] };
           if (e.eta) byRoute[key].times.push(new Date(e.eta));
         });
-
         let etaHtml = `<div class="popup-eta-list">`;
         Object.values(byRoute).slice(0, 6).forEach(r => {
           const times = r.times.map(t => {
@@ -1253,7 +1560,6 @@ function renderBusStopsInView() {
           etaHtml += `<div class="eta-item"><span class="route-no">${r.route}</span> → ${r.dest} <strong>${times}</strong></div>`;
         });
         etaHtml += `</div>`;
-
         popupContent.innerHTML = `
           <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
           <div class="popup-row"><span class="popup-label">Stop ID</span><span class="popup-value">${stop.stop}</span></div>
@@ -1261,13 +1567,103 @@ function renderBusStopsInView() {
           <div style="font-size:10px;color:#888;margin-top:4px;">Showing up to 6 routes</div>
         `;
         marker.getPopup().update();
-      } catch (e) {
+      } catch (_) {
         popupContent.querySelector('.popup-loading').textContent = 'ETA unavailable.';
       }
     });
 
     marker.addTo(layers.bus);
   });
+}
+
+/** Refresh GPS-estimated bus positions for routes visible in current map bounds */
+async function refreshBusTrackers() {
+  if (!layerActive.bus || !busRoutesCache || !busRoutesCache.routes) return;
+
+  const bounds = map.getBounds();
+  const routes = Object.values(busRoutesCache.routes);
+
+  // Find routes with at least one stop in view (limit to 10 to keep API calls reasonable)
+  const visible = routes.filter(r =>
+    Array.isArray(r.stops) && r.stops.some(s =>
+      s.lat && s.lng && bounds.contains([s.lat, s.lng])
+    )
+  ).slice(0, 10);
+
+  await Promise.allSettled(visible.map(r => updateBusPosition(r)));
+}
+
+/** Compute and display estimated bus position for a single route */
+async function updateBusPosition(route) {
+  const routeNo = route.route;
+  const now = Date.now();
+
+  // Use cached ETAs if fresh (<30s)
+  let etas;
+  if (busETACache[routeNo] && (now - busETACache[routeNo].ts) < 30000) {
+    etas = busETACache[routeNo].etas;
+  } else {
+    try {
+      const data = await safeFetch(
+        `https://data.etabus.gov.hk/v1/transport/kmb/route-eta/${routeNo}/1`,
+        8000
+      );
+      etas = (data && data.data) ? data.data : [];
+      busETACache[routeNo] = { ts: now, etas };
+    } catch (_) { return; }
+  }
+
+  // Only look at next bus (eta_seq=1) per stop, sorted by stop sequence
+  const nextBus = etas
+    .filter(e => e.eta_seq === 1 && e.eta)
+    .sort((a, b) => (a.seq || 0) - (b.seq || 0));
+
+  if (nextBus.length < 2) return;
+
+  // Interpolate bus position between two consecutive stops
+  let busLat = null, busLng = null, bearing = 0;
+
+  for (let i = 0; i < nextBus.length - 1; i++) {
+    const tA   = new Date(nextBus[i].eta).getTime();
+    const tB   = new Date(nextBus[i + 1].eta).getTime();
+    const seqA = nextBus[i].seq;
+    const seqB = nextBus[i + 1].seq;
+
+    if (tA >= tB) continue; // skip if timestamps not increasing
+
+    if (tA <= now && now <= tB) {
+      const stopA = route.stops.find(s => s.seq == seqA);
+      const stopB = route.stops.find(s => s.seq == seqB);
+      if (!stopA || !stopB || !stopA.lat || !stopB.lat) continue;
+
+      const frac = (now - tA) / (tB - tA);
+      busLat  = stopA.lat + (stopB.lat - stopA.lat) * frac;
+      busLng  = stopA.lng + (stopB.lng - stopA.lng) * frac;
+      bearing = calcBearing(stopA.lat, stopA.lng, stopB.lat, stopB.lng);
+      break;
+    }
+  }
+
+  if (busLat === null) return;
+
+  const icon = createBusIcon(routeNo, bearing);
+
+  if (busTrackerMarkers[routeNo]) {
+    busTrackerMarkers[routeNo].setLatLng([busLat, busLng]);
+    busTrackerMarkers[routeNo].setIcon(icon);
+  } else {
+    const marker = L.marker([busLat, busLng], { icon, zIndexOffset: 500 })
+      .bindTooltip(`🚌 Route ${routeNo} → ${route.dest_en}`, { direction: 'top' })
+      .bindPopup(`
+        <div class="popup-title">🚌 Route ${routeNo}</div>
+        <div class="popup-row"><span class="popup-label">From</span><span class="popup-value">${route.orig_en || '—'}</span></div>
+        <div class="popup-row"><span class="popup-label">To</span><span class="popup-value">${route.dest_en || '—'}</span></div>
+        <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#4caf50;">● In Transit (est.)</span></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">Position interpolated from KMB ETA · Updates every 30s</div>
+      `);
+    marker.addTo(layers.bus);
+    busTrackerMarkers[routeNo] = marker;
+  }
 }
 
 // ============================================================
@@ -1592,15 +1988,29 @@ async function showForecast() {
 }
 
 // ============================================================
+// MOBILE PANEL TOGGLE
+// ============================================================
+
+function togglePanel() {
+  const panel = document.getElementById('layer-panel');
+  const btn   = document.getElementById('panel-toggle');
+  const open  = panel.classList.toggle('panel-open');
+  btn.textContent = open ? '✕' : '🎛️';
+}
+
+// ============================================================
 // AUTO-REFRESH
 // ============================================================
 
 async function refreshLiveData() {
-  // Refresh weather if active
   if (layerActive.weather) await loadWeatherLayer();
-  // Refresh carpark if active
   if (layerActive.carpark) await loadCarparkLayer();
+  if (layerActive.traffic) await loadTrafficLayer();
   updateStatus();
+}
+
+async function refreshBusData() {
+  if (layerActive.bus) await refreshBusTrackers();
 }
 
 // ============================================================
@@ -1608,7 +2018,7 @@ async function refreshLiveData() {
 // ============================================================
 
 map.on('moveend', () => {
-  if (layerActive.bus)     renderBusStopsInView();
+  if (layerActive.bus)     loadBusLayer();
   if (layerActive.carpark) loadCarparkLayer();
 });
 
@@ -1636,8 +2046,9 @@ async function init() {
   hideLoading();
   updateStatus();
 
-  // Auto-refresh every 60s
+  // Auto-refresh: live data every 60s, bus GPS every 30s
   setInterval(refreshLiveData, REFRESH_MS);
+  setInterval(refreshBusData, BUS_REFRESH_MS);
 }
 
 // Start!
