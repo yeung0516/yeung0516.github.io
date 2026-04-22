@@ -498,7 +498,7 @@
 <div id="loading-overlay">
   <div class="loading-globe">🌏</div>
   <div class="loading-text">HK Live Map 香港即時地圖</div>
-  <div class="loading-sub" id="loading-status">Initialising map…</div>
+  <div class="loading-sub" id="loading-status">Initializing map…</div>
   <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
 </div>
 
@@ -704,33 +704,38 @@ const MTR_LINES = [
     ]
   },
   {
+    // Tuen Ma Line: Wu Kai Sha (east) → Tuen Mun (west), correct station codes & coordinates
     code: 'TML', name: 'Tuen Ma Line', color: '#9b2335',
     stations: [
       ['WKS','Wu Kai Sha',22.4283,114.2808],
-      ['MOS','Ma On Shan',22.4244,114.2578],
-      ['YUL','Heng On',22.4378,114.0306],
-      ['LMC','Tai Shui Hang',22.4503,114.0422],
-      ['TIS','Che Kung Temple',22.4456,114.0617],
-      ['STW','Sha Tin',22.4008,114.1953],
-      ['CKT','Tai Wai',22.4103,114.2028],
-      ['TAW','Kowloon Tong',22.3739,114.1086],
-      ['TWW','Tsuen Wan West',22.3781,114.1197],
-      ['MEF','Mei Foo',22.3381,114.1394],
-      ['NAC','Nam Cheong',22.3300,114.1603],
-      ['AUS','Austin',22.3019,114.1600],
-      ['ETS','East Tsim Sha Tsui',22.3044,114.1889],
+      ['MOS','Ma On Shan',22.4264,114.2383],
+      ['HEO','Heng On',22.4194,114.2433],
+      ['SHM','Shek Mun',22.4036,114.2219],
+      ['CKT','City One',22.3969,114.2186],
+      ['STW','Sha Tin Wai',22.3836,114.2072],
+      ['TAW','Tai Wai',22.3753,114.1789],
+      ['HIK','Hin Keng',22.3619,114.1958],
+      ['DIH','Diamond Hill',22.3400,114.2011],
+      ['KAT','Kai Tak',22.3283,114.2094],
+      ['SUW','Sung Wong Toi',22.3261,114.1972],
+      ['TKW','To Kwa Wan',22.3186,114.1919],
+      ['HOM','Ho Man Tin',22.3092,114.1808],
       ['HUH','Hung Hom',22.3075,114.1878],
-      ['MOK','Mong Kok East',22.3211,114.1800],
-      ['KOT','Kowloon Tong',22.3367,114.1783],
-      ['SKM','Shek Kip Mei',22.3319,114.1750],
-      ['TAP','Tai Po Market',22.4508,114.1664],
-      ['UNI','University',22.3975,114.2094],
-      ['FO','Fo Tan',22.3761,114.2328],
-      ['HIK','Hin Keng',22.3394,114.2522],
-      ['MOS','Ma On Shan',22.4264,114.2358],
+      ['ETS','East Tsim Sha Tsui',22.2981,114.1758],
+      ['AUS','Austin',22.3019,114.1600],
+      ['NAC','Nam Cheong',22.3300,114.1603],
+      ['MEF','Mei Foo',22.3381,114.1394],
+      ['TWW','Tsuen Wan West',22.3697,114.1086],
+      ['KSR','Kam Sheung Road',22.4183,113.9922],
+      ['YUL','Yuen Long',22.4381,114.0250],
+      ['LMC','Long Ping',22.4525,114.0361],
+      ['TIS','Tin Shui Wai',22.4583,114.0006],
+      ['SIH','Siu Hong',22.4094,113.9750],
+      ['TUM','Tuen Mun',22.3914,113.9761],
     ]
   },
   {
+    // East Rail Line: Admiralty → Lo Wu / Lok Ma Chau
     code: 'EAL', name: 'East Rail Line', color: '#53b7e8',
     stations: [
       ['ADM','Admiralty',22.2792,114.1650],
@@ -738,7 +743,8 @@ const MTR_LINES = [
       ['HUH','Hung Hom',22.3075,114.1878],
       ['MKK','Mong Kok East',22.3211,114.1739],
       ['KOT','Kowloon Tong',22.3367,114.1783],
-      ['STW','Sha Tin',22.4008,114.1953],
+      ['TAW','Tai Wai',22.3753,114.1789],
+      ['SHT','Sha Tin',22.3819,114.1883],
       ['FO','Fo Tan',22.3761,114.2328],
       ['UNI','University',22.3975,114.2094],
       ['TAP','Tai Po Market',22.4508,114.1664],
@@ -1607,11 +1613,11 @@ map.on('moveend', () => {
 });
 
 // ============================================================
-// INITIALISE APPLICATION
+// INITIALIZE APPLICATION
 // ============================================================
 
 async function init() {
-  setProgress(10, 'Initialising map…');
+  setProgress(10, 'Initializing map…');
   await new Promise(r => setTimeout(r, 300));
 
   setProgress(25, 'Loading weather data…');
