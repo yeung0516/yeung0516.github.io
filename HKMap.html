@@ -1632,8 +1632,8 @@ async function updateBusPosition(route) {
     if (tA >= tB) continue; // skip if timestamps not increasing
 
     if (tA <= now && now <= tB) {
-      const stopA = route.stops.find(s => s.seq == seqA);
-      const stopB = route.stops.find(s => s.seq == seqB);
+      const stopA = route.stops.find(s => s.seq === seqA);
+      const stopB = route.stops.find(s => s.seq === seqB);
       if (!stopA || !stopB || !stopA.lat || !stopB.lat) continue;
 
       const frac = (now - tA) / (tB - tA);
@@ -2018,7 +2018,8 @@ async function refreshBusData() {
 // ============================================================
 
 map.on('moveend', () => {
-  if (layerActive.bus)     loadBusLayer();
+  // Re-render bus stops in new view without re-fetching route data or GPS ETAs
+  if (layerActive.bus)     { renderBusStopsInView(); refreshBusTrackers(); }
   if (layerActive.carpark) loadCarparkLayer();
 });
 
