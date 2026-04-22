@@ -502,19 +502,107 @@
     color: white;
   }
 
-  /* ===== BUS TRACKER ICON ===== */
+  /* ===== BUS TRACKER ICON (lightweight directional badge) ===== */
   .bus-tracker-icon {
-    border: 2.5px solid #333;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
+    border: 1.5px solid rgba(0,0,0,0.45);
+    border-radius: 3px;
+    font-family: sans-serif;
+    font-size: 9px;
     font-weight: 900;
-    font-size: 10px;
-    color: white;
-    box-shadow: 2px 2px 0 #333;
+    color: #fff;
+    padding: 1px 3px;
+    white-space: nowrap;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    line-height: 1.3;
     cursor: pointer;
+  }
+
+  /* ===== BUS SEARCH PANEL ===== */
+  #bus-search-panel {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 810;
+    background: #fff;
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 12px;
+    padding: 7px 10px;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    min-width: 220px;
+    animation: fadeIn 0.25s ease both;
+  }
+  #bus-search-panel.visible { display: flex; }
+  #bus-route-input {
+    border: 2px solid #ccc;
+    border-radius: 7px;
+    padding: 5px 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    flex: 1;
+    outline: none;
+    color: #333;
+  }
+  #bus-route-input:focus { border-color: #e65100; }
+  #bus-search-btn {
     background: #e65100;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #333;
+    white-space: nowrap;
+  }
+  #bus-search-btn:hover  { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 #333; }
+  #bus-search-btn:active { transform: translate(1px,1px);   box-shadow: 1px 1px 0 #333; }
+  #bus-search-clear {
+    background: #f5f5f5;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+  }
+  #bus-search-clear:hover { background: #ffcdd2; border-color: #e53935; color: #b71c1c; }
+  #bus-search-result {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 810;
+    background: #fffde7;
+    border: 2.5px solid #333;
+    box-shadow: 3px 3px 0 #333;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    display: none;
+    max-width: 320px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #bus-search-result.visible { display: block; }
+  @media (max-width: 600px) {
+    #bus-search-panel { min-width: 170px; padding: 5px 7px; font-size: 11px; }
+    #bus-route-input  { font-size: 11px; padding: 4px 6px; }
+    #bus-search-btn   { font-size: 11px; padding: 4px 7px; }
   }
 
   /* ===== MOBILE PANEL TOGGLE ===== */
@@ -608,6 +696,15 @@
 <!-- Mobile Panel Toggle -->
 <button id="panel-toggle" onclick="togglePanel()" aria-label="Toggle layer panel">🎛️</button>
 
+<!-- Bus Route Search Panel (visible when Buses layer is active) -->
+<div id="bus-search-panel">
+  <span style="font-size:16px;flex-shrink:0;">🔍</span>
+  <input type="text" id="bus-route-input" placeholder="Route (e.g. 1, 60X, NLB3)…" maxlength="10" autocomplete="off" />
+  <button id="bus-search-btn" onclick="searchBusRoute()">Go</button>
+  <button id="bus-search-clear" onclick="clearBusSearch()" title="Clear">✕</button>
+</div>
+<div id="bus-search-result"></div>
+
 <!-- Layer Control Panel -->
 <div id="layer-panel">
   <h3>🎛️ Layers</h3>
@@ -618,7 +715,7 @@
     <span class="layer-emoji">🚗</span> Traffic
   </button>
   <button class="layer-btn" data-layer="bus"      onclick="toggleLayer('bus')">
-    <span class="layer-emoji">🚌</span> KMB Bus
+    <span class="layer-emoji">🚌</span> Buses
   </button>
   <button class="layer-btn" data-layer="mtr"      onclick="toggleLayer('mtr')">
     <span class="layer-emoji">🚇</span> MTR
@@ -668,6 +765,12 @@
     <div class="legend-item"><div class="legend-dot" style="background:#e53935;"></div> &lt;5% Free</div>
   </div>
   <div class="legend-section">
+    <h5>🚌 Bus Companies</h5>
+    <div class="legend-item"><div class="legend-dot" style="background:#e65100;"></div> KMB (Kowloon)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1e7a3e;"></div> CTB (Citybus)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1565c0;"></div> NLB (Lantau)</div>
+  </div>
+  <div class="legend-section">
     <h5>🚇 MTR Lines</h5>
     <div class="legend-item"><div class="legend-dot" style="background:#e30613;"></div> Tsuen Wan (TWL)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#0860a8;"></div> Island (ISL)</div>
@@ -700,8 +803,19 @@ const MAP_CENTER = [22.3500, 114.1500];
 const MAP_ZOOM   = 12;
 const REFRESH_MS = 60000; // 60 seconds auto-refresh for live APIs
 const CACHE_BUST_MS = 600000; // 10 minutes – reset GitHub Pages cache to pick up fresh data
-const MAX_BUS_STOPS_PER_RENDER  = 500;
+const MAX_BUS_STOPS_PER_RENDER  = 400;
 const MAX_CARPARK_MARKERS_PER_VIEW = 300;
+
+// Bus company brand colours
+const COMPANY_COLORS = {
+  KMB:  '#e65100',  // deep orange
+  CTB:  '#1e7a3e',  // dark green
+  NWFB: '#006400',  // green (merged with CTB)
+  NLB:  '#1565c0',  // dark blue
+};
+
+// Unicode directional arrows for lightweight bus icons (N, NE, E, SE, S, SW, W, NW)
+const DIR_ARROWS = ['↑','↗','→','↘','↓','↙','←','↖'];
 
 // Cached data URLs (served from GitHub Pages, updated by GitHub Actions every 10 min)
 const CACHE = {
@@ -1003,8 +1117,7 @@ let layers = {};
 // Cache for carpark basic info
 let carparkInfoCache = null;
 
-// All KMB stops cache
-let kmbStopsCache = null;
+// All KMB stops cache — removed (replaced by busRoutesCache for lighter page load)
 
 // Normalised TD speedmap segments (cached between redraws)
 let trafficSegmentsCache = null;
@@ -1167,9 +1280,11 @@ function toggleLayer(name) {
     map.addLayer(layers[name]);
     // Load data if layer is newly activated
     loadLayer(name);
+    if (name === 'bus') showBusSearchPanel(true);
   } else {
     btn.classList.remove('active');
     map.removeLayer(layers[name]);
+    if (name === 'bus') showBusSearchPanel(false);
   }
 }
 
@@ -1575,25 +1690,24 @@ async function loadTrafficLayer() {
 
 // Cache for pre-fetched route data (from GitHub Actions)
 let busRoutesCache = null;
-// Bus GPS tracker markers keyed by routeNo
+// Bus GPS tracker markers keyed by routeKey (COMPANY_route_bound)
 let busTrackerMarkers = {};
-// ETA cache per route: { routeNo: { ts: timestamp, etas: [...] } }
+// ETA cache per route: { routeKey: { ts: timestamp, etas: [...] } }
 const busETACache = {};
+// Highlighted route polylines (from search)
+let busRouteHighlight = null;
 
-/** Create directional bus marker icon */
-function createBusIcon(routeNo, bearing) {
-  const label = routeNo.length <= 4 ? routeNo : '🚌';
+/** Create lightweight directional bus marker icon */
+function createBusIcon(routeNo, bearing, company) {
+  const color = COMPANY_COLORS[company] || '#e65100';
+  const arrow = DIR_ARROWS[Math.round(bearing / 45) % 8];
+  const label = routeNo.length <= 5 ? routeNo : routeNo.slice(0, 4) + '…';
   return L.divIcon({
-    html: `<div style="text-align:center;position:relative;width:40px;">
-      <svg width="20" height="20" viewBox="0 0 20 20" style="display:block;margin:0 auto;transform:rotate(${bearing - 90}deg);">
-        <polygon points="10,2 18,18 10,13 2,18" fill="#e65100" stroke="#333" stroke-width="1.5"/>
-      </svg>
-      <div style="background:#e65100;border:2px solid #333;border-radius:4px;color:white;font-size:9px;font-weight:900;padding:1px 3px;font-family:'Nunito',sans-serif;box-shadow:1px 1px 0 #333;white-space:nowrap;">${label}</div>
-    </div>`,
+    html: `<div class="bus-tracker-icon" style="background:${color};">${arrow}${label}</div>`,
     className: '',
-    iconSize: [40, 42],
-    iconAnchor: [20, 21],
-    popupAnchor: [0, -21],
+    iconSize:   [28, 14],
+    iconAnchor: [14, 7],
+    popupAnchor:[0, -7],
   });
 }
 
@@ -1601,100 +1715,159 @@ async function loadBusLayer() {
   layers.bus.clearLayers();
   busTrackerMarkers = {};
 
-  // Load KMB all-stops for display in current view
-  if (!kmbStopsCache) {
-    try {
-      setProgress(0, 'Loading KMB stops…');
-      const data = await safeFetch(API.kmbStops, 15000);
-      kmbStopsCache = data.data || [];
-    } catch (e) {
-      console.warn('KMB stops failed:', e);
-      kmbStopsCache = [];
-    }
-  }
-
-  // Try to load pre-fetched route data for bus GPS tracking
+  // Load pre-fetched route data for all companies (from GitHub Actions)
+  // This replaces the heavy all-KMB-stops call (~4 MB) with a targeted
+  // route+stop JSON pre-computed server-side.
   if (!busRoutesCache) {
     try {
-      busRoutesCache = await safeFetch(CACHE.busRoutes, 6000);
-    } catch (_) {
+      setProgress(0, 'Loading bus routes…');
+      busRoutesCache = await safeFetch(CACHE.busRoutes, 10000);
+    } catch (e) {
+      console.warn('Bus routes cache failed:', e);
       busRoutesCache = null;
     }
   }
 
   renderBusStopsInView();
-  await refreshBusTrackers();
+  if (busRoutesCache) await refreshBusTrackers();
 }
 
 function renderBusStopsInView() {
   if (!layerActive.bus) return;
 
-  // Clear only static stop markers (not bus tracker markers)
-  // We re-add them all from scratch
+  // Clear and re-render from scratch
   layers.bus.clearLayers();
   busTrackerMarkers = {};
 
-  const bounds  = map.getBounds();
-  const visible = (kmbStopsCache || []).filter(stop => {
-    const lat = parseFloat(stop.lat);
-    const lng = parseFloat(stop.long);
-    return !isNaN(lat) && !isNaN(lng) && bounds.contains([lat, lng]);
+  if (!busRoutesCache || !busRoutesCache.routes) return;
+
+  const bounds = map.getBounds();
+
+  // Collect all unique stops in view, aggregating routes per stop
+  const stopMap = {}; // stop_id -> { stop_id, name_en, lat, lng, routes[] }
+
+  Object.values(busRoutesCache.routes).forEach(route => {
+    if (!Array.isArray(route.stops)) return;
+    const company = route.company || 'KMB';
+    route.stops.forEach(stop => {
+      if (!stop.lat || !stop.lng) return;
+      if (!bounds.contains([stop.lat, stop.lng])) return;
+      if (!stopMap[stop.stop_id]) {
+        stopMap[stop.stop_id] = {
+          stop_id: stop.stop_id,
+          name_en: stop.name_en,
+          lat:     stop.lat,
+          lng:     stop.lng,
+          routes:  [],
+        };
+      }
+      // Avoid duplicate route entries per stop
+      const already = stopMap[stop.stop_id].routes.some(
+        r => r.route === route.route && r.company === company && r.bound === route.bound
+      );
+      if (!already) {
+        stopMap[stop.stop_id].routes.push({
+          route:   route.route,
+          company,
+          bound:   route.bound || 'O',
+          dest_en: route.dest_en || '',
+        });
+      }
+    });
   });
 
-  const toRender = visible.slice(0, MAX_BUS_STOPS_PER_RENDER);
+  const toRender = Object.values(stopMap).slice(0, MAX_BUS_STOPS_PER_RENDER);
 
   toRender.forEach(stop => {
-    const lat = parseFloat(stop.lat);
-    const lng = parseFloat(stop.long);
+    // Colour by first (or dominant) company
+    const company = stop.routes.length > 0 ? stop.routes[0].company : 'KMB';
+    const color   = COMPANY_COLORS[company] || '#ff8f00';
 
     const icon = divIcon(
-      `<div style="background:#ff8f00;border:2.5px solid #333;border-radius:6px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:10px;box-shadow:2px 2px 0 #333;color:white;font-weight:900;">🚌</div>`,
-      '', [22, 22]
+      `<div style="background:${color};border:2px solid #333;border-radius:4px;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:8px;box-shadow:1px 1px 0 #333;color:white;font-weight:900;line-height:1;">⬛</div>`,
+      '', [14, 14]
     );
 
-    const marker = L.marker([lat, lng], { icon })
-      .bindTooltip(stop.name_en || stop.stop, { direction: 'top' });
+    const marker = L.marker([stop.lat, stop.lng], { icon })
+      .bindTooltip(stop.name_en || stop.stop_id, { direction: 'top' });
 
     marker.on('click', async () => {
+      const routeBadges = stop.routes.slice(0, 8).map(r => {
+        const c = COMPANY_COLORS[r.company] || '#e65100';
+        return `<span style="background:${c};color:#fff;border-radius:3px;padding:1px 5px;font-size:10px;font-weight:900;margin:1px 2px;display:inline-block;">${r.route}</span>`;
+      }).join('');
+
       const popupContent = document.createElement('div');
       popupContent.innerHTML = `
         <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
-        <div class="popup-row"><span class="popup-label">Stop ID</span><span class="popup-value">${stop.stop}</span></div>
+        <div style="margin-bottom:5px;">${routeBadges}</div>
         <div class="popup-loading">Loading ETAs…</div>
       `;
       marker.bindPopup(popupContent).openPopup();
 
-      try {
-        const etaData = await safeFetch(API.kmbEta(stop.stop), 8000);
-        const etas    = etaData.data || [];
-        if (etas.length === 0) {
-          popupContent.querySelector('.popup-loading').textContent = 'No ETA data available.';
-          return;
+      // Fetch KMB ETAs if any KMB routes serve this stop
+      const hasKmb = stop.routes.some(r => r.company === 'KMB');
+      if (hasKmb) {
+        try {
+          const etaData = await safeFetch(API.kmbEta(stop.stop_id), 8000);
+          const etas    = etaData.data || [];
+          if (etas.length === 0) {
+            popupContent.querySelector('.popup-loading').textContent = 'No ETA data available.';
+            return;
+          }
+          const byRoute = {};
+          etas.forEach(e => {
+            const key = `${e.route}-${e.dir}-${e.service_type}`;
+            if (!byRoute[key]) byRoute[key] = { route: e.route, dest: e.dest_en, times: [] };
+            if (e.eta) byRoute[key].times.push(new Date(e.eta));
+          });
+          let etaHtml = '<div class="popup-eta-list">';
+          Object.values(byRoute).slice(0, 6).forEach(r => {
+            const times = r.times.map(t => {
+              const diff = Math.round((t - Date.now()) / 60000);
+              return diff < 0 ? 'Due' : diff === 0 ? 'Arr' : `${diff}m`;
+            }).join(' / ');
+            etaHtml += `<div class="eta-item"><span class="route-no">${r.route}</span> → ${r.dest} <strong>${times}</strong></div>`;
+          });
+          etaHtml += '</div>';
+          popupContent.innerHTML = `
+            <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
+            <div style="margin-bottom:5px;">${routeBadges}</div>
+            ${etaHtml}
+            <div style="font-size:10px;color:#888;margin-top:4px;">KMB ETAs shown · up to 6 routes</div>
+          `;
+          marker.getPopup().update();
+        } catch (_) {
+          popupContent.querySelector('.popup-loading').textContent = 'ETA unavailable.';
         }
-        const byRoute = {};
-        etas.forEach(e => {
-          const key = `${e.route}-${e.dir}-${e.service_type}`;
-          if (!byRoute[key]) byRoute[key] = { route: e.route, dest: e.dest_en, times: [] };
-          if (e.eta) byRoute[key].times.push(new Date(e.eta));
-        });
-        let etaHtml = `<div class="popup-eta-list">`;
-        Object.values(byRoute).slice(0, 6).forEach(r => {
-          const times = r.times.map(t => {
-            const diff = Math.round((t - Date.now()) / 60000);
-            return diff < 0 ? 'Due' : diff === 0 ? 'Arr' : `${diff}m`;
-          }).join(' / ');
-          etaHtml += `<div class="eta-item"><span class="route-no">${r.route}</span> → ${r.dest} <strong>${times}</strong></div>`;
-        });
-        etaHtml += `</div>`;
-        popupContent.innerHTML = `
-          <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
-          <div class="popup-row"><span class="popup-label">Stop ID</span><span class="popup-value">${stop.stop}</span></div>
-          ${etaHtml}
-          <div style="font-size:10px;color:#888;margin-top:4px;">Showing up to 6 routes</div>
-        `;
-        marker.getPopup().update();
-      } catch (_) {
-        popupContent.querySelector('.popup-loading').textContent = 'ETA unavailable.';
+      } else {
+        // CTB / NLB stop — fetch CTB ETA for first matching CTB route
+        const ctbRoute = stop.routes.find(r => r.company === 'CTB');
+        if (ctbRoute) {
+          try {
+            const url = `https://rt.data.gov.hk/v2/transport/citybus/eta/CTB/${stop.stop_id}/${ctbRoute.route}`;
+            const etaData = await safeFetch(url, 8000);
+            const etas = etaData.data || [];
+            let etaHtml = '<div class="popup-eta-list">';
+            etas.slice(0, 3).forEach(e => {
+              if (!e.eta) return;
+              const diff = Math.round((new Date(e.eta) - Date.now()) / 60000);
+              const t    = diff < 0 ? 'Due' : diff === 0 ? 'Arr' : `${diff}m`;
+              etaHtml += `<div class="eta-item"><span class="route-no" style="background:#1e7a3e;">${e.route}</span> → ${e.dest_en || ''} <strong>${t}</strong></div>`;
+            });
+            etaHtml += '</div>';
+            popupContent.innerHTML = `
+              <div class="popup-title">🚌 ${stop.name_en || 'Bus Stop'}</div>
+              <div style="margin-bottom:5px;">${routeBadges}</div>
+              ${etaHtml}
+            `;
+            marker.getPopup().update();
+          } catch (_) {
+            popupContent.querySelector('.popup-loading').textContent = 'ETA unavailable.';
+          }
+        } else {
+          popupContent.querySelector('.popup-loading').textContent = 'Live ETAs not available for this stop.';
+        }
       }
     });
 
@@ -1702,15 +1875,16 @@ function renderBusStopsInView() {
   });
 }
 
-/** Refresh GPS-estimated bus positions for routes visible in current map bounds */
+/** Refresh GPS-estimated bus positions for KMB routes visible in current map bounds */
 async function refreshBusTrackers() {
   if (!layerActive.bus || !busRoutesCache || !busRoutesCache.routes) return;
 
   const bounds = map.getBounds();
   const routes = Object.values(busRoutesCache.routes);
 
-  // Find routes with at least one stop in view – show all, not just 10
+  // Only KMB has a route-level ETA API suitable for position interpolation
   const visible = routes.filter(r =>
+    (r.company || 'KMB') === 'KMB' &&
     Array.isArray(r.stops) && r.stops.some(s =>
       s.lat && s.lng && bounds.contains([s.lat, s.lng])
     )
@@ -1719,27 +1893,33 @@ async function refreshBusTrackers() {
   await Promise.allSettled(visible.map(r => updateBusPosition(r)));
 }
 
-/** Compute and display estimated bus position for a single route */
+/** Compute and display estimated bus position for a single KMB route */
 async function updateBusPosition(route) {
-  const routeNo = route.route;
+  const company  = route.company || 'KMB';
+  const bound    = route.bound   || 'O';
+  const routeKey = `${company}_${route.route}_${bound}`;
   const now = Date.now();
 
-  // Use cached ETAs if fresh (<30s)
+  // Use cached ETAs if fresh (<30 s)
   let etas;
-  if (busETACache[routeNo] && (now - busETACache[routeNo].ts) < 30000) {
-    etas = busETACache[routeNo].etas;
+  if (busETACache[routeKey] && (now - busETACache[routeKey].ts) < 30000) {
+    etas = busETACache[routeKey].etas;
   } else {
     try {
+      const svc  = route.service_type || '1';
       const data = await safeFetch(
-        `https://data.etabus.gov.hk/v1/transport/kmb/route-eta/${routeNo}/1`,
+        `https://data.etabus.gov.hk/v1/transport/kmb/route-eta/${route.route}/${svc}`,
         8000
       );
-      etas = (data && data.data) ? data.data : [];
-      busETACache[routeNo] = { ts: now, etas };
+      let all = (data && data.data) ? data.data : [];
+      // Filter to matching direction
+      all = all.filter(e => !e.dir || e.dir === bound);
+      busETACache[routeKey] = { ts: now, etas: all };
+      etas = all;
     } catch (_) { return; }
   }
 
-  // Only look at next bus (eta_seq=1) per stop, sorted by stop sequence
+  // Only next bus (eta_seq=1) per stop, sorted by stop sequence
   const nextBus = etas
     .filter(e => e.eta_seq === 1 && e.eta)
     .sort((a, b) => (a.seq || 0) - (b.seq || 0));
@@ -1755,7 +1935,7 @@ async function updateBusPosition(route) {
     const seqA = nextBus[i].seq;
     const seqB = nextBus[i + 1].seq;
 
-    if (tA >= tB) continue; // skip if timestamps not increasing
+    if (tA >= tB) continue;
 
     if (tA <= now && now <= tB) {
       const stopA = route.stops.find(s => s.seq === seqA);
@@ -1765,30 +1945,133 @@ async function updateBusPosition(route) {
       const frac = (now - tA) / (tB - tA);
       busLat  = stopA.lat + (stopB.lat - stopA.lat) * frac;
       busLng  = stopA.lng + (stopB.lng - stopA.lng) * frac;
-      bearing = calcBearing(stopA.lat, stopA.lng, stopB.lat, stopB.lng);
+      // Use pre-computed bearing (server-side) or fall back to on-the-fly calc
+      bearing = stopA.bearing_to_next !== undefined
+        ? stopA.bearing_to_next
+        : calcBearing(stopA.lat, stopA.lng, stopB.lat, stopB.lng);
       break;
     }
   }
 
   if (busLat === null) return;
 
-  const icon = createBusIcon(routeNo, bearing);
+  const icon = createBusIcon(route.route, bearing, company);
+  const color = COMPANY_COLORS[company] || '#e65100';
 
-  if (busTrackerMarkers[routeNo]) {
-    busTrackerMarkers[routeNo].setLatLng([busLat, busLng]);
-    busTrackerMarkers[routeNo].setIcon(icon);
+  if (busTrackerMarkers[routeKey]) {
+    busTrackerMarkers[routeKey].setLatLng([busLat, busLng]);
+    busTrackerMarkers[routeKey].setIcon(icon);
   } else {
     const marker = L.marker([busLat, busLng], { icon, zIndexOffset: 500 })
-      .bindTooltip(`🚌 Route ${routeNo} → ${route.dest_en}`, { direction: 'top' })
+      .bindTooltip(`🚌 ${company} ${route.route} → ${route.dest_en}`, { direction: 'top' })
       .bindPopup(`
-        <div class="popup-title">🚌 Route ${routeNo}</div>
+        <div class="popup-title">🚌 ${company} Route ${route.route}</div>
         <div class="popup-row"><span class="popup-label">From</span><span class="popup-value">${route.orig_en || '—'}</span></div>
         <div class="popup-row"><span class="popup-label">To</span><span class="popup-value">${route.dest_en || '—'}</span></div>
-        <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#4caf50;">● In Transit (est.)</span></div>
-        <div style="font-size:10px;color:#888;margin-top:4px;">Position interpolated from KMB ETA · Updates every 30s</div>
+        <div class="popup-row"><span class="popup-label">Company</span><span class="popup-value" style="color:${color};">● ${company}</span></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">Position interpolated from ETA · Updates every 30s</div>
       `);
     marker.addTo(layers.bus);
-    busTrackerMarkers[routeNo] = marker;
+    busTrackerMarkers[routeKey] = marker;
+  }
+}
+
+// ============================================================
+// BUS ROUTE SEARCH
+// ============================================================
+
+function showBusSearchPanel(visible) {
+  const panel = document.getElementById('bus-search-panel');
+  if (visible) {
+    panel.classList.add('visible');
+  } else {
+    panel.classList.remove('visible');
+    clearBusSearch();
+  }
+}
+
+function searchBusRoute() {
+  const input = document.getElementById('bus-route-input').value.trim().toUpperCase();
+  if (!input) return;
+
+  if (!busRoutesCache || !busRoutesCache.routes) {
+    setSearchResult('⚠️ Bus data not loaded yet. Please wait and try again.');
+    return;
+  }
+
+  // Match routes where route number starts with or equals the query
+  const matches = Object.values(busRoutesCache.routes).filter(r =>
+    r.route && (
+      r.route.toUpperCase() === input ||
+      r.route.toUpperCase().startsWith(input)
+    )
+  );
+
+  if (matches.length === 0) {
+    setSearchResult(`❌ Route "${input}" not found`);
+    return;
+  }
+
+  // Prefer outbound, then first match
+  const route = matches.find(r => r.bound === 'O') || matches[0];
+  highlightBusRoute(route);
+
+  const color  = COMPANY_COLORS[route.company || 'KMB'] || '#e65100';
+  const extras = matches.length > 1 ? ` <span style="color:#888;">(+${matches.length - 1} more)</span>` : '';
+  setSearchResult(
+    `<span style="color:${color};font-weight:900;">${route.company || 'KMB'}</span> ` +
+    `Route <strong>${route.route}</strong>: ${route.orig_en || '?'} → ${route.dest_en || '?'}${extras}`
+  );
+}
+
+function setSearchResult(html) {
+  const el = document.getElementById('bus-search-result');
+  el.innerHTML = html;
+  el.classList.add('visible');
+}
+
+function highlightBusRoute(route) {
+  // Remove previous highlight
+  if (busRouteHighlight) {
+    busRouteHighlight.forEach(l => map.removeLayer(l));
+    busRouteHighlight = null;
+  }
+  if (!route || !Array.isArray(route.stops) || route.stops.length < 2) return;
+
+  const color  = COMPANY_COLORS[route.company || 'KMB'] || '#e65100';
+  const coords = route.stops
+    .filter(s => s.lat && s.lng)
+    .map(s => [s.lat, s.lng]);
+
+  if (coords.length < 2) return;
+
+  const outline = L.polyline(coords, { color: '#333', weight: 7, opacity: 0.25 });
+  const line    = L.polyline(coords, {
+    color, weight: 4, opacity: 0.95,
+    lineJoin: 'round', lineCap: 'round',
+  }).bindTooltip(
+    `${route.company || 'KMB'} ${route.route}: ${route.orig_en || ''} → ${route.dest_en || ''}`,
+    { sticky: true }
+  );
+
+  outline.addTo(map);
+  line.addTo(map);
+  busRouteHighlight = [outline, line];
+
+  // Zoom to route
+  try {
+    map.fitBounds(L.latLngBounds(coords), { padding: [40, 40], maxZoom: 14 });
+  } catch (_) {}
+}
+
+function clearBusSearch() {
+  const inp = document.getElementById('bus-route-input');
+  if (inp) inp.value = '';
+  const res = document.getElementById('bus-search-result');
+  if (res) res.classList.remove('visible');
+  if (busRouteHighlight) {
+    busRouteHighlight.forEach(l => map.removeLayer(l));
+    busRouteHighlight = null;
   }
 }
 
@@ -2218,6 +2501,10 @@ async function init() {
     trafficIncidentsCache = null;
     carparkInfoCache      = null;
   }, CACHE_BUST_MS);
+
+  // Keyboard shortcut: Enter to search bus route
+  const inp = document.getElementById('bus-route-input');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') searchBusRoute(); });
 }
 
 // Start!
