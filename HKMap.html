@@ -2051,13 +2051,8 @@ function onBusRouteChange() {
     return;
   }
 
-  // Find the selected route
-  const route = Object.values(busRoutesCache.routes).find(r => {
-    const company = r.company || 'KMB';
-    const bound = r.bound || 'O';
-    const key = `${company}_${r.route}_${bound}`;
-    return key === selectedKey;
-  });
+  // Look up the selected route directly by its canonical cache key
+  const route = busRoutesCache.routes[selectedKey];
 
   if (!route) {
     setSearchResult('❌ Route not found');
