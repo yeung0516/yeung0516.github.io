@@ -698,11 +698,12 @@
 
 const MAP_CENTER = [22.3500, 114.1500];
 const MAP_ZOOM   = 12;
-const REFRESH_MS = 60000; // 60 seconds auto-refresh
+const REFRESH_MS = 60000; // 60 seconds auto-refresh for live APIs
+const CACHE_BUST_MS = 600000; // 10 minutes – reset GitHub Pages cache to pick up fresh data
 const MAX_BUS_STOPS_PER_RENDER  = 500;
 const MAX_CARPARK_MARKERS_PER_VIEW = 300;
 
-// Cached data URLs (served from GitHub Pages, updated by GitHub Actions hourly)
+// Cached data URLs (served from GitHub Pages, updated by GitHub Actions every 10 min)
 const CACHE = {
   busRoutes:     'data/hk_bus_routes.json',
   trafficSpeeds: 'data/hk_traffic_speeds.json',
@@ -1005,6 +1006,11 @@ let carparkInfoCache = null;
 // All KMB stops cache
 let kmbStopsCache = null;
 
+// Normalised TD speedmap segments (cached between redraws)
+let trafficSegmentsCache = null;
+let trafficHasGeometry   = false;
+let trafficIncidentsCache = null; // cached incidents to avoid re-fetch on every pan
+
 // ============================================================
 // INITIALISE MAP
 // ============================================================
@@ -1028,7 +1034,7 @@ L.tileLayer(
 // Create layer groups
 layers.weather = L.layerGroup().addTo(map);  // active by default
 layers.traffic = L.layerGroup();
-layers.bus      = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 60 });
+layers.bus      = L.layerGroup();
 layers.mtr      = L.layerGroup();
 layers.carpark  = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 50 });
 layers.housing  = L.layerGroup();
@@ -1064,7 +1070,7 @@ async function safeFetch(url, timeoutMs = 8000) {
   const controller = new AbortController();
   const tid = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(url, { signal: controller.signal });
+    const res = await fetch(url, { signal: controller.signal, cache: 'no-cache' });
     clearTimeout(tid);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
@@ -1303,128 +1309,167 @@ async function loadWeatherLayer() {
 // TRAFFIC LAYER — real-time speed vs speed limit, color-coded polylines
 // ============================================================
 
-async function loadTrafficLayer() {
-  layers.traffic.clearLayers();
-
-  // ── 1. Fetch speed data: try cached JSON first, then live API ─────────────
-  let speedRecords = null; // array of { region, road_saturation_level, traffic_speed, ... }
-
-  try {
-    const cached = await safeFetch(CACHE.trafficSpeeds, 4000);
-    if (cached && cached.available === true) {
-      const raw = cached.data || cached.SpeedMapPanel || cached;
-      speedRecords = Array.isArray(raw) ? raw : (Array.isArray(Object.values(raw)[0]) ? Object.values(raw).flat() : null);
-    }
-  } catch (_) {}
-
-  if (!speedRecords) {
-    try {
-      const raw = await safeFetch(SPEEDMAP_URL, 6000);
-      if (raw) {
-        speedRecords = Array.isArray(raw) ? raw
-          : (Array.isArray(raw.data) ? raw.data
-          : Array.isArray(raw.SpeedMapPanel) ? raw.SpeedMapPanel : null);
-      }
-    } catch (_) {}
+/**
+ * Find the array of road-segment records inside a TD speedmap response.
+ * The API has used several key names over time; try them all.
+ */
+function findSpeedArray(data) {
+  if (Array.isArray(data)) return data;
+  const candidates = ['SpeedMapPanel', 'speedMapPanel', 'speed_map_panel',
+                       'SPEEDMAPPANEL', 'data', 'roads', 'segments'];
+  for (const k of candidates) {
+    if (Array.isArray(data[k]) && data[k].length > 0) return data[k];
   }
+  // Last resort: find any non-empty array value
+  for (const v of Object.values(data)) {
+    if (Array.isArray(v) && v.length > 0) return v;
+  }
+  return null;
+}
 
-  // ── 2. Aggregate speeds by region ────────────────────────────────────────
-  const regionStats = {}; // region → { totalSpeed, count, levelCounts }
-  if (speedRecords && speedRecords.length > 0) {
-    speedRecords.forEach(seg => {
-      const region = (seg.region || 'K').toUpperCase();
-      if (!regionStats[region]) regionStats[region] = { totalSpeed: 0, count: 0, levels: {} };
-      const s = regionStats[region];
-      s.totalSpeed += (parseFloat(seg.traffic_speed) || 0);
+/**
+ * Normalise a single speedmap segment record to a known shape,
+ * handling both uppercase (TD API) and lowercase field names.
+ */
+function normalizeSpeedRecord(raw) {
+  // Case-insensitive field getter
+  const _keys = Object.keys(raw);
+  const get = (...names) => {
+    for (const n of names) {
+      if (raw[n] != null && raw[n] !== '') return raw[n];
+    }
+    for (const n of names) {
+      const match = _keys.find(k => k.toLowerCase() === n.toLowerCase());
+      if (match && raw[match] != null && raw[match] !== '') return raw[match];
+    }
+    return null;
+  };
+  return {
+    region:     String(get('region',   'REGION')   || 'K').toUpperCase(),
+    road:       String(get('road',     'ROAD', 'road_name', 'ROAD_NAME') || ''),
+    saturation: String(get('road_saturation_level', 'ROAD_SATURATION_LEVEL') || '').toUpperCase(),
+    speed:      parseFloat(get('traffic_speed', 'TRAFFIC_SPEED') || 0) || 0,
+    startLat:   parseFloat(get('startLat',  'start_lat',  'START_LAT',  'startlatitude')  || 0) || 0,
+    startLng:   parseFloat(get('startLng',  'startLong',  'start_lng',  'start_long',
+                                'START_LNG', 'START_LONG', 'startlongitude') || 0) || 0,
+    endLat:     parseFloat(get('endLat',    'end_lat',    'END_LAT',    'endlatitude')    || 0) || 0,
+    endLng:     parseFloat(get('endLng',    'endLong',    'end_lng',    'end_long',
+                                'END_LNG',   'END_LONG',   'endlongitude')   || 0) || 0,
+  };
+}
+
+/** Re-draw speed-coloured road polylines from the cached segment data. */
+function renderTrafficRoads() {
+  const bounds = map.getBounds();
+
+  if (trafficSegmentsCache && trafficHasGeometry) {
+    // ── Draw actual TD speedmap segments ──────────────────────────────────
+    trafficSegmentsCache.forEach(seg => {
+      // Skip segments with no valid geometry (all-zero coordinates = missing)
+      if (seg.startLat === 0 && seg.startLng === 0 && seg.endLat === 0 && seg.endLng === 0) return;
+      const p1 = [seg.startLat, seg.startLng];
+      const p2 = [seg.endLat,   seg.endLng];
+      // Only draw segments that touch the current viewport
+      if (!bounds.contains(p1) && !bounds.contains(p2)) return;
+
+      const color     = trafficColor(seg.saturation, seg.speed, 0);
+      const speedText = seg.speed > 0 ? `${seg.speed} km/h` : (seg.saturation || 'No data');
+
+      L.polyline([p1, p2], { color: '#333', weight: 8, opacity: 0.25 }).addTo(layers.traffic);
+      L.polyline([p1, p2], { color, weight: 5, opacity: 0.9, lineJoin: 'round', lineCap: 'round' })
+        .bindTooltip(`${seg.road || 'Road'}: ${speedText}`, { sticky: true })
+        .bindPopup(`
+          <div class="popup-title">🚗 ${seg.road || 'Road Segment'}</div>
+          <div class="popup-row"><span class="popup-label">🚀 Speed</span><span class="popup-value" style="color:${color}">${speedText}</span></div>
+          <div class="popup-row"><span class="popup-label">📍 Region</span><span class="popup-value">${seg.region}</span></div>
+          <div class="popup-row"><span class="popup-label">🚦 Status</span><span class="popup-value" style="color:${color}">${seg.saturation || 'N/A'}</span></div>
+          <div style="font-size:10px;color:#888;margin-top:4px;">Source: TD Speed Map · Live segments</div>
+        `)
+        .addTo(layers.traffic);
+    });
+
+  } else if (trafficSegmentsCache) {
+    // ── Fall back: region-averaged speeds on pre-defined major roads ───────
+    const regionStats = {};
+    trafficSegmentsCache.forEach(seg => {
+      const r = seg.region;
+      if (!regionStats[r]) regionStats[r] = { totalSpeed: 0, count: 0, levels: {} };
+      const s = regionStats[r];
+      s.totalSpeed += seg.speed;
       s.count++;
-      const lv = seg.road_saturation_level || 'UNKNOWN';
+      const lv = seg.saturation || 'UNKNOWN';
       s.levels[lv] = (s.levels[lv] || 0) + 1;
     });
-  }
 
-  // ── 3. Draw color-coded polylines for pre-defined major roads ─────────────
-  MAJOR_ROADS.forEach(road => {
-    const stats = regionStats[road.region];
-    let color, tooltipSpeed, pct, avgSpeed;
+    MAJOR_ROADS.forEach(road => {
+      const stats = regionStats[road.region];
+      let color, tooltipSpeed, pct, avgSpeed;
 
-    if (stats && stats.count > 0) {
-      avgSpeed = Math.round(stats.totalSpeed / stats.count);
-      color    = trafficColor(null, avgSpeed, road.speedLimit);
-      pct      = road.speedLimit > 0 ? Math.round((avgSpeed / road.speedLimit) * 100) : 0;
-      tooltipSpeed = trafficLabel(null, avgSpeed, road.speedLimit);
-    } else if (stats) {
-      const dom = Object.entries(stats.levels).sort((a, b) => b[1] - a[1])[0];
-      const lv  = dom ? dom[0] : 'UNKNOWN';
-      color        = trafficColor(lv, 0, 0);
-      tooltipSpeed = lv;
-      pct          = null;
-      avgSpeed     = null;
-    } else {
-      color        = '#9e9e9e';
-      tooltipSpeed = 'No data';
-      pct          = null;
-      avgSpeed     = null;
-    }
+      if (stats && stats.count > 0 && stats.totalSpeed > 0) {
+        avgSpeed     = Math.round(stats.totalSpeed / stats.count);
+        color        = trafficColor(null, avgSpeed, road.speedLimit);
+        pct          = road.speedLimit > 0 ? Math.round((avgSpeed / road.speedLimit) * 100) : 0;
+        tooltipSpeed = trafficLabel(null, avgSpeed, road.speedLimit);
+      } else if (stats) {
+        const dom = Object.entries(stats.levels).sort((a, b) => b[1] - a[1])[0];
+        const lv  = dom ? dom[0] : 'UNKNOWN';
+        color        = trafficColor(lv, 0, 0);
+        tooltipSpeed = lv;
+        pct = null; avgSpeed = null;
+      } else {
+        color        = '#9e9e9e';
+        tooltipSpeed = 'No data';
+        pct = null; avgSpeed = null;
+      }
 
-    // Outer glow / shadow polyline for cartoon style
-    L.polyline(road.coords, { color: '#333', weight: 8, opacity: 0.3 }).addTo(layers.traffic);
+      const barFill = pct !== null
+        ? `<div class="traffic-speed-bar">
+             <span style="font-size:10px;font-weight:700;color:#555;min-width:22px;">${avgSpeed}km/h</span>
+             <div class="traffic-speed-bar-bg">
+               <div class="traffic-speed-bar-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
+             </div>
+             <span style="font-size:10px;font-weight:800;color:${color};">${pct}%</span>
+           </div>` : '';
 
-    const poly = L.polyline(road.coords, {
-      color,
-      weight: 5,
-      opacity: 0.9,
-      lineJoin: 'round',
-      lineCap:  'round',
+      L.polyline(road.coords, { color: '#333', weight: 8, opacity: 0.25 }).addTo(layers.traffic);
+      L.polyline(road.coords, { color, weight: 5, opacity: 0.9, lineJoin: 'round', lineCap: 'round' })
+        .bindPopup(`
+          <div class="popup-title">🚗 ${road.name}</div>
+          <div class="popup-row"><span class="popup-label">🚀 Speed</span><span class="popup-value" style="color:${color}">${tooltipSpeed}</span></div>
+          <div class="popup-row"><span class="popup-label">⚠️ Limit</span><span class="popup-value">${road.speedLimit} km/h</span></div>
+          ${barFill}
+          <div style="font-size:10px;color:#888;margin-top:4px;">Source: TD Speed Map · Regional avg · Region ${road.region}</div>
+        `)
+        .bindTooltip(`${road.name}: ${tooltipSpeed}`, { sticky: true })
+        .addTo(layers.traffic);
     });
 
-    const barFill = pct !== null
-      ? `<div class="traffic-speed-bar">
-           <span style="font-size:10px;font-weight:700;color:#555;min-width:22px;">${avgSpeed}km/h</span>
-           <div class="traffic-speed-bar-bg">
-             <div class="traffic-speed-bar-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
-           </div>
-           <span style="font-size:10px;font-weight:800;color:${color};">${pct}%</span>
-         </div>`
-      : '';
+    // Static tunnel/bridge markers
+    TRAFFIC_FALLBACK.forEach(loc => {
+      const icon = divIcon(
+        `<div style="font-size:18px;border:2.5px solid #333;border-radius:8px;background:#fff9c4;width:34px;height:34px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #333;">${loc.type === 'Bridge' ? '🌉' : '🚇'}</div>`,
+        '', [34, 34]
+      );
+      L.marker([loc.lat, loc.lng], { icon })
+        .bindTooltip(loc.name, { direction: 'top' })
+        .bindPopup(`
+          <div class="popup-title">${loc.type === 'Bridge' ? '🌉' : '🚇'} ${loc.name}</div>
+          <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${loc.type}</span></div>
+          <div class="popup-row"><span class="popup-label">Status</span><span class="popup-value" style="color:#43a047;">● Open</span></div>
+          <div style="font-size:10px;color:#888;margin-top:4px;">Regional avg data · Approx</div>
+        `)
+        .addTo(layers.traffic);
+    });
 
-    poly.bindPopup(`
-      <div class="popup-title">🚗 ${road.name}</div>
-      <div class="popup-row"><span class="popup-label">🚀 Speed</span><span class="popup-value" style="color:${color};">${tooltipSpeed}</span></div>
-      <div class="popup-row"><span class="popup-label">⚠️ Limit</span><span class="popup-value">${road.speedLimit} km/h</span></div>
-      ${barFill}
-      <div style="font-size:10px;color:#888;margin-top:4px;">Source: TD Speed Map · Region ${road.region}</div>
-    `);
-
-    poly.bindTooltip(`${road.name}: ${tooltipSpeed}`, { sticky: true });
-    poly.addTo(layers.traffic);
-  });
-
-  // ── 4. Also overlay traffic incidents ─────────────────────────────────────
-  try {
-    const incData = await safeFetch(API.traffic, 6000);
-    if (incData) {
-      const incidents = incData.incidents || incData.trafficIncidents || (Array.isArray(incData) ? incData : []);
-      incidents.forEach(inc => {
-        const lat = parseFloat(inc.lat || inc.latitude || inc.y);
-        const lng = parseFloat(inc.lng || inc.longitude || inc.x);
-        if (isNaN(lat) || isNaN(lng)) return;
-        const icon = divIcon(
-          `<div style="font-size:18px;animation:pulse 1.5s ease infinite;border:2px solid #333;border-radius:50%;background:#ffcdd2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">🚧</div>`,
-          '', [30, 30]
-        );
-        L.marker([lat, lng], { icon })
-          .bindPopup(`
-            <div class="popup-title">🚧 Traffic Incident</div>
-            <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${inc.type || inc.incidentType || 'Incident'}</span></div>
-            <div class="popup-row"><span class="popup-label">Info</span><span class="popup-value">${inc.description || inc.dist || 'No details'}</span></div>
-          `)
-          .addTo(layers.traffic);
-      });
-    }
-  } catch (_) {}
-
-  // ── 5. If no speed data at all, fall back to static tunnel/bridge markers ──
-  if (!speedRecords) {
+  } else {
+    // ── No speedmap data at all – static fallback ──────────────────────────
+    MAJOR_ROADS.forEach(road => {
+      L.polyline(road.coords, { color: '#333', weight: 8, opacity: 0.25 }).addTo(layers.traffic);
+      L.polyline(road.coords, { color: '#9e9e9e', weight: 5, opacity: 0.9,
+        lineJoin: 'round', lineCap: 'round' })
+        .bindTooltip(`${road.name}: No data`, { sticky: true })
+        .addTo(layers.traffic);
+    });
     TRAFFIC_FALLBACK.forEach(loc => {
       const icon = divIcon(
         `<div style="font-size:18px;border:2.5px solid #333;border-radius:8px;background:#fff9c4;width:34px;height:34px;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #333;">${loc.type === 'Bridge' ? '🌉' : '🚇'}</div>`,
@@ -1441,6 +1486,87 @@ async function loadTrafficLayer() {
         .addTo(layers.traffic);
     });
   }
+}
+
+/** Fetch and overlay traffic incident markers (cached; only re-fetched by loadTrafficLayer). */
+async function loadTrafficIncidents() {
+  // Use cached incidents when called from moveend redraw
+  if (!trafficIncidentsCache) {
+    try {
+      const incData = await safeFetch(API.traffic, 6000);
+      if (!incData) { trafficIncidentsCache = []; return; }
+      const rawInc = incData.trafficIncidents || incData.incidents || incData;
+      let incidents = [];
+      if (Array.isArray(rawInc)) {
+        incidents = rawInc;
+      } else if (rawInc && typeof rawInc === 'object') {
+        for (const val of Object.values(rawInc)) {
+          if (Array.isArray(val)) incidents.push(...val);
+        }
+      }
+      trafficIncidentsCache = incidents;
+    } catch (_) { trafficIncidentsCache = []; return; }
+  }
+
+  trafficIncidentsCache.forEach(inc => {
+    const lat = parseFloat(inc.lat || inc.latitude || inc.y);
+    const lng = parseFloat(inc.lng || inc.longitude || inc.x);
+    if (isNaN(lat) || isNaN(lng) || (lat === 0 && lng === 0)) return;
+    if (lat < 22.1 || lat > 22.6 || lng < 113.8 || lng > 114.5) return;
+    const icon = divIcon(
+      `<div style="font-size:18px;animation:pulse 1.5s ease infinite;border:2px solid #333;border-radius:50%;background:#ffcdd2;width:30px;height:30px;display:flex;align-items:center;justify-content:center;">🚧</div>`,
+      '', [30, 30]
+    );
+    L.marker([lat, lng], { icon })
+      .bindPopup(`
+        <div class="popup-title">🚧 Traffic Incident</div>
+        <div class="popup-row"><span class="popup-label">Type</span><span class="popup-value">${inc.type || inc.incidentType || 'Incident'}</span></div>
+        <div class="popup-row"><span class="popup-label">Info</span><span class="popup-value">${inc.description || inc.dist || 'No details'}</span></div>
+      `)
+      .addTo(layers.traffic);
+  });
+}
+
+async function loadTrafficLayer() {
+  layers.traffic.clearLayers();
+
+  // ── 1. Fetch speed data: try cached JSON first, then live API ─────────────
+  let speedRecords = null;
+
+  try {
+    const cached = await safeFetch(CACHE.trafficSpeeds, 4000);
+    if (cached && cached.available === true) {
+      speedRecords = findSpeedArray(cached);
+    }
+  } catch (_) {}
+
+  if (!speedRecords) {
+    try {
+      const raw = await safeFetch(SPEEDMAP_URL, 8000);
+      if (raw) {
+        speedRecords = findSpeedArray(raw) || (Array.isArray(raw) ? raw : null);
+      }
+    } catch (_) {}
+  }
+
+  // ── 2. Normalise and cache ─────────────────────────────────────────────────
+  if (speedRecords && speedRecords.length > 0) {
+    trafficSegmentsCache = speedRecords.map(normalizeSpeedRecord);
+    trafficHasGeometry   = trafficSegmentsCache.some(
+      s => !(s.startLat === 0 && s.startLng === 0 && s.endLat === 0 && s.endLng === 0)
+        && (s.startLat !== 0 || s.startLng !== 0)
+    );
+  } else {
+    trafficSegmentsCache = null;
+    trafficHasGeometry   = false;
+  }
+
+  // ── 3. Draw roads ─────────────────────────────────────────────────────────
+  renderTrafficRoads();
+
+  // ── 4. Overlay traffic incidents (fetched once, cached) ──────────────────
+  trafficIncidentsCache = null; // force re-fetch on full reload
+  await loadTrafficIncidents();
 }
 
 // ============================================================
@@ -1583,12 +1709,12 @@ async function refreshBusTrackers() {
   const bounds = map.getBounds();
   const routes = Object.values(busRoutesCache.routes);
 
-  // Find routes with at least one stop in view (limit to 10 to keep API calls reasonable)
+  // Find routes with at least one stop in view – show all, not just 10
   const visible = routes.filter(r =>
     Array.isArray(r.stops) && r.stops.some(s =>
       s.lat && s.lng && bounds.contains([s.lat, s.lng])
     )
-  ).slice(0, 10);
+  );
 
   await Promise.allSettled(visible.map(r => updateBusPosition(r)));
 }
@@ -1763,54 +1889,82 @@ async function loadCarparkLayer() {
     if (!carparkInfoCache) {
       const infoData = await safeFetch(API.carparkInfo, 10000);
       carparkInfoCache = {};
-      const parks = infoData.parks || infoData.carparks || infoData.features || infoData || [];
-      const arr = Array.isArray(parks) ? parks : Object.values(parks);
-      arr.forEach(p => {
-        const id = p.park_id || p.id || p.carpark_id;
+      // TD API returns "car_park" or "car_parks" or "parks"
+      let parks = infoData.car_parks || infoData.car_park ||
+                  infoData.parks     || infoData.carparks  || [];
+      if (!Array.isArray(parks)) {
+        parks = Array.isArray(infoData)
+          ? infoData
+          : (Object.values(infoData).find(v => Array.isArray(v)) || []);
+      }
+      parks.forEach(p => {
+        const id = String(p.park_id || p.carpark_id || p.id || '');
         if (id) carparkInfoCache[id] = p;
       });
     }
 
     // Fetch live vacancy
     const vacData = await safeFetch(API.carparkVac, 10000);
-    const vacancies = vacData.parks || vacData.carparks || vacData || [];
-    const vacArr = Array.isArray(vacancies) ? vacancies : Object.values(vacancies);
+    let vacArr = vacData.car_parks || vacData.car_park ||
+                 vacData.parks     || vacData.carparks  || [];
+    if (!Array.isArray(vacArr)) {
+      vacArr = Array.isArray(vacData)
+        ? vacData
+        : (Object.values(vacData).find(v => Array.isArray(v)) || []);
+    }
 
     const bounds = map.getBounds();
     let rendered = 0;
 
     vacArr.forEach(vac => {
-      const id = vac.park_id || vac.id || vac.carpark_id;
+      const id   = String(vac.park_id || vac.carpark_id || vac.id || '');
       const info = carparkInfoCache[id] || {};
 
-      const lat = parseFloat(vac.latitude || vac.lat || info.latitude || info.lat);
-      const lng = parseFloat(vac.longitude || vac.lng || info.longitude || info.lng);
-      if (isNaN(lat) || isNaN(lng)) return;
+      const lat = parseFloat(vac.latitude  || vac.lat  || info.latitude  || info.lat  || '');
+      const lng = parseFloat(vac.longitude || vac.lng  || vac.long ||
+                             info.longitude || info.lng || info.long || '');
+      if (isNaN(lat) || isNaN(lng) || (lat === 0 && lng === 0)) return;
       if (!bounds.contains([lat, lng])) return;
-      if (rendered++ > MAX_CARPARK_MARKERS_PER_VIEW) return; // limit per view
+      if (rendered++ >= MAX_CARPARK_MARKERS_PER_VIEW) return;
 
-      // Calculate vacancy percentage (null when capacity unknown)
-      const total  = parseInt(vac.capacity || vac.spaces || 0);
-      const vacant = parseInt(vac.vacancy  || vac.available || 0);
-      const pct    = total > 0 ? Math.round((vacant / total) * 100) : null;
-      const color  = pct !== null ? carparkColor(pct) : '#9e9e9e';
-      const pulse  = pct !== null && pct < 5 ? 'animation:pulse 1.5s ease infinite;' : '';
+      // ── Calculate vacancy ──────────────────────────────────────────────────
+      // TD API nests counts inside a vehicle_type array; handle both styles.
+      let vacant = 0, total = 0;
+      if (Array.isArray(vac.vehicle_type) && vac.vehicle_type.length > 0) {
+        const privateCar = vac.vehicle_type.filter(vt => {
+          const typeNorm = (vt.type || '').toUpperCase().replace(/[_\s]/g, '');
+          return typeNorm === 'P' || typeNorm === 'PRIVATECAR';
+        });
+        const source = privateCar.length > 0 ? privateCar : vac.vehicle_type;
+        source.forEach(vt => {
+          vacant += (parseInt(vt.vacancy  || 0) || 0);
+          total  += (parseInt(vt.capacity || vt.total || 0) || 0);
+        });
+      } else {
+        vacant = parseInt(vac.vacancy  || vac.available || 0) || 0;
+        total  = parseInt(vac.capacity || vac.spaces    || 0) || 0;
+      }
+
+      const pct   = total > 0 ? Math.round((vacant / total) * 100) : null;
+      const color = pct !== null ? carparkColor(pct) : '#9e9e9e';
+      const pulse = pct !== null && pct < 5 ? 'animation:pulse 1.5s ease infinite;' : '';
 
       const icon = divIcon(
         `<div style="background:${color};border:2.5px solid #333;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:2px 2px 0 #333;${pulse}">🅿️</div>`,
         '', [28, 28]
       );
 
-      const name = info.name_en || info.name || vac.name || `Car Park ${id}`;
+      const name = info.name_en || info.name || vac.name_en || vac.name || `Car Park ${id}`;
+      const addr = info.address_en || info.address || '';
 
       L.marker([lat, lng], { icon })
-        .bindTooltip(`${name}: ${vacant}/${total} free`, { direction: 'top' })
+        .bindTooltip(`${name}: ${vacant}${total > 0 ? '/'+total : ''} free`, { direction: 'top' })
         .bindPopup(`
           <div class="popup-title">🅿️ ${name}</div>
           <div class="popup-row"><span class="popup-label">Vacant</span><span class="popup-value" style="color:${color}">${vacant} spaces</span></div>
-          <div class="popup-row"><span class="popup-label">Capacity</span><span class="popup-value">${total}</span></div>
-          <div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct !== null ? pct + '%' : 'N/A'}</span></div>
-          ${info.address ? `<div class="popup-row"><span class="popup-label">Address</span><span class="popup-value">${info.address}</span></div>` : ''}
+          ${total > 0 ? `<div class="popup-row"><span class="popup-label">Capacity</span><span class="popup-value">${total}</span></div>` : ''}
+          ${pct !== null ? `<div class="popup-row"><span class="popup-label">Free %</span><span class="popup-value" style="color:${color}">${pct}%</span></div>` : ''}
+          ${addr ? `<div class="popup-row"><span class="popup-label">Address</span><span class="popup-value">${addr}</span></div>` : ''}
           <div style="font-size:10px;color:#888;margin-top:4px;">Live data from TD</div>
         `)
         .addTo(layers.carpark);
@@ -1822,7 +1976,6 @@ async function loadCarparkLayer() {
 
   } catch (e) {
     console.warn('Carpark layer error:', e);
-    // Show info message
     const center = map.getCenter();
     L.popup()
       .setLatLng(center)
@@ -2021,6 +2174,12 @@ map.on('moveend', () => {
   // Re-render bus stops in new view without re-fetching route data or GPS ETAs
   if (layerActive.bus)     { renderBusStopsInView(); refreshBusTrackers(); }
   if (layerActive.carpark) loadCarparkLayer();
+  // Re-draw traffic road segments for the new viewport (uses cached data, no extra fetch)
+  if (layerActive.traffic && trafficSegmentsCache && trafficHasGeometry) {
+    layers.traffic.clearLayers();
+    renderTrafficRoads();
+    loadTrafficIncidents();
+  }
 });
 
 // ============================================================
@@ -2047,9 +2206,18 @@ async function init() {
   hideLoading();
   updateStatus();
 
-  // Auto-refresh: live data every 60s, bus GPS every 30s
+  // Auto-refresh: live data every 60 s, bus GPS every 30 s
   setInterval(refreshLiveData, REFRESH_MS);
-  setInterval(refreshBusData, BUS_REFRESH_MS);
+  setInterval(refreshBusData,  BUS_REFRESH_MS);
+
+  // Bust GitHub Pages cache every 10 min so fresh bus-route/traffic-speed data is picked up
+  setInterval(() => {
+    busRoutesCache        = null;
+    trafficSegmentsCache  = null;
+    trafficHasGeometry    = false;
+    trafficIncidentsCache = null;
+    carparkInfoCache      = null;
+  }, CACHE_BUST_MS);
 }
 
 // Start!

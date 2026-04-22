@@ -2,8 +2,12 @@ name: Update HK Map Data
 
 on:
   schedule:
-    - cron: '30 * * * *'  # Every hour at :30
+    - cron: '*/10 * * * *'  # Every 10 minutes
   workflow_dispatch:
+
+concurrency:
+  group: update-hk-map-data
+  cancel-in-progress: true   # cancel any queued run; only the latest matters
 
 permissions:
   contents: write
