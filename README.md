@@ -24,3 +24,19 @@ Real-time financial crisis detection system using 10 academic and practitioner-p
 
 ### ⏱️ [History Incident Alignment](History.html)
 White-themed horizontal timelines that align 100 incidents per region (East Asia, Europe, Middle East & Africa, Americas & Oceania) on a unified calendar year. Includes draggable timeline plates, language toggles (English, 中文, Español), a daily visitor counter that avoids duplicate refreshes, and inline self-tests for translation, marker math, and counting logic.
+
+### 🗺️ [Hong Kong Live Map 香港即時地圖](HKMap.html)
+Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager tiles in a cartoon/anime visual style. Integrates live data from multiple Hong Kong Government Open APIs across 8 toggleable layers:
+
+| Layer | Data Source | Update Frequency |
+|---|---|---|
+| 🌤️ **Weather** | Hong Kong Observatory Open Data API | Real-time |
+| 🚗 **Traffic** | Transport Department TD API | Real-time |
+| 🚌 **KMB Bus** | KMB/LWB ETA Open Data API | Every minute |
+| 🚇 **MTR** | MTR Next Train Open Data API | Real-time |
+| 🅿️ **Car Parks** | TD Parking Vacancy API | Every few minutes |
+| 🏠 **Housing** | HK Housing Authority / CSDI reference data | Static |
+| 🎭 **Events & Culture** | LCSD venue reference data | Static |
+| 🏥 **Public Health** | Hospital Authority reference data | Static |
+
+Features: draggable/zoomable map, weather warning banner, per-station temperature badges with float animations, MTR coloured polylines with next-train schedules, carpark vacancy colour coding (green/yellow/red), marker clustering for bus stops and car parks, 60-second auto-refresh for live layers, and comic-book cartoon styling throughout.
