@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career &amp; Certification Path | Portfolio-First Learning Blueprint</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:          #f8fafc;
+  --bg2:         #ffffff;
+  --bg3:         #f1f5f9;
+  --bg4:         #e2e8f0;
+  --border:      rgba(0,0,0,0.08);
+  --border-mid:  rgba(0,0,0,0.13);
+  --t1:          #0f172a;
+  --t2:          #1e293b;
+  --t3:          #475569;
+  --t4:          #94a3b8;
+
+  /* accent palette */
+  --blue:        #2563eb;
+  --blue-light:  #eff6ff;
+  --indigo:      #4f46e5;
+  --indigo-light:#eef2ff;
+  --violet:      #7c3aed;
+  --violet-light:#f5f3ff;
+  --teal:        #0d9488;
+  --teal-light:  #f0fdfa;
+  --green:       #059669;
+  --green-light: #ecfdf5;
+  --amber:       #d97706;
+  --amber-light: #fffbeb;
+  --rose:        #e11d48;
+  --rose-light:  #fff1f2;
+  --sky:         #0284c7;
+  --sky-light:   #f0f9ff;
+
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow:      0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg:   0 10px 40px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--t2);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+}
+
+/* ========== TOP NAV ========== */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(248,250,252,0.96);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 56px;
+  gap: 16px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 800; font-size: 15px; color: var(--t1);
+  text-decoration: none; white-space: nowrap;
+}
+.nav-brand span { font-size: 22px; }
+.nav-links {
+  display: flex; gap: 4px; align-items: center;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  color: var(--t3); text-decoration: none; font-size: 13px; font-weight: 500;
+  padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+  transition: background 0.18s, color 0.18s;
+}
+.nav-link:hover { background: var(--bg3); color: var(--t1); }
+.nav-link.active { background: var(--indigo-light); color: var(--indigo); }
+
+/* ========== HERO ========== */
+.hero {
+  background: linear-gradient(140deg, #e0e7ff 0%, #f0fdf4 45%, #fef9c3 100%);
+  padding: 72px 24px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 50%, rgba(79,70,229,.07) 0%, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(13,148,136,.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(217,119,6,.05) 0%, transparent 40%);
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--indigo-light); color: var(--indigo);
+  border: 1px solid rgba(79,70,229,.2);
+  border-radius: 20px; font-size: 12px; font-weight: 600;
+  padding: 5px 14px; margin-bottom: 20px;
+  position: relative; letter-spacing: .3px;
+}
+.hero-title {
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900; line-height: 1.15; letter-spacing: -1px;
+  background: linear-gradient(135deg, #1e293b 0%, #4f46e5 60%, #0d9488 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative; margin-bottom: 16px;
+}
+.hero-sub {
+  font-size: clamp(14px, 2vw, 17px); color: var(--t3);
+  max-width: 620px; margin: 0 auto 32px; position: relative;
+}
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; position: relative;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 600;
+  border: 1.5px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+.badge-gold   { background: var(--amber-light);  color: #92400e; border-color: rgba(217,119,6,.25); }
+.badge-blue   { background: var(--blue-light);   color: #1d4ed8; border-color: rgba(37,99,235,.22); }
+.badge-teal   { background: var(--teal-light);   color: #115e59; border-color: rgba(13,148,136,.22); }
+
+/* ========== MAIN LAYOUT ========== */
+.main {
+  max-width: 1100px; margin: 0 auto;
+  padding: 48px 20px 80px;
+  display: flex; flex-direction: column; gap: 64px;
+}
+
+/* ========== SECTION HEADER ========== */
+.section-header {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 28px;
+}
+.section-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.si-blue   { background: var(--blue-light); }
+.si-sky    { background: var(--sky-light); }
+.si-violet { background: var(--violet-light); }
+.si-teal   { background: var(--teal-light); }
+.si-green  { background: var(--green-light); }
+.si-amber  { background: var(--amber-light); }
+.si-rose   { background: var(--rose-light); }
+.si-indigo { background: var(--indigo-light); }
+
+.section-title-wrap { flex: 1; }
+.section-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--t4); margin-bottom: 4px;
+}
+.section-title {
+  font-size: clamp(18px, 3vw, 24px); font-weight: 800;
+  color: var(--t1); letter-spacing: -0.3px; line-height: 1.25;
+}
+.section-desc {
+  margin-top: 8px; font-size: 14px; color: var(--t3); line-height: 1.6;
+}
+
+/* ========== COURSE CARD GRID ========== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 18px;
+}
+.card-grid-2 {
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+}
+
+/* ========== COURSE CARD ========== */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 22px 18px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  position: relative; overflow: hidden;
+}
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  border-color: var(--border-mid);
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 16px 16px 0 0;
+}
+.card-blue::before   { background: linear-gradient(90deg, #2563eb, #4f46e5); }
+.card-sky::before    { background: linear-gradient(90deg, #0284c7, #06b6d4); }
+.card-violet::before { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+.card-teal::before   { background: linear-gradient(90deg, #0d9488, #10b981); }
+.card-green::before  { background: linear-gradient(90deg, #059669, #16a34a); }
+.card-amber::before  { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.card-rose::before   { background: linear-gradient(90deg, #e11d48, #f43f5e); }
+.card-indigo::before { background: linear-gradient(90deg, #4f46e5, #6366f1); }
+
+.card-top {
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.card-provider-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .8px;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 6px;
+  flex-shrink: 0; margin-top: 2px;
+  white-space: nowrap;
+}
+.pb-ms    { background: #dbeafe; color: #1d4ed8; }
+.pb-hku   { background: #ede9fe; color: #5b21b6; }
+.pb-hkma  { background: #fef3c7; color: #92400e; }
+.pb-aws   { background: #fff7ed; color: #9a3412; }
+.pb-gh    { background: #f0fdf4; color: #166534; }
+.pb-garp  { background: #fff1f2; color: #9f1239; }
+.pb-cfa   { background: #f0f9ff; color: #075985; }
+.pb-cqf   { background: #f5f3ff; color: #5b21b6; }
+
+.card-name {
+  font-size: 14.5px; font-weight: 700; color: var(--t1);
+  line-height: 1.35; flex: 1;
+}
+.card-body { font-size: 13.5px; color: var(--t3); line-height: 1.6; }
+.card-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+}
+.meta-tag {
+  font-size: 11.5px; font-weight: 500; padding: 3px 9px;
+  border-radius: 8px; border: 1px solid var(--border);
+  color: var(--t3); background: var(--bg3);
+  display: flex; align-items: center; gap: 4px;
+}
+.card-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12.5px; font-weight: 600; text-decoration: none;
+  color: var(--blue); margin-top: 4px;
+  transition: gap 0.15s;
+}
+.card-link:hover { gap: 8px; text-decoration: underline; }
+.card-link svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+.card-highlight {
+  border-color: rgba(79,70,229,.25);
+  box-shadow: 0 0 0 3px rgba(79,70,229,.06), var(--shadow);
+}
+.star-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #78350f; font-size: 10px; font-weight: 800;
+  padding: 3px 9px; border-radius: 8px; letter-spacing: .5px;
+}
+
+/* ========== RECOMMENDATION BOX ========== */
+.rec-box {
+  background: var(--indigo-light);
+  border: 1.5px solid rgba(79,70,229,.2);
+  border-radius: 14px; padding: 18px 20px;
+  margin-top: 20px;
+}
+.rec-box-title {
+  font-size: 13px; font-weight: 700; color: var(--indigo);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.rec-box-body { font-size: 13.5px; color: #3730a3; line-height: 1.6; }
+
+/* ========== DIVIDER ========== */
+.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+/* ========== HIGHLIGHTS STRIP (Top 3) ========== */
+.highlights-strip {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%);
+  border-radius: 20px; padding: 32px 28px; color: #fff;
+  position: relative; overflow: hidden;
+}
+.highlights-strip::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 80%, rgba(129,140,248,.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 20%, rgba(99,102,241,.12) 0%, transparent 40%);
+}
+.hs-title {
+  font-size: 16px; font-weight: 800; margin-bottom: 6px; position: relative;
+  display: flex; align-items: center; gap: 8px;
+}
+.hs-sub {
+  font-size: 13.5px; color: rgba(255,255,255,.7); margin-bottom: 24px; position: relative;
+}
+.hs-cards {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  position: relative;
+}
+.hs-card {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px; padding: 16px 18px;
+  backdrop-filter: blur(8px);
+}
+.hs-card-num {
+  font-size: 11px; font-weight: 800; letter-spacing: 1px;
+  color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 6px;
+}
+.hs-card-name { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 6px; }
+.hs-card-why  { font-size: 12.5px; color: rgba(255,255,255,.75); line-height: 1.5; }
+
+/* ========== PATH CARDS ========== */
+.path-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+.path-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 22px 22px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.path-card:hover { box-shadow: var(--shadow), transform: translateY(-1px); }
+.path-label {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 8px; margin-bottom: 12px;
+}
+.pl-a { background: var(--blue-light); color: var(--blue); }
+.pl-b { background: var(--sky-light);  color: var(--sky); }
+.pl-c { background: var(--violet-light); color: var(--violet); }
+.path-title { font-size: 15px; font-weight: 800; color: var(--t1); margin-bottom: 10px; }
+.path-steps {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.path-step {
+  display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--t3);
+}
+.step-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 7px;
+}
+.dot-blue   { background: var(--blue); }
+.dot-sky    { background: var(--sky); }
+.dot-violet { background: var(--violet); }
+.path-arrow {
+  font-size: 12px; color: var(--t4); padding: 2px 0 2px 15px; font-weight: 600;
+}
+
+/* ========== PORTFOLIO ARTIFACTS ========== */
+.artifacts-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.artifact-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 18px 14px;
+  display: flex; gap: 14px; align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.artifact-card:hover { box-shadow: var(--shadow); }
+.artifact-num {
+  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #fff;
+}
+.an-1  { background: linear-gradient(135deg, #2563eb, #4f46e5); }
+.an-2  { background: linear-gradient(135deg, #0d9488, #059669); }
+.an-3  { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.an-4  { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+.an-5  { background: linear-gradient(135deg, #0284c7, #06b6d4); }
+.an-6  { background: linear-gradient(135deg, #16a34a, #4ade80); }
+.an-7  { background: linear-gradient(135deg, #e11d48, #f43f5e); }
+.an-8  { background: linear-gradient(135deg, #1d4ed8, #2563eb); }
+.an-9  { background: linear-gradient(135deg, #9333ea, #c026d3); }
+.an-10 { background: linear-gradient(135deg, #78350f, #d97706); }
+.artifact-body {}
+.artifact-title { font-size: 13.5px; font-weight: 700; color: var(--t1); margin-bottom: 4px; }
+.artifact-desc  { font-size: 12.5px; color: var(--t3); line-height: 1.55; }
+
+/* ========== CAPSTONE CARDS ========== */
+.capstone-grid {
+  display: grid; gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+.capstone-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px 22px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; overflow: hidden;
+}
+.capstone-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.capstone-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+.cc-frm::before  { background: linear-gradient(90deg, #e11d48, #f43f5e); }
+.cc-cfa::before  { background: linear-gradient(90deg, #0284c7, #2563eb); }
+.cc-cqf::before  { background: linear-gradient(90deg, #7c3aed, #4f46e5); }
+.capstone-name   { font-size: 17px; font-weight: 800; color: var(--t1); }
+.capstone-tagline{ font-size: 13px; color: var(--t3); font-weight: 500; }
+.capstone-body   { font-size: 13.5px; color: var(--t3); line-height: 1.6; }
+.capstone-best   { font-size: 13px; font-weight: 600; }
+.best-frm  { color: var(--rose); }
+.best-cfa  { color: var(--sky); }
+.best-cqf  { color: var(--violet); }
+
+/* ========== FINAL RECO (Core 7) ========== */
+.core7 {
+  background: var(--bg2); border: 1.5px solid var(--border-mid);
+  border-radius: 20px; padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.core7-title {
+  font-size: 20px; font-weight: 900; color: var(--t1);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+}
+.core7-sub {
+  font-size: 14px; color: var(--t3); margin-bottom: 24px;
+}
+.core7-list {
+  display: grid; gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.core7-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg3); border-radius: 12px; padding: 12px 16px;
+}
+.core7-n {
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0;
+}
+.c7n-1 { background: var(--blue); }
+.c7n-2 { background: var(--teal); }
+.c7n-3 { background: var(--sky); }
+.c7n-4 { background: var(--rose); }
+.c7n-5 { background: var(--indigo); }
+.c7n-6 { background: var(--violet); }
+.c7n-7 { background: #7c3aed; }
+.core7-text { font-size: 13.5px; font-weight: 600; color: var(--t2); }
+
+/* ========== LOCATION NOTE ========== */
+.location-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.loc-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.loc-icon { font-size: 24px; flex-shrink: 0; }
+.loc-body {}
+.loc-title { font-size: 14px; font-weight: 700; color: var(--t1); margin-bottom: 5px; }
+.loc-desc  { font-size: 13px; color: var(--t3); line-height: 1.55; }
+
+/* ========== BACK TO TOP ========== */
+.btt {
+  display: flex; justify-content: center; padding-top: 12px;
+}
+.btt-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg2); border: 1px solid var(--border);
+  color: var(--t3); padding: 9px 20px; border-radius: 20px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  text-decoration: none; box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.18s, color 0.18s;
+}
+.btt-btn:hover { box-shadow: var(--shadow); color: var(--t1); }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hero { padding: 48px 16px 40px; }
+  .main { padding: 32px 14px 60px; gap: 48px; }
+  .highlights-strip { padding: 24px 16px; }
+  .core7 { padding: 24px 16px; }
+}
+
+/* ========== LINK ARROW SVG ========== */
+</style>
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav" id="top">
+  <a class="nav-brand" href="#top"><span>🎓</span> Career Path</a>
+  <div class="nav-links">
+    <a class="nav-link" href="#section-highlights">Top 3</a>
+    <a class="nav-link" href="#section-bi">BI &amp; Reporting</a>
+    <a class="nav-link" href="#section-cloud">Cloud &amp; AI</a>
+    <a class="nav-link" href="#section-quant">Quant Finance</a>
+    <a class="nav-link" href="#section-umbrella">Umbrella</a>
+    <a class="nav-link" href="#section-capstone">Capstone</a>
+    <a class="nav-link" href="#section-portfolio">Portfolio</a>
+    <a class="nav-link" href="#section-paths">Paths</a>
+    <a class="nav-link" href="#section-core7">Core 7</a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="hero-eyebrow">📋 Portfolio-First Learning Blueprint</div>
+  <h1 class="hero-title">Career &amp; Certification Path</h1>
+  <p class="hero-sub">A curated stack of credentials, courses, and publishable artifacts — structured for impact, not just completion.</p>
+  <div class="hero-badges">
+    <span class="hero-badge badge-gold">🏆 Business Intelligence &amp; Reporting</span>
+    <span class="hero-badge badge-blue">☁️ Cloud, AI &amp; Productivity</span>
+    <span class="hero-badge badge-teal">📈 Quant Finance &amp; Risk</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ===== TOP 3 HIGHEST-SIGNAL ===== -->
+  <section id="section-highlights">
+    <div class="highlights-strip">
+      <div class="hs-title">⭐ Three Highest-Signal Items</div>
+      <div class="hs-sub">These three credentials together deliver the strongest mix of reporting, finance-data handling, and market microstructure / trading-style modelling.</div>
+      <div class="hs-cards">
+        <div class="hs-card">
+          <div class="hs-card-num">#1 Anchor Credential</div>
+          <div class="hs-card-name">Microsoft Certified: Power BI Data Analyst Associate (PL-300)</div>
+          <div class="hs-card-why">Executive-facing reporting foundation with Power Query &amp; DAX at its core.</div>
+        </div>
+        <div class="hs-card">
+          <div class="hs-card-num">#2 Finance-Data Bridge</div>
+          <div class="hs-card-name">HKU SPACE: Financial Data Analytics with Python and Power BI</div>
+          <div class="hs-card-why">Most finance-specific Power BI bridge — Python wrangling, DAX, KPI dashboards, and storytelling.</div>
+        </div>
+        <div class="hs-card">
+          <div class="hs-card-num">#3 Quant-Native Edge</div>
+          <div class="hs-card-name">HKU SPACE: Computational Finance and Quantitative Investing</div>
+          <div class="hs-card-why">Market microstructure, execution algorithms, algo trading, and derivative pricing models.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 1. BUSINESS INTELLIGENCE ===== -->
+  <section id="section-bi">
+    <div class="section-header">
+      <div class="section-icon si-blue">📊</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 1</div>
+        <h2 class="section-title">Business Intelligence &amp; Reporting</h2>
+        <p class="section-desc">Courses that make your portfolio look <strong>practical, executive-facing, and immediately useful</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="card card-blue card-highlight">
+        <div class="star-badge">⭐ Top Pick</div>
+        <div class="card-top">
+          <span class="card-provider-badge pb-ms">Microsoft</span>
+          <div class="card-name">Power BI Data Analyst Associate (PL-300)</div>
+        </div>
+        <div class="card-body">Prepares you to prepare, model, visualise, analyse, manage, and secure Power BI data. <strong>Power Query</strong> and <strong>DAX</strong> are the core technical skills. Publish one executive dashboard and one case study to back the badge with proof-of-work.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🌐 Online exam</span>
+          <span class="meta-tag">📝 DAX · Power Query</span>
+          <span class="meta-tag">🏅 Associate level</span>
+        </div>
+        <a class="card-link" href="https://learn.microsoft.com/en-us/credentials/certifications/exams/pl-300" target="_blank" rel="noopener">Official exam page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-violet card-highlight">
+        <div class="star-badge">⭐ Top Pick</div>
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Financial Data Analytics with Python and Power BI</div>
+        </div>
+        <div class="card-body">Most finance-specific Power BI bridge in the stack. Covers Python data wrangling, web scraping, DAX, KPI dashboards, storytelling with financial data, and business strategy. Assessed by individual assignment + group project presentation.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-financial-data-analytics-with-python-and-power-bi" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hkma">HKMA</span>
+          <div class="card-name">Executive Certificate in Power BI Data Analytics and Data-Driven Storytelling</div>
+        </div>
+        <div class="card-body">Strongest management-reporting add-on if Cantonese is comfortable. Explicitly teaches quality data preparation, storytelling, Excel, Power BI, and Power Apps — the executive narrative layer that complements PL-300's technical layer.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🇭🇰 Cantonese</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">📊 Excel · Power BI · Power Apps</span>
+        </div>
+        <a class="card-link" href="https://www2.hkma.org.hk/EC-00205-2026-1-P" target="_blank" rel="noopener">Programme page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-indigo">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Financial Analysis and Valuation with Excel and Python</div>
+        </div>
+        <div class="card-body">Accounting and valuation bridge. Covers financial statements, corporate finance, risk analysis, Excel modelling, sensitivity and scenario analysis, ESG valuation, Python, web scraping, NLP for financial analytics, and Monte Carlo valuation.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">📈 Monte Carlo · NLP</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-financial-analysis-and-valuation-with-excel-and-python" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+    </div>
+
+    <div class="rec-box">
+      <div class="rec-box-title">💡 Recommendation — Section 1</div>
+      <div class="rec-box-body">For the strongest <strong>management reporting</strong> combo: do <strong>PL-300 + HKMA Power BI Storytelling</strong> first, then add the HKU SPACE Python / Power BI finance course for the data-engineering layer.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 2. CLOUD, AI & PRODUCTIVITY ===== -->
+  <section id="section-cloud">
+    <div class="section-header">
+      <div class="section-icon si-sky">☁️</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 2</div>
+        <h2 class="section-title">Cloud, AI &amp; Productivity</h2>
+        <p class="section-desc">Courses that make your portfolio look <strong>modern, cloud-aware, and AI-assisted</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="card card-sky">
+        <div class="card-top">
+          <span class="card-provider-badge pb-ms">Microsoft</span>
+          <div class="card-name">Azure Fundamentals (AZ-900)</div>
+        </div>
+        <div class="card-body">Common starting point for Azure — covers compute, networking, storage, security, governance, and administration. If your portfolio is Power BI- and Microsoft-heavy, do this before AWS to establish cloud literacy in the same ecosystem.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🌐 Online exam</span>
+          <span class="meta-tag">🔰 Fundamentals</span>
+          <span class="meta-tag">☁️ Azure</span>
+        </div>
+        <a class="card-link" href="https://learn.microsoft.com/credentials/certifications/azure-fundamentals/?c=gb" target="_blank" rel="noopener">Official page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-top">
+          <span class="card-provider-badge pb-aws">AWS</span>
+          <div class="card-name">AWS Certified Cloud Practitioner</div>
+        </div>
+        <div class="card-body">AWS's foundational credential — a good starting point for those with no prior cloud experience. 90-minute, 65-question exam available online or at Pearson VUE. Use it to show you can speak both Azure and AWS fluently.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 90 min exam</span>
+          <span class="meta-tag">🌐 Online or Pearson VUE</span>
+          <span class="meta-tag">🔰 Foundational</span>
+        </div>
+        <a class="card-link" href="https://aws.amazon.com/certification/certified-cloud-practitioner/" target="_blank" rel="noopener">Official page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-blue">
+        <div class="card-top">
+          <span class="card-provider-badge pb-ms">Microsoft</span>
+          <div class="card-name">Microsoft Copilot Immersion Experience</div>
+        </div>
+        <div class="card-body">Quick 1-day business course showing how Microsoft 365 Copilot works across finance, HR, sales, operations, marketing, and IT. Includes prompt-crafting and use-case exercises. Document prompt patterns and capture before/after productivity examples.</div>
+        <div class="card-meta">
+          <span class="meta-tag">📅 1 day</span>
+          <span class="meta-tag">🤖 M365 Copilot</span>
+          <span class="meta-tag">💼 Business-level</span>
+        </div>
+        <a class="card-link" href="https://learn.microsoft.com/en-us/training/courses/ms-4021" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-top">
+          <span class="card-provider-badge pb-gh">GitHub</span>
+          <div class="card-name">Introduction to GitHub Copilot</div>
+        </div>
+        <div class="card-body">Covers code suggestions, triggering Copilot, configuration, troubleshooting, and the differences among Individual, Business, and Enterprise plans. Easiest way to show AI-assisted coding without jumping straight into a hard AI engineering cert.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🌐 Free module</span>
+          <span class="meta-tag">🤖 AI coding</span>
+          <span class="meta-tag">💻 Dev productivity</span>
+        </div>
+        <a class="card-link" href="https://learn.microsoft.com/en-us/training/modules/introduction-to-github-copilot/" target="_blank" rel="noopener">Module page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-violet">
+        <div class="card-top">
+          <span class="card-provider-badge pb-ms">Microsoft</span>
+          <div class="card-name">Azure AI Fundamentals (AI-901 Beta)</div>
+        </div>
+        <div class="card-body">Because AI-900 retires on <strong>30 June 2026</strong>, the current formal Microsoft AI path is <strong>AI-901 beta</strong>. Covers AI workloads, ML on Azure, computer vision, NLP, and generative AI. The exam page references Microsoft Foundry and Python code examples calling AI services.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🌐 Online exam</span>
+          <span class="meta-tag">⚠️ AI-900 retires Jun 2026</span>
+          <span class="meta-tag">🤖 Generative AI · NLP</span>
+        </div>
+        <a class="card-link" href="https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-901" target="_blank" rel="noopener">AI-901 exam page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+    </div>
+
+    <div class="rec-box">
+      <div class="rec-box-title">💡 Recommendation — Section 2</div>
+      <div class="rec-box-body">Treat <strong>Copilot Immersion + GitHub Copilot</strong> as your practical AI-tools productivity layer. Treat <strong>AI-901</strong> as the formal certificate if you want a Microsoft AI credential on your profile. Do <strong>AZ-900</strong> before AWS to stay in the Microsoft ecosystem first.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 3. QUANT FINANCE ===== -->
+  <section id="section-quant">
+    <div class="section-header">
+      <div class="section-icon si-teal">📈</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 3</div>
+        <h2 class="section-title">Quant Finance &amp; Risk</h2>
+        <p class="section-desc">The part of the stack that makes your portfolio feel <strong>quant-native</strong> rather than just "data analytics with finance examples."</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="card card-teal">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Financial Econometrics and Risk Modelling</div>
+        </div>
+        <div class="card-body">Volatility-and-risk core. Covers ARIMA, ARCH/GARCH, VAR/VECM, high-frequency data, ML for risk, scenario analysis, stress testing, volatility and correlation modelling, Monte Carlo simulation, portfolio optimisation, back-testing, VaR/CVaR, and credit/liquidity/operational risk.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">📉 VaR · GARCH · Stress Tests</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-financial-econometrics-and-risk-modelling" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-indigo card-highlight">
+        <div class="star-badge">⭐ Top Pick</div>
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Computational Finance and Quantitative Investing</div>
+        </div>
+        <div class="card-body">Strongest market-maker / options-style fit. Syllabus includes transaction cost models, algorithmic trading, execution algorithms, market microstructure, order types and routing, derivative pricing models, backtesting, cross-asset strategies, portfolio optimisation, and real-time market data integration.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">🤖 Algo trading · Derivatives</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-computational-finance-and-quantitative-investing" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-green">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Portfolio Optimisation and Risk Management with Python</div>
+        </div>
+        <div class="card-body">Clean portfolio / risk add-on explicitly including VaR, sensitivity analysis, simulation, stress tests, trading and rebalancing costs, financial modelling, and backtesting. Good place to show efficient-frontier work and rebalancing policy design.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">📊 Efficient Frontier · VaR</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-portfolio-optimisation-and-risk-management-with-python" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-violet">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Executive Certificate in AI and Deep Learning in Quantitative Finance</div>
+        </div>
+        <div class="card-body">Best bridge from classical quant to AI-driven quant. Uses Python, scikit-learn, TensorFlow, Keras, and PyTorch. Covers supervised/unsupervised learning, reinforcement learning, NLP/sentiment analysis, anomaly detection, and robo-advisors. Build one ML signal demo and one sentiment-analysis case study.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 2–3 months</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">🧠 PyTorch · RL · NLP</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/exe-cert-in-ai-and-deep-learning-in-quantitative-finance" target="_blank" rel="noopener">Programme page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">DeFi, Virtual Assets and Algorithmic Trading</div>
+        </div>
+        <div class="card-body">Niche add-on for crypto / altcoin strategy. Covers tokenomics, altcoin whitepaper analysis, portfolio optimisation, backtesting, algo trading strategies, and automated trading systems. Recommended only after completing the core quant/risk stack.</div>
+        <div class="card-meta">
+          <span class="meta-tag">⏱ 30 hours</span>
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">₿ DeFi · Tokenomics</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/cert-for-module-defi-virtual-assets-and-algo-trading" target="_blank" rel="noopener">Course page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+    </div>
+
+    <div class="rec-box">
+      <div class="rec-box-title">💡 Recommendation — Quant Trading / Market Making / Options</div>
+      <div class="rec-box-body">
+        Priority order:
+        <ol style="margin: 8px 0 0 20px; color: #3730a3; line-height: 1.8; font-size: 13.5px;">
+          <li><strong>Financial Data Analytics with Python and Power BI</strong></li>
+          <li><strong>Financial Econometrics and Risk Modelling</strong></li>
+          <li><strong>Computational Finance and Quantitative Investing</strong></li>
+          <li><strong>AI and Deep Learning in Quantitative Finance</strong></li>
+          <li><strong>CQF</strong> as the long-term capstone</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 4. UMBRELLA PROGRAMMES ===== -->
+  <section id="section-umbrella">
+    <div class="section-header">
+      <div class="section-icon si-amber">🏛️</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 4</div>
+        <h2 class="section-title">Umbrella Programmes</h2>
+        <p class="section-desc">One consolidated route instead of many smaller modules — if you prefer breadth and structure over cherry-picking.</p>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid-2">
+
+      <div class="card card-amber">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hkma">HKMA</span>
+          <div class="card-name">Executive Diploma in Big Data, Data Analytics &amp; AI</div>
+        </div>
+        <div class="card-body">Strong umbrella for one broad Cantonese face-to-face programme. Includes Python, Power BI, Azure AI, AWS AI cloud technologies, data storytelling / reporting, and machine learning / AI. Ideal if you prefer a single cohesive credential over multiple certificates.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🇭🇰 Cantonese</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">🎓 Executive Diploma</span>
+        </div>
+        <a class="card-link" href="https://www2.hkma.org.hk/modular/edbd/" target="_blank" rel="noopener">Programme page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="card card-violet">
+        <div class="card-top">
+          <span class="card-provider-badge pb-hku">HKU SPACE</span>
+          <div class="card-name">Postgraduate Diploma in Financial Analytics and Algo Trading</div>
+        </div>
+        <div class="card-body">One longer structured quant programme. Modules described in brochures include algorithmic trading, technical analysis and algorithmic trading, web scraping and text analytics in quantitative finance, and algo trading and quantitative investment strategies.</div>
+        <div class="card-meta">
+          <span class="meta-tag">🇬🇧 English</span>
+          <span class="meta-tag">🏢 Face-to-face · HK</span>
+          <span class="meta-tag">🎓 Postgraduate Diploma</span>
+        </div>
+        <a class="card-link" href="https://hkuspace.hku.hk/prog/postgrad-dip-in-financial-analytics-and-algo-trading" target="_blank" rel="noopener">Programme page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 5. CAPSTONE CREDENTIALS ===== -->
+  <section id="section-capstone">
+    <div class="section-header">
+      <div class="section-icon si-rose">🏆</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 5</div>
+        <h2 class="section-title">Capstone Credentials</h2>
+        <p class="section-desc">Credentials that give your portfolio <strong>long-term market credibility</strong> — choose based on your end goal.</p>
+      </div>
+    </div>
+
+    <div class="capstone-grid">
+
+      <div class="capstone-card cc-frm">
+        <div class="capstone-name">FRM</div>
+        <div class="capstone-tagline">Financial Risk Manager — GARP</div>
+        <div class="capstone-body">Best if your end-game is risk management, derivatives risk, market risk, credit risk, or bank risk roles. GARP describes FRM as proof that you can assess, measure, and monitor risk in real-world situations. Two-part exam covering quantitative analysis, financial markets, valuation, risk models, and case studies.</div>
+        <div class="capstone-best best-frm">✅ Choose FRM for: risk / market risk / derivatives risk roles</div>
+        <a class="card-link" href="https://www.garp.org/frm/our-certified-frms" target="_blank" rel="noopener">GARP FRM page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="capstone-card cc-cfa">
+        <div class="capstone-name">CFA Program</div>
+        <div class="capstone-tagline">Chartered Financial Analyst — CFA Institute</div>
+        <div class="capstone-body">Best if you want broader investment credibility. Curriculum spans quantitative methods, financial statement analysis, fixed income, derivatives, and portfolio management across three exams. The Learning Ecosystem provides practice questions, mock exams, and flashcards. Choose CFA for research, portfolio management, or asset management.</div>
+        <div class="capstone-best best-cfa">✅ Choose CFA for: investment research / portfolio management / asset management</div>
+        <a class="card-link" href="https://www.cfainstitute.org/programs/cfa-program/curriculum" target="_blank" rel="noopener">CFA curriculum page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+      <div class="capstone-card cc-cqf">
+        <div class="capstone-name">CQF</div>
+        <div class="capstone-tagline">Certificate in Quantitative Finance</div>
+        <div class="capstone-body">Most quant-native capstone credential. Online and part-time over six months with optional primers, six core modules, two electives, three exams, and a final project. Current elective menu includes algorithmic trading, advanced volatility modelling, and generative AI / LLMs for quant finance.</div>
+        <div class="capstone-best best-cqf">✅ Choose CQF for: quant trading / market making / serious quant-finance brand</div>
+        <a class="card-link" href="https://www.cqf.com/index.php/about-cqf/program-structure/what-is-cqf" target="_blank" rel="noopener">CQF programme page <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 3h8v2H5.5l7 7-1.5 1.5-7-7V11H3V3z"/></svg></a>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 6. PORTFOLIO ARTIFACTS ===== -->
+  <section id="section-portfolio">
+    <div class="section-header">
+      <div class="section-icon si-green">📁</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 6</div>
+        <h2 class="section-title">What to Publish in Your Portfolio</h2>
+        <p class="section-desc">A strong portfolio page shows: the <strong>problem</strong>, the <strong>data</strong>, the <strong>method</strong>, the <strong>result</strong>, the <strong>limitation</strong>, and the <strong>next step</strong>.</p>
+      </div>
+    </div>
+
+    <div class="artifacts-grid">
+
+      <div class="artifact-card">
+        <div class="artifact-num an-1">1</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Executive KPI Dashboard</div>
+          <div class="artifact-desc">Based on PL-300 and the HKMA Power BI Storytelling course. Publish one live Power BI report with a written narrative.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-2">2</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Finance Data Pipeline Notebook</div>
+          <div class="artifact-desc">Use Python for cleaning, wrangling, and financial data preparation. Ideal output from the HKU SPACE Financial Data Analytics course.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-3">3</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Management Reporting Pack</div>
+          <div class="artifact-desc">A board-style PDF or slide deck with charts and a written narrative. Ideal combination of PL-300 and HKMA storytelling skills.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-4">4</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Valuation Workbook + Investment Memo</div>
+          <div class="artifact-desc">Combine Excel modelling, Python, sensitivity analysis, and Monte Carlo valuation. Derived from the HKU SPACE Financial Analysis course.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-5">5</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Cloud Architecture Diagram</div>
+          <div class="artifact-desc">Show how your analytics stack would run on both Azure and AWS. Covers AZ-900 and AWS Cloud Practitioner concepts in a real design.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-6">6</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Copilot Prompt Library</div>
+          <div class="artifact-desc">Document prompt patterns for analysis, summarisation, reporting, and coding. Combine Copilot Immersion and GitHub Copilot outputs.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-7">7</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Risk Model Notebook</div>
+          <div class="artifact-desc">Include VaR/CVaR, volatility modelling (GARCH), stress testing, and backtesting. Core output of the Financial Econometrics and Risk Modelling course.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-8">8</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Strategy Repository</div>
+          <div class="artifact-desc">Include transaction costs, slippage, execution logic, and performance attribution. Best sourced from Computational Finance and Quantitative Investing.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-9">9</div>
+        <div class="artifact-body">
+          <div class="artifact-title">AI / ML Finance Demo</div>
+          <div class="artifact-desc">A sentiment model, anomaly detector, or simple predictive model. Ideal output from the AI and Deep Learning in Quantitative Finance programme.</div>
+        </div>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-num an-10">10</div>
+        <div class="artifact-body">
+          <div class="artifact-title">Crypto / DeFi Research Note</div>
+          <div class="artifact-desc">Only if you want to signal specialisation in virtual assets and algorithmic trading. Sourced from the DeFi, Virtual Assets and Algo Trading module.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== 7. BEST-FIT PATHS ===== -->
+  <section id="section-paths">
+    <div class="section-header">
+      <div class="section-icon si-indigo">🗺️</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 7</div>
+        <h2 class="section-title">Best-Fit Route Combinations</h2>
+        <p class="section-desc">Three curated sequences so the stack reads cleanly as a coherent career story.</p>
+      </div>
+    </div>
+
+    <div class="path-grid">
+
+      <div class="path-card">
+        <span class="path-label pl-a">Path A</span>
+        <div class="path-title">Management Reporting / FP&amp;A</div>
+        <div class="path-steps">
+          <div class="path-step"><span class="step-dot dot-blue"></span>PL-300 (Power BI Associate)</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-blue"></span>HKMA Power BI Data-Driven Storytelling</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-blue"></span>HKU SPACE Financial Data Analytics with Python and Power BI</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-blue"></span>AZ-900 (Azure Fundamentals)</div>
+        </div>
+      </div>
+
+      <div class="path-card">
+        <span class="path-label pl-b">Path B</span>
+        <div class="path-title">Cloud + AI Analyst</div>
+        <div class="path-steps">
+          <div class="path-step"><span class="step-dot dot-sky"></span>PL-300 (Power BI Associate)</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-sky"></span>AZ-900 (Azure Fundamentals)</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-sky"></span>AWS Cloud Practitioner</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-sky"></span>Microsoft Copilot Immersion</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-sky"></span>Introduction to GitHub Copilot</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-sky"></span>AI-901 (Azure AI Fundamentals)</div>
+        </div>
+      </div>
+
+      <div class="path-card">
+        <span class="path-label pl-c">Path C</span>
+        <div class="path-title">Quant Trading / Market Making</div>
+        <div class="path-steps">
+          <div class="path-step"><span class="step-dot dot-violet"></span>PL-300 (Power BI Associate)</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>HKU SPACE Financial Data Analytics with Python &amp; Power BI</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>HKU SPACE Financial Analysis and Valuation with Excel &amp; Python</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>Financial Econometrics and Risk Modelling</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>Computational Finance and Quantitative Investing</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>AI and Deep Learning in Quantitative Finance</div>
+          <div class="path-arrow">↓</div>
+          <div class="path-step"><span class="step-dot dot-violet"></span>CQF (Capstone)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rec-box" style="margin-top: 20px; background: var(--teal-light); border-color: rgba(13,148,136,.22);">
+      <div class="rec-box-title" style="color: var(--teal);">💡 Quant-biased version</div>
+      <div class="rec-box-body" style="color: #134e4a;">Keep cloud (AZ-900, AWS) as <strong>supportive, not primary</strong>. Prioritise the finance / risk / quant sequence first, then pick up cloud credentials alongside or after the core quant stack.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== HK vs ONLINE ===== -->
+  <section id="section-location">
+    <div class="section-header">
+      <div class="section-icon si-amber">📍</div>
+      <div class="section-title-wrap">
+        <div class="section-num">Section 8</div>
+        <h2 class="section-title">Hong Kong vs Online</h2>
+        <p class="section-desc">A quick overview of delivery modes to help you plan logistics.</p>
+      </div>
+    </div>
+
+    <div class="location-grid">
+      <div class="loc-card">
+        <div class="loc-icon">🏢</div>
+        <div class="loc-body">
+          <div class="loc-title">HKMA — Cantonese, Face-to-face (HK)</div>
+          <div class="loc-desc">Executive Certificate in Power BI Data Analytics and Storytelling; Executive Diploma in Big Data, Data Analytics &amp; AI. Best for local professionals preferring Cantonese instruction.</div>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon">🎓</div>
+        <div class="loc-body">
+          <div class="loc-title">HKU SPACE — English, Face-to-face (HK)</div>
+          <div class="loc-desc">All finance and quant modules (Financial Data Analytics, Econometrics and Risk, Computational Finance, etc.) are English and held in person in Hong Kong.</div>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon">💻</div>
+        <div class="loc-body">
+          <div class="loc-title">Microsoft — Primarily Online / Exam-based</div>
+          <div class="loc-desc">PL-300, AZ-900, AI-901, Copilot Immersion, and GitHub Copilot modules are all online or available at authorised testing centres globally.</div>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="loc-icon">🌐</div>
+        <div class="loc-body">
+          <div class="loc-title">AWS &amp; CQF — Online or Pearson VUE</div>
+          <div class="loc-desc">AWS Cloud Practitioner is taken online or at Pearson VUE. CQF is fully online and part-time, designed for working professionals globally.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ===== FINAL CORE 7 ===== -->
+  <section id="section-core7">
+    <div class="core7">
+      <div class="core7-title">🎯 Final Recommendation — Core Seven</div>
+      <div class="core7-sub">The strongest blend of reporting, cloud literacy, finance modelling, market structure, AI-driven quant, and premium credentialing.</div>
+      <div class="core7-list">
+        <div class="core7-item">
+          <div class="core7-n c7n-1">1</div>
+          <div class="core7-text">PL-300 — Power BI Data Analyst Associate</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-2">2</div>
+          <div class="core7-text">HKU SPACE Financial Data Analytics with Python and Power BI</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-3">3</div>
+          <div class="core7-text">AZ-900 — Azure Fundamentals</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-4">4</div>
+          <div class="core7-text">HKU SPACE Financial Econometrics and Risk Modelling</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-5">5</div>
+          <div class="core7-text">HKU SPACE Computational Finance and Quantitative Investing</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-6">6</div>
+          <div class="core7-text">HKU SPACE AI and Deep Learning in Quantitative Finance</div>
+        </div>
+        <div class="core7-item">
+          <div class="core7-n c7n-7">7</div>
+          <div class="core7-text">CQF — Certificate in Quantitative Finance (Capstone)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="btt">
+    <a class="btt-btn" href="#top">↑ Back to top</a>
+  </div>
+
+</main>
+
+</body>
+</html>
