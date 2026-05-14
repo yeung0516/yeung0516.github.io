@@ -127,10 +127,10 @@
       身體組成分析儀表板
       <span style="display:block;color:#93c5fd;font-size:clamp(1rem,3vw,1.5rem);font-weight:700;margin-top:4px;">Body Composition Dashboard</span>
     </h1>
-    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;">EFX24 Health Score System · 6 Reports · 2026-03 to 2026-05</p>
+    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;">EFX24 Health Score System · 7 Reports · 2026-03 to 2026-05</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;font-size:0.75rem;">
       <span style="background:rgba(59,130,246,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:999px;padding:4px 12px;">👤 男 · 29歲 · 180 cm</span>
-      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;">📅 5次量測</span>
+      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;">📅 7次量測</span>
       <span style="background:rgba(16,185,129,0.3);border:1px solid rgba(52,211,153,0.4);border-radius:999px;padding:4px 12px;">🔬 InBody 數據</span>
     </div>
   </div>
@@ -145,7 +145,7 @@
 
   <!-- ===== LATEST KPI CARDS ===== -->
   <section class="section-card">
-    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span>最新量測摘要 (2026-05-06)</span></div>
+    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span>最新量測摘要 (2026-05-15)</span></div>
     <div class="kpi-grid" id="kpiGrid"></div>
   </section>
 
@@ -211,7 +211,7 @@
 </main>
 
 <footer>
-  EFX24 Health Score System · efx24_report_bundle_20260506_074501_v6 · Generated as static HTML
+  EFX24 Health Score System · efx24_report_bundle_20260515_074411_v7 · Generated as static HTML
 </footer>
 
 <script>
@@ -272,6 +272,15 @@ const reports = [
     visceral:12, tbw_kg:41.2, tbw_pct:48.0, ecw_tbw:41.3,
     seg_muscle:{body:31.4,la:2.7,ra:2.8,ll:11.7,rl:11.6},
     seg_fat:{body:14.1,la:0.8,ra:0.8,ll:3.3,rl:3.3}
+  },
+  {
+    id:"report_007", date:"2026-05-15", serial:"MOS1_003031",
+    weight:84.6, bmi:26.1, bf_pct:25.1, bf_kg:21.2, ffm:63.4,
+    muscle:60.1, smm:32.7, smm_pct:38.65, smi:8.9,
+    body_age:37, bmr_kcal:1823, bmr_kj:7627,
+    visceral:11, tbw_kg:41.4, tbw_pct:48.9, ecw_tbw:41.1,
+    seg_muscle:{body:31.2,la:2.7,ra:2.8,ll:11.8,rl:11.6},
+    seg_fat:{body:13.2,la:0.8,ra:0.8,ll:3.2,rl:3.2}
   }
 ];
 
@@ -486,7 +495,7 @@ new Chart(document.getElementById('chartBmr'), {
     scales:{
       x:sharedScaleX,
       y:sharedScaleY('kcal',1780,1900),
-      y1:{...sharedScaleY('歲',38,46),position:'right',grid:{drawOnChartArea:false}}
+      y1:{...sharedScaleY('歲',36,46),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
