@@ -362,7 +362,7 @@ def fetch_nlb_airport_routes():
                          s.get("stopLocation_e") or "")
             stops_list.append({
                 "stop_id": str(s.get("stopId", "")),
-                "seq": int(s.get("sequence", 0) or len(stops_list) + 1),
+                "seq": int(s.get("sequence", 0) or (len(stops_list) + 1)),
                 "name_en": stop_name,
                 "lat": lat,
                 "lng": lng,
@@ -425,7 +425,15 @@ def fetch_traffic_data():
     for row in reader:
         if id_field is None:
             # First field might have BOM prefix
-            id_field = [k for k in row.keys() if "AID_ID_Number" in k][0]
+            id_fields = [k for k in row.keys() if "AID_ID_Number" in k]
+            if not id_fields:
+                print("  [WARN] Could not find AID_ID_Number column in CSV")
+                return {
+                    "updated": timestamp,
+                    "available": False,
+                    "road_segments": [],
+                }
+            id_field = id_fields[0]
         det_id = row.get(id_field, "").strip()
         if not det_id:
             continue
@@ -545,8 +553,8 @@ def fetch_traffic_data():
             # Single detector: create a small segment using rotation/direction
             det = detectors[0]
             rotation_rad = math.radians(det["rotation"])
-            # Create a ~200m line segment in the detector's direction
-            delta = 0.001  # ~100m
+            # Create a short line segment (~100m) in the detector's direction
+            delta = 0.001  # approx 100m in lat/lng
             end_lat = det["lat"] + delta * math.cos(rotation_rad)
             end_lng = det["lng"] + delta * math.sin(rotation_rad)
             road_segments.append({
