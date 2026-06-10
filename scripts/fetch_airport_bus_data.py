@@ -10,10 +10,13 @@ Data sources:
 - HK Transport Dept speed map for traffic congestion data
 """
 
+import csv
+import io
 import json
 import math
 import os
 import time
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
 import requests
@@ -312,15 +315,31 @@ def fetch_nlb_airport_routes():
     for route in routes_data.get("routes", []):
         route_id = str(route.get("routeId", ""))
         route_no = route.get("routeNo", "")
-        from_en = route.get("from_E", "").lower()
-        to_en = route.get("to_E", "").lower()
-        from_tc = route.get("from_C", "")
-        to_tc = route.get("to_C", "")
+        # NLB API uses routeName_e/routeName_c with "from > to" format
+        route_name_en = route.get("routeName_e", "") or ""
+        route_name_tc = route.get("routeName_c", "") or ""
+        # Also try legacy field names
+        from_en = route.get("from_E", "") or ""
+        to_en = route.get("to_E", "") or ""
+        from_tc = route.get("from_C", "") or ""
+        to_tc = route.get("to_C", "") or ""
 
         # Check if route serves airport
-        combined = f"{from_en} {to_en} {from_tc} {to_tc}".lower()
+        combined = (
+            f"{route_name_en} {route_name_tc} "
+            f"{from_en} {to_en} {from_tc} {to_tc}"
+        ).lower()
         if not any(kw in combined for kw in airport_keywords):
             continue
+
+        # Parse origin/destination from route name "A > B"
+        if " > " in route_name_en:
+            parts = route_name_en.split(" > ", 1)
+            orig_en = parts[0].strip()
+            dest_en = parts[1].strip()
+        else:
+            orig_en = from_en or route_name_en
+            dest_en = to_en or ""
 
         url = (
             f"https://rt.data.gov.hk/v2/transport/nlb/stop.php"
@@ -333,14 +352,18 @@ def fetch_nlb_airport_routes():
 
         stops_list = []
         for s in stops_resp.get("stops", []):
-            lat = round(float(s.get("stopLatitude", 0) or 0), 5)
-            lng = round(float(s.get("stopLongitude", 0) or 0), 5)
+            lat_val = (s.get("stopLatitude") or s.get("latitude") or 0)
+            lng_val = (s.get("stopLongitude") or s.get("longitude") or 0)
+            lat = round(float(lat_val or 0), 5)
+            lng = round(float(lng_val or 0), 5)
             if lat == 0:
                 continue
+            stop_name = (s.get("stopName_E") or s.get("stopName_e") or
+                         s.get("stopLocation_e") or "")
             stops_list.append({
                 "stop_id": str(s.get("stopId", "")),
-                "seq": int(s.get("sequence", 0) or 0),
-                "name_en": s.get("stopName_E", ""),
+                "seq": int(s.get("sequence", 0) or len(stops_list) + 1),
+                "name_en": stop_name,
                 "lat": lat,
                 "lng": lng,
             })
@@ -356,8 +379,8 @@ def fetch_nlb_airport_routes():
             "route_id": route_id,
             "bound": "O",
             "service_type": "1",
-            "orig_en": route.get("from_E", ""),
-            "dest_en": route.get("to_E", ""),
+            "orig_en": orig_en,
+            "dest_en": dest_en,
             "stops": stops_list,
         }
         print(f"  NLB {route_no}: {len(stops_list)} stops")
@@ -372,109 +395,190 @@ def fetch_nlb_airport_routes():
 def fetch_traffic_data():
     """
     Fetch real-time traffic speed data from HK Transport Department
-    and add congestion color mapping per road segment.
+    using the raw detector speed XML and detector locations CSV.
+
+    Data sources:
+    - Detector locations: static CSV with lat/lng per detector
+    - Raw speed data: real-time XML with speed per detector per lane
     """
-    print("Fetching TD traffic speed map...")
-    primary_url = "https://resource.data.one.gov.hk/td/speedmap/speedmap.json"
+    print("Fetching TD detector locations...")
     timestamp = datetime.now(timezone.utc).isoformat()
 
-    data = fetch_json(primary_url, "TD speed map")
-
-    if data is None:
+    # 1. Fetch detector locations (static CSV)
+    locations_url = (
+        "https://static.data.gov.hk/td/traffic-data-strategic-major-roads"
+        "/info/traffic_speed_volume_occ_info.csv"
+    )
+    locations_data = fetch_json_or_text(locations_url, "TD detector locations")
+    if locations_data is None:
         return {
             "updated": timestamp,
             "available": False,
             "road_segments": [],
         }
 
-    # Process speed map data and add color mapping
+    # Parse CSV (has BOM)
+    text = locations_data.lstrip("\ufeff")
+    reader = csv.DictReader(io.StringIO(text))
+    detector_info = {}
+    id_field = None
+    for row in reader:
+        if id_field is None:
+            # First field might have BOM prefix
+            id_field = [k for k in row.keys() if "AID_ID_Number" in k][0]
+        det_id = row.get(id_field, "").strip()
+        if not det_id:
+            continue
+        try:
+            lat = float(row.get("Latitude", 0) or 0)
+            lng = float(row.get("Longitude", 0) or 0)
+        except (ValueError, TypeError):
+            continue
+        if lat == 0 or lng == 0:
+            continue
+        detector_info[det_id] = {
+            "road_name": row.get("Road_EN", "").strip(),
+            "district": row.get("District", "").strip(),
+            "direction": row.get("Direction", "").strip(),
+            "lat": lat,
+            "lng": lng,
+            "rotation": float(row.get("Rotation", 0) or 0),
+        }
+    print(f"  Loaded {len(detector_info)} detector locations")
+
+    # 2. Fetch real-time speed data (XML)
+    print("Fetching TD raw speed data...")
+    speed_url = (
+        "https://resource.data.one.gov.hk/td/traffic-detectors/rawSpeedVol-all.xml"
+    )
+    speed_resp = fetch_json_or_text(speed_url, "TD raw speed XML")
+    if speed_resp is None:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # Parse XML
+    try:
+        root = ET.fromstring(speed_resp)
+    except ET.ParseError as exc:
+        print(f"  [WARN] Failed to parse speed XML: {exc}")
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # Use the latest period
+    periods = root.find("periods")
+    if periods is None or len(list(periods)) == 0:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    latest_period = list(periods)[-1]
+    detectors_elem = latest_period.find("detectors")
+    if detectors_elem is None:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # 3. Extract average speed per detector
+    detector_speeds = {}
+    for det in detectors_elem:
+        det_id = det.find("detector_id")
+        if det_id is None:
+            continue
+        det_id = det_id.text
+
+        lanes = det.find("lanes")
+        if lanes is None:
+            continue
+
+        speeds = []
+        for lane in lanes:
+            speed_el = lane.find("speed")
+            valid_el = lane.find("valid")
+            if (speed_el is not None and speed_el.text and
+                    valid_el is not None and valid_el.text == "Y"):
+                try:
+                    speeds.append(float(speed_el.text))
+                except (ValueError, TypeError):
+                    pass
+
+        if speeds:
+            detector_speeds[det_id] = round(sum(speeds) / len(speeds), 1)
+
+    print(f"  Got speed data for {len(detector_speeds)} detectors")
+
+    # 4. Group detectors by road and create segments
+    # Group detectors by road name to create road segments
+    road_groups = {}
+    for det_id, speed in detector_speeds.items():
+        info = detector_info.get(det_id)
+        if info is None:
+            continue
+        road = info["road_name"]
+        # Simplify road name (remove "near XXX" part for grouping)
+        base_road = road.split(" near ")[0].split(" - ")[0].strip()
+        if base_road not in road_groups:
+            road_groups[base_road] = []
+        road_groups[base_road].append({
+            "det_id": det_id,
+            "lat": info["lat"],
+            "lng": info["lng"],
+            "speed": speed,
+            "direction": info["direction"],
+            "rotation": info["rotation"],
+            "full_name": road,
+        })
+
+    # 5. Build road segments by connecting adjacent detectors on the same road
     road_segments = []
+    for road_name, detectors in road_groups.items():
+        if len(detectors) < 2:
+            # Single detector: create a small segment using rotation/direction
+            det = detectors[0]
+            rotation_rad = math.radians(det["rotation"])
+            # Create a ~200m line segment in the detector's direction
+            delta = 0.001  # ~100m
+            end_lat = det["lat"] + delta * math.cos(rotation_rad)
+            end_lng = det["lng"] + delta * math.sin(rotation_rad)
+            road_segments.append({
+                "link_id": det["det_id"],
+                "road_name": det["full_name"],
+                "speed_kmh": det["speed"],
+                "color": speed_to_color(det["speed"]),
+                "start_lat": det["lat"],
+                "start_lng": det["lng"],
+                "end_lat": round(end_lat, 6),
+                "end_lng": round(end_lng, 6),
+            })
+        else:
+            # Multiple detectors: sort by latitude/longitude and connect
+            # Sort by a combination that follows road direction
+            detectors.sort(key=lambda d: (d["lat"], d["lng"]))
+            for i in range(len(detectors) - 1):
+                d1 = detectors[i]
+                d2 = detectors[i + 1]
+                avg_speed = round((d1["speed"] + d2["speed"]) / 2, 1)
+                road_segments.append({
+                    "link_id": f"{d1['det_id']}_{d2['det_id']}",
+                    "road_name": road_name,
+                    "speed_kmh": avg_speed,
+                    "color": speed_to_color(avg_speed),
+                    "start_lat": d1["lat"],
+                    "start_lng": d1["lng"],
+                    "end_lat": d2["lat"],
+                    "end_lng": d2["lng"],
+                })
 
-    # The speedmap.json contains route segments with speed data
-    # Structure varies but typically has link-level speed info
-    if isinstance(data, dict):
-        # Try different known structures
-        links = data.get("LINK", data.get("link", data.get("data", [])))
-        if isinstance(links, list):
-            for link in links:
-                speed = None
-                if isinstance(link, dict):
-                    # Extract speed - field names vary
-                    speed = (link.get("TRAFFIC_SPEED") or
-                             link.get("trafficSpeed") or
-                             link.get("CurrentSpeed") or
-                             link.get("CURRENT_SPEED"))
-                    if speed is not None:
-                        try:
-                            speed = float(speed)
-                        except (ValueError, TypeError):
-                            speed = None
-
-                    road_name = (link.get("ROAD_EN") or
-                                 link.get("road_en") or
-                                 link.get("LINK_DESCRIPTION_EN") or
-                                 link.get("linkDescriptionEn") or "")
-
-                    region = (link.get("REGION") or
-                              link.get("region") or "")
-
-                    link_id = (link.get("LINK_ID") or
-                               link.get("linkId") or
-                               link.get("link_id") or "")
-
-                    start_lat = link.get("START_LATITUDE") or link.get("startLatitude")
-                    start_lng = link.get("START_LONGITUDE") or link.get("startLongitude")
-                    end_lat = link.get("END_LATITUDE") or link.get("endLatitude")
-                    end_lng = link.get("END_LONGITUDE") or link.get("endLongitude")
-
-                    segment = {
-                        "link_id": str(link_id),
-                        "road_name": road_name,
-                        "region": region,
-                        "speed_kmh": speed,
-                        "color": speed_to_color(speed),
-                    }
-
-                    # Add coordinates if available
-                    if start_lat and start_lng:
-                        try:
-                            segment["start_lat"] = float(start_lat)
-                            segment["start_lng"] = float(start_lng)
-                        except (ValueError, TypeError):
-                            pass
-                    if end_lat and end_lng:
-                        try:
-                            segment["end_lat"] = float(end_lat)
-                            segment["end_lng"] = float(end_lng)
-                        except (ValueError, TypeError):
-                            pass
-
-                    road_segments.append(segment)
-
-    # Also try fetching the link geometry data for road coordinates
-    print("Fetching TD speed map link geometry...")
-    geo_url = "https://resource.data.one.gov.hk/td/speedmap/speedmap-linksets.json"
-    geo_data = fetch_json(geo_url, "TD link geometry")
-
-    link_geometry = {}
-    if geo_data and isinstance(geo_data, dict):
-        features = geo_data.get("features", [])
-        if isinstance(features, list):
-            for feature in features:
-                props = feature.get("properties", {})
-                geom = feature.get("geometry", {})
-                lid = str(props.get("LINK_ID", props.get("link_id", "")))
-                if lid and geom.get("coordinates"):
-                    link_geometry[lid] = {
-                        "coordinates": geom["coordinates"],
-                        "type": geom.get("type", "LineString"),
-                    }
-
-    # Merge geometry with speed data
-    for segment in road_segments:
-        lid = segment.get("link_id", "")
-        if lid in link_geometry:
-            segment["geometry"] = link_geometry[lid]
+    print(f"  Created {len(road_segments)} road segments")
 
     return {
         "updated": timestamp,
@@ -489,6 +593,17 @@ def fetch_traffic_data():
             "grey": "No data",
         },
     }
+
+
+def fetch_json_or_text(url, label=""):
+    """Fetch URL content as text (for CSV/XML) with error handling."""
+    try:
+        resp = requests.get(url, timeout=TIMEOUT)
+        resp.raise_for_status()
+        return resp.text
+    except Exception as exc:
+        print(f"  [WARN] Failed to fetch {label or url}: {exc}")
+        return None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
