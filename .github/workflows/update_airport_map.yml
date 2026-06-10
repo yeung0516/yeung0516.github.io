@@ -15,6 +15,7 @@ permissions:
 jobs:
   fetch-airport-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +28,9 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch airport bus and traffic data
+      - name: Fetch airport bus and traffic data (progressive)
+        env:
+          AIRPORT_ROUTE_BATCH_SIZE: "10"
         run: python scripts/fetch_airport_bus_data.py
 
       - name: Commit and push

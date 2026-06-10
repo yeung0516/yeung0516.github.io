@@ -3,6 +3,11 @@ Fetch all bus routes travelling to Hong Kong International Airport (HKIA),
 collect real-time traffic speed data with congestion color mapping,
 and save bus stop coordinates for each route.
 
+Supports progressive updates: each route tracks its own version and
+last_updated timestamp. On each run, only the BATCH_SIZE oldest-updated
+routes are refreshed, spreading API load across multiple workflow runs.
+Traffic speed data is always refreshed (real-time).
+
 Data sources:
 - KMB/Long Win Bus API (A, E, N, NA, S routes operated by LWB)
 - CTB (Citybus) API (A, E routes operated by CTB)
@@ -10,10 +15,13 @@ Data sources:
 - HK Transport Dept speed map for traffic congestion data
 """
 
+import csv
+import io
 import json
 import math
 import os
 import time
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 
 import requests
@@ -21,6 +29,9 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 TIMEOUT = 15
 STOP_SLEEP = 0.25
+
+# Number of route-directions to update per workflow run (progressive batch)
+BATCH_SIZE = int(os.environ.get("AIRPORT_ROUTE_BATCH_SIZE", "10"))
 
 # ── Airport bus route numbers ────────────────────────────────────────────────
 # A-routes (Airbus premium), E-routes (External), S-routes (Shuttle),
@@ -312,15 +323,31 @@ def fetch_nlb_airport_routes():
     for route in routes_data.get("routes", []):
         route_id = str(route.get("routeId", ""))
         route_no = route.get("routeNo", "")
-        from_en = route.get("from_E", "").lower()
-        to_en = route.get("to_E", "").lower()
-        from_tc = route.get("from_C", "")
-        to_tc = route.get("to_C", "")
+        # NLB API uses routeName_e/routeName_c with "from > to" format
+        route_name_en = route.get("routeName_e", "") or ""
+        route_name_tc = route.get("routeName_c", "") or ""
+        # Also try legacy field names
+        from_en = route.get("from_E", "") or ""
+        to_en = route.get("to_E", "") or ""
+        from_tc = route.get("from_C", "") or ""
+        to_tc = route.get("to_C", "") or ""
 
         # Check if route serves airport
-        combined = f"{from_en} {to_en} {from_tc} {to_tc}".lower()
+        combined = (
+            f"{route_name_en} {route_name_tc} "
+            f"{from_en} {to_en} {from_tc} {to_tc}"
+        ).lower()
         if not any(kw in combined for kw in airport_keywords):
             continue
+
+        # Parse origin/destination from route name "A > B"
+        if " > " in route_name_en:
+            parts = route_name_en.split(" > ", 1)
+            orig_en = parts[0].strip()
+            dest_en = parts[1].strip()
+        else:
+            orig_en = from_en or route_name_en
+            dest_en = to_en or ""
 
         url = (
             f"https://rt.data.gov.hk/v2/transport/nlb/stop.php"
@@ -333,14 +360,18 @@ def fetch_nlb_airport_routes():
 
         stops_list = []
         for s in stops_resp.get("stops", []):
-            lat = round(float(s.get("stopLatitude", 0) or 0), 5)
-            lng = round(float(s.get("stopLongitude", 0) or 0), 5)
+            lat_val = (s.get("stopLatitude") or s.get("latitude") or 0)
+            lng_val = (s.get("stopLongitude") or s.get("longitude") or 0)
+            lat = round(float(lat_val or 0), 5)
+            lng = round(float(lng_val or 0), 5)
             if lat == 0:
                 continue
+            stop_name = (s.get("stopName_E") or s.get("stopName_e") or
+                         s.get("stopLocation_e") or "")
             stops_list.append({
                 "stop_id": str(s.get("stopId", "")),
-                "seq": int(s.get("sequence", 0) or 0),
-                "name_en": s.get("stopName_E", ""),
+                "seq": int(s.get("sequence", 0) or (len(stops_list) + 1)),
+                "name_en": stop_name,
                 "lat": lat,
                 "lng": lng,
             })
@@ -356,8 +387,8 @@ def fetch_nlb_airport_routes():
             "route_id": route_id,
             "bound": "O",
             "service_type": "1",
-            "orig_en": route.get("from_E", ""),
-            "dest_en": route.get("to_E", ""),
+            "orig_en": orig_en,
+            "dest_en": dest_en,
             "stops": stops_list,
         }
         print(f"  NLB {route_no}: {len(stops_list)} stops")
@@ -372,109 +403,198 @@ def fetch_nlb_airport_routes():
 def fetch_traffic_data():
     """
     Fetch real-time traffic speed data from HK Transport Department
-    and add congestion color mapping per road segment.
+    using the raw detector speed XML and detector locations CSV.
+
+    Data sources:
+    - Detector locations: static CSV with lat/lng per detector
+    - Raw speed data: real-time XML with speed per detector per lane
     """
-    print("Fetching TD traffic speed map...")
-    primary_url = "https://resource.data.one.gov.hk/td/speedmap/speedmap.json"
+    print("Fetching TD detector locations...")
     timestamp = datetime.now(timezone.utc).isoformat()
 
-    data = fetch_json(primary_url, "TD speed map")
-
-    if data is None:
+    # 1. Fetch detector locations (static CSV)
+    locations_url = (
+        "https://static.data.gov.hk/td/traffic-data-strategic-major-roads"
+        "/info/traffic_speed_volume_occ_info.csv"
+    )
+    locations_data = fetch_json_or_text(locations_url, "TD detector locations")
+    if locations_data is None:
         return {
             "updated": timestamp,
             "available": False,
             "road_segments": [],
         }
 
-    # Process speed map data and add color mapping
+    # Parse CSV (has BOM)
+    text = locations_data.lstrip("\ufeff")
+    reader = csv.DictReader(io.StringIO(text))
+    detector_info = {}
+    id_field = None
+    for row in reader:
+        if id_field is None:
+            # First field might have BOM prefix
+            id_fields = [k for k in row.keys() if "AID_ID_Number" in k]
+            if not id_fields:
+                print("  [WARN] Could not find AID_ID_Number column in CSV")
+                return {
+                    "updated": timestamp,
+                    "available": False,
+                    "road_segments": [],
+                }
+            id_field = id_fields[0]
+        det_id = row.get(id_field, "").strip()
+        if not det_id:
+            continue
+        try:
+            lat = float(row.get("Latitude", 0) or 0)
+            lng = float(row.get("Longitude", 0) or 0)
+        except (ValueError, TypeError):
+            continue
+        if lat == 0 or lng == 0:
+            continue
+        detector_info[det_id] = {
+            "road_name": row.get("Road_EN", "").strip(),
+            "district": row.get("District", "").strip(),
+            "direction": row.get("Direction", "").strip(),
+            "lat": lat,
+            "lng": lng,
+            "rotation": float(row.get("Rotation", 0) or 0),
+        }
+    print(f"  Loaded {len(detector_info)} detector locations")
+
+    # 2. Fetch real-time speed data (XML)
+    print("Fetching TD raw speed data...")
+    speed_url = (
+        "https://resource.data.one.gov.hk/td/traffic-detectors/rawSpeedVol-all.xml"
+    )
+    speed_resp = fetch_json_or_text(speed_url, "TD raw speed XML")
+    if speed_resp is None:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # Parse XML
+    try:
+        root = ET.fromstring(speed_resp)
+    except ET.ParseError as exc:
+        print(f"  [WARN] Failed to parse speed XML: {exc}")
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # Use the latest period
+    periods = root.find("periods")
+    if periods is None or len(list(periods)) == 0:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    latest_period = list(periods)[-1]
+    detectors_elem = latest_period.find("detectors")
+    if detectors_elem is None:
+        return {
+            "updated": timestamp,
+            "available": False,
+            "road_segments": [],
+        }
+
+    # 3. Extract average speed per detector
+    detector_speeds = {}
+    for det in detectors_elem:
+        det_id = det.find("detector_id")
+        if det_id is None:
+            continue
+        det_id = det_id.text
+
+        lanes = det.find("lanes")
+        if lanes is None:
+            continue
+
+        speeds = []
+        for lane in lanes:
+            speed_el = lane.find("speed")
+            valid_el = lane.find("valid")
+            if (speed_el is not None and speed_el.text and
+                    valid_el is not None and valid_el.text == "Y"):
+                try:
+                    speeds.append(float(speed_el.text))
+                except (ValueError, TypeError):
+                    pass
+
+        if speeds:
+            detector_speeds[det_id] = round(sum(speeds) / len(speeds), 1)
+
+    print(f"  Got speed data for {len(detector_speeds)} detectors")
+
+    # 4. Group detectors by road and create segments
+    # Group detectors by road name to create road segments
+    road_groups = {}
+    for det_id, speed in detector_speeds.items():
+        info = detector_info.get(det_id)
+        if info is None:
+            continue
+        road = info["road_name"]
+        # Simplify road name (remove "near XXX" part for grouping)
+        base_road = road.split(" near ")[0].split(" - ")[0].strip()
+        if base_road not in road_groups:
+            road_groups[base_road] = []
+        road_groups[base_road].append({
+            "det_id": det_id,
+            "lat": info["lat"],
+            "lng": info["lng"],
+            "speed": speed,
+            "direction": info["direction"],
+            "rotation": info["rotation"],
+            "full_name": road,
+        })
+
+    # 5. Build road segments by connecting adjacent detectors on the same road
     road_segments = []
+    for road_name, detectors in road_groups.items():
+        if len(detectors) < 2:
+            # Single detector: create a small segment using rotation/direction
+            det = detectors[0]
+            rotation_rad = math.radians(det["rotation"])
+            # Create a short line segment (~100m) in the detector's direction
+            delta = 0.001  # approx 100m in lat/lng
+            end_lat = det["lat"] + delta * math.cos(rotation_rad)
+            end_lng = det["lng"] + delta * math.sin(rotation_rad)
+            road_segments.append({
+                "link_id": det["det_id"],
+                "road_name": det["full_name"],
+                "speed_kmh": det["speed"],
+                "color": speed_to_color(det["speed"]),
+                "start_lat": det["lat"],
+                "start_lng": det["lng"],
+                "end_lat": round(end_lat, 6),
+                "end_lng": round(end_lng, 6),
+            })
+        else:
+            # Multiple detectors: sort by latitude/longitude and connect
+            # Sort by a combination that follows road direction
+            detectors.sort(key=lambda d: (d["lat"], d["lng"]))
+            for i in range(len(detectors) - 1):
+                d1 = detectors[i]
+                d2 = detectors[i + 1]
+                avg_speed = round((d1["speed"] + d2["speed"]) / 2, 1)
+                road_segments.append({
+                    "link_id": f"{d1['det_id']}_{d2['det_id']}",
+                    "road_name": road_name,
+                    "speed_kmh": avg_speed,
+                    "color": speed_to_color(avg_speed),
+                    "start_lat": d1["lat"],
+                    "start_lng": d1["lng"],
+                    "end_lat": d2["lat"],
+                    "end_lng": d2["lng"],
+                })
 
-    # The speedmap.json contains route segments with speed data
-    # Structure varies but typically has link-level speed info
-    if isinstance(data, dict):
-        # Try different known structures
-        links = data.get("LINK", data.get("link", data.get("data", [])))
-        if isinstance(links, list):
-            for link in links:
-                speed = None
-                if isinstance(link, dict):
-                    # Extract speed - field names vary
-                    speed = (link.get("TRAFFIC_SPEED") or
-                             link.get("trafficSpeed") or
-                             link.get("CurrentSpeed") or
-                             link.get("CURRENT_SPEED"))
-                    if speed is not None:
-                        try:
-                            speed = float(speed)
-                        except (ValueError, TypeError):
-                            speed = None
-
-                    road_name = (link.get("ROAD_EN") or
-                                 link.get("road_en") or
-                                 link.get("LINK_DESCRIPTION_EN") or
-                                 link.get("linkDescriptionEn") or "")
-
-                    region = (link.get("REGION") or
-                              link.get("region") or "")
-
-                    link_id = (link.get("LINK_ID") or
-                               link.get("linkId") or
-                               link.get("link_id") or "")
-
-                    start_lat = link.get("START_LATITUDE") or link.get("startLatitude")
-                    start_lng = link.get("START_LONGITUDE") or link.get("startLongitude")
-                    end_lat = link.get("END_LATITUDE") or link.get("endLatitude")
-                    end_lng = link.get("END_LONGITUDE") or link.get("endLongitude")
-
-                    segment = {
-                        "link_id": str(link_id),
-                        "road_name": road_name,
-                        "region": region,
-                        "speed_kmh": speed,
-                        "color": speed_to_color(speed),
-                    }
-
-                    # Add coordinates if available
-                    if start_lat and start_lng:
-                        try:
-                            segment["start_lat"] = float(start_lat)
-                            segment["start_lng"] = float(start_lng)
-                        except (ValueError, TypeError):
-                            pass
-                    if end_lat and end_lng:
-                        try:
-                            segment["end_lat"] = float(end_lat)
-                            segment["end_lng"] = float(end_lng)
-                        except (ValueError, TypeError):
-                            pass
-
-                    road_segments.append(segment)
-
-    # Also try fetching the link geometry data for road coordinates
-    print("Fetching TD speed map link geometry...")
-    geo_url = "https://resource.data.one.gov.hk/td/speedmap/speedmap-linksets.json"
-    geo_data = fetch_json(geo_url, "TD link geometry")
-
-    link_geometry = {}
-    if geo_data and isinstance(geo_data, dict):
-        features = geo_data.get("features", [])
-        if isinstance(features, list):
-            for feature in features:
-                props = feature.get("properties", {})
-                geom = feature.get("geometry", {})
-                lid = str(props.get("LINK_ID", props.get("link_id", "")))
-                if lid and geom.get("coordinates"):
-                    link_geometry[lid] = {
-                        "coordinates": geom["coordinates"],
-                        "type": geom.get("type", "LineString"),
-                    }
-
-    # Merge geometry with speed data
-    for segment in road_segments:
-        lid = segment.get("link_id", "")
-        if lid in link_geometry:
-            segment["geometry"] = link_geometry[lid]
+    print(f"  Created {len(road_segments)} road segments")
 
     return {
         "updated": timestamp,
@@ -491,38 +611,354 @@ def fetch_traffic_data():
     }
 
 
+def fetch_json_or_text(url, label=""):
+    """Fetch URL content as text (for CSV/XML) with error handling."""
+    try:
+        resp = requests.get(url, timeout=TIMEOUT)
+        resp.raise_for_status()
+        return resp.text
+    except Exception as exc:
+        print(f"  [WARN] Failed to fetch {label or url}: {exc}")
+        return None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Progressive update helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_existing_routes(routes_path):
+    """Load existing airport_bus_routes.json for incremental updates."""
+    if not os.path.exists(routes_path):
+        return {}
+    try:
+        with open(routes_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("routes", {})
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+
+def get_route_keys_to_update(existing_routes):
+    """Return route keys sorted by oldest last_updated, limited to BATCH_SIZE.
+
+    Routes without last_updated (new or legacy) are prioritized first.
+    """
+    # Build a list of all known route keys from the existing data
+    route_times = []
+    for key, route_data in existing_routes.items():
+        last_updated = route_data.get("last_updated", "1970-01-01T00:00:00Z")
+        route_times.append((key, last_updated))
+
+    # Sort by last_updated ascending (oldest first)
+    route_times.sort(key=lambda x: x[1])
+    return [key for key, _ in route_times[:BATCH_SIZE]]
+
+
+def fetch_single_kmb_route(rn, bound, stop_cache, route_info_map):
+    """Fetch a single KMB/LWB route-direction."""
+    route_info = route_info_map.get((rn, bound, "1"))
+    if not route_info:
+        return None
+
+    direction = "outbound" if bound == "O" else "inbound"
+    service_type = route_info.get("service_type", "1")
+
+    url = (
+        f"https://data.etabus.gov.hk/v1/transport/kmb/route-stop"
+        f"/{rn}/{direction}/{service_type}"
+    )
+    print(f"  KMB/LWB {rn} {direction}...")
+    stops_resp = fetch_json(url, f"KMB route-stop {rn} {direction}")
+    if not stops_resp:
+        return None
+
+    stops_list = []
+    for entry in stops_resp.get("data", []):
+        sid = entry.get("stop")
+        seq = int(entry.get("seq", 0))
+        cached = stop_cache.get(sid, {"name_en": "", "lat": 0.0, "lng": 0.0})
+        if cached["lat"] == 0:
+            continue
+        stops_list.append({
+            "stop_id": sid,
+            "seq": seq,
+            "name_en": cached["name_en"],
+            "lat": cached["lat"],
+            "lng": cached["lng"],
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "KMB/LWB",
+        "route": rn,
+        "bound": bound,
+        "service_type": service_type,
+        "orig_en": route_info.get("orig_en", ""),
+        "dest_en": route_info.get("dest_en", ""),
+        "stops": stops_list,
+    }
+
+
+def fetch_single_ctb_route(rn, bound, route_info, stop_cache):
+    """Fetch a single CTB route-direction."""
+    direction = "outbound" if bound == "O" else "inbound"
+    url = (
+        f"https://rt.data.gov.hk/v2/transport/citybus"
+        f"/route-stop/CTB/{rn}/{direction}"
+    )
+    stops_resp = fetch_json(url, f"CTB route-stop {rn} {direction}")
+    if not stops_resp or not stops_resp.get("data"):
+        return None
+
+    stops_list = []
+    for entry in stops_resp["data"]:
+        sid = entry.get("stop")
+        seq = int(entry.get("seq", 0))
+
+        if sid not in stop_cache:
+            detail = fetch_json(
+                f"https://rt.data.gov.hk/v2/transport/citybus/stop/{sid}",
+                f"CTB stop {sid}",
+            )
+            time.sleep(STOP_SLEEP)
+            if detail and detail.get("data"):
+                d = detail["data"]
+                stop_cache[sid] = {
+                    "name_en": d.get("name_en", ""),
+                    "lat": round(float(d.get("lat", 0) or 0), 5),
+                    "lng": round(float(d.get("long", 0) or 0), 5),
+                }
+            else:
+                stop_cache[sid] = {"name_en": "", "lat": 0.0, "lng": 0.0}
+
+        cached = stop_cache[sid]
+        if cached["lat"] == 0:
+            continue
+        stops_list.append({
+            "stop_id": sid,
+            "seq": seq,
+            "name_en": cached["name_en"],
+            "lat": cached["lat"],
+            "lng": cached["lng"],
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "CTB",
+        "route": rn,
+        "bound": bound,
+        "service_type": "1",
+        "orig_en": route_info.get("orig_en", ""),
+        "dest_en": route_info.get("dest_en", ""),
+        "stops": stops_list,
+    }
+
+
+def fetch_single_nlb_route(route, route_id, route_no):
+    """Fetch a single NLB route."""
+    route_name_en = route.get("routeName_e", "") or ""
+    from_en = route.get("from_E", "") or ""
+    to_en = route.get("to_E", "") or ""
+
+    if " > " in route_name_en:
+        parts = route_name_en.split(" > ", 1)
+        orig_en = parts[0].strip()
+        dest_en = parts[1].strip()
+    else:
+        orig_en = from_en or route_name_en
+        dest_en = to_en or ""
+
+    url = (
+        f"https://rt.data.gov.hk/v2/transport/nlb/stop.php"
+        f"?action=list&routeId={route_id}"
+    )
+    stops_resp = fetch_json(url, f"NLB route {route_no}")
+    if not stops_resp:
+        return None
+    time.sleep(0.2)
+
+    stops_list = []
+    for s in stops_resp.get("stops", []):
+        lat_val = (s.get("stopLatitude") or s.get("latitude") or 0)
+        lng_val = (s.get("stopLongitude") or s.get("longitude") or 0)
+        lat = round(float(lat_val or 0), 5)
+        lng = round(float(lng_val or 0), 5)
+        if lat == 0:
+            continue
+        stop_name = (s.get("stopName_E") or s.get("stopName_e") or
+                     s.get("stopLocation_e") or "")
+        stops_list.append({
+            "stop_id": str(s.get("stopId", "")),
+            "seq": int(s.get("sequence", 0) or (len(stops_list) + 1)),
+            "name_en": stop_name,
+            "lat": lat,
+            "lng": lng,
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "NLB",
+        "route": route_no,
+        "route_id": route_id,
+        "bound": "O",
+        "service_type": "1",
+        "orig_en": orig_en,
+        "dest_en": dest_en,
+        "stops": stops_list,
+    }
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
+    now_str = datetime.now(timezone.utc).isoformat()
+    routes_path = os.path.join(DATA_DIR, "airport_bus_routes.json")
 
-    # 1. Fetch airport bus routes
+    # Load existing data for progressive update
+    existing_routes = load_existing_routes(routes_path)
+
+    # Determine which route keys to update this run (oldest first)
+    keys_to_update = get_route_keys_to_update(existing_routes) if existing_routes else []
+
     print("=" * 60)
-    print("Collecting Airport Bus Routes")
+    print("Collecting Airport Bus Routes (Progressive Update)")
     print("=" * 60)
 
-    routes_output = {}
+    if not existing_routes:
+        # First run: fetch everything
+        print("No existing data found. Performing full initial fetch...")
+        routes_output = {}
 
-    kmb = fetch_kmb_airport_routes()
-    routes_output.update(kmb)
-    print(f"KMB/LWB airport routes: {len(kmb)} direction-routes")
+        kmb = fetch_kmb_airport_routes()
+        routes_output.update(kmb)
+        print(f"KMB/LWB airport routes: {len(kmb)} direction-routes")
 
-    ctb = fetch_ctb_airport_routes()
-    routes_output.update(ctb)
-    print(f"CTB airport routes: {len(ctb)} direction-routes")
+        ctb = fetch_ctb_airport_routes()
+        routes_output.update(ctb)
+        print(f"CTB airport routes: {len(ctb)} direction-routes")
 
-    nlb = fetch_nlb_airport_routes()
-    routes_output.update(nlb)
-    print(f"NLB airport routes: {len(nlb)} routes")
+        nlb = fetch_nlb_airport_routes()
+        routes_output.update(nlb)
+        print(f"NLB airport routes: {len(nlb)} routes")
+
+        # Add version and last_updated to each route
+        for key in routes_output:
+            routes_output[key]["version"] = 1
+            routes_output[key]["last_updated"] = now_str
+    else:
+        # Progressive update: only refresh the oldest-updated routes
+        print(f"Progressive update: refreshing {len(keys_to_update)}/{len(existing_routes)} "
+              f"routes this run")
+        print(f"  Routes to update: {keys_to_update}")
+
+        routes_output = dict(existing_routes)
+
+        # Pre-fetch shared lookup data needed for individual route fetches
+        # KMB stop cache and route info
+        kmb_stop_cache = {}
+        kmb_route_info_map = {}
+        ctb_stop_cache = {}
+        ctb_route_map = {}
+        nlb_routes_data = None
+
+        kmb_keys = [k for k in keys_to_update if k.startswith("KMB_")]
+        ctb_keys = [k for k in keys_to_update if k.startswith("CTB_")]
+        nlb_keys = [k for k in keys_to_update if k.startswith("NLB_")]
+
+        if kmb_keys:
+            print("Fetching KMB/LWB bulk stop data...")
+            stops_data = fetch_json(
+                "https://data.etabus.gov.hk/v1/transport/kmb/stop", "KMB all stops"
+            )
+            if stops_data:
+                for s in stops_data.get("data", []):
+                    kmb_stop_cache[s["stop"]] = {
+                        "name_en": s.get("name_en", ""),
+                        "lat": round(float(s.get("lat", 0) or 0), 5),
+                        "lng": round(float(s.get("long", 0) or 0), 5),
+                    }
+            print(f"  Cached {len(kmb_stop_cache)} KMB/LWB stops")
+
+            routes_data = fetch_json(
+                "https://data.etabus.gov.hk/v1/transport/kmb/route", "KMB routes"
+            )
+            if routes_data:
+                for r in routes_data.get("data", []):
+                    k = (r.get("route", "").upper(), r.get("bound", "O"),
+                         r.get("service_type", "1"))
+                    kmb_route_info_map[k] = r
+
+        if ctb_keys:
+            print("Fetching CTB route list...")
+            routes_data = fetch_json(
+                "https://rt.data.gov.hk/v2/transport/citybus/route/ctb", "CTB routes"
+            )
+            if routes_data:
+                for r in routes_data.get("data", []):
+                    ctb_route_map[r.get("route", "").upper()] = r
+
+        if nlb_keys:
+            print("Fetching NLB route list...")
+            nlb_routes_data = fetch_json(
+                "https://rt.data.gov.hk/v2/transport/nlb/route.php?action=list",
+                "NLB routes",
+            )
+
+        # Refresh each targeted route
+        for key in keys_to_update:
+            old_version = routes_output.get(key, {}).get("version", 0)
+
+            if key.startswith("KMB_"):
+                # Parse key: KMB_{route}_{bound}
+                parts = key.split("_")
+                rn = parts[1]
+                bound = parts[2]
+                result = fetch_single_kmb_route(rn, bound, kmb_stop_cache, kmb_route_info_map)
+            elif key.startswith("CTB_"):
+                parts = key.split("_")
+                rn = parts[1]
+                bound = parts[2]
+                route_info = ctb_route_map.get(rn, {})
+                result = fetch_single_ctb_route(rn, bound, route_info, ctb_stop_cache)
+            elif key.startswith("NLB_"):
+                route_id = key.replace("NLB_", "")
+                result = None
+                if nlb_routes_data:
+                    for route in nlb_routes_data.get("routes", []):
+                        if str(route.get("routeId", "")) == route_id:
+                            route_no = route.get("routeNo", "")
+                            result = fetch_single_nlb_route(route, route_id, route_no)
+                            break
+            else:
+                result = None
+
+            if result:
+                result["version"] = old_version + 1
+                result["last_updated"] = now_str
+                routes_output[key] = result
+                print(f"    Updated {key} -> v{result['version']}")
+            else:
+                print(f"    [SKIP] Could not refresh {key}, keeping existing data")
+
+            time.sleep(0.05)
 
     # Save airport bus routes
-    routes_path = os.path.join(DATA_DIR, "airport_bus_routes.json")
     with open(routes_path, "w", encoding="utf-8") as f:
         json.dump(
             {
-                "updated": datetime.now(timezone.utc).isoformat(),
+                "updated": now_str,
                 "description": "Bus routes to/from Hong Kong International Airport",
                 "total_routes": len(routes_output),
                 "routes": routes_output,
@@ -533,7 +969,7 @@ def main():
         )
     print(f"\nSaved {len(routes_output)} airport routes -> {routes_path}")
 
-    # 2. Fetch traffic speed data with congestion colors
+    # 2. Fetch traffic speed data (always full refresh - real-time data)
     print("\n" + "=" * 60)
     print("Collecting Traffic Speed Data")
     print("=" * 60)
