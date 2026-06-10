@@ -3,6 +3,11 @@ Fetch all bus routes travelling to Hong Kong International Airport (HKIA),
 collect real-time traffic speed data with congestion color mapping,
 and save bus stop coordinates for each route.
 
+Supports progressive updates: each route tracks its own version and
+last_updated timestamp. On each run, only the BATCH_SIZE oldest-updated
+routes are refreshed, spreading API load across multiple workflow runs.
+Traffic speed data is always refreshed (real-time).
+
 Data sources:
 - KMB/Long Win Bus API (A, E, N, NA, S routes operated by LWB)
 - CTB (Citybus) API (A, E routes operated by CTB)
@@ -24,6 +29,9 @@ import requests
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 TIMEOUT = 15
 STOP_SLEEP = 0.25
+
+# Number of route-directions to update per workflow run (progressive batch)
+BATCH_SIZE = int(os.environ.get("AIRPORT_ROUTE_BATCH_SIZE", "10"))
 
 # ── Airport bus route numbers ────────────────────────────────────────────────
 # A-routes (Airbus premium), E-routes (External), S-routes (Shuttle),
@@ -615,37 +623,342 @@ def fetch_json_or_text(url, label=""):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Progressive update helpers
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_existing_routes(routes_path):
+    """Load existing airport_bus_routes.json for incremental updates."""
+    if not os.path.exists(routes_path):
+        return {}
+    try:
+        with open(routes_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("routes", {})
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+
+def get_route_keys_to_update(existing_routes):
+    """Return route keys sorted by oldest last_updated, limited to BATCH_SIZE.
+
+    Routes without last_updated (new or legacy) are prioritized first.
+    """
+    # Build a list of all known route keys from the existing data
+    route_times = []
+    for key, route_data in existing_routes.items():
+        last_updated = route_data.get("last_updated", "1970-01-01T00:00:00Z")
+        route_times.append((key, last_updated))
+
+    # Sort by last_updated ascending (oldest first)
+    route_times.sort(key=lambda x: x[1])
+    return [key for key, _ in route_times[:BATCH_SIZE]]
+
+
+def fetch_single_kmb_route(rn, bound, stop_cache, route_info_map):
+    """Fetch a single KMB/LWB route-direction."""
+    route_info = route_info_map.get((rn, bound, "1"))
+    if not route_info:
+        return None
+
+    direction = "outbound" if bound == "O" else "inbound"
+    service_type = route_info.get("service_type", "1")
+
+    url = (
+        f"https://data.etabus.gov.hk/v1/transport/kmb/route-stop"
+        f"/{rn}/{direction}/{service_type}"
+    )
+    print(f"  KMB/LWB {rn} {direction}...")
+    stops_resp = fetch_json(url, f"KMB route-stop {rn} {direction}")
+    if not stops_resp:
+        return None
+
+    stops_list = []
+    for entry in stops_resp.get("data", []):
+        sid = entry.get("stop")
+        seq = int(entry.get("seq", 0))
+        cached = stop_cache.get(sid, {"name_en": "", "lat": 0.0, "lng": 0.0})
+        if cached["lat"] == 0:
+            continue
+        stops_list.append({
+            "stop_id": sid,
+            "seq": seq,
+            "name_en": cached["name_en"],
+            "lat": cached["lat"],
+            "lng": cached["lng"],
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "KMB/LWB",
+        "route": rn,
+        "bound": bound,
+        "service_type": service_type,
+        "orig_en": route_info.get("orig_en", ""),
+        "dest_en": route_info.get("dest_en", ""),
+        "stops": stops_list,
+    }
+
+
+def fetch_single_ctb_route(rn, bound, route_info, stop_cache):
+    """Fetch a single CTB route-direction."""
+    direction = "outbound" if bound == "O" else "inbound"
+    url = (
+        f"https://rt.data.gov.hk/v2/transport/citybus"
+        f"/route-stop/CTB/{rn}/{direction}"
+    )
+    stops_resp = fetch_json(url, f"CTB route-stop {rn} {direction}")
+    if not stops_resp or not stops_resp.get("data"):
+        return None
+
+    stops_list = []
+    for entry in stops_resp["data"]:
+        sid = entry.get("stop")
+        seq = int(entry.get("seq", 0))
+
+        if sid not in stop_cache:
+            detail = fetch_json(
+                f"https://rt.data.gov.hk/v2/transport/citybus/stop/{sid}",
+                f"CTB stop {sid}",
+            )
+            time.sleep(STOP_SLEEP)
+            if detail and detail.get("data"):
+                d = detail["data"]
+                stop_cache[sid] = {
+                    "name_en": d.get("name_en", ""),
+                    "lat": round(float(d.get("lat", 0) or 0), 5),
+                    "lng": round(float(d.get("long", 0) or 0), 5),
+                }
+            else:
+                stop_cache[sid] = {"name_en": "", "lat": 0.0, "lng": 0.0}
+
+        cached = stop_cache[sid]
+        if cached["lat"] == 0:
+            continue
+        stops_list.append({
+            "stop_id": sid,
+            "seq": seq,
+            "name_en": cached["name_en"],
+            "lat": cached["lat"],
+            "lng": cached["lng"],
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "CTB",
+        "route": rn,
+        "bound": bound,
+        "service_type": "1",
+        "orig_en": route_info.get("orig_en", ""),
+        "dest_en": route_info.get("dest_en", ""),
+        "stops": stops_list,
+    }
+
+
+def fetch_single_nlb_route(route, route_id, route_no):
+    """Fetch a single NLB route."""
+    route_name_en = route.get("routeName_e", "") or ""
+    from_en = route.get("from_E", "") or ""
+    to_en = route.get("to_E", "") or ""
+
+    if " > " in route_name_en:
+        parts = route_name_en.split(" > ", 1)
+        orig_en = parts[0].strip()
+        dest_en = parts[1].strip()
+    else:
+        orig_en = from_en or route_name_en
+        dest_en = to_en or ""
+
+    url = (
+        f"https://rt.data.gov.hk/v2/transport/nlb/stop.php"
+        f"?action=list&routeId={route_id}"
+    )
+    stops_resp = fetch_json(url, f"NLB route {route_no}")
+    if not stops_resp:
+        return None
+    time.sleep(0.2)
+
+    stops_list = []
+    for s in stops_resp.get("stops", []):
+        lat_val = (s.get("stopLatitude") or s.get("latitude") or 0)
+        lng_val = (s.get("stopLongitude") or s.get("longitude") or 0)
+        lat = round(float(lat_val or 0), 5)
+        lng = round(float(lng_val or 0), 5)
+        if lat == 0:
+            continue
+        stop_name = (s.get("stopName_E") or s.get("stopName_e") or
+                     s.get("stopLocation_e") or "")
+        stops_list.append({
+            "stop_id": str(s.get("stopId", "")),
+            "seq": int(s.get("sequence", 0) or (len(stops_list) + 1)),
+            "name_en": stop_name,
+            "lat": lat,
+            "lng": lng,
+        })
+
+    if not stops_list:
+        return None
+
+    add_bearings(stops_list)
+    return {
+        "company": "NLB",
+        "route": route_no,
+        "route_id": route_id,
+        "bound": "O",
+        "service_type": "1",
+        "orig_en": orig_en,
+        "dest_en": dest_en,
+        "stops": stops_list,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
+    now_str = datetime.now(timezone.utc).isoformat()
+    routes_path = os.path.join(DATA_DIR, "airport_bus_routes.json")
 
-    # 1. Fetch airport bus routes
+    # Load existing data for progressive update
+    existing_routes = load_existing_routes(routes_path)
+
+    # Determine which route keys to update this run (oldest first)
+    keys_to_update = get_route_keys_to_update(existing_routes) if existing_routes else []
+
     print("=" * 60)
-    print("Collecting Airport Bus Routes")
+    print("Collecting Airport Bus Routes (Progressive Update)")
     print("=" * 60)
 
-    routes_output = {}
+    if not existing_routes:
+        # First run: fetch everything
+        print("No existing data found. Performing full initial fetch...")
+        routes_output = {}
 
-    kmb = fetch_kmb_airport_routes()
-    routes_output.update(kmb)
-    print(f"KMB/LWB airport routes: {len(kmb)} direction-routes")
+        kmb = fetch_kmb_airport_routes()
+        routes_output.update(kmb)
+        print(f"KMB/LWB airport routes: {len(kmb)} direction-routes")
 
-    ctb = fetch_ctb_airport_routes()
-    routes_output.update(ctb)
-    print(f"CTB airport routes: {len(ctb)} direction-routes")
+        ctb = fetch_ctb_airport_routes()
+        routes_output.update(ctb)
+        print(f"CTB airport routes: {len(ctb)} direction-routes")
 
-    nlb = fetch_nlb_airport_routes()
-    routes_output.update(nlb)
-    print(f"NLB airport routes: {len(nlb)} routes")
+        nlb = fetch_nlb_airport_routes()
+        routes_output.update(nlb)
+        print(f"NLB airport routes: {len(nlb)} routes")
+
+        # Add version and last_updated to each route
+        for key in routes_output:
+            routes_output[key]["version"] = 1
+            routes_output[key]["last_updated"] = now_str
+    else:
+        # Progressive update: only refresh the oldest-updated routes
+        print(f"Progressive update: refreshing {len(keys_to_update)}/{len(existing_routes)} "
+              f"routes this run")
+        print(f"  Routes to update: {keys_to_update}")
+
+        routes_output = dict(existing_routes)
+
+        # Pre-fetch shared lookup data needed for individual route fetches
+        # KMB stop cache and route info
+        kmb_stop_cache = {}
+        kmb_route_info_map = {}
+        ctb_stop_cache = {}
+        ctb_route_map = {}
+        nlb_routes_data = None
+
+        kmb_keys = [k for k in keys_to_update if k.startswith("KMB_")]
+        ctb_keys = [k for k in keys_to_update if k.startswith("CTB_")]
+        nlb_keys = [k for k in keys_to_update if k.startswith("NLB_")]
+
+        if kmb_keys:
+            print("Fetching KMB/LWB bulk stop data...")
+            stops_data = fetch_json(
+                "https://data.etabus.gov.hk/v1/transport/kmb/stop", "KMB all stops"
+            )
+            if stops_data:
+                for s in stops_data.get("data", []):
+                    kmb_stop_cache[s["stop"]] = {
+                        "name_en": s.get("name_en", ""),
+                        "lat": round(float(s.get("lat", 0) or 0), 5),
+                        "lng": round(float(s.get("long", 0) or 0), 5),
+                    }
+            print(f"  Cached {len(kmb_stop_cache)} KMB/LWB stops")
+
+            routes_data = fetch_json(
+                "https://data.etabus.gov.hk/v1/transport/kmb/route", "KMB routes"
+            )
+            if routes_data:
+                for r in routes_data.get("data", []):
+                    k = (r.get("route", "").upper(), r.get("bound", "O"),
+                         r.get("service_type", "1"))
+                    kmb_route_info_map[k] = r
+
+        if ctb_keys:
+            print("Fetching CTB route list...")
+            routes_data = fetch_json(
+                "https://rt.data.gov.hk/v2/transport/citybus/route/ctb", "CTB routes"
+            )
+            if routes_data:
+                for r in routes_data.get("data", []):
+                    ctb_route_map[r.get("route", "").upper()] = r
+
+        if nlb_keys:
+            print("Fetching NLB route list...")
+            nlb_routes_data = fetch_json(
+                "https://rt.data.gov.hk/v2/transport/nlb/route.php?action=list",
+                "NLB routes",
+            )
+
+        # Refresh each targeted route
+        for key in keys_to_update:
+            old_version = routes_output.get(key, {}).get("version", 0)
+
+            if key.startswith("KMB_"):
+                # Parse key: KMB_{route}_{bound}
+                parts = key.split("_")
+                rn = parts[1]
+                bound = parts[2]
+                result = fetch_single_kmb_route(rn, bound, kmb_stop_cache, kmb_route_info_map)
+            elif key.startswith("CTB_"):
+                parts = key.split("_")
+                rn = parts[1]
+                bound = parts[2]
+                route_info = ctb_route_map.get(rn, {})
+                result = fetch_single_ctb_route(rn, bound, route_info, ctb_stop_cache)
+            elif key.startswith("NLB_"):
+                route_id = key.replace("NLB_", "")
+                result = None
+                if nlb_routes_data:
+                    for route in nlb_routes_data.get("routes", []):
+                        if str(route.get("routeId", "")) == route_id:
+                            route_no = route.get("routeNo", "")
+                            result = fetch_single_nlb_route(route, route_id, route_no)
+                            break
+            else:
+                result = None
+
+            if result:
+                result["version"] = old_version + 1
+                result["last_updated"] = now_str
+                routes_output[key] = result
+                print(f"    Updated {key} -> v{result['version']}")
+            else:
+                print(f"    [SKIP] Could not refresh {key}, keeping existing data")
+
+            time.sleep(0.05)
 
     # Save airport bus routes
-    routes_path = os.path.join(DATA_DIR, "airport_bus_routes.json")
     with open(routes_path, "w", encoding="utf-8") as f:
         json.dump(
             {
-                "updated": datetime.now(timezone.utc).isoformat(),
+                "updated": now_str,
                 "description": "Bus routes to/from Hong Kong International Airport",
                 "total_routes": len(routes_output),
                 "routes": routes_output,
@@ -656,7 +969,7 @@ def main():
         )
     print(f"\nSaved {len(routes_output)} airport routes -> {routes_path}")
 
-    # 2. Fetch traffic speed data with congestion colors
+    # 2. Fetch traffic speed data (always full refresh - real-time data)
     print("\n" + "=" * 60)
     print("Collecting Traffic Speed Data")
     print("=" * 60)
