@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✈️ HK Airport Bus Routes & Traffic Map</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
+    background: #0f1923;
+  }
+
+  #map {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Loading overlay */
+  #loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 25, 35, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+  }
+  #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+  .loading-icon { font-size: 64px; animation: bounce 1s ease infinite; margin-bottom: 16px; }
+  .loading-text { color: #fff; font-size: 20px; font-weight: 800; }
+  .loading-sub { color: #aaa; font-size: 13px; margin-top: 6px; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Info panel */
+  #info-panel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 800;
+    background: rgba(255,255,255,0.95);
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 14px;
+    padding: 12px 16px;
+    max-width: 320px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  #info-panel h1 {
+    font-size: 16px;
+    font-weight: 900;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  #info-panel .subtitle {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  #info-panel .stats {
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  #info-panel .stats span { font-weight: 700; }
+
+  /* Legend */
+  #legend {
+    position: absolute;
+    bottom: 30px;
+    left: 10px;
+    z-index: 800;
+    background: rgba(255,255,255,0.95);
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  #legend h3 {
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    color: #333;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: #444;
+  }
+  .legend-color {
+    width: 24px;
+    height: 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+
+  /* Route list panel */
+  #route-panel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 800;
+    background: rgba(255,255,255,0.95);
+    border: 3px solid #333;
+    box-shadow: 4px 4px 0 #333;
+    border-radius: 14px;
+    padding: 10px 12px;
+    max-width: 260px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  #route-panel h3 {
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: #333;
+    text-align: center;
+  }
+  .route-btn {
+    display: block;
+    width: 100%;
+    padding: 5px 8px;
+    margin-bottom: 3px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .route-btn:hover { border-color: #2196f3; background: #e3f2fd; }
+  .route-btn.active { border-color: #1565c0; background: #bbdefb; }
+  .route-btn .route-no { color: #1565c0; }
+  .route-btn .route-dest { color: #666; font-weight: 600; }
+
+  /* Filter tabs */
+  .filter-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-tab {
+    padding: 3px 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-tab:hover { border-color: #2196f3; }
+  .filter-tab.active { border-color: #1565c0; background: #1565c0; color: #fff; }
+
+  /* Toggle buttons */
+  #toggle-panel {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    z-index: 800;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .toggle-btn {
+    padding: 8px 12px;
+    border: 3px solid #333;
+    box-shadow: 3px 3px 0 #333;
+    border-radius: 10px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .toggle-btn:hover { transform: translateY(-1px); }
+  .toggle-btn.active { background: #1565c0; color: #fff; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    #info-panel { max-width: 200px; padding: 8px 10px; }
+    #info-panel h1 { font-size: 13px; }
+    #route-panel { max-width: 180px; font-size: 10px; }
+    #legend { bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="loading-icon">✈️</div>
+  <div class="loading-text">Loading Airport Bus Map...</div>
+  <div class="loading-sub">Fetching routes & traffic data</div>
+</div>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Info panel -->
+<div id="info-panel">
+  <h1>✈️ HK Airport Bus Routes</h1>
+  <div class="subtitle">Real-time traffic & bus route map</div>
+  <div class="stats" id="stats">Loading...</div>
+</div>
+
+<!-- Traffic color legend -->
+<div id="legend">
+  <h3>🚦 Traffic Speed</h3>
+  <div class="legend-item"><div class="legend-color" style="background:#4caf50"></div>Free flow (≥50 km/h)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#ffeb3b"></div>Moderate (30-49 km/h)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#ff9800"></div>Slow (15-29 km/h)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#f44336"></div>Congested (&lt;15 km/h)</div>
+  <div class="legend-item"><div class="legend-color" style="background:#9e9e9e"></div>No data</div>
+</div>
+
+<!-- Route list panel -->
+<div id="route-panel">
+  <h3>🚌 Airport Routes</h3>
+  <div class="filter-tabs" id="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="A">A</button>
+    <button class="filter-tab" data-filter="E">E</button>
+    <button class="filter-tab" data-filter="N">N</button>
+    <button class="filter-tab" data-filter="S">S</button>
+    <button class="filter-tab" data-filter="NLB">NLB</button>
+  </div>
+  <div id="route-list"></div>
+</div>
+
+<!-- Toggle buttons -->
+<div id="toggle-panel">
+  <button class="toggle-btn active" id="toggle-traffic" onclick="toggleTraffic()">🚦 Traffic</button>
+  <button class="toggle-btn active" id="toggle-stops" onclick="toggleStops()">🚏 Stops</button>
+  <button class="toggle-btn" id="toggle-all-routes" onclick="toggleAllRoutes()">📍 All Routes</button>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// ─── Configuration ──────────────────────────────────────────────────────────
+const AIRPORT_COORDS = [22.3080, 113.9185]; // HKIA coordinates
+const DEFAULT_ZOOM = 11;
+
+const COLOR_MAP = {
+  green:  '#4caf50',
+  yellow: '#ffeb3b',
+  orange: '#ff9800',
+  red:    '#f44336',
+  grey:   '#9e9e9e',
+};
+
+// Distinct colors for route lines
+const ROUTE_COLORS = [
+  '#1565c0', '#c62828', '#2e7d32', '#6a1b9a', '#e65100',
+  '#00838f', '#ad1457', '#1b5e20', '#4527a0', '#bf360c',
+  '#00695c', '#880e4f', '#283593', '#e64a19', '#00796b',
+  '#5d4037', '#303f9f', '#d84315', '#004d40', '#4a148c',
+];
+
+// ─── State ──────────────────────────────────────────────────────────────────
+let map;
+let routeData = {};
+let trafficData = {};
+let routeLayers = {};        // key -> polyline layer
+let stopLayers = {};         // key -> layer group of markers
+let trafficLayer;
+let showTraffic = true;
+let showStops = true;
+let showAllRoutes = false;
+let activeRoute = null;
+let currentFilter = 'all';
+
+// ─── Initialize Map ─────────────────────────────────────────────────────────
+function initMap() {
+  map = L.map('map', {
+    center: AIRPORT_COORDS,
+    zoom: DEFAULT_ZOOM,
+    zoomControl: true,
+  });
+
+  // OpenStreetMap transport layer (focused on roads/traffic)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18,
+  }).addTo(map);
+
+  // Add airport marker
+  L.marker(AIRPORT_COORDS, {
+    icon: L.divIcon({
+      className: 'airport-icon',
+      html: '<div style="font-size:28px;text-align:center;">✈️</div>',
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+    }),
+  }).addTo(map).bindPopup('<b>Hong Kong International Airport</b><br>香港國際機場');
+}
+
+// ─── Load Data ──────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const [routeResp, trafficResp] = await Promise.all([
+      fetch('data/airport_bus_routes.json'),
+      fetch('data/airport_traffic_speeds.json'),
+    ]);
+
+    if (routeResp.ok) {
+      const json = await routeResp.json();
+      routeData = json.routes || {};
+    }
+
+    if (trafficResp.ok) {
+      trafficData = await trafficResp.json();
+    }
+  } catch (err) {
+    console.warn('Error loading data:', err);
+  }
+
+  renderMap();
+  updateStats();
+  renderRouteList();
+  hideLoading();
+}
+
+// ─── Render Traffic Layer ───────────────────────────────────────────────────
+function renderTraffic() {
+  if (trafficLayer) {
+    map.removeLayer(trafficLayer);
+  }
+
+  trafficLayer = L.layerGroup();
+
+  if (!trafficData.available || !trafficData.road_segments) {
+    return;
+  }
+
+  for (const seg of trafficData.road_segments) {
+    const color = COLOR_MAP[seg.color] || COLOR_MAP.grey;
+
+    // If geometry is available, draw the full road segment
+    if (seg.geometry && seg.geometry.coordinates) {
+      const coords = seg.geometry.coordinates;
+      let latlngs;
+
+      if (seg.geometry.type === 'MultiLineString') {
+        // Each sub-array is a line
+        for (const line of coords) {
+          latlngs = line.map(c => [c[1], c[0]]);
+          if (latlngs.length >= 2) {
+            const polyline = L.polyline(latlngs, {
+              color: color,
+              weight: 5,
+              opacity: 0.75,
+            });
+            polyline.bindPopup(
+              `<b>${seg.road_name || 'Road Segment'}</b><br>` +
+              `Speed: ${seg.speed_kmh != null ? seg.speed_kmh + ' km/h' : 'N/A'}<br>` +
+              `Status: <span style="color:${color};font-weight:bold">${seg.color.toUpperCase()}</span>`
+            );
+            trafficLayer.addLayer(polyline);
+          }
+        }
+      } else {
+        // LineString
+        latlngs = coords.map(c => [c[1], c[0]]);
+        if (latlngs.length >= 2) {
+          const polyline = L.polyline(latlngs, {
+            color: color,
+            weight: 5,
+            opacity: 0.75,
+          });
+          polyline.bindPopup(
+            `<b>${seg.road_name || 'Road Segment'}</b><br>` +
+            `Speed: ${seg.speed_kmh != null ? seg.speed_kmh + ' km/h' : 'N/A'}<br>` +
+            `Status: <span style="color:${color};font-weight:bold">${seg.color.toUpperCase()}</span>`
+          );
+          trafficLayer.addLayer(polyline);
+        }
+      }
+    } else if (seg.start_lat && seg.start_lng && seg.end_lat && seg.end_lng) {
+      // Fallback: draw line between start and end points
+      const latlngs = [
+        [seg.start_lat, seg.start_lng],
+        [seg.end_lat, seg.end_lng],
+      ];
+      const polyline = L.polyline(latlngs, {
+        color: color,
+        weight: 5,
+        opacity: 0.75,
+      });
+      polyline.bindPopup(
+        `<b>${seg.road_name || 'Road Segment'}</b><br>` +
+        `Speed: ${seg.speed_kmh != null ? seg.speed_kmh + ' km/h' : 'N/A'}<br>` +
+        `Status: <span style="color:${color};font-weight:bold">${seg.color.toUpperCase()}</span>`
+      );
+      trafficLayer.addLayer(polyline);
+    }
+  }
+
+  if (showTraffic) {
+    trafficLayer.addTo(map);
+  }
+}
+
+// ─── Render Bus Routes ──────────────────────────────────────────────────────
+function renderRoutes() {
+  // Clear existing
+  Object.values(routeLayers).forEach(l => map.removeLayer(l));
+  Object.values(stopLayers).forEach(l => map.removeLayer(l));
+  routeLayers = {};
+  stopLayers = {};
+
+  let colorIdx = 0;
+
+  for (const [key, route] of Object.entries(routeData)) {
+    const stops = route.stops || [];
+    if (stops.length < 2) continue;
+
+    const color = ROUTE_COLORS[colorIdx % ROUTE_COLORS.length];
+    colorIdx++;
+
+    // Create route polyline
+    const latlngs = stops.map(s => [s.lat, s.lng]);
+    const polyline = L.polyline(latlngs, {
+      color: color,
+      weight: 4,
+      opacity: 0.8,
+      dashArray: route.bound === 'I' ? '8, 6' : null,
+    });
+    polyline.bindPopup(
+      `<b>${route.company} ${route.route}</b><br>` +
+      `${route.orig_en} → ${route.dest_en}<br>` +
+      `<small>${stops.length} stops | ${route.bound === 'O' ? 'Outbound' : 'Inbound'}</small>`
+    );
+    routeLayers[key] = polyline;
+
+    // Create stop markers
+    const stopGroup = L.layerGroup();
+    for (const stop of stops) {
+      const marker = L.circleMarker([stop.lat, stop.lng], {
+        radius: 4,
+        color: '#333',
+        fillColor: color,
+        fillOpacity: 0.9,
+        weight: 1,
+      });
+      marker.bindPopup(
+        `<b>${stop.name_en}</b><br>` +
+        `<small>Route: ${route.company} ${route.route}<br>` +
+        `Stop #${stop.seq}</small>`
+      );
+      stopGroup.addLayer(marker);
+    }
+    stopLayers[key] = stopGroup;
+  }
+}
+
+function renderMap() {
+  renderTraffic();
+  renderRoutes();
+
+  // Show all routes by default if not too many
+  if (Object.keys(routeLayers).length <= 20 || showAllRoutes) {
+    showAllRoutesOnMap();
+  }
+}
+
+function showAllRoutesOnMap() {
+  for (const [key, layer] of Object.entries(routeLayers)) {
+    layer.addTo(map);
+    if (showStops && stopLayers[key]) {
+      stopLayers[key].addTo(map);
+    }
+  }
+}
+
+function hideAllRoutesOnMap() {
+  for (const [key, layer] of Object.entries(routeLayers)) {
+    map.removeLayer(layer);
+    if (stopLayers[key]) {
+      map.removeLayer(stopLayers[key]);
+    }
+  }
+}
+
+// ─── Show Single Route ──────────────────────────────────────────────────────
+function showRoute(key) {
+  // Remove previously highlighted route
+  hideAllRoutesOnMap();
+
+  if (activeRoute === key) {
+    // Toggle off - show all again
+    activeRoute = null;
+    if (showAllRoutes) showAllRoutesOnMap();
+    updateRouteButtons();
+    return;
+  }
+
+  activeRoute = key;
+  const layer = routeLayers[key];
+  if (layer) {
+    layer.addTo(map);
+    map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+    if (showStops && stopLayers[key]) {
+      stopLayers[key].addTo(map);
+    }
+  }
+  updateRouteButtons();
+}
+
+// ─── Route List ─────────────────────────────────────────────────────────────
+function renderRouteList() {
+  const container = document.getElementById('route-list');
+  container.innerHTML = '';
+
+  const sortedEntries = Object.entries(routeData).sort((a, b) => {
+    const ra = a[1].route;
+    const rb = b[1].route;
+    return ra.localeCompare(rb, undefined, { numeric: true });
+  });
+
+  for (const [key, route] of sortedEntries) {
+    // Apply filter
+    if (currentFilter !== 'all') {
+      if (currentFilter === 'NLB') {
+        if (route.company !== 'NLB') continue;
+      } else {
+        if (!route.route.startsWith(currentFilter)) continue;
+      }
+    }
+
+    const btn = document.createElement('button');
+    btn.className = 'route-btn';
+    btn.dataset.key = key;
+    btn.innerHTML = `<span class="route-no">${route.company} ${route.route}</span> ` +
+      `<span class="route-dest">${route.bound === 'O' ? '→' : '←'} ${route.dest_en}</span>`;
+    btn.onclick = () => showRoute(key);
+    container.appendChild(btn);
+  }
+}
+
+function updateRouteButtons() {
+  document.querySelectorAll('.route-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.key === activeRoute);
+  });
+}
+
+// ─── Filter Tabs ────────────────────────────────────────────────────────────
+document.getElementById('filter-tabs').addEventListener('click', (e) => {
+  if (!e.target.classList.contains('filter-tab')) return;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  currentFilter = e.target.dataset.filter;
+  activeRoute = null;
+  renderRouteList();
+  hideAllRoutesOnMap();
+  if (showAllRoutes) showAllRoutesOnMap();
+});
+
+// ─── Toggle Controls ────────────────────────────────────────────────────────
+function toggleTraffic() {
+  showTraffic = !showTraffic;
+  document.getElementById('toggle-traffic').classList.toggle('active', showTraffic);
+  if (showTraffic && trafficLayer) {
+    trafficLayer.addTo(map);
+  } else if (trafficLayer) {
+    map.removeLayer(trafficLayer);
+  }
+}
+
+function toggleStops() {
+  showStops = !showStops;
+  document.getElementById('toggle-stops').classList.toggle('active', showStops);
+  for (const [key, group] of Object.entries(stopLayers)) {
+    if (showStops) {
+      if (map.hasLayer(routeLayers[key])) {
+        group.addTo(map);
+      }
+    } else {
+      map.removeLayer(group);
+    }
+  }
+}
+
+function toggleAllRoutes() {
+  showAllRoutes = !showAllRoutes;
+  document.getElementById('toggle-all-routes').classList.toggle('active', showAllRoutes);
+  if (showAllRoutes) {
+    activeRoute = null;
+    showAllRoutesOnMap();
+    updateRouteButtons();
+  } else {
+    hideAllRoutesOnMap();
+  }
+}
+
+// ─── Stats ──────────────────────────────────────────────────────────────────
+function updateStats() {
+  const totalRoutes = Object.keys(routeData).length;
+  let totalStops = 0;
+  const companies = new Set();
+
+  for (const route of Object.values(routeData)) {
+    totalStops += (route.stops || []).length;
+    companies.add(route.company);
+  }
+
+  const trafficSegs = trafficData.total_segments || 0;
+  const updated = routeData && Object.keys(routeData).length > 0 ?
+    'Live' : 'No data';
+
+  document.getElementById('stats').innerHTML =
+    `<span>${totalRoutes}</span> route directions<br>` +
+    `<span>${totalStops}</span> bus stops mapped<br>` +
+    `<span>${companies.size}</span> bus companies<br>` +
+    `<span>${trafficSegs}</span> traffic segments<br>` +
+    `Status: <span>${updated}</span>`;
+}
+
+// ─── Loading ────────────────────────────────────────────────────────────────
+function hideLoading() {
+  setTimeout(() => {
+    document.getElementById('loading-overlay').classList.add('hidden');
+  }, 800);
+}
+
+// ─── Init ───────────────────────────────────────────────────────────────────
+initMap();
+loadData();
+</script>
+
+</body>
+</html>
