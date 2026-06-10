@@ -2,13 +2,9 @@ name: Update Stock Data
 
 on:
   schedule:
-    # Run every 20 minutes for progressive updates (3 symbols per run)
-    - cron: '*/20 * * * *'
+    # Run once per hour
+    - cron: '15 * * * *'
   workflow_dispatch:
-
-concurrency:
-  group: update-stock-data
-  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -28,9 +24,7 @@ jobs:
       - name: Install dependencies
         run: pip install yfinance
 
-      - name: Fetch stock data (progressive update)
-        env:
-          STOCK_BATCH_SIZE: "3"
+      - name: Fetch stock data
         run: python scripts/fetch_stock_data.py
 
       - name: Commit and push
