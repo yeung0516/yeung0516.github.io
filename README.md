@@ -72,3 +72,34 @@ Other features: draggable/zoomable map, weather warning banner, per-station temp
 |---|---|---|---|
 | Update Stock Data | `update_stocks.yml` | Hourly (`:15`) | Fetch yfinance stock prices → `data/stocks.json` |
 | Update HK Map Data | `update_hk_map_data.yml` | Every 5 minutes | Fetch KMB routes + TD speed map → `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` |
+
+### ✈️ [HK Airport Bus Routes & Traffic Map](AirportMap.html)
+
+Full-screen interactive map centred on Hong Kong International Airport (HKIA), powered by Leaflet.js and OpenStreetMap tiles. Integrates live bus route data and real-time traffic speed information from Hong Kong Government Open APIs.
+
+| Layer | Data Source | Update Frequency |
+|---|---|---|
+| 🚦 **Traffic Speed** | HK Transport Department detector speed XML | Every 10 min (CI cache) |
+| 🚌 **Bus Routes** | KMB/LWB ETA API + CTB API + NLB API | Progressive batch (every 10 min CI) |
+| 🚏 **Bus Stops** | KMB/CTB/NLB Stop Coordinate APIs | Cached with route data |
+
+**Traffic Speed Layer** — 616 colour-coded polyline segments across major HK expressways and arterial roads (Kwun Tong Bypass, West Kowloon Highway, Lion Rock Tunnel Road, Tate's Cairn Highway, Waterloo Road, Princess Margaret Road, Canal Road Flyover, Aberdeen Tunnel, etc.):
+- 🟢 **Green** ≥50 km/h — Free flow
+- 🟡 **Yellow** 30–49 km/h — Moderate
+- 🟠 **Orange** 15–29 km/h — Slow
+- 🔴 **Red** <15 km/h — Congested
+- ⚪ **Grey** — No data
+
+**Bus Routes Panel** — Lists all airport bus routes (A, E, N, NA, S series from KMB/LWB, CTB, and NLB). Filter tabs by operator prefix. Each route button is an independent **toggle** — tap any combination of routes to display them simultaneously on the map. Multiple routes can be active at once with distinct colours per route.
+
+**Map Auto-Fit** — On load, the map automatically fits its bounds to display both HKIA and all available traffic segments, giving a full overview of the relevant corridor.
+
+**Status Panel** — Shows the last successful traffic data update time as a human-readable relative timestamp (e.g. "3 min ago"), refreshed every 30 seconds in-page.
+
+**Collapsible Panels** — All four floating UI panels (info panel, traffic legend, route list, toggle controls) can be individually collapsed to a small circular icon button to maximise the map view. Click the icon to restore any panel.
+
+#### GitHub Actions Workflow
+
+| Workflow | File | Schedule | Purpose |
+|---|---|---|---|
+| Update Airport Map Data | `update_airport_map.yml` | Every 10 minutes | Fetch KMB/CTB/NLB bus stop coordinates (progressive batch of 10 routes) + full TD detector speed refresh → `data/airport_bus_routes.json`, `data/airport_traffic_speeds.json` |
