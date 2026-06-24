@@ -532,7 +532,7 @@ function renderMap() {
 
   // Auto-fit map to show both HKIA and traffic segments
   if (trafficData.available && trafficData.road_segments && trafficData.road_segments.length > 0) {
-    const allCoords = [[AIRPORT_COORDS[0], AIRPORT_COORDS[1]]];
+    const allCoords = [AIRPORT_COORDS];
     for (const seg of trafficData.road_segments) {
       if (seg.start_lat && seg.start_lng) allCoords.push([seg.start_lat, seg.start_lng]);
       if (seg.end_lat && seg.end_lng) allCoords.push([seg.end_lat, seg.end_lng]);
@@ -670,6 +670,7 @@ function toggleAllRoutes() {
 function relativeTime(isoStr) {
   if (!isoStr) return 'unknown';
   const diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
+  if (diff <= 0) return 'just now';
   if (diff < 60) return `${diff}s ago`;
   if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
   return `${Math.floor(diff/3600)}h ago`;
