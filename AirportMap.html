@@ -260,7 +260,7 @@
 
 <!-- Info panel -->
 <div id="info-panel">
-  <button class="collapse-btn" onclick="collapsePanel('info-panel', '✈️', 'top:10px;left:10px')">⊗</button>
+  <button type="button" class="collapse-btn" title="Collapse panel" aria-label="Collapse panel" onclick="collapsePanel('info-panel', '✈️', 'top:10px;left:10px')">⊗</button>
   <h1>✈️ HK Airport Bus Routes</h1>
   <div class="subtitle">Real-time traffic & bus route map</div>
   <div class="stats" id="stats">Loading...</div>
@@ -279,7 +279,7 @@
 
 <!-- Route list panel -->
 <div id="route-panel">
-  <button class="collapse-btn" onclick="collapsePanel('route-panel', '🚌', 'top:10px;right:10px')">⊗</button>
+  <button type="button" class="collapse-btn" title="Collapse panel" aria-label="Collapse panel" onclick="collapsePanel('route-panel', '🚌', 'top:10px;right:10px')">⊗</button>
   <h3>🚌 Airport Routes (tap to toggle)</h3>
   <div class="filter-tabs" id="filter-tabs">
     <button class="filter-tab active" data-filter="all">All</button>
@@ -294,7 +294,7 @@
 
 <!-- Toggle buttons -->
 <div id="toggle-panel">
-  <button class="collapse-btn" onclick="collapsePanel('toggle-panel', '🎛️', 'bottom:30px;right:10px')">⊗</button>
+  <button type="button" class="collapse-btn" title="Collapse panel" aria-label="Collapse panel" onclick="collapsePanel('toggle-panel', '🎛️', 'bottom:30px;right:10px')">⊗</button>
   <button class="toggle-btn active" id="toggle-traffic" onclick="toggleTraffic()">🚦 Traffic</button>
   <button class="toggle-btn active" id="toggle-stops" onclick="toggleStops()">🚏 Stops</button>
   <button class="toggle-btn" id="toggle-all-routes" onclick="toggleAllRoutes()">📍 All Routes</button>
@@ -706,9 +706,12 @@ function updateStats() {
   const updated = routeData && Object.keys(routeData).length > 0 ?
     'Live' : 'No data';
 
-  const trafficUpdated = trafficData.updated
-    ? `<span>${relativeTime(trafficData.updated)}</span> (${new Date(trafficData.updated).toLocaleTimeString()})`
-    : '<span>N/A</span>';
+  const trafficUpdated = (() => {
+    if (!trafficData.updated) return '<span>N/A</span>';
+    const d = new Date(trafficData.updated);
+    if (Number.isNaN(d.getTime())) return '<span>N/A</span>';
+    return `<span>${relativeTime(trafficData.updated)}</span> (${d.toLocaleTimeString()})`;
+  })();
 
   document.getElementById('stats').innerHTML =
     `<span>${totalRoutes}</span> route directions<br>` +
@@ -731,13 +734,13 @@ function collapsePanel(panelId, icon, posStyle) {
   const panel = document.getElementById(panelId);
   panel.style.display = 'none';
   const btn = document.createElement('button');
+  btn.type = 'button';
   btn.className = 'panel-expand-btn';
   btn.style.cssText = posStyle;
-  btn.innerHTML = icon;
+  btn.textContent = icon;
   btn.title = 'Expand panel';
+  btn.setAttribute('aria-label', 'Expand panel');
   btn.dataset.panelId = panelId;
-  btn.onclick = () => expandPanel(panelId, btn);
-  document.body.appendChild(btn);
 }
 
 function expandPanel(panelId, btn) {
