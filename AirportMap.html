@@ -577,7 +577,7 @@ function showRoute(key) {
   if (activeRoutes.has(key)) {
     // Toggle off
     activeRoutes.delete(key);
-    map.removeLayer(routeLayers[key]);
+    if (routeLayers[key]) map.removeLayer(routeLayers[key]);
     if (stopLayers[key]) map.removeLayer(stopLayers[key]);
   } else {
     // Toggle on
