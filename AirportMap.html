@@ -212,6 +212,38 @@
     #route-panel { max-width: 180px; font-size: 10px; }
     #legend { bottom: 10px; }
   }
+
+  /* Collapsible panels */
+  .collapse-btn {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  .collapse-btn:hover { background: #eee; }
+
+  .panel-expand-btn {
+    position: fixed;
+    z-index: 800;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #333;
+    box-shadow: 3px 3px 0 #333;
+    background: rgba(255,255,255,0.95);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>
 </head>
 <body>
@@ -228,6 +260,7 @@
 
 <!-- Info panel -->
 <div id="info-panel">
+  <button class="collapse-btn" onclick="collapsePanel('info-panel', '✈️', 'top:10px;left:10px')">⊗</button>
   <h1>✈️ HK Airport Bus Routes</h1>
   <div class="subtitle">Real-time traffic & bus route map</div>
   <div class="stats" id="stats">Loading...</div>
@@ -235,6 +268,7 @@
 
 <!-- Traffic color legend -->
 <div id="legend">
+  <button class="collapse-btn" onclick="collapsePanel('legend', '🚦', 'bottom:30px;left:10px')">⊗</button>
   <h3>🚦 Traffic Speed</h3>
   <div class="legend-item"><div class="legend-color" style="background:#4caf50"></div>Free flow (≥50 km/h)</div>
   <div class="legend-item"><div class="legend-color" style="background:#ffeb3b"></div>Moderate (30-49 km/h)</div>
@@ -245,7 +279,8 @@
 
 <!-- Route list panel -->
 <div id="route-panel">
-  <h3>🚌 Airport Routes</h3>
+  <button class="collapse-btn" onclick="collapsePanel('route-panel', '🚌', 'top:10px;right:10px')">⊗</button>
+  <h3>🚌 Airport Routes (tap to toggle)</h3>
   <div class="filter-tabs" id="filter-tabs">
     <button class="filter-tab active" data-filter="all">All</button>
     <button class="filter-tab" data-filter="A">A</button>
@@ -259,6 +294,7 @@
 
 <!-- Toggle buttons -->
 <div id="toggle-panel">
+  <button class="collapse-btn" onclick="collapsePanel('toggle-panel', '🎛️', 'bottom:30px;right:10px')">⊗</button>
   <button class="toggle-btn active" id="toggle-traffic" onclick="toggleTraffic()">🚦 Traffic</button>
   <button class="toggle-btn active" id="toggle-stops" onclick="toggleStops()">🚏 Stops</button>
   <button class="toggle-btn" id="toggle-all-routes" onclick="toggleAllRoutes()">📍 All Routes</button>
@@ -298,7 +334,7 @@ let trafficLayer;
 let showTraffic = true;
 let showStops = true;
 let showAllRoutes = false;
-let activeRoute = null;
+let activeRoutes = new Set();
 let currentFilter = 'all';
 
 // ─── Initialize Map ─────────────────────────────────────────────────────────
@@ -493,6 +529,16 @@ function renderMap() {
   if (Object.keys(routeLayers).length <= 20 || showAllRoutes) {
     showAllRoutesOnMap();
   }
+
+  // Auto-fit map to show both HKIA and traffic segments
+  if (trafficData.available && trafficData.road_segments && trafficData.road_segments.length > 0) {
+    const allCoords = [[AIRPORT_COORDS[0], AIRPORT_COORDS[1]]];
+    for (const seg of trafficData.road_segments) {
+      if (seg.start_lat && seg.start_lng) allCoords.push([seg.start_lat, seg.start_lng]);
+      if (seg.end_lat && seg.end_lng) allCoords.push([seg.end_lat, seg.end_lng]);
+    }
+    map.fitBounds(L.latLngBounds(allCoords), { padding: [40, 40] });
+  }
 }
 
 function showAllRoutesOnMap() {
@@ -513,26 +559,22 @@ function hideAllRoutesOnMap() {
   }
 }
 
-// ─── Show Single Route ──────────────────────────────────────────────────────
+// ─── Show/Toggle Route ──────────────────────────────────────────────────────
 function showRoute(key) {
-  // Remove previously highlighted route
-  hideAllRoutesOnMap();
-
-  if (activeRoute === key) {
-    // Toggle off - show all again
-    activeRoute = null;
-    if (showAllRoutes) showAllRoutesOnMap();
-    updateRouteButtons();
-    return;
-  }
-
-  activeRoute = key;
-  const layer = routeLayers[key];
-  if (layer) {
-    layer.addTo(map);
-    map.fitBounds(layer.getBounds(), { padding: [50, 50] });
-    if (showStops && stopLayers[key]) {
-      stopLayers[key].addTo(map);
+  if (activeRoutes.has(key)) {
+    // Toggle off
+    activeRoutes.delete(key);
+    map.removeLayer(routeLayers[key]);
+    if (stopLayers[key]) map.removeLayer(stopLayers[key]);
+  } else {
+    // Toggle on
+    activeRoutes.add(key);
+    const layer = routeLayers[key];
+    if (layer) {
+      layer.addTo(map);
+      if (showStops && stopLayers[key]) {
+        stopLayers[key].addTo(map);
+      }
     }
   }
   updateRouteButtons();
@@ -571,7 +613,7 @@ function renderRouteList() {
 
 function updateRouteButtons() {
   document.querySelectorAll('.route-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.key === activeRoute);
+    btn.classList.toggle('active', activeRoutes.has(btn.dataset.key));
   });
 }
 
@@ -581,7 +623,7 @@ document.getElementById('filter-tabs').addEventListener('click', (e) => {
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   e.target.classList.add('active');
   currentFilter = e.target.dataset.filter;
-  activeRoute = null;
+  activeRoutes = new Set();
   renderRouteList();
   hideAllRoutesOnMap();
   if (showAllRoutes) showAllRoutesOnMap();
@@ -616,12 +658,21 @@ function toggleAllRoutes() {
   showAllRoutes = !showAllRoutes;
   document.getElementById('toggle-all-routes').classList.toggle('active', showAllRoutes);
   if (showAllRoutes) {
-    activeRoute = null;
+    activeRoutes = new Set();
     showAllRoutesOnMap();
     updateRouteButtons();
   } else {
     hideAllRoutesOnMap();
   }
+}
+
+// ─── Relative Time Helper ───────────────────────────────────────────────────
+function relativeTime(isoStr) {
+  if (!isoStr) return 'unknown';
+  const diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
+  if (diff < 60) return `${diff}s ago`;
+  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+  return `${Math.floor(diff/3600)}h ago`;
 }
 
 // ─── Stats ──────────────────────────────────────────────────────────────────
@@ -639,12 +690,17 @@ function updateStats() {
   const updated = routeData && Object.keys(routeData).length > 0 ?
     'Live' : 'No data';
 
+  const trafficUpdated = trafficData.updated
+    ? `<span>${relativeTime(trafficData.updated)}</span> (${new Date(trafficData.updated).toLocaleTimeString()})`
+    : '<span>N/A</span>';
+
   document.getElementById('stats').innerHTML =
     `<span>${totalRoutes}</span> route directions<br>` +
     `<span>${totalStops}</span> bus stops mapped<br>` +
     `<span>${companies.size}</span> bus companies<br>` +
     `<span>${trafficSegs}</span> traffic segments<br>` +
-    `Status: <span>${updated}</span>`;
+    `Status: <span>${updated}</span><br>` +
+    `Traffic updated: ${trafficUpdated}`;
 }
 
 // ─── Loading ────────────────────────────────────────────────────────────────
@@ -654,9 +710,29 @@ function hideLoading() {
   }, 800);
 }
 
+// ─── Collapsible Panels ─────────────────────────────────────────────────────
+function collapsePanel(panelId, icon, posStyle) {
+  const panel = document.getElementById(panelId);
+  panel.style.display = 'none';
+  const btn = document.createElement('button');
+  btn.className = 'panel-expand-btn';
+  btn.style.cssText = posStyle;
+  btn.innerHTML = icon;
+  btn.title = 'Expand panel';
+  btn.dataset.panelId = panelId;
+  btn.onclick = () => expandPanel(panelId, btn);
+  document.body.appendChild(btn);
+}
+
+function expandPanel(panelId, btn) {
+  document.getElementById(panelId).style.display = '';
+  btn.remove();
+}
+
 // ─── Init ───────────────────────────────────────────────────────────────────
 initMap();
 loadData();
+setInterval(updateStats, 30000);
 </script>
 
 </body>
