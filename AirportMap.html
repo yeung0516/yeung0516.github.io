@@ -682,11 +682,13 @@ function toggleAllRoutes() {
 // ─── Relative Time Helper ───────────────────────────────────────────────────
 function relativeTime(isoStr) {
   if (!isoStr) return 'unknown';
-  const diff = Math.floor((Date.now() - new Date(isoStr).getTime()) / 1000);
+  const ts = Date.parse(isoStr);
+  if (!Number.isFinite(ts)) return 'unknown';
+  const diff = Math.floor((Date.now() - ts) / 1000);
   if (diff <= 0) return 'just now';
   if (diff < 60) return `${diff}s ago`;
-  if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-  return `${Math.floor(diff/3600)}h ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  return `${Math.floor(diff / 3600)}h ago`;
 }
 
 // ─── Stats ──────────────────────────────────────────────────────────────────
