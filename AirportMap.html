@@ -531,13 +531,26 @@ function renderMap() {
   }
 
   // Auto-fit map to show both HKIA and traffic segments
-  if (trafficData.available && trafficData.road_segments && trafficData.road_segments.length > 0) {
+  if (trafficData.available && Array.isArray(trafficData.road_segments) && trafficData.road_segments.length > 0) {
     const allCoords = [AIRPORT_COORDS];
     for (const seg of trafficData.road_segments) {
-      if (seg.start_lat && seg.start_lng) allCoords.push([seg.start_lat, seg.start_lng]);
-      if (seg.end_lat && seg.end_lng) allCoords.push([seg.end_lat, seg.end_lng]);
+      if (seg.geometry && seg.geometry.coordinates) {
+        const coords = seg.geometry.type === 'MultiLineString'
+          ? seg.geometry.coordinates.flat()
+          : seg.geometry.coordinates;
+        for (const c of coords) allCoords.push([c[1], c[0]]);
+      } else {
+        const slat = Number(seg.start_lat);
+        const slng = Number(seg.start_lng);
+        const elat = Number(seg.end_lat);
+        const elng = Number(seg.end_lng);
+        if (Number.isFinite(slat) && Number.isFinite(slng)) allCoords.push([slat, slng]);
+        if (Number.isFinite(elat) && Number.isFinite(elng)) allCoords.push([elat, elng]);
+      }
     }
-    map.fitBounds(L.latLngBounds(allCoords), { padding: [40, 40] });
+    if (allCoords.length > 1) {
+      map.fitBounds(L.latLngBounds(allCoords), { padding: [40, 40] });
+    }
   }
 }
 
