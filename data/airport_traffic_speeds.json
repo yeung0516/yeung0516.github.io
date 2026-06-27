@@ -1,12 +1,3252 @@
 {
-  "updated": "2026-06-27T16:05:31.813470+00:00",
+  "updated": "2026-06-27T16:38:37.681442+00:00",
   "available": true,
-  "total_segments": 150,
+  "total_segments": 426,
   "road_segments": [
+    {
+      "link_id": "AID01102_AID01223",
+      "road_name": "Aberdeen Praya Road",
+      "speed_kmh": 72.7,
+      "color": "green",
+      "start_lat": 22.24712681,
+      "start_lng": 114.1577149,
+      "end_lat": 22.24747861,
+      "end_lng": 114.1546396
+    },
+    {
+      "link_id": "AID01223_AID01101",
+      "road_name": "Aberdeen Praya Road",
+      "speed_kmh": 68.0,
+      "color": "green",
+      "start_lat": 22.24747861,
+      "start_lng": 114.1546396,
+      "end_lat": 22.248091,
+      "end_lng": 114.152525
+    },
+    {
+      "link_id": "AID01104",
+      "road_name": "Wong Chuk Hang Road Flyover near AXA Southside - Eastbound",
+      "speed_kmh": 73.0,
+      "color": "green",
+      "start_lat": 22.24837379,
+      "start_lng": 114.1658151,
+      "end_lat": 22.248874,
+      "end_lng": 114.166681
+    },
+    {
+      "link_id": "AID01218_AID01219",
+      "road_name": "Wong Chuk Hang Road",
+      "speed_kmh": 65.8,
+      "color": "green",
+      "start_lat": 22.25005384,
+      "start_lng": 114.1737118,
+      "end_lat": 22.25007176,
+      "end_lng": 114.1694335
+    },
+    {
+      "link_id": "AID01219_AID01106",
+      "road_name": "Wong Chuk Hang Road",
+      "speed_kmh": 56.5,
+      "color": "green",
+      "start_lat": 22.25007176,
+      "start_lng": 114.1694335,
+      "end_lat": 22.25044211,
+      "end_lng": 114.1718782
+    },
+    {
+      "link_id": "AID01107",
+      "road_name": "Aberdeen Tunnel near Wong Chuk Hang Hospital - Eastbound",
+      "speed_kmh": 67.0,
+      "color": "green",
+      "start_lat": 22.24999065,
+      "start_lng": 114.1762923,
+      "end_lat": 22.250491,
+      "end_lng": 114.177158
+    },
+    {
+      "link_id": "AID01110_AID01214",
+      "road_name": "Canal Road Flyover",
+      "speed_kmh": 58.5,
+      "color": "green",
+      "start_lat": 22.279356,
+      "start_lng": 114.181217,
+      "end_lat": 22.280729,
+      "end_lng": 114.180701
+    },
+    {
+      "link_id": "AID01212_AID01113",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 67.8,
+      "color": "green",
+      "start_lat": 22.3094574,
+      "start_lng": 114.1788251,
+      "end_lat": 22.31029,
+      "end_lng": 114.17816
+    },
+    {
+      "link_id": "AID01113_AID01211",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 68.5,
+      "color": "green",
+      "start_lat": 22.31029,
+      "start_lng": 114.17816,
+      "end_lat": 22.31041465,
+      "end_lng": 114.1782331
+    },
+    {
+      "link_id": "AID01211_AID01114",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 72.3,
+      "color": "green",
+      "start_lat": 22.31041465,
+      "start_lng": 114.1782331,
+      "end_lat": 22.31330444,
+      "end_lng": 114.1769423
+    },
+    {
+      "link_id": "AID01114_AID01209",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 76.5,
+      "color": "green",
+      "start_lat": 22.31330444,
+      "start_lng": 114.1769423,
+      "end_lat": 22.31849702,
+      "end_lng": 114.179
+    },
+    {
+      "link_id": "AID01209_AID01116",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 74.6,
+      "color": "green",
+      "start_lat": 22.31849702,
+      "start_lng": 114.179,
+      "end_lat": 22.32074565,
+      "end_lng": 114.1786797
+    },
+    {
+      "link_id": "AID01116_AID01208",
+      "road_name": "Princess Margaret Road",
+      "speed_kmh": 68.5,
+      "color": "green",
+      "start_lat": 22.32074565,
+      "start_lng": 114.1786797,
+      "end_lat": 22.32130555,
+      "end_lng": 114.1782623
+    },
+    {
+      "link_id": "AID01117_AID01118",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 53.6,
+      "color": "green",
+      "start_lat": 22.32435789,
+      "start_lng": 114.1783109,
+      "end_lat": 22.32843068,
+      "end_lng": 114.178476
+    },
+    {
+      "link_id": "AID01118_AID01205",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 49.0,
+      "color": "yellow",
+      "start_lat": 22.32843068,
+      "start_lng": 114.178476,
+      "end_lat": 22.33252153,
+      "end_lng": 114.178874
+    },
+    {
+      "link_id": "AID01205_AID01120",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 54.6,
+      "color": "green",
+      "start_lat": 22.33252153,
+      "start_lng": 114.178874,
+      "end_lat": 22.33496881,
+      "end_lng": 114.1788837
+    },
+    {
+      "link_id": "AID01120_AID01204",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 48.5,
+      "color": "yellow",
+      "start_lat": 22.33496881,
+      "start_lng": 114.1788837,
+      "end_lat": 22.33496881,
+      "end_lng": 114.1789128
+    },
+    {
+      "link_id": "AID01204_AID01203",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 49.6,
+      "color": "yellow",
+      "start_lat": 22.33496881,
+      "start_lng": 114.1789128,
+      "end_lat": 22.33891517,
+      "end_lng": 114.1791653
+    },
+    {
+      "link_id": "AID01203_AID01122",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 67.8,
+      "color": "green",
+      "start_lat": 22.33891517,
+      "start_lng": 114.1791653,
+      "end_lat": 22.34191,
+      "end_lng": 114.17893
+    },
+    {
+      "link_id": "AID01122_AID01202",
+      "road_name": "Waterloo Road",
+      "speed_kmh": 66.0,
+      "color": "green",
+      "start_lat": 22.34191,
+      "start_lng": 114.17893,
+      "end_lat": 22.3424,
+      "end_lng": 114.17875
+    },
+    {
+      "link_id": "AID01125_TDS10011",
+      "road_name": "Lion Rock Tunnel Road",
+      "speed_kmh": 69.2,
+      "color": "green",
+      "start_lat": 22.3634241,
+      "start_lng": 114.1798453,
+      "end_lat": 22.3646522,
+      "end_lng": 114.1820396
+    },
+    {
+      "link_id": "TDS10011_AID01126",
+      "road_name": "Lion Rock Tunnel Road",
+      "speed_kmh": 70.7,
+      "color": "green",
+      "start_lat": 22.3646522,
+      "start_lng": 114.1820396,
+      "end_lat": 22.36544683,
+      "end_lng": 114.1836319
+    },
+    {
+      "link_id": "AID01126_AID01127",
+      "road_name": "Lion Rock Tunnel Road",
+      "speed_kmh": 88.8,
+      "color": "green",
+      "start_lat": 22.36544683,
+      "start_lng": 114.1836319,
+      "end_lat": 22.36700899,
+      "end_lng": 114.1859817
+    },
+    {
+      "link_id": "AID01127_TDS10010",
+      "road_name": "Lion Rock Tunnel Road",
+      "speed_kmh": 77.2,
+      "color": "green",
+      "start_lat": 22.36700899,
+      "start_lng": 114.1859817,
+      "end_lat": 22.36785779,
+      "end_lng": 114.1871954
+    },
+    {
+      "link_id": "TDS10007_TDS10008",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 56.8,
+      "color": "green",
+      "start_lat": 22.37213807,
+      "start_lng": 114.1899241,
+      "end_lat": 22.37386255,
+      "end_lng": 114.1937014
+    },
+    {
+      "link_id": "TDS10008_TDS10009",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 67.7,
+      "color": "green",
+      "start_lat": 22.37386255,
+      "start_lng": 114.1937014,
+      "end_lat": 22.37460278,
+      "end_lng": 114.1961774
+    },
+    {
+      "link_id": "TDS10009_TDS10003",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 75.4,
+      "color": "green",
+      "start_lat": 22.37460278,
+      "start_lng": 114.1961774,
+      "end_lat": 22.38003861,
+      "end_lng": 114.2002953
+    },
+    {
+      "link_id": "TDS10003_AID01132",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 79.2,
+      "color": "green",
+      "start_lat": 22.38003861,
+      "start_lng": 114.2002953,
+      "end_lat": 22.3809075,
+      "end_lng": 114.2005981
+    },
+    {
+      "link_id": "AID01132_TDS10004",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 85.7,
+      "color": "green",
+      "start_lat": 22.3809075,
+      "start_lng": 114.2005981,
+      "end_lat": 22.38345199,
+      "end_lng": 114.2013737
+    },
+    {
+      "link_id": "TDS10004_AID01133",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 86.4,
+      "color": "green",
+      "start_lat": 22.38345199,
+      "start_lng": 114.2013737,
+      "end_lat": 22.38371,
+      "end_lng": 114.20142
+    },
+    {
+      "link_id": "AID01133_AID01134",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 81.0,
+      "color": "green",
+      "start_lat": 22.38371,
+      "start_lng": 114.20142,
+      "end_lat": 22.38752486,
+      "end_lng": 114.2006753
+    },
+    {
+      "link_id": "AID01134_TDS10005",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 82.8,
+      "color": "green",
+      "start_lat": 22.38752486,
+      "start_lng": 114.2006753,
+      "end_lat": 22.38773258,
+      "end_lng": 114.2005297
+    },
+    {
+      "link_id": "TDS10005_AID01135",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 90.2,
+      "color": "green",
+      "start_lat": 22.38773258,
+      "start_lng": 114.2005297,
+      "end_lat": 22.39016201,
+      "end_lng": 114.1990055
+    },
+    {
+      "link_id": "AID01135_TDS10002",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 77.0,
+      "color": "green",
+      "start_lat": 22.39016201,
+      "start_lng": 114.1990055,
+      "end_lat": 22.3908574,
+      "end_lng": 114.1987337
+    },
+    {
+      "link_id": "TDS10002_AID01136",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 72.8,
+      "color": "green",
+      "start_lat": 22.3908574,
+      "start_lng": 114.1987337,
+      "end_lat": 22.39401803,
+      "end_lng": 114.1990838
+    },
+    {
+      "link_id": "AID01136_TDS10001",
+      "road_name": "Sha Tin Road",
+      "speed_kmh": 81.8,
+      "color": "green",
+      "start_lat": 22.39401803,
+      "start_lng": 114.1990838,
+      "end_lat": 22.39441532,
+      "end_lng": 114.199414
+    },
+    {
+      "link_id": "AID01216",
+      "road_name": "Wong Nai Chung Gap Flyover near Racecourse - Southbound",
+      "speed_kmh": 71.0,
+      "color": "green",
+      "start_lat": 22.27331682,
+      "start_lng": 114.1796008,
+      "end_lat": 22.272674,
+      "end_lng": 114.180367
+    },
+    {
+      "link_id": "AID02212_AID02213",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 77.3,
+      "color": "green",
+      "start_lat": 22.30629936,
+      "start_lng": 114.2222843,
+      "end_lat": 22.30638009,
+      "end_lng": 114.2241963
+    },
+    {
+      "link_id": "AID02213_AID02107",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 86.3,
+      "color": "green",
+      "start_lat": 22.30638009,
+      "start_lng": 114.2241963,
+      "end_lat": 22.30651544,
+      "end_lng": 114.2245554
+    },
+    {
+      "link_id": "AID02107_AID02104",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 84.1,
+      "color": "green",
+      "start_lat": 22.30651544,
+      "start_lng": 114.2245554,
+      "end_lat": 22.30694617,
+      "end_lng": 114.2331057
+    },
+    {
+      "link_id": "AID02104_AID02108",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 87.9,
+      "color": "green",
+      "start_lat": 22.30694617,
+      "start_lng": 114.2331057,
+      "end_lat": 22.30788913,
+      "end_lng": 114.2208679
+    },
+    {
+      "link_id": "AID02108_AID02106",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 93.3,
+      "color": "green",
+      "start_lat": 22.30788913,
+      "start_lng": 114.2208679,
+      "end_lat": 22.30812221,
+      "end_lng": 114.2267978
+    },
+    {
+      "link_id": "AID02106_AID02215",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 82.7,
+      "color": "green",
+      "start_lat": 22.30812221,
+      "start_lng": 114.2267978,
+      "end_lat": 22.30828304,
+      "end_lng": 114.2321164
+    },
+    {
+      "link_id": "AID02215_AID02214",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 88.8,
+      "color": "green",
+      "start_lat": 22.30828304,
+      "start_lng": 114.2321164,
+      "end_lat": 22.30851925,
+      "end_lng": 114.2277976
+    },
+    {
+      "link_id": "AID02214_AID02105",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 81.8,
+      "color": "green",
+      "start_lat": 22.30851925,
+      "start_lng": 114.2277976,
+      "end_lat": 22.30887989,
+      "end_lng": 114.2296126
+    },
+    {
+      "link_id": "AID02105_AID02210",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 88.8,
+      "color": "green",
+      "start_lat": 22.30887989,
+      "start_lng": 114.2296126,
+      "end_lat": 22.3111589,
+      "end_lng": 114.2182776
+    },
+    {
+      "link_id": "AID02210_AID02209",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 111.8,
+      "color": "green",
+      "start_lat": 22.3111589,
+      "start_lng": 114.2182776,
+      "end_lat": 22.31284803,
+      "end_lng": 114.2166476
+    },
+    {
+      "link_id": "AID02209_AID02110",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 106.2,
+      "color": "green",
+      "start_lat": 22.31284803,
+      "start_lng": 114.2166476,
+      "end_lat": 22.31318224,
+      "end_lng": 114.2163274
+    },
+    {
+      "link_id": "AID02110_AID02111",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 99.2,
+      "color": "green",
+      "start_lat": 22.31318224,
+      "start_lng": 114.2163274,
+      "end_lat": 22.31551267,
+      "end_lng": 114.2140375
+    },
+    {
+      "link_id": "AID02111_AID02112",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 91.0,
+      "color": "green",
+      "start_lat": 22.31551267,
+      "start_lng": 114.2140375,
+      "end_lat": 22.316913,
+      "end_lng": 114.2113882
+    },
+    {
+      "link_id": "AID02112_AID02207",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 84.0,
+      "color": "green",
+      "start_lat": 22.316913,
+      "start_lng": 114.2113882,
+      "end_lat": 22.31706671,
+      "end_lng": 114.2104759
+    },
+    {
+      "link_id": "AID02207_AID02113",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 91.0,
+      "color": "green",
+      "start_lat": 22.31706671,
+      "start_lng": 114.2104759,
+      "end_lat": 22.31887341,
+      "end_lng": 114.2075548
+    },
+    {
+      "link_id": "AID02113_AID02114",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.31887341,
+      "start_lng": 114.2075548,
+      "end_lat": 22.3228384,
+      "end_lng": 114.2044691
+    },
+    {
+      "link_id": "AID02114_AID02115",
+      "road_name": "Kwun Tong Bypass",
+      "speed_kmh": 83.2,
+      "color": "green",
+      "start_lat": 22.3228384,
+      "start_lng": 114.2044691,
+      "end_lat": 22.32760644,
+      "end_lng": 114.2051204
+    },
+    {
+      "link_id": "AID02118",
+      "road_name": "Tate's Cairn Tunnel near Toll Plaza - Northbound",
+      "speed_kmh": 78.8,
+      "color": "green",
+      "start_lat": 22.37826677,
+      "start_lng": 114.2107819,
+      "end_lat": 22.37891,
+      "end_lng": 114.210016
+    },
+    {
+      "link_id": "AID02202_AID02201",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 76.8,
+      "color": "green",
+      "start_lat": 22.3353096,
+      "start_lng": 114.2046366,
+      "end_lat": 22.34024044,
+      "end_lng": 114.2038221
+    },
+    {
+      "link_id": "AID02201_TDS20001",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 81.8,
+      "color": "green",
+      "start_lat": 22.34024044,
+      "start_lng": 114.2038221,
+      "end_lat": 22.38098508,
+      "end_lng": 114.2102096
+    },
+    {
+      "link_id": "TDS20001_AID02119",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 81.0,
+      "color": "green",
+      "start_lat": 22.38098508,
+      "start_lng": 114.2102096,
+      "end_lat": 22.38236672,
+      "end_lng": 114.2103459
+    },
+    {
+      "link_id": "AID02119_TDS20002",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 81.0,
+      "color": "green",
+      "start_lat": 22.38236672,
+      "start_lng": 114.2103459,
+      "end_lat": 22.38405537,
+      "end_lng": 114.2106376
+    },
+    {
+      "link_id": "TDS20002_TDS20004",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 77.3,
+      "color": "green",
+      "start_lat": 22.38405537,
+      "start_lng": 114.2106376,
+      "end_lat": 22.39199337,
+      "end_lng": 114.2097752
+    },
+    {
+      "link_id": "TDS20004_AID02121",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 80.7,
+      "color": "green",
+      "start_lat": 22.39199337,
+      "start_lng": 114.2097752,
+      "end_lat": 22.39230051,
+      "end_lng": 114.2092801
+    },
+    {
+      "link_id": "AID02121_AID02122",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 88.5,
+      "color": "green",
+      "start_lat": 22.39230051,
+      "start_lng": 114.2092801,
+      "end_lat": 22.3965898,
+      "end_lng": 114.2102328
+    },
+    {
+      "link_id": "AID02122_TDS20005",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 89.8,
+      "color": "green",
+      "start_lat": 22.3965898,
+      "start_lng": 114.2102328,
+      "end_lat": 22.39750168,
+      "end_lng": 114.2111944
+    },
+    {
+      "link_id": "TDS20005_TDS20006",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 82.5,
+      "color": "green",
+      "start_lat": 22.39750168,
+      "start_lng": 114.2111944,
+      "end_lat": 22.40084237,
+      "end_lng": 114.2138951
+    },
+    {
+      "link_id": "TDS20006_AID02124",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 75.1,
+      "color": "green",
+      "start_lat": 22.40084237,
+      "start_lng": 114.2138951,
+      "end_lat": 22.40280159,
+      "end_lng": 114.215634
+    },
+    {
+      "link_id": "AID02124_TDS20007",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 63.8,
+      "color": "green",
+      "start_lat": 22.40280159,
+      "start_lng": 114.215634,
+      "end_lat": 22.40376728,
+      "end_lng": 114.2179457
+    },
+    {
+      "link_id": "TDS20007_AID02125",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 66.5,
+      "color": "green",
+      "start_lat": 22.40376728,
+      "start_lng": 114.2179457,
+      "end_lat": 22.40600689,
+      "end_lng": 114.2177521
+    },
+    {
+      "link_id": "AID02125_TDS20008",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 81.5,
+      "color": "green",
+      "start_lat": 22.40600689,
+      "start_lng": 114.2177521,
+      "end_lat": 22.40718116,
+      "end_lng": 114.216519
+    },
+    {
+      "link_id": "TDS20008_AID02126",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 91.0,
+      "color": "green",
+      "start_lat": 22.40718116,
+      "start_lng": 114.216519,
+      "end_lat": 22.40936721,
+      "end_lng": 114.2137031
+    },
+    {
+      "link_id": "AID02126_TDS20009",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 101.0,
+      "color": "green",
+      "start_lat": 22.40936721,
+      "start_lng": 114.2137031,
+      "end_lat": 22.41128187,
+      "end_lng": 114.2128198
+    },
+    {
+      "link_id": "TDS20009_AID02127",
+      "road_name": "Tate's Cairn Highway",
+      "speed_kmh": 95.8,
+      "color": "green",
+      "start_lat": 22.41128187,
+      "start_lng": 114.2128198,
+      "end_lat": 22.41184191,
+      "end_lng": 114.21214
+    },
+    {
+      "link_id": "AID03103_AID03102",
+      "road_name": "Connaught Road West",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.28851255,
+      "start_lng": 114.1463558,
+      "end_lat": 22.2887006,
+      "end_lng": 114.1388353
+    },
+    {
+      "link_id": "AID03106_AID03107",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 114.0,
+      "color": "green",
+      "start_lat": 22.30780401,
+      "start_lng": 114.1607347,
+      "end_lat": 22.31424287,
+      "end_lng": 114.1611901
+    },
+    {
+      "link_id": "AID03107_AID03108",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 111.0,
+      "color": "green",
+      "start_lat": 22.31424287,
+      "start_lng": 114.1611901,
+      "end_lat": 22.31770145,
+      "end_lng": 114.1598309
+    },
+    {
+      "link_id": "AID03108_AID03208",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 113.3,
+      "color": "green",
+      "start_lat": 22.31770145,
+      "start_lng": 114.1598309,
+      "end_lat": 22.31895665,
+      "end_lng": 114.1592872
+    },
+    {
+      "link_id": "AID03208_AID03109",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 108.0,
+      "color": "green",
+      "start_lat": 22.31895665,
+      "start_lng": 114.1592872,
+      "end_lat": 22.31936301,
+      "end_lng": 114.159093
+    },
+    {
+      "link_id": "AID03109_AID03110",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 102.3,
+      "color": "green",
+      "start_lat": 22.31936301,
+      "start_lng": 114.159093,
+      "end_lat": 22.32431136,
+      "end_lng": 114.1556952
+    },
+    {
+      "link_id": "AID03110_AID03111",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 92.8,
+      "color": "green",
+      "start_lat": 22.32431136,
+      "start_lng": 114.1556952,
+      "end_lat": 22.32713749,
+      "end_lng": 114.152511
+    },
+    {
+      "link_id": "AID03111_AID03112",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 99.5,
+      "color": "green",
+      "start_lat": 22.32713749,
+      "start_lng": 114.152511,
+      "end_lat": 22.32897925,
+      "end_lng": 114.1495114
+    },
+    {
+      "link_id": "AID03112_AID03204",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 102.2,
+      "color": "green",
+      "start_lat": 22.32897925,
+      "start_lng": 114.1495114,
+      "end_lat": 22.32936742,
+      "end_lng": 114.1486862
+    },
+    {
+      "link_id": "AID03204_AID03113",
+      "road_name": "West Kowloon Highway",
+      "speed_kmh": 88.5,
+      "color": "green",
+      "start_lat": 22.32936742,
+      "start_lng": 114.1486862,
+      "end_lat": 22.33021588,
+      "end_lng": 114.1463564
+    },
+    {
+      "link_id": "AID03114_AID03203",
+      "road_name": "West Kln Hwy",
+      "speed_kmh": 110.8,
+      "color": "green",
+      "start_lat": 22.33166006,
+      "start_lng": 114.1427743,
+      "end_lat": 22.33282441,
+      "end_lng": 114.1400755
+    },
+    {
+      "link_id": "AID03115_AID03116",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 90.3,
+      "color": "green",
+      "start_lat": 22.36920891,
+      "start_lng": 114.0768383,
+      "end_lat": 22.37144646,
+      "end_lng": 114.0736228
+    },
+    {
+      "link_id": "AID03116_AID03117",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 90.5,
+      "color": "green",
+      "start_lat": 22.37144646,
+      "start_lng": 114.0736228,
+      "end_lat": 22.4234468,
+      "end_lng": 114.0642015
+    },
+    {
+      "link_id": "AID03117_AID03119",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 90.2,
+      "color": "green",
+      "start_lat": 22.4234468,
+      "start_lng": 114.0642015,
+      "end_lat": 22.43195249,
+      "end_lng": 114.0627667
+    },
+    {
+      "link_id": "AID03119_AID03120",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 91.8,
+      "color": "green",
+      "start_lat": 22.43195249,
+      "start_lng": 114.0627667,
+      "end_lat": 22.43502139,
+      "end_lng": 114.060734
+    },
+    {
+      "link_id": "AID03120_AID03121",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 95.2,
+      "color": "green",
+      "start_lat": 22.43502139,
+      "start_lng": 114.060734,
+      "end_lat": 22.43745767,
+      "end_lng": 114.0580606
+    },
+    {
+      "link_id": "AID03121_AID03122",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 104.5,
+      "color": "green",
+      "start_lat": 22.43745767,
+      "start_lng": 114.0580606,
+      "end_lat": 22.44005575,
+      "end_lng": 114.0544641
+    },
+    {
+      "link_id": "AID03122_AID03123",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 105.3,
+      "color": "green",
+      "start_lat": 22.44005575,
+      "start_lng": 114.0544641,
+      "end_lat": 22.44312344,
+      "end_lng": 114.051003
+    },
+    {
+      "link_id": "AID03123_AID03124",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 102.7,
+      "color": "green",
+      "start_lat": 22.44312344,
+      "start_lng": 114.051003,
+      "end_lat": 22.44718551,
+      "end_lng": 114.0489301
+    },
+    {
+      "link_id": "AID03124_AID03125",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 111.8,
+      "color": "green",
+      "start_lat": 22.44718551,
+      "start_lng": 114.0489301,
+      "end_lat": 22.44964125,
+      "end_lng": 114.0482478
+    },
+    {
+      "link_id": "AID03125_TDS30009",
+      "road_name": "Tsing Long Highway",
+      "speed_kmh": 83.2,
+      "color": "green",
+      "start_lat": 22.44964125,
+      "start_lng": 114.0482478,
+      "end_lat": 22.45378734,
+      "end_lng": 114.0496721
+    },
+    {
+      "link_id": "AID04201_AID04120",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 54.5,
+      "color": "green",
+      "start_lat": 22.26459999,
+      "start_lng": 114.2374257,
+      "end_lat": 22.2674807,
+      "end_lng": 114.2376307
+    },
+    {
+      "link_id": "AID04120_AID04119",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 68.5,
+      "color": "green",
+      "start_lat": 22.2674807,
+      "start_lng": 114.2376307,
+      "end_lat": 22.27116465,
+      "end_lng": 114.2390779
+    },
+    {
+      "link_id": "AID04119_AID04203",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 70.4,
+      "color": "green",
+      "start_lat": 22.27116465,
+      "start_lng": 114.2390779,
+      "end_lat": 22.27167045,
+      "end_lng": 114.2388744
+    },
+    {
+      "link_id": "AID04203_AID04118",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 69.9,
+      "color": "green",
+      "start_lat": 22.27167045,
+      "start_lng": 114.2388744,
+      "end_lat": 22.27529184,
+      "end_lng": 114.2385849
+    },
+    {
+      "link_id": "AID04118_AID04204",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 77.5,
+      "color": "green",
+      "start_lat": 22.27529184,
+      "start_lng": 114.2385849,
+      "end_lat": 22.27640298,
+      "end_lng": 114.2376054
+    },
+    {
+      "link_id": "AID04204_AID04117",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 74.5,
+      "color": "green",
+      "start_lat": 22.27640298,
+      "start_lng": 114.2376054,
+      "end_lat": 22.27876033,
+      "end_lng": 114.2366555
+    },
+    {
+      "link_id": "AID04117_AID04205",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 60.6,
+      "color": "green",
+      "start_lat": 22.27876033,
+      "start_lng": 114.2366555,
+      "end_lat": 22.27898614,
+      "end_lng": 114.2365392
+    },
+    {
+      "link_id": "AID04205_AID04113",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 76.3,
+      "color": "green",
+      "start_lat": 22.27898614,
+      "start_lng": 114.2365392,
+      "end_lat": 22.28417443,
+      "end_lng": 114.221957
+    },
+    {
+      "link_id": "AID04113_AID04112",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 87.8,
+      "color": "green",
+      "start_lat": 22.28417443,
+      "start_lng": 114.221957,
+      "end_lat": 22.28752487,
+      "end_lng": 114.221696
+    },
+    {
+      "link_id": "AID04112_AID04211",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 78.1,
+      "color": "green",
+      "start_lat": 22.28752487,
+      "start_lng": 114.221696,
+      "end_lat": 22.28842864,
+      "end_lng": 114.2190375
+    },
+    {
+      "link_id": "AID04211_AID04222",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 62.8,
+      "color": "green",
+      "start_lat": 22.28842864,
+      "start_lng": 114.2190375,
+      "end_lat": 22.28951355,
+      "end_lng": 114.2140112
+    },
+    {
+      "link_id": "AID04222_AID04110",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 62.8,
+      "color": "green",
+      "start_lat": 22.28951355,
+      "start_lng": 114.2140112,
+      "end_lat": 22.29116665,
+      "end_lng": 114.2117894
+    },
+    {
+      "link_id": "AID04110_AID04215",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 81.0,
+      "color": "green",
+      "start_lat": 22.29116665,
+      "start_lng": 114.2117894,
+      "end_lat": 22.29288308,
+      "end_lng": 114.2087816
+    },
+    {
+      "link_id": "AID04215_AID04109",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 76.2,
+      "color": "green",
+      "start_lat": 22.29288308,
+      "start_lng": 114.2087816,
+      "end_lat": 22.29318113,
+      "end_lng": 114.2085875
+    },
+    {
+      "link_id": "AID04109_AID04122",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 73.8,
+      "color": "green",
+      "start_lat": 22.29318113,
+      "start_lng": 114.2085875,
+      "end_lat": 22.29319937,
+      "end_lng": 114.2076948
+    },
+    {
+      "link_id": "AID04122_AID04106",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 81.8,
+      "color": "green",
+      "start_lat": 22.29319937,
+      "start_lng": 114.2076948,
+      "end_lat": 22.29326424,
+      "end_lng": 114.1971658
+    },
+    {
+      "link_id": "AID04106_AID04121",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.29326424,
+      "start_lng": 114.1971658,
+      "end_lat": 22.29385898,
+      "end_lng": 114.2056182
+    },
+    {
+      "link_id": "AID04121_AID04107",
+      "road_name": "Island Eastern Corridor",
+      "speed_kmh": 88.1,
+      "color": "green",
+      "start_lat": 22.29385898,
+      "start_lng": 114.2056182,
+      "end_lat": 22.2938687,
+      "end_lng": 114.201426
+    },
+    {
+      "link_id": "AID04218_AID04221",
+      "road_name": "Connaught Road West Flyover",
+      "speed_kmh": 78.3,
+      "color": "green",
+      "start_lat": 22.2875291,
+      "start_lng": 114.1515281,
+      "end_lat": 22.28817674,
+      "end_lng": 114.1384473
+    },
+    {
+      "link_id": "AID04221_AID04219",
+      "road_name": "Connaught Road West Flyover",
+      "speed_kmh": 78.3,
+      "color": "green",
+      "start_lat": 22.28817674,
+      "start_lng": 114.1384473,
+      "end_lat": 22.28842253,
+      "end_lng": 114.1479666
+    },
+    {
+      "link_id": "AID04219_AID04220",
+      "road_name": "Connaught Road West Flyover",
+      "speed_kmh": 76.3,
+      "color": "green",
+      "start_lat": 22.28842253,
+      "start_lng": 114.1479666,
+      "end_lat": 22.28889136,
+      "end_lng": 114.1439589
+    },
+    {
+      "link_id": "AID05101_AID05235",
+      "road_name": "Kai Fuk Road",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.31542134,
+      "start_lng": 114.2182594,
+      "end_lat": 22.316081,
+      "end_lng": 114.2165611
+    },
+    {
+      "link_id": "AID05235_AID05102",
+      "road_name": "Kai Fuk Road",
+      "speed_kmh": 80.0,
+      "color": "green",
+      "start_lat": 22.316081,
+      "start_lng": 114.2165611,
+      "end_lat": 22.31673143,
+      "end_lng": 114.2156198
+    },
+    {
+      "link_id": "AID05102_AID05234",
+      "road_name": "Kai Fuk Road",
+      "speed_kmh": 67.2,
+      "color": "green",
+      "start_lat": 22.31673143,
+      "start_lng": 114.2156198,
+      "end_lat": 22.31814115,
+      "end_lng": 114.2114273
+    },
+    {
+      "link_id": "AID05234_AID05233",
+      "road_name": "Kai Fuk Road",
+      "speed_kmh": 68.8,
+      "color": "green",
+      "start_lat": 22.31814115,
+      "start_lng": 114.2114273,
+      "end_lat": 22.31872881,
+      "end_lng": 114.2081274
+    },
+    {
+      "link_id": "AID05109",
+      "road_name": "Chatham Road North near MTR Ho Man Tin Station - Westbound",
+      "speed_kmh": 66.2,
+      "color": "green",
+      "start_lat": 22.30853617,
+      "start_lng": 114.1829207,
+      "end_lat": 22.307829,
+      "end_lng": 114.182214
+    },
+    {
+      "link_id": "AID05110_AID05226",
+      "road_name": "Gascoigne Road",
+      "speed_kmh": 53.5,
+      "color": "green",
+      "start_lat": 22.30588128,
+      "start_lng": 114.1782331,
+      "end_lat": 22.30599868,
+      "end_lng": 114.1778352
+    },
+    {
+      "link_id": "AID05226_AID05225",
+      "road_name": "Gascoigne Road",
+      "speed_kmh": 57.8,
+      "color": "green",
+      "start_lat": 22.30599868,
+      "start_lng": 114.1778352,
+      "end_lat": 22.30710943,
+      "end_lng": 114.1744093
+    },
+    {
+      "link_id": "AID05114",
+      "road_name": "Ferry Street near Cherry Street Park - Northbound",
+      "speed_kmh": 68.5,
+      "color": "green",
+      "start_lat": 22.31326801,
+      "start_lng": 114.1668291,
+      "end_lat": 22.314268,
+      "end_lng": 114.166829
+    },
+    {
+      "link_id": "AID05115_AID05116",
+      "road_name": "West Kowloon Corridor West",
+      "speed_kmh": 62.8,
+      "color": "green",
+      "start_lat": 22.3168441,
+      "start_lng": 114.1662756,
+      "end_lat": 22.31847848,
+      "end_lng": 114.164179
+    },
+    {
+      "link_id": "AID05116_AID05117",
+      "road_name": "West Kowloon Corridor West",
+      "speed_kmh": 72.5,
+      "color": "green",
+      "start_lat": 22.31847848,
+      "start_lng": 114.164179,
+      "end_lat": 22.32277686,
+      "end_lng": 114.161985
+    },
+    {
+      "link_id": "AID05223_AID05221",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 72.0,
+      "color": "green",
+      "start_lat": 22.31002607,
+      "start_lng": 114.167499,
+      "end_lat": 22.3185599,
+      "end_lng": 114.1661979
+    },
+    {
+      "link_id": "AID05221_AID05220",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 70.8,
+      "color": "green",
+      "start_lat": 22.3185599,
+      "start_lng": 114.1661979,
+      "end_lat": 22.32209082,
+      "end_lng": 114.1654599
+    },
+    {
+      "link_id": "AID05220_AID05219",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 72.0,
+      "color": "green",
+      "start_lat": 22.32209082,
+      "start_lng": 114.1654599,
+      "end_lat": 22.32449274,
+      "end_lng": 114.1627517
+    },
+    {
+      "link_id": "AID05219_AID05118",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 72.2,
+      "color": "green",
+      "start_lat": 22.32449274,
+      "start_lng": 114.1627517,
+      "end_lat": 22.3267487,
+      "end_lng": 114.1595036
+    },
+    {
+      "link_id": "AID05118_AID05218",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 76.9,
+      "color": "green",
+      "start_lat": 22.3267487,
+      "start_lng": 114.1595036,
+      "end_lat": 22.3273099,
+      "end_lng": 114.1588591
+    },
+    {
+      "link_id": "AID05218_AID05119",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 75.4,
+      "color": "green",
+      "start_lat": 22.3273099,
+      "start_lng": 114.1588591,
+      "end_lat": 22.32855591,
+      "end_lng": 114.1570438
+    },
+    {
+      "link_id": "AID05119_AID05120",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 87.5,
+      "color": "green",
+      "start_lat": 22.32855591,
+      "start_lng": 114.1570438,
+      "end_lat": 22.33148132,
+      "end_lng": 114.1533548
+    },
+    {
+      "link_id": "AID05120_AID05217",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 92.0,
+      "color": "green",
+      "start_lat": 22.33148132,
+      "start_lng": 114.1533548,
+      "end_lat": 22.3316168,
+      "end_lng": 114.1534712
+    },
+    {
+      "link_id": "AID05217_AID05121",
+      "road_name": "West Kowloon Corridor",
+      "speed_kmh": 76.2,
+      "color": "green",
+      "start_lat": 22.3316168,
+      "start_lng": 114.1534712,
+      "end_lat": 22.33557141,
+      "end_lng": 114.1485394
+    },
+    {
+      "link_id": "AID05213_AID05212",
+      "road_name": "Kwai Chung Road",
+      "speed_kmh": 86.0,
+      "color": "green",
+      "start_lat": 22.33717701,
+      "start_lng": 114.1394628,
+      "end_lat": 22.33791649,
+      "end_lng": 114.1352303
+    },
+    {
+      "link_id": "AID05212_AID05124",
+      "road_name": "Kwai Chung Road",
+      "speed_kmh": 88.7,
+      "color": "green",
+      "start_lat": 22.33791649,
+      "start_lng": 114.1352303,
+      "end_lat": 22.33798861,
+      "end_lng": 114.134774
+    },
+    {
+      "link_id": "AID05124_AID05211",
+      "road_name": "Kwai Chung Road",
+      "speed_kmh": 85.1,
+      "color": "green",
+      "start_lat": 22.33798861,
+      "start_lng": 114.134774,
+      "end_lat": 22.34401896,
+      "end_lng": 114.1274235
+    },
+    {
+      "link_id": "AID05211_AID05210",
+      "road_name": "Kwai Chung Road",
+      "speed_kmh": 81.5,
+      "color": "green",
+      "start_lat": 22.34401896,
+      "start_lng": 114.1274235,
+      "end_lat": 22.34654674,
+      "end_lng": 114.1249568
+    },
+    {
+      "link_id": "AID05210_AID05127",
+      "road_name": "Kwai Chung Road",
+      "speed_kmh": 79.4,
+      "color": "green",
+      "start_lat": 22.34654674,
+      "start_lng": 114.1249568,
+      "end_lat": 22.35124287,
+      "end_lng": 114.1256929
+    },
+    {
+      "link_id": "AID05208_AID05128",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 70.2,
+      "color": "green",
+      "start_lat": 22.35422265,
+      "start_lng": 114.1247501,
+      "end_lat": 22.35607328,
+      "end_lng": 114.1228077
+    },
+    {
+      "link_id": "AID05128_AID05130",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 66.7,
+      "color": "green",
+      "start_lat": 22.35607328,
+      "start_lng": 114.1228077,
+      "end_lat": 22.36203197,
+      "end_lng": 114.1185626
+    },
+    {
+      "link_id": "AID05130_AID05205",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 68.5,
+      "color": "green",
+      "start_lat": 22.36203197,
+      "start_lng": 114.1185626,
+      "end_lat": 22.36260975,
+      "end_lng": 114.1180866
+    },
+    {
+      "link_id": "AID05205_AID05131",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 71.8,
+      "color": "green",
+      "start_lat": 22.36260975,
+      "start_lng": 114.1180866,
+      "end_lat": 22.3641441,
+      "end_lng": 114.1158044
+    },
+    {
+      "link_id": "AID05131_AID05132",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 83.4,
+      "color": "green",
+      "start_lat": 22.3641441,
+      "start_lng": 114.1158044,
+      "end_lat": 22.36634641,
+      "end_lng": 114.1128615
+    },
+    {
+      "link_id": "AID05132_AID05204",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 87.3,
+      "color": "green",
+      "start_lat": 22.36634641,
+      "start_lng": 114.1128615,
+      "end_lat": 22.36650902,
+      "end_lng": 114.1130071
+    },
+    {
+      "link_id": "AID05204_AID05203",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 75.4,
+      "color": "green",
+      "start_lat": 22.36650902,
+      "start_lng": 114.1130071,
+      "end_lat": 22.36921697,
+      "end_lng": 114.1100056
+    },
+    {
+      "link_id": "AID05203_AID05133",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 74.8,
+      "color": "green",
+      "start_lat": 22.36921697,
+      "start_lng": 114.1100056,
+      "end_lat": 22.36950582,
+      "end_lng": 114.1096948
+    },
+    {
+      "link_id": "AID05133_AID05202",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 78.5,
+      "color": "green",
+      "start_lat": 22.36950582,
+      "start_lng": 114.1096948,
+      "end_lat": 22.37201519,
+      "end_lng": 114.1070623
+    },
+    {
+      "link_id": "AID05202_AID05134",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 84.5,
+      "color": "green",
+      "start_lat": 22.37201519,
+      "start_lng": 114.1070623,
+      "end_lat": 22.37236722,
+      "end_lng": 114.1066931
+    },
+    {
+      "link_id": "AID05134_AID05135",
+      "road_name": "Tsuen Wan Road",
+      "speed_kmh": 82.8,
+      "color": "green",
+      "start_lat": 22.37236722,
+      "start_lng": 114.1066931,
+      "end_lat": 22.37420787,
+      "end_lng": 114.1031287
+    },
+    {
+      "link_id": "TDS90035_TDS91018",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 89.2,
+      "color": "green",
+      "start_lat": 22.35614486,
+      "start_lng": 114.0231888,
+      "end_lat": 22.35620339,
+      "end_lng": 114.0278391
+    },
+    {
+      "link_id": "TDS91018_TDS91019",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 79.5,
+      "color": "green",
+      "start_lat": 22.35620339,
+      "start_lng": 114.0278391,
+      "end_lat": 22.35703762,
+      "end_lng": 114.0218674
+    },
+    {
+      "link_id": "TDS91019_TDS90033",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 75.7,
+      "color": "green",
+      "start_lat": 22.35703762,
+      "start_lng": 114.0218674,
+      "end_lat": 22.35843899,
+      "end_lng": 114.0334483
+    },
+    {
+      "link_id": "TDS90033_TDS90036",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 81.4,
+      "color": "green",
+      "start_lat": 22.35843899,
+      "start_lng": 114.0334483,
+      "end_lat": 22.35857899,
+      "end_lng": 114.0189143
+    },
+    {
+      "link_id": "TDS90036_TDS91020",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 83.3,
+      "color": "green",
+      "start_lat": 22.35857899,
+      "start_lng": 114.0189143,
+      "end_lat": 22.35940007,
+      "end_lng": 114.0182046
+    },
+    {
+      "link_id": "TDS91020_TDS91016",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 86.8,
+      "color": "green",
+      "start_lat": 22.35940007,
+      "start_lng": 114.0182046,
+      "end_lat": 22.36086229,
+      "end_lng": 114.0370089
+    },
+    {
+      "link_id": "TDS91016_TDS90037",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 84.8,
+      "color": "green",
+      "start_lat": 22.36086229,
+      "start_lng": 114.0370089,
+      "end_lat": 22.36224227,
+      "end_lng": 114.0157548
+    },
+    {
+      "link_id": "TDS90037_TDS91021",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 72.8,
+      "color": "green",
+      "start_lat": 22.36224227,
+      "start_lng": 114.0157548,
+      "end_lat": 22.36309946,
+      "end_lng": 114.015045
+    },
+    {
+      "link_id": "TDS91021_TDS90031",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 71.7,
+      "color": "green",
+      "start_lat": 22.36309946,
+      "start_lng": 114.015045,
+      "end_lat": 22.36420723,
+      "end_lng": 114.041297
+    },
+    {
+      "link_id": "TDS90031_TDS90038",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 76.2,
+      "color": "green",
+      "start_lat": 22.36420723,
+      "start_lng": 114.041297,
+      "end_lat": 22.36486819,
+      "end_lng": 114.0138002
+    },
+    {
+      "link_id": "TDS90038_TDS91022",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 73.7,
+      "color": "green",
+      "start_lat": 22.36486819,
+      "start_lng": 114.0138002,
+      "end_lat": 22.36529227,
+      "end_lng": 114.0134405
+    },
+    {
+      "link_id": "TDS91022_TDS90030",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 85.5,
+      "color": "green",
+      "start_lat": 22.36529227,
+      "start_lng": 114.0134405,
+      "end_lat": 22.36551131,
+      "end_lng": 114.0457717
+    },
+    {
+      "link_id": "TDS90030_TDS90029",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 92.8,
+      "color": "green",
+      "start_lat": 22.36551131,
+      "start_lng": 114.0457717,
+      "end_lat": 22.3655231,
+      "end_lng": 114.0492281
+    },
+    {
+      "link_id": "TDS90029_TDS91013",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 81.5,
+      "color": "green",
+      "start_lat": 22.3655231,
+      "start_lng": 114.0492281,
+      "end_lat": 22.3656784,
+      "end_lng": 114.0514999
+    },
+    {
+      "link_id": "TDS91013_TDS91014",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 77.7,
+      "color": "green",
+      "start_lat": 22.3656784,
+      "start_lng": 114.0514999,
+      "end_lat": 22.36571991,
+      "end_lng": 114.0468783
+    },
+    {
+      "link_id": "TDS91014_TDS90024",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.36571991,
+      "start_lng": 114.0468783,
+      "end_lat": 22.36583482,
+      "end_lng": 114.0679956
+    },
+    {
+      "link_id": "TDS90024_TDS90039",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 92.0,
+      "color": "green",
+      "start_lat": 22.36583482,
+      "start_lng": 114.0679956,
+      "end_lat": 22.36663494,
+      "end_lng": 114.0106232
+    },
+    {
+      "link_id": "TDS90039_TDS91008",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 94.0,
+      "color": "green",
+      "start_lat": 22.36663494,
+      "start_lng": 114.0106232,
+      "end_lat": 22.36668572,
+      "end_lng": 114.0710631
+    },
+    {
+      "link_id": "TDS91008_TDS90040",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 76.5,
+      "color": "green",
+      "start_lat": 22.36668572,
+      "start_lng": 114.0710631,
+      "end_lat": 22.36724307,
+      "end_lng": 114.0049232
+    },
+    {
+      "link_id": "TDS90040_TDS90023",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 66.8,
+      "color": "green",
+      "start_lat": 22.36724307,
+      "start_lng": 114.0049232,
+      "end_lat": 22.36789635,
+      "end_lng": 114.0718972
+    },
+    {
+      "link_id": "TDS90023_TDS90027",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 74.2,
+      "color": "green",
+      "start_lat": 22.36789635,
+      "start_lng": 114.0718972,
+      "end_lat": 22.368059,
+      "end_lng": 114.0589254
+    },
+    {
+      "link_id": "TDS90027_TDS90041",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 80.2,
+      "color": "green",
+      "start_lat": 22.368059,
+      "start_lng": 114.0589254,
+      "end_lat": 22.36829568,
+      "end_lng": 114.0012421
+    },
+    {
+      "link_id": "TDS90041_TDS91010",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 79.5,
+      "color": "green",
+      "start_lat": 22.36829568,
+      "start_lng": 114.0012421,
+      "end_lat": 22.36854978,
+      "end_lng": 114.0633039
+    },
+    {
+      "link_id": "TDS91010_TDS90020",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 76.9,
+      "color": "green",
+      "start_lat": 22.36854978,
+      "start_lng": 114.0633039,
+      "end_lat": 22.36943947,
+      "end_lng": 114.0849261
+    },
+    {
+      "link_id": "TDS90020_TDS90018",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 142.3,
+      "color": "green",
+      "start_lat": 22.36943947,
+      "start_lng": 114.0849261,
+      "end_lat": 22.3694628,
+      "end_lng": 114.0947423
+    },
+    {
+      "link_id": "TDS90018_TDS91025",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 161.8,
+      "color": "green",
+      "start_lat": 22.3694628,
+      "start_lng": 114.0947423,
+      "end_lat": 22.36991976,
+      "end_lng": 113.999939
+    },
+    {
+      "link_id": "TDS91025_TDS91007",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 89.5,
+      "color": "green",
+      "start_lat": 22.36991976,
+      "start_lng": 113.999939,
+      "end_lat": 22.37020002,
+      "end_lng": 114.0732742
+    },
+    {
+      "link_id": "TDS91007_TDS90019",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 71.5,
+      "color": "green",
+      "start_lat": 22.37020002,
+      "start_lng": 114.0732742,
+      "end_lat": 22.37027324,
+      "end_lng": 114.0903143
+    },
+    {
+      "link_id": "TDS90019_TDS91002",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 78.7,
+      "color": "green",
+      "start_lat": 22.37027324,
+      "start_lng": 114.0903143,
+      "end_lat": 22.37091583,
+      "end_lng": 114.0930034
+    },
+    {
+      "link_id": "TDS91002_TDS90022",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 76.0,
+      "color": "green",
+      "start_lat": 22.37091583,
+      "start_lng": 114.0930034,
+      "end_lat": 22.37104927,
+      "end_lng": 114.0738658
+    },
+    {
+      "link_id": "TDS90022_TDS91006",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 66.5,
+      "color": "green",
+      "start_lat": 22.37104927,
+      "start_lng": 114.0738658,
+      "end_lat": 22.37142163,
+      "end_lng": 114.0772251
+    },
+    {
+      "link_id": "TDS91006_TDS90021",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 63.5,
+      "color": "green",
+      "start_lat": 22.37142163,
+      "start_lng": 114.0772251,
+      "end_lat": 22.37173893,
+      "end_lng": 114.0792542
+    },
+    {
+      "link_id": "TDS90021_TDS90017",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 80.5,
+      "color": "green",
+      "start_lat": 22.37173893,
+      "start_lng": 114.0792542,
+      "end_lat": 22.3721736,
+      "end_lng": 114.0980323
+    },
+    {
+      "link_id": "TDS90017_TDS91001",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 84.2,
+      "color": "green",
+      "start_lat": 22.3721736,
+      "start_lng": 114.0980323,
+      "end_lat": 22.37300496,
+      "end_lng": 114.0991872
+    },
+    {
+      "link_id": "TDS91001_TDS90016",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 70.1,
+      "color": "green",
+      "start_lat": 22.37300496,
+      "start_lng": 114.0991872,
+      "end_lat": 22.37375565,
+      "end_lng": 114.101624
+    },
+    {
+      "link_id": "TDS90016_AID05201",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 72.8,
+      "color": "green",
+      "start_lat": 22.37375565,
+      "start_lng": 114.101624,
+      "end_lat": 22.3737916,
+      "end_lng": 114.101255
+    },
+    {
+      "link_id": "AID05201_TDS91026",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 78.2,
+      "color": "green",
+      "start_lat": 22.3737916,
+      "start_lng": 114.101255,
+      "end_lat": 22.3738904,
+      "end_lng": 113.9974191
+    },
+    {
+      "link_id": "TDS91026_AID09102",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 81.2,
+      "color": "green",
+      "start_lat": 22.3738904,
+      "start_lng": 113.9974191,
+      "end_lat": 22.37468735,
+      "end_lng": 114.105051
+    },
+    {
+      "link_id": "AID09102_AID09208",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 78.0,
+      "color": "green",
+      "start_lat": 22.37468735,
+      "start_lng": 114.105051,
+      "end_lat": 22.3750309,
+      "end_lng": 114.1059441
+    },
+    {
+      "link_id": "AID09208_TDS90044",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 75.7,
+      "color": "green",
+      "start_lat": 22.3750309,
+      "start_lng": 114.1059441,
+      "end_lat": 22.37524705,
+      "end_lng": 113.9912517
+    },
+    {
+      "link_id": "TDS90044_TDS91027",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 74.8,
+      "color": "green",
+      "start_lat": 22.37524705,
+      "start_lng": 113.9912517,
+      "end_lat": 22.3757366,
+      "end_lng": 113.9929114
+    },
+    {
+      "link_id": "TDS91027_TDS90043",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 83.8,
+      "color": "green",
+      "start_lat": 22.3757366,
+      "start_lng": 113.9929114,
+      "end_lat": 22.3758817,
+      "end_lng": 113.993455
+    },
+    {
+      "link_id": "TDS90043_TDS91030",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 84.5,
+      "color": "green",
+      "start_lat": 22.3758817,
+      "start_lng": 113.993455,
+      "end_lat": 22.38162978,
+      "end_lng": 113.9820088
+    },
+    {
+      "link_id": "TDS91030_TDS90046",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 75.9,
+      "color": "green",
+      "start_lat": 22.38162978,
+      "start_lng": 113.9820088,
+      "end_lat": 22.38182817,
+      "end_lng": 113.9817754
+    },
+    {
+      "link_id": "TDS90046_TDS91031",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 81.1,
+      "color": "green",
+      "start_lat": 22.38182817,
+      "start_lng": 113.9817754,
+      "end_lat": 22.38383087,
+      "end_lng": 113.9800733
+    },
+    {
+      "link_id": "TDS91031_TDS91032",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 100.6,
+      "color": "green",
+      "start_lat": 22.38383087,
+      "start_lng": 113.9800733,
+      "end_lat": 22.38760402,
+      "end_lng": 113.9787668
+    },
+    {
+      "link_id": "TDS91032_TDS90048",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 86.7,
+      "color": "green",
+      "start_lat": 22.38760402,
+      "start_lng": 113.9787668,
+      "end_lat": 22.39707387,
+      "end_lng": 113.9762382
+    },
+    {
+      "link_id": "TDS90048_TDS91035",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 64.7,
+      "color": "green",
+      "start_lat": 22.39707387,
+      "start_lng": 113.9762382,
+      "end_lat": 22.40044337,
+      "end_lng": 113.9771559
+    },
+    {
+      "link_id": "TDS91035_TDS91038",
+      "road_name": "Tuen Mun Road",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.40044337,
+      "start_lng": 113.9771559,
+      "end_lat": 22.41246625,
+      "end_lng": 113.9798776
+    },
+    {
+      "link_id": "AID05215",
+      "road_name": "Lai Chi Kok Road near Novel Industrial Building - Southbound",
+      "speed_kmh": 74.5,
+      "color": "green",
+      "start_lat": 22.33522804,
+      "start_lng": 114.1474037,
+      "end_lat": 22.33557,
+      "end_lng": 114.148343
+    },
+    {
+      "link_id": "AID07101_AID07232",
+      "road_name": "Wan Po Road",
+      "speed_kmh": 49.2,
+      "color": "yellow",
+      "start_lat": 22.31013704,
+      "start_lng": 114.2664351,
+      "end_lat": 22.31274793,
+      "end_lng": 114.2645248
+    },
+    {
+      "link_id": "AID07232_AID07102",
+      "road_name": "Wan Po Road",
+      "speed_kmh": 57.8,
+      "color": "green",
+      "start_lat": 22.31274793,
+      "start_lng": 114.2645248,
+      "end_lat": 22.31339861,
+      "end_lng": 114.2636323
+    },
+    {
+      "link_id": "AID07230_AID07104",
+      "road_name": "Tseung Kwan O Tunnel Road",
+      "speed_kmh": 76.8,
+      "color": "green",
+      "start_lat": 22.31895619,
+      "start_lng": 114.256298,
+      "end_lat": 22.31924529,
+      "end_lng": 114.2560361
+    },
+    {
+      "link_id": "AID07104_AID07229",
+      "road_name": "Tseung Kwan O Tunnel Road",
+      "speed_kmh": 76.8,
+      "color": "green",
+      "start_lat": 22.31924529,
+      "start_lng": 114.2560361,
+      "end_lat": 22.3212342,
+      "end_lng": 114.2514463
+    },
+    {
+      "link_id": "AID07227_AID07228",
+      "road_name": "Tseung Kwan O Road",
+      "speed_kmh": 59.4,
+      "color": "green",
+      "start_lat": 22.31101949,
+      "start_lng": 114.2315933,
+      "end_lat": 22.31221936,
+      "end_lng": 114.2350392
+    },
+    {
+      "link_id": "AID07228_AID07106",
+      "road_name": "Tseung Kwan O Road",
+      "speed_kmh": 66.8,
+      "color": "green",
+      "start_lat": 22.31221936,
+      "start_lng": 114.2350392,
+      "end_lat": 22.31304942,
+      "end_lng": 114.2371069
+    },
+    {
+      "link_id": "AID07106_AID07105",
+      "road_name": "Tseung Kwan O Road",
+      "speed_kmh": 66.9,
+      "color": "green",
+      "start_lat": 22.31304942,
+      "start_lng": 114.2371069,
+      "end_lat": 22.31483643,
+      "end_lng": 114.2398543
+    },
+    {
+      "link_id": "AID07109_AID07110",
+      "road_name": "Kwun Tong Road",
+      "speed_kmh": 48.9,
+      "color": "yellow",
+      "start_lat": 22.31357779,
+      "start_lng": 114.223102,
+      "end_lat": 22.31546654,
+      "end_lng": 114.2181042
+    },
+    {
+      "link_id": "AID07110_AID07111",
+      "road_name": "Kwun Tong Road",
+      "speed_kmh": 57.6,
+      "color": "green",
+      "start_lat": 22.31546654,
+      "start_lng": 114.2181042,
+      "end_lat": 22.31898025,
+      "end_lng": 114.2147566
+    },
+    {
+      "link_id": "AID07111_AID07221",
+      "road_name": "Kwun Tong Road",
+      "speed_kmh": 66.5,
+      "color": "green",
+      "start_lat": 22.31898025,
+      "start_lng": 114.2147566,
+      "end_lat": 22.32214104,
+      "end_lng": 114.2144275
+    },
+    {
+      "link_id": "AID07221_AID07220",
+      "road_name": "Kwun Tong Road",
+      "speed_kmh": 69.0,
+      "color": "green",
+      "start_lat": 22.32214104,
+      "start_lng": 114.2144275,
+      "end_lat": 22.32806544,
+      "end_lng": 114.2129634
+    },
+    {
+      "link_id": "AID07220_AID07114",
+      "road_name": "Kwun Tong Road",
+      "speed_kmh": 70.3,
+      "color": "green",
+      "start_lat": 22.32806544,
+      "start_lng": 114.2129634,
+      "end_lat": 22.33063978,
+      "end_lng": 114.2100229
+    },
+    {
+      "link_id": "AID07115_AID07117",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 64.8,
+      "color": "green",
+      "start_lat": 22.33194957,
+      "start_lng": 114.2082469,
+      "end_lat": 22.33893112,
+      "end_lng": 114.203123
+    },
+    {
+      "link_id": "AID07117_AID07216",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 61.5,
+      "color": "green",
+      "start_lat": 22.33893112,
+      "start_lng": 114.203123,
+      "end_lat": 22.34084609,
+      "end_lng": 114.1998616
+    },
+    {
+      "link_id": "AID07216_AID07119",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 60.1,
+      "color": "green",
+      "start_lat": 22.34084609,
+      "start_lng": 114.1998616,
+      "end_lat": 22.34167774,
+      "end_lng": 114.1929403
+    },
+    {
+      "link_id": "AID07119_AID07118",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 61.9,
+      "color": "green",
+      "start_lat": 22.34167774,
+      "start_lng": 114.1929403,
+      "end_lat": 22.34170428,
+      "end_lng": 114.1977746
+    },
+    {
+      "link_id": "AID07118_AID07215",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 69.2,
+      "color": "green",
+      "start_lat": 22.34170428,
+      "start_lng": 114.1977746,
+      "end_lat": 22.34172245,
+      "end_lng": 114.1969495
+    },
+    {
+      "link_id": "AID07215_AID07214",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 76.5,
+      "color": "green",
+      "start_lat": 22.34172245,
+      "start_lng": 114.1969495,
+      "end_lat": 22.34172308,
+      "end_lng": 114.1909406
+    },
+    {
+      "link_id": "AID07214_AID07128",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 63.1,
+      "color": "green",
+      "start_lat": 22.34172308,
+      "start_lng": 114.1909406,
+      "end_lat": 22.34249937,
+      "end_lng": 114.1592745
+    },
+    {
+      "link_id": "AID07128_AID07120",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 60.6,
+      "color": "green",
+      "start_lat": 22.34249937,
+      "start_lng": 114.1592745,
+      "end_lat": 22.3425452,
+      "end_lng": 114.1863101
+    },
+    {
+      "link_id": "AID07120_AID07206",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 72.2,
+      "color": "green",
+      "start_lat": 22.3425452,
+      "start_lng": 114.1863101,
+      "end_lat": 22.34280593,
+      "end_lng": 114.155275
+    },
+    {
+      "link_id": "AID07206_AID07121",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 74.5,
+      "color": "green",
+      "start_lat": 22.34280593,
+      "start_lng": 114.155275,
+      "end_lat": 22.34317745,
+      "end_lng": 114.184223
+    },
+    {
+      "link_id": "AID07121_AID07212",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 66.2,
+      "color": "green",
+      "start_lat": 22.34317745,
+      "start_lng": 114.184223,
+      "end_lat": 22.34402,
+      "end_lng": 114.18277
+    },
+    {
+      "link_id": "AID07212_AID07122",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 58.1,
+      "color": "green",
+      "start_lat": 22.34402,
+      "start_lng": 114.18277,
+      "end_lat": 22.34402646,
+      "end_lng": 114.1802138
+    },
+    {
+      "link_id": "AID07122_AID07211",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 64.2,
+      "color": "green",
+      "start_lat": 22.34402646,
+      "start_lng": 114.1802138,
+      "end_lat": 22.34463154,
+      "end_lng": 114.1764084
+    },
+    {
+      "link_id": "AID07211_AID07123",
+      "road_name": "Lung Cheung Road",
+      "speed_kmh": 71.7,
+      "color": "green",
+      "start_lat": 22.34463154,
+      "start_lng": 114.1764084,
+      "end_lat": 22.34472185,
+      "end_lng": 114.1771074
+    },
+    {
+      "link_id": "AID07210_AID07124",
+      "road_name": "Lung Cheung Road Lookout",
+      "speed_kmh": 64.3,
+      "color": "green",
+      "start_lat": 22.34291571,
+      "start_lng": 114.1743795,
+      "end_lat": 22.34324978,
+      "end_lng": 114.1716905
+    },
+    {
+      "link_id": "AID07125_AID07126",
+      "road_name": "Lung Cheung Road Beacon Heights",
+      "speed_kmh": 62.5,
+      "color": "green",
+      "start_lat": 22.34166032,
+      "start_lng": 114.1695549,
+      "end_lat": 22.34192192,
+      "end_lng": 114.1647205
+    },
+    {
+      "link_id": "AID07127",
+      "road_name": "Lung Cheung Road Tai Woh Ping - Westbound",
+      "speed_kmh": 47.5,
+      "color": "yellow",
+      "start_lat": 22.34121736,
+      "start_lng": 114.1625461,
+      "end_lat": 22.340875,
+      "end_lng": 114.161606
+    },
+    {
+      "link_id": "AID07134_AID07203",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 73.7,
+      "color": "green",
+      "start_lat": 22.33937063,
+      "start_lng": 114.1361035,
+      "end_lat": 22.33988751,
+      "end_lng": 114.1457331
+    },
+    {
+      "link_id": "AID07203_AID07202",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 72.0,
+      "color": "green",
+      "start_lat": 22.33988751,
+      "start_lng": 114.1457331,
+      "end_lat": 22.33995889,
+      "end_lng": 114.1415103
+    },
+    {
+      "link_id": "AID07202_AID07201",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 65.8,
+      "color": "green",
+      "start_lat": 22.33995889,
+      "start_lng": 114.1415103,
+      "end_lat": 22.33996666,
+      "end_lng": 114.1361519
+    },
+    {
+      "link_id": "AID07201_AID07204",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 69.0,
+      "color": "green",
+      "start_lat": 22.33996666,
+      "start_lng": 114.1361519,
+      "end_lat": 22.3402762,
+      "end_lng": 114.1478007
+    },
+    {
+      "link_id": "AID07204_AID07131",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 73.7,
+      "color": "green",
+      "start_lat": 22.3402762,
+      "start_lng": 114.1478007,
+      "end_lat": 22.34057439,
+      "end_lng": 114.1488005
+    },
+    {
+      "link_id": "AID07131_AID07132",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 71.8,
+      "color": "green",
+      "start_lat": 22.34057439,
+      "start_lng": 114.1488005,
+      "end_lat": 22.34105189,
+      "end_lng": 114.1429371
+    },
+    {
+      "link_id": "AID07132_AID07133",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 76.8,
+      "color": "green",
+      "start_lat": 22.34105189,
+      "start_lng": 114.1429371,
+      "end_lat": 22.34105995,
+      "end_lng": 114.1385881
+    },
+    {
+      "link_id": "AID07133_AID07130",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 80.3,
+      "color": "green",
+      "start_lat": 22.34105995,
+      "start_lng": 114.1385881,
+      "end_lat": 22.34164952,
+      "end_lng": 114.1517805
+    },
+    {
+      "link_id": "AID07130_AID07205",
+      "road_name": "Ching Cheung Road",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.34164952,
+      "start_lng": 114.1517805,
+      "end_lat": 22.34184826,
+      "end_lng": 114.1522464
+    },
+    {
+      "link_id": "AID08203_AID08204",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 96.0,
+      "color": "green",
+      "start_lat": 22.28960394,
+      "start_lng": 113.9441848,
+      "end_lat": 22.28973677,
+      "end_lng": 113.9486968
+    },
+    {
+      "link_id": "AID08204_AID08120",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 91.5,
+      "color": "green",
+      "start_lat": 22.28973677,
+      "start_lng": 113.9486968,
+      "end_lat": 22.29024412,
+      "end_lng": 113.9498605
+    },
+    {
+      "link_id": "AID08120_AID08122",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 93.3,
+      "color": "green",
+      "start_lat": 22.29024412,
+      "start_lng": 113.9498605,
+      "end_lat": 22.29100001,
+      "end_lng": 113.940662
+    },
+    {
+      "link_id": "AID08122_AID08202",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 98.0,
+      "color": "green",
+      "start_lat": 22.29100001,
+      "start_lng": 113.940662,
+      "end_lat": 22.29190915,
+      "end_lng": 113.9396104
+    },
+    {
+      "link_id": "AID08202_AID08205",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 94.8,
+      "color": "green",
+      "start_lat": 22.29190915,
+      "start_lng": 113.9396104,
+      "end_lat": 22.29210812,
+      "end_lng": 113.9525261
+    },
+    {
+      "link_id": "AID08205_AID08119",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 93.7,
+      "color": "green",
+      "start_lat": 22.29210812,
+      "start_lng": 113.9525261,
+      "end_lat": 22.29247886,
+      "end_lng": 113.9528748
+    },
+    {
+      "link_id": "AID08119_AID08201",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.29247886,
+      "start_lng": 113.9528748,
+      "end_lat": 22.29380308,
+      "end_lng": 113.9379186
+    },
+    {
+      "link_id": "AID08201_AID08118",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 92.0,
+      "color": "green",
+      "start_lat": 22.29380308,
+      "start_lng": 113.9379186,
+      "end_lat": 22.29463146,
+      "end_lng": 113.9552975
+    },
+    {
+      "link_id": "AID08118_AID08206",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 102.2,
+      "color": "green",
+      "start_lat": 22.29463146,
+      "start_lng": 113.9552975,
+      "end_lat": 22.29488468,
+      "end_lng": 113.9555688
+    },
+    {
+      "link_id": "AID08206_AID08117",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 101.5,
+      "color": "green",
+      "start_lat": 22.29488468,
+      "start_lng": 113.9555688,
+      "end_lat": 22.29637847,
+      "end_lng": 113.9583322
+    },
+    {
+      "link_id": "AID08117_AID08207",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 95.0,
+      "color": "green",
+      "start_lat": 22.29637847,
+      "start_lng": 113.9583322,
+      "end_lat": 22.29654157,
+      "end_lng": 113.9587395
+    },
+    {
+      "link_id": "AID08207_AID08208",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 103.2,
+      "color": "green",
+      "start_lat": 22.29654157,
+      "start_lng": 113.9587395,
+      "end_lat": 22.29737647,
+      "end_lng": 113.9618048
+    },
+    {
+      "link_id": "AID08208_AID08116",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 103.8,
+      "color": "green",
+      "start_lat": 22.29737647,
+      "start_lng": 113.9618048,
+      "end_lat": 22.29795784,
+      "end_lng": 113.964395
+    },
+    {
+      "link_id": "AID08116_AID08209",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 94.0,
+      "color": "green",
+      "start_lat": 22.29795784,
+      "start_lng": 113.964395,
+      "end_lat": 22.29830307,
+      "end_lng": 113.9659763
+    },
+    {
+      "link_id": "AID08209_AID08115",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 94.0,
+      "color": "green",
+      "start_lat": 22.29830307,
+      "start_lng": 113.9659763,
+      "end_lat": 22.29876627,
+      "end_lng": 113.9680232
+    },
+    {
+      "link_id": "AID08115_AID08210",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 93.0,
+      "color": "green",
+      "start_lat": 22.29876627,
+      "start_lng": 113.9680232,
+      "end_lat": 22.29954683,
+      "end_lng": 113.9710984
+    },
+    {
+      "link_id": "AID08210_AID08211",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.29954683,
+      "start_lng": 113.9710984,
+      "end_lat": 22.30121328,
+      "end_lng": 113.974939
+    },
+    {
+      "link_id": "AID08211_AID08113",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 97.5,
+      "color": "green",
+      "start_lat": 22.30121328,
+      "start_lng": 113.974939,
+      "end_lat": 22.30216382,
+      "end_lng": 113.9768204
+    },
+    {
+      "link_id": "AID08113_AID08212",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 97.8,
+      "color": "green",
+      "start_lat": 22.30216382,
+      "start_lng": 113.9768204,
+      "end_lat": 22.30343091,
+      "end_lng": 113.9791089
+    },
+    {
+      "link_id": "AID08212_AID08112",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 91.3,
+      "color": "green",
+      "start_lat": 22.30343091,
+      "start_lng": 113.9791089,
+      "end_lat": 22.30453478,
+      "end_lng": 113.9808736
+    },
+    {
+      "link_id": "AID08112_AID08213",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 85.8,
+      "color": "green",
+      "start_lat": 22.30453478,
+      "start_lng": 113.9808736,
+      "end_lat": 22.3059191,
+      "end_lng": 113.9830747
+    },
+    {
+      "link_id": "AID08213_AID08111",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 78.7,
+      "color": "green",
+      "start_lat": 22.3059191,
+      "start_lng": 113.9830747,
+      "end_lat": 22.30703196,
+      "end_lng": 113.9848395
+    },
+    {
+      "link_id": "AID08111_AID08214",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 84.5,
+      "color": "green",
+      "start_lat": 22.30703196,
+      "start_lng": 113.9848395,
+      "end_lat": 22.30812677,
+      "end_lng": 113.9866335
+    },
+    {
+      "link_id": "AID08214_AID08110",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 86.8,
+      "color": "green",
+      "start_lat": 22.30812677,
+      "start_lng": 113.9866335,
+      "end_lat": 22.30943884,
+      "end_lng": 113.988893
+    },
+    {
+      "link_id": "AID08110_AID08109",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 95.0,
+      "color": "green",
+      "start_lat": 22.30943884,
+      "start_lng": 113.988893,
+      "end_lat": 22.31208994,
+      "end_lng": 113.9933928
+    },
+    {
+      "link_id": "AID08109_AID08216",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 105.7,
+      "color": "green",
+      "start_lat": 22.31208994,
+      "start_lng": 113.9933928,
+      "end_lat": 22.31342831,
+      "end_lng": 113.9950313
+    },
+    {
+      "link_id": "AID08216_AID08108",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 101.3,
+      "color": "green",
+      "start_lat": 22.31342831,
+      "start_lng": 113.9950313,
+      "end_lat": 22.31529949,
+      "end_lng": 113.9966885
+    },
+    {
+      "link_id": "AID08108_AID08217",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 101.5,
+      "color": "green",
+      "start_lat": 22.31529949,
+      "start_lng": 113.9966885,
+      "end_lat": 22.31698039,
+      "end_lng": 113.9977831
+    },
+    {
+      "link_id": "AID08217_AID08107",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 103.7,
+      "color": "green",
+      "start_lat": 22.31698039,
+      "start_lng": 113.9977831,
+      "end_lat": 22.31859822,
+      "end_lng": 113.9990234
+    },
+    {
+      "link_id": "AID08107_AID08218",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 104.2,
+      "color": "green",
+      "start_lat": 22.31859822,
+      "start_lng": 113.9990234,
+      "end_lat": 22.32018982,
+      "end_lng": 114.0010597
+    },
+    {
+      "link_id": "AID08218_AID08106",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 98.8,
+      "color": "green",
+      "start_lat": 22.32018982,
+      "start_lng": 114.0010597,
+      "end_lat": 22.32110394,
+      "end_lng": 114.0029415
+    },
+    {
+      "link_id": "AID08106_AID08219",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 104.5,
+      "color": "green",
+      "start_lat": 22.32110394,
+      "start_lng": 114.0029415,
+      "end_lat": 22.32220823,
+      "end_lng": 114.0053472
+    },
+    {
+      "link_id": "AID08219_AID08105",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 101.7,
+      "color": "green",
+      "start_lat": 22.32220823,
+      "start_lng": 114.0053472,
+      "end_lat": 22.32306814,
+      "end_lng": 114.0072583
+    },
+    {
+      "link_id": "AID08105_AID08220",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 92.2,
+      "color": "green",
+      "start_lat": 22.32306814,
+      "start_lng": 114.0072583,
+      "end_lat": 22.32410918,
+      "end_lng": 114.0096836
+    },
+    {
+      "link_id": "AID08220_AID08104",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 94.8,
+      "color": "green",
+      "start_lat": 22.32410918,
+      "start_lng": 114.0096836,
+      "end_lat": 22.32477045,
+      "end_lng": 114.0116823
+    },
+    {
+      "link_id": "AID08104_AID08222",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 95.8,
+      "color": "green",
+      "start_lat": 22.32477045,
+      "start_lng": 114.0116823,
+      "end_lat": 22.32494041,
+      "end_lng": 114.0191172
+    },
+    {
+      "link_id": "AID08222_AID08103",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 93.8,
+      "color": "green",
+      "start_lat": 22.32494041,
+      "start_lng": 114.0191172,
+      "end_lat": 22.32500998,
+      "end_lng": 114.0163896
+    },
+    {
+      "link_id": "AID08103_AID08221",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 95.2,
+      "color": "green",
+      "start_lat": 22.32500998,
+      "start_lng": 114.0163896,
+      "end_lat": 22.32509802,
+      "end_lng": 114.0141182
+    },
+    {
+      "link_id": "AID08221_AID08102",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 100.0,
+      "color": "green",
+      "start_lat": 22.32509802,
+      "start_lng": 114.0141182,
+      "end_lat": 22.32524015,
+      "end_lng": 114.0209125
+    },
+    {
+      "link_id": "AID08102_AID08223",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 95.3,
+      "color": "green",
+      "start_lat": 22.32524015,
+      "start_lng": 114.0209125,
+      "end_lat": 22.32582877,
+      "end_lng": 114.0226202
+    },
+    {
+      "link_id": "AID08223_AID08101",
+      "road_name": "North Lantau Highway",
+      "speed_kmh": 84.0,
+      "color": "green",
+      "start_lat": 22.32582877,
+      "start_lng": 114.0226202,
+      "end_lat": 22.32759229,
+      "end_lng": 114.0253264
+    },
+    {
+      "link_id": "AID09205_AID09105",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 78.2,
+      "color": "green",
+      "start_lat": 22.37525303,
+      "start_lng": 114.1195669,
+      "end_lat": 22.37545196,
+      "end_lng": 114.1203145
+    },
+    {
+      "link_id": "AID09105_AID09207",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 80.0,
+      "color": "green",
+      "start_lat": 22.37545196,
+      "start_lng": 114.1203145,
+      "end_lat": 22.37557432,
+      "end_lng": 114.109653
+    },
+    {
+      "link_id": "AID09207_AID09103",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 78.3,
+      "color": "green",
+      "start_lat": 22.37557432,
+      "start_lng": 114.109653,
+      "end_lat": 22.37561012,
+      "end_lng": 114.1088762
+    },
+    {
+      "link_id": "AID09103_AID09106",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 75.0,
+      "color": "green",
+      "start_lat": 22.37561012,
+      "start_lng": 114.1088762,
+      "end_lat": 22.37641917,
+      "end_lng": 114.123062
+    },
+    {
+      "link_id": "AID09106_AID09107",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 79.3,
+      "color": "green",
+      "start_lat": 22.37641917,
+      "start_lng": 114.123062,
+      "end_lat": 22.37814547,
+      "end_lng": 114.1276833
+    },
+    {
+      "link_id": "AID09107_AID09108",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 82.7,
+      "color": "green",
+      "start_lat": 22.37814547,
+      "start_lng": 114.1276833,
+      "end_lat": 22.37997995,
+      "end_lng": 114.1321008
+    },
+    {
+      "link_id": "AID09108_AID09109",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 75.9,
+      "color": "green",
+      "start_lat": 22.37997995,
+      "start_lng": 114.1321008,
+      "end_lat": 22.38165159,
+      "end_lng": 114.1358484
+    },
+    {
+      "link_id": "AID09109_AID09201",
+      "road_name": "Cheung Pei Shan Road",
+      "speed_kmh": 68.9,
+      "color": "green",
+      "start_lat": 22.38165159,
+      "start_lng": 114.1358484,
+      "end_lat": 22.3816788,
+      "end_lng": 114.136334
+    },
+    {
+      "link_id": "AID09111",
+      "road_name": "Shing Mun Tunnel Road near Puguangming Temple - Eastbound",
+      "speed_kmh": 67.5,
+      "color": "green",
+      "start_lat": 22.3824695,
+      "start_lng": 114.1739419,
+      "end_lat": 22.382296,
+      "end_lng": 114.174927
+    },
+    {
+      "link_id": "AID90009_TDS90005",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 75.5,
+      "color": "green",
+      "start_lat": 22.38577,
+      "start_lng": 114.19031,
+      "end_lat": 22.39537248,
+      "end_lng": 114.199958
+    },
+    {
+      "link_id": "TDS90005_AID09119",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 91.2,
+      "color": "green",
+      "start_lat": 22.39537248,
+      "start_lng": 114.199958,
+      "end_lat": 22.39768407,
+      "end_lng": 114.2014539
+    },
+    {
+      "link_id": "AID09119_AID09120",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 92.0,
+      "color": "green",
+      "start_lat": 22.39768407,
+      "start_lng": 114.2014539,
+      "end_lat": 22.39952611,
+      "end_lng": 114.2026196
+    },
+    {
+      "link_id": "AID09120_TDS90003",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 81.7,
+      "color": "green",
+      "start_lat": 22.39952611,
+      "start_lng": 114.2026196,
+      "end_lat": 22.40150359,
+      "end_lng": 114.2038728
+    },
+    {
+      "link_id": "TDS90003_AID09121",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 77.5,
+      "color": "green",
+      "start_lat": 22.40150359,
+      "start_lng": 114.2038728,
+      "end_lat": 22.40330041,
+      "end_lng": 114.2053202
+    },
+    {
+      "link_id": "AID09121_TDSTPR20010",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 75.5,
+      "color": "green",
+      "start_lat": 22.40330041,
+      "start_lng": 114.2053202,
+      "end_lat": 22.41937572,
+      "end_lng": 114.198641
+    },
+    {
+      "link_id": "TDSTPR20010_TDSTPR10010",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 60.0,
+      "color": "green",
+      "start_lat": 22.41937572,
+      "start_lng": 114.198641,
+      "end_lat": 22.42241023,
+      "end_lng": 114.1965434
+    },
+    {
+      "link_id": "TDSTPR10010_TDSTPR20007",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 43.5,
+      "color": "yellow",
+      "start_lat": 22.42241023,
+      "start_lng": 114.1965434,
+      "end_lat": 22.42641979,
+      "end_lng": 114.1963692
+    },
+    {
+      "link_id": "TDSTPR20007_TDSTPR20006",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 46.2,
+      "color": "yellow",
+      "start_lat": 22.42641979,
+      "start_lng": 114.1963692,
+      "end_lat": 22.42967078,
+      "end_lng": 114.1962239
+    },
+    {
+      "link_id": "TDSTPR20006_TDSTPR10007",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 52.8,
+      "color": "green",
+      "start_lat": 22.42967078,
+      "start_lng": 114.1962239,
+      "end_lat": 22.43156739,
+      "end_lng": 114.1942911
+    },
+    {
+      "link_id": "TDSTPR10007_TDSTPR20005",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 45.0,
+      "color": "yellow",
+      "start_lat": 22.43156739,
+      "start_lng": 114.1942911,
+      "end_lat": 22.43172997,
+      "end_lng": 114.1940095
+    },
+    {
+      "link_id": "TDSTPR20005_TDSTPR20003",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 45.0,
+      "color": "yellow",
+      "start_lat": 22.43172997,
+      "start_lng": 114.1940095,
+      "end_lat": 22.43592088,
+      "end_lng": 114.1835674
+    },
+    {
+      "link_id": "TDSTPR20003_TDSTPR10003",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 41.0,
+      "color": "yellow",
+      "start_lat": 22.43592088,
+      "start_lng": 114.1835674,
+      "end_lat": 22.43746513,
+      "end_lng": 114.182596
+    },
+    {
+      "link_id": "TDSTPR10003_TDSTPR10002",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 41.0,
+      "color": "yellow",
+      "start_lat": 22.43746513,
+      "start_lng": 114.182596,
+      "end_lat": 22.44210687,
+      "end_lng": 114.1794779
+    },
+    {
+      "link_id": "TDSTPR10002_TDSTPR20001",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 50.0,
+      "color": "green",
+      "start_lat": 22.44210687,
+      "start_lng": 114.1794779,
+      "end_lat": 22.44241391,
+      "end_lng": 114.178963
+    },
+    {
+      "link_id": "TDSTPR20001_TDSTPR10001",
+      "road_name": "Tai Po Road",
+      "speed_kmh": 51.2,
+      "color": "green",
+      "start_lat": 22.44241391,
+      "start_lng": 114.178963,
+      "end_lat": 22.44619767,
+      "end_lng": 114.1745914
+    },
+    {
+      "link_id": "TDS90002_AID09122",
+      "road_name": "Tolo Highway",
+      "speed_kmh": 85.2,
+      "color": "green",
+      "start_lat": 22.40599076,
+      "start_lng": 114.209225,
+      "end_lat": 22.40630672,
+      "end_lng": 114.2097689
+    },
+    {
+      "link_id": "AID09122_AID09123",
+      "road_name": "Tolo Highway",
+      "speed_kmh": 84.0,
+      "color": "green",
+      "start_lat": 22.40630672,
+      "start_lng": 114.2097689,
+      "end_lat": 22.40907864,
+      "end_lng": 114.211848
+    },
+    {
+      "link_id": "AID09123_TDS90001",
+      "road_name": "Tolo Highway",
+      "speed_kmh": 95.8,
+      "color": "green",
+      "start_lat": 22.40907864,
+      "start_lng": 114.211848,
+      "end_lat": 22.40945791,
+      "end_lng": 114.2119258
+    },
+    {
+      "link_id": "AID09251_AID09157",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 90.3,
+      "color": "green",
+      "start_lat": 22.48774374,
+      "start_lng": 114.1459625,
+      "end_lat": 22.4884116,
+      "end_lng": 114.1439994
+    },
+    {
+      "link_id": "AID09157_AID09252",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 92.0,
+      "color": "green",
+      "start_lat": 22.4884116,
+      "start_lng": 114.1439994,
+      "end_lat": 22.48848374,
+      "end_lng": 114.1435232
+    },
+    {
+      "link_id": "AID09252_AID09156",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 91.5,
+      "color": "green",
+      "start_lat": 22.48848374,
+      "start_lng": 114.1435232,
+      "end_lat": 22.49151691,
+      "end_lng": 114.1387704
+    },
+    {
+      "link_id": "AID09156_AID09253",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 96.3,
+      "color": "green",
+      "start_lat": 22.49151691,
+      "start_lng": 114.1387704,
+      "end_lat": 22.49215785,
+      "end_lng": 114.1378859
+    },
+    {
+      "link_id": "AID09253_AID09155",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 86.5,
+      "color": "green",
+      "start_lat": 22.49215785,
+      "start_lng": 114.1378859,
+      "end_lat": 22.4938281,
+      "end_lng": 114.13635
+    },
+    {
+      "link_id": "AID09155_AID09254",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 71.2,
+      "color": "green",
+      "start_lat": 22.4938281,
+      "start_lng": 114.13635,
+      "end_lat": 22.49589538,
+      "end_lng": 114.1337255
+    },
+    {
+      "link_id": "AID09254_AID09255",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.49589538,
+      "start_lng": 114.1337255,
+      "end_lat": 22.49821502,
+      "end_lng": 114.1295555
+    },
+    {
+      "link_id": "AID09255_AID09256",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 88.2,
+      "color": "green",
+      "start_lat": 22.49821502,
+      "start_lng": 114.1295555,
+      "end_lat": 22.49973065,
+      "end_lng": 114.1247541
+    },
+    {
+      "link_id": "AID09256_AID09153",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 109.5,
+      "color": "green",
+      "start_lat": 22.49973065,
+      "start_lng": 114.1247541,
+      "end_lat": 22.49983891,
+      "end_lng": 114.1244528
+    },
+    {
+      "link_id": "AID09153_AID09152",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 113.0,
+      "color": "green",
+      "start_lat": 22.49983891,
+      "start_lng": 114.1244528,
+      "end_lat": 22.50103001,
+      "end_lng": 114.121702
+    },
+    {
+      "link_id": "AID09152_AID09257",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 95.8,
+      "color": "green",
+      "start_lat": 22.50103001,
+      "start_lng": 114.121702,
+      "end_lat": 22.50120147,
+      "end_lng": 114.1213617
+    },
+    {
+      "link_id": "AID09257_AID09258",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 89.5,
+      "color": "green",
+      "start_lat": 22.50120147,
+      "start_lng": 114.1213617,
+      "end_lat": 22.50222929,
+      "end_lng": 114.1167838
+    },
+    {
+      "link_id": "AID09258_TDS91077",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 87.2,
+      "color": "green",
+      "start_lat": 22.50222929,
+      "start_lng": 114.1167838,
+      "end_lat": 22.50263323,
+      "end_lng": 114.1105831
+    },
+    {
+      "link_id": "TDS91077_TDS91072",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 104.3,
+      "color": "green",
+      "start_lat": 22.50263323,
+      "start_lng": 114.1105831,
+      "end_lat": 22.50292713,
+      "end_lng": 114.0839926
+    },
+    {
+      "link_id": "TDS91072_TDS91076",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 110.3,
+      "color": "green",
+      "start_lat": 22.50292713,
+      "start_lng": 114.0839926,
+      "end_lat": 22.50309146,
+      "end_lng": 114.1051793
+    },
+    {
+      "link_id": "TDS91076_TDS90087",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 102.7,
+      "color": "green",
+      "start_lat": 22.50309146,
+      "start_lng": 114.1051793,
+      "end_lat": 22.50365058,
+      "end_lng": 114.0857706
+    },
+    {
+      "link_id": "TDS90087_TDS91074",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 104.3,
+      "color": "green",
+      "start_lat": 22.50365058,
+      "start_lng": 114.0857706,
+      "end_lat": 22.50389013,
+      "end_lng": 114.0946243
+    },
+    {
+      "link_id": "TDS91074_TDS91073",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 95.3,
+      "color": "green",
+      "start_lat": 22.50389013,
+      "start_lng": 114.0946243,
+      "end_lat": 22.50420303,
+      "end_lng": 114.088647
+    },
+    {
+      "link_id": "TDS91073_TDS90088",
+      "road_name": "Fanling Highway",
+      "speed_kmh": 77.8,
+      "color": "green",
+      "start_lat": 22.50420303,
+      "start_lng": 114.088647,
+      "end_lat": 22.50423064,
+      "end_lng": 114.0895995
+    },
     {
       "link_id": "AID09401_AID09308",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 84.8,
+      "speed_kmh": 89.5,
       "color": "green",
       "start_lat": 22.48518,
       "start_lng": 114.15199,
@@ -16,7 +3256,7 @@
     {
       "link_id": "AID09308_AID09402",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 80.0,
+      "speed_kmh": 81.8,
       "color": "green",
       "start_lat": 22.48733,
       "start_lng": 114.14808,
@@ -26,7 +3266,7 @@
     {
       "link_id": "AID09402_AID09403",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 76.0,
+      "speed_kmh": 80.0,
       "color": "green",
       "start_lat": 22.48785,
       "start_lng": 114.14865,
@@ -36,7 +3276,7 @@
     {
       "link_id": "AID09403_AID09307",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 79.2,
+      "speed_kmh": 83.2,
       "color": "green",
       "start_lat": 22.4917,
       "start_lng": 114.14763,
@@ -46,7 +3286,7 @@
     {
       "link_id": "AID09307_AID09404",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 89.8,
+      "speed_kmh": 83.2,
       "color": "green",
       "start_lat": 22.49203,
       "start_lng": 114.14754,
@@ -56,7 +3296,7 @@
     {
       "link_id": "AID09404_AID09306",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 97.5,
+      "speed_kmh": 80.0,
       "color": "green",
       "start_lat": 22.49531,
       "start_lng": 114.1464,
@@ -66,7 +3306,7 @@
     {
       "link_id": "AID09306_AID09305",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 92.2,
+      "speed_kmh": 80.0,
       "color": "green",
       "start_lat": 22.49545,
       "start_lng": 114.14635,
@@ -76,7 +3316,7 @@
     {
       "link_id": "AID09305_AID09405",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 81.2,
+      "speed_kmh": 80.0,
       "color": "green",
       "start_lat": 22.49821,
       "start_lng": 114.14758,
@@ -114,19 +3354,29 @@
       "end_lng": 114.14621
     },
     {
-      "link_id": "AID09303_AID09302",
+      "link_id": "AID09303_AID09409",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 80.0,
+      "speed_kmh": 71.5,
       "color": "green",
       "start_lat": 22.50484,
       "start_lng": 114.14621,
+      "end_lat": 22.5066,
+      "end_lng": 114.13849
+    },
+    {
+      "link_id": "AID09409_AID09302",
+      "road_name": "Fanling Bypass",
+      "speed_kmh": 79.8,
+      "color": "green",
+      "start_lat": 22.5066,
+      "start_lng": 114.13849,
       "end_lat": 22.50736,
       "end_lng": 114.14488
     },
     {
       "link_id": "AID09302_AID09301",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 78.5,
+      "speed_kmh": 86.2,
       "color": "green",
       "start_lat": 22.50736,
       "start_lng": 114.14488,
@@ -146,7 +3396,7 @@
     {
       "link_id": "AID09408_AID09407",
       "road_name": "Fanling Bypass",
-      "speed_kmh": 79.5,
+      "speed_kmh": 80.0,
       "color": "green",
       "start_lat": 22.5074,
       "start_lng": 114.14071,
@@ -154,299 +3404,329 @@
       "end_lng": 114.14465
     },
     {
-      "link_id": "TDS10007_TDS10008",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 61.5,
+      "link_id": "AID10101_AID10104",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 64.5,
       "color": "green",
-      "start_lat": 22.37213807,
-      "start_lng": 114.1899241,
-      "end_lat": 22.37386255,
-      "end_lng": 114.1937014
+      "start_lat": 22.41672308,
+      "start_lng": 113.9904293,
+      "end_lat": 22.4189147,
+      "end_lng": 113.988037
     },
     {
-      "link_id": "TDS10008_TDS10009",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 75.2,
+      "link_id": "AID10104_AID10102",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 63.5,
       "color": "green",
-      "start_lat": 22.37386255,
-      "start_lng": 114.1937014,
-      "end_lat": 22.37460278,
-      "end_lng": 114.1961774
+      "start_lat": 22.4189147,
+      "start_lng": 113.988037,
+      "end_lat": 22.41909752,
+      "end_lng": 113.9899405
     },
     {
-      "link_id": "TDS10009_TDS10003",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 81.2,
+      "link_id": "AID10102_AID10218",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 79.0,
       "color": "green",
-      "start_lat": 22.37460278,
-      "start_lng": 114.1961774,
-      "end_lat": 22.38003861,
-      "end_lng": 114.2002953
+      "start_lat": 22.41909752,
+      "start_lng": 113.9899405,
+      "end_lat": 22.41925055,
+      "end_lng": 113.9895129
     },
     {
-      "link_id": "TDS10003_TDS10004",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 75.9,
-      "color": "green",
-      "start_lat": 22.38003861,
-      "start_lng": 114.2002953,
-      "end_lat": 22.38345199,
-      "end_lng": 114.2013737
-    },
-    {
-      "link_id": "TDS10004_TDS10005",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 78.7,
-      "color": "green",
-      "start_lat": 22.38345199,
-      "start_lng": 114.2013737,
-      "end_lat": 22.38773258,
-      "end_lng": 114.2005297
-    },
-    {
-      "link_id": "TDS10005_TDS10002",
-      "road_name": "Sha Tin Road",
+      "link_id": "AID10218_AID10103",
+      "road_name": "Kong Sham Western Highway",
       "speed_kmh": 80.0,
       "color": "green",
-      "start_lat": 22.38773258,
-      "start_lng": 114.2005297,
-      "end_lat": 22.3908574,
-      "end_lng": 114.1987337
+      "start_lat": 22.41925055,
+      "start_lng": 113.9895129,
+      "end_lat": 22.41984988,
+      "end_lng": 113.9924066
     },
     {
-      "link_id": "TDS10002_TDS10001",
-      "road_name": "Sha Tin Road",
-      "speed_kmh": 75.2,
+      "link_id": "AID10103_AID10217",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 75.8,
       "color": "green",
-      "start_lat": 22.3908574,
-      "start_lng": 114.1987337,
-      "end_lat": 22.39441532,
-      "end_lng": 114.199414
+      "start_lat": 22.41984988,
+      "start_lng": 113.9924066,
+      "end_lat": 22.42318207,
+      "end_lng": 113.984622
     },
     {
-      "link_id": "TDS10011_TDS10010",
-      "road_name": "Lion Rock Tunnel Road",
-      "speed_kmh": 63.0,
+      "link_id": "AID10217_AID10216",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 73.2,
       "color": "green",
-      "start_lat": 22.3646522,
-      "start_lng": 114.1820396,
-      "end_lat": 22.36785779,
-      "end_lng": 114.1871954
+      "start_lat": 22.42318207,
+      "start_lng": 113.984622,
+      "end_lat": 22.42555548,
+      "end_lng": 113.9832783
     },
     {
-      "link_id": "TDS20001_TDS20002",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 91.0,
+      "link_id": "AID10216_AID10106",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 75.3,
       "color": "green",
-      "start_lat": 22.38098508,
-      "start_lng": 114.2102096,
-      "end_lat": 22.38405537,
-      "end_lng": 114.2106376
+      "start_lat": 22.42555548,
+      "start_lng": 113.9832783,
+      "end_lat": 22.42589843,
+      "end_lng": 113.9831126
     },
     {
-      "link_id": "TDS20002_TDS20004",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 88.2,
+      "link_id": "AID10106_AID10107",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 76.3,
       "color": "green",
-      "start_lat": 22.38405537,
-      "start_lng": 114.2106376,
-      "end_lat": 22.39199337,
-      "end_lng": 114.2097752
+      "start_lat": 22.42589843,
+      "start_lng": 113.9831126,
+      "end_lat": 22.43015106,
+      "end_lng": 113.9825239
     },
     {
-      "link_id": "TDS20004_TDS20005",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 83.2,
+      "link_id": "AID10107_AID10215",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 79.7,
       "color": "green",
-      "start_lat": 22.39199337,
-      "start_lng": 114.2097752,
-      "end_lat": 22.39750168,
-      "end_lng": 114.2111944
+      "start_lat": 22.43015106,
+      "start_lng": 113.9825239,
+      "end_lat": 22.4313886,
+      "end_lng": 113.982833
     },
     {
-      "link_id": "TDS20005_TDS20006",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 87.2,
+      "link_id": "AID10215_AID10108",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 81.3,
       "color": "green",
-      "start_lat": 22.39750168,
-      "start_lng": 114.2111944,
-      "end_lat": 22.40084237,
-      "end_lng": 114.2138951
+      "start_lat": 22.4313886,
+      "start_lng": 113.982833,
+      "end_lat": 22.43431618,
+      "end_lng": 113.9842666
     },
     {
-      "link_id": "TDS20006_TDS20007",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 71.2,
+      "link_id": "AID10108_AID10214",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 80.0,
       "color": "green",
-      "start_lat": 22.40084237,
-      "start_lng": 114.2138951,
-      "end_lat": 22.40376728,
-      "end_lng": 114.2179457
+      "start_lat": 22.43431618,
+      "start_lng": 113.9842666,
+      "end_lat": 22.43509316,
+      "end_lng": 113.9845764
     },
     {
-      "link_id": "TDS20007_TDS20008",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 61.2,
+      "link_id": "AID10214_AID10213",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 80.0,
       "color": "green",
-      "start_lat": 22.40376728,
-      "start_lng": 114.2179457,
-      "end_lat": 22.40718116,
-      "end_lng": 114.216519
+      "start_lat": 22.43509316,
+      "start_lng": 113.9845764,
+      "end_lat": 22.43951022,
+      "end_lng": 113.9855709
     },
     {
-      "link_id": "TDS20008_TDS20009",
-      "road_name": "Tate's Cairn Highway",
-      "speed_kmh": 72.5,
+      "link_id": "AID10213_AID10110",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 78.5,
       "color": "green",
-      "start_lat": 22.40718116,
-      "start_lng": 114.216519,
-      "end_lat": 22.41128187,
-      "end_lng": 114.2128198
+      "start_lat": 22.43951022,
+      "start_lng": 113.9855709,
+      "end_lat": 22.44333828,
+      "end_lng": 113.9848565
     },
     {
-      "link_id": "TDS30009",
-      "road_name": "Tsing Long Highway near Yuen Long Highway - Southbound (3)",
+      "link_id": "AID10110_AID10212",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 78.5,
+      "color": "green",
+      "start_lat": 22.44333828,
+      "start_lng": 113.9848565,
+      "end_lat": 22.44369017,
+      "end_lng": 113.9846131
+    },
+    {
+      "link_id": "AID10212_AID10211",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 80.0,
+      "color": "green",
+      "start_lat": 22.44369017,
+      "start_lng": 113.9846131,
+      "end_lat": 22.44608072,
+      "end_lng": 113.9825115
+    },
+    {
+      "link_id": "AID10211_AID10111",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 80.0,
+      "color": "green",
+      "start_lat": 22.44608072,
+      "start_lng": 113.9825115,
+      "end_lat": 22.44679305,
+      "end_lng": 113.9816264
+    },
+    {
+      "link_id": "AID10111_AID10210",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 81.2,
+      "color": "green",
+      "start_lat": 22.44679305,
+      "start_lng": 113.9816264,
+      "end_lat": 22.44775709,
+      "end_lng": 113.9797987
+    },
+    {
+      "link_id": "AID10210_AID10112",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 81.2,
+      "color": "green",
+      "start_lat": 22.44775709,
+      "start_lng": 113.9797987,
+      "end_lat": 22.44872062,
+      "end_lng": 113.9775823
+    },
+    {
+      "link_id": "AID10112_AID10209",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 79.8,
+      "color": "green",
+      "start_lat": 22.44872062,
+      "start_lng": 113.9775823,
+      "end_lat": 22.4499747,
+      "end_lng": 113.9766576
+    },
+    {
+      "link_id": "AID10209_AID10113",
+      "road_name": "Kong Sham Western Highway",
+      "speed_kmh": 89.8,
+      "color": "green",
+      "start_lat": 22.4499747,
+      "start_lng": 113.9766576,
+      "end_lat": 22.45255393,
+      "end_lng": 113.9738851
+    },
+    {
+      "link_id": "AID10113_AID10208",
+      "road_name": "Kong Sham Western Highway",
       "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.45378734,
-      "start_lng": 114.0496721,
-      "end_lat": 22.452921,
-      "end_lng": 114.049172
+      "start_lat": 22.45255393,
+      "start_lng": 113.9738851,
+      "end_lat": 22.45266246,
+      "end_lng": 113.9740112
     },
     {
-      "link_id": "TDS90002_TDS90001",
-      "road_name": "Tolo Highway",
-      "speed_kmh": 80.9,
+      "link_id": "AID10105",
+      "road_name": "Kong Sham Western Highway Tsing Yick Road - Northbound",
+      "speed_kmh": 80.0,
       "color": "green",
-      "start_lat": 22.40599076,
-      "start_lng": 114.209225,
-      "end_lat": 22.40945791,
-      "end_lng": 114.2119258
+      "start_lat": 22.42283916,
+      "start_lng": 113.9848264,
+      "end_lat": 22.423482,
+      "end_lng": 113.98406
     },
     {
-      "link_id": "TDS90005_TDS90003",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 82.8,
+      "link_id": "AID10120_AID10207",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 90.0,
       "color": "green",
-      "start_lat": 22.39537248,
-      "start_lng": 114.199958,
-      "end_lat": 22.40150359,
-      "end_lng": 114.2038728
+      "start_lat": 22.4216398,
+      "start_lng": 113.9940651,
+      "end_lat": 22.45475534,
+      "end_lng": 113.9722886
     },
     {
-      "link_id": "TDS90003_TDSTPR20010",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 69.8,
+      "link_id": "AID10207_AID10114",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.40150359,
-      "start_lng": 114.2038728,
-      "end_lat": 22.41937572,
-      "end_lng": 114.198641
+      "start_lat": 22.45475534,
+      "start_lng": 113.9722886,
+      "end_lat": 22.45521534,
+      "end_lng": 113.9718604
     },
     {
-      "link_id": "TDSTPR20010_TDSTPR10010",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 60.0,
+      "link_id": "AID10114_AID10206",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.41937572,
-      "start_lng": 114.198641,
-      "end_lat": 22.42241023,
-      "end_lng": 114.1965434
+      "start_lat": 22.45521534,
+      "start_lng": 113.9718604,
+      "end_lat": 22.45814778,
+      "end_lng": 113.9699421
     },
     {
-      "link_id": "TDSTPR10010_TDSTPR20007",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 50.0,
+      "link_id": "AID10206_AID10115",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.42241023,
-      "start_lng": 114.1965434,
-      "end_lat": 22.42641979,
-      "end_lng": 114.1963692
+      "start_lat": 22.45814778,
+      "start_lng": 113.9699421,
+      "end_lat": 22.45868908,
+      "end_lng": 113.9695333
     },
     {
-      "link_id": "TDSTPR20007_TDSTPR20006",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 49.0,
-      "color": "yellow",
-      "start_lat": 22.42641979,
-      "start_lng": 114.1963692,
-      "end_lat": 22.42967078,
-      "end_lng": 114.1962239
-    },
-    {
-      "link_id": "TDSTPR20006_TDSTPR10007",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 49.0,
-      "color": "yellow",
-      "start_lat": 22.42967078,
-      "start_lng": 114.1962239,
-      "end_lat": 22.43156739,
-      "end_lng": 114.1942911
-    },
-    {
-      "link_id": "TDSTPR10007_TDSTPR20005",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 47.5,
-      "color": "yellow",
-      "start_lat": 22.43156739,
-      "start_lng": 114.1942911,
-      "end_lat": 22.43172997,
-      "end_lng": 114.1940095
-    },
-    {
-      "link_id": "TDSTPR20005_TDSTPR20003",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 48.0,
-      "color": "yellow",
-      "start_lat": 22.43172997,
-      "start_lng": 114.1940095,
-      "end_lat": 22.43592088,
-      "end_lng": 114.1835674
-    },
-    {
-      "link_id": "TDSTPR20003_TDSTPR10003",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 50.5,
+      "link_id": "AID10115_AID10116",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.43592088,
-      "start_lng": 114.1835674,
-      "end_lat": 22.43746513,
-      "end_lng": 114.182596
+      "start_lat": 22.45868908,
+      "start_lng": 113.9695333,
+      "end_lat": 22.46257843,
+      "end_lng": 113.9674094
     },
     {
-      "link_id": "TDSTPR10003_TDSTPR10002",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 56.5,
+      "link_id": "AID10116_AID10117",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 100.0,
       "color": "green",
-      "start_lat": 22.43746513,
-      "start_lng": 114.182596,
-      "end_lat": 22.44210687,
-      "end_lng": 114.1794779
+      "start_lat": 22.46257843,
+      "start_lng": 113.9674094,
+      "end_lat": 22.46711682,
+      "end_lng": 113.9644295
     },
     {
-      "link_id": "TDSTPR10002_TDSTPR20001",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 56.5,
+      "link_id": "AID10117_AID10118",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 95.0,
       "color": "green",
-      "start_lat": 22.44210687,
-      "start_lng": 114.1794779,
-      "end_lat": 22.44241391,
-      "end_lng": 114.178963
+      "start_lat": 22.46711682,
+      "start_lng": 113.9644295,
+      "end_lat": 22.47029187,
+      "end_lng": 113.9616749
     },
     {
-      "link_id": "TDSTPR20001_TDSTPR10001",
-      "road_name": "Tai Po Road",
-      "speed_kmh": 45.8,
-      "color": "yellow",
-      "start_lat": 22.44241391,
-      "start_lng": 114.178963,
-      "end_lat": 22.44619767,
-      "end_lng": 114.1745914
+      "link_id": "AID10118_AID10203",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 95.0,
+      "color": "green",
+      "start_lat": 22.47029187,
+      "start_lng": 113.9616749,
+      "end_lat": 22.47033708,
+      "end_lng": 113.9617234
+    },
+    {
+      "link_id": "AID10203_AID10202",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 95.3,
+      "color": "green",
+      "start_lat": 22.47033708,
+      "start_lng": 113.9617234,
+      "end_lat": 22.47351138,
+      "end_lng": 113.9584537
+    },
+    {
+      "link_id": "AID10202_AID10201",
+      "road_name": "Shenzhen Bay Bridge",
+      "speed_kmh": 95.3,
+      "color": "green",
+      "start_lat": 22.47351138,
+      "start_lng": 113.9584537,
+      "end_lat": 22.4766946,
+      "end_lng": 113.9551547
     },
     {
       "link_id": "TDS90004",
       "road_name": "Tai Po Road Sha Tin near Plaza Ascot - Southbound",
-      "speed_kmh": 80.8,
+      "speed_kmh": 86.8,
       "color": "green",
       "start_lat": 22.39867733,
       "start_lng": 114.2020853,
@@ -454,479 +3734,9 @@
       "end_lng": 114.201585
     },
     {
-      "link_id": "TDS90035_TDS91018",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 82.1,
-      "color": "green",
-      "start_lat": 22.35614486,
-      "start_lng": 114.0231888,
-      "end_lat": 22.35620339,
-      "end_lng": 114.0278391
-    },
-    {
-      "link_id": "TDS91018_TDS91019",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 79.7,
-      "color": "green",
-      "start_lat": 22.35620339,
-      "start_lng": 114.0278391,
-      "end_lat": 22.35703762,
-      "end_lng": 114.0218674
-    },
-    {
-      "link_id": "TDS91019_TDS90033",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 79.8,
-      "color": "green",
-      "start_lat": 22.35703762,
-      "start_lng": 114.0218674,
-      "end_lat": 22.35843899,
-      "end_lng": 114.0334483
-    },
-    {
-      "link_id": "TDS90033_TDS90036",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 77.2,
-      "color": "green",
-      "start_lat": 22.35843899,
-      "start_lng": 114.0334483,
-      "end_lat": 22.35857899,
-      "end_lng": 114.0189143
-    },
-    {
-      "link_id": "TDS90036_TDS91020",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 85.8,
-      "color": "green",
-      "start_lat": 22.35857899,
-      "start_lng": 114.0189143,
-      "end_lat": 22.35940007,
-      "end_lng": 114.0182046
-    },
-    {
-      "link_id": "TDS91020_TDS91016",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 90.8,
-      "color": "green",
-      "start_lat": 22.35940007,
-      "start_lng": 114.0182046,
-      "end_lat": 22.36086229,
-      "end_lng": 114.0370089
-    },
-    {
-      "link_id": "TDS91016_TDS90037",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 85.2,
-      "color": "green",
-      "start_lat": 22.36086229,
-      "start_lng": 114.0370089,
-      "end_lat": 22.36224227,
-      "end_lng": 114.0157548
-    },
-    {
-      "link_id": "TDS90037_TDS91021",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 76.7,
-      "color": "green",
-      "start_lat": 22.36224227,
-      "start_lng": 114.0157548,
-      "end_lat": 22.36309946,
-      "end_lng": 114.015045
-    },
-    {
-      "link_id": "TDS91021_TDS90031",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 76.0,
-      "color": "green",
-      "start_lat": 22.36309946,
-      "start_lng": 114.015045,
-      "end_lat": 22.36420723,
-      "end_lng": 114.041297
-    },
-    {
-      "link_id": "TDS90031_TDS90038",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 77.8,
-      "color": "green",
-      "start_lat": 22.36420723,
-      "start_lng": 114.041297,
-      "end_lat": 22.36486819,
-      "end_lng": 114.0138002
-    },
-    {
-      "link_id": "TDS90038_TDS91022",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 69.8,
-      "color": "green",
-      "start_lat": 22.36486819,
-      "start_lng": 114.0138002,
-      "end_lat": 22.36529227,
-      "end_lng": 114.0134405
-    },
-    {
-      "link_id": "TDS91022_TDS90030",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 75.7,
-      "color": "green",
-      "start_lat": 22.36529227,
-      "start_lng": 114.0134405,
-      "end_lat": 22.36551131,
-      "end_lng": 114.0457717
-    },
-    {
-      "link_id": "TDS90030_TDS90029",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 78.3,
-      "color": "green",
-      "start_lat": 22.36551131,
-      "start_lng": 114.0457717,
-      "end_lat": 22.3655231,
-      "end_lng": 114.0492281
-    },
-    {
-      "link_id": "TDS90029_TDS91013",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 72.0,
-      "color": "green",
-      "start_lat": 22.3655231,
-      "start_lng": 114.0492281,
-      "end_lat": 22.3656784,
-      "end_lng": 114.0514999
-    },
-    {
-      "link_id": "TDS91013_TDS91014",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 76.3,
-      "color": "green",
-      "start_lat": 22.3656784,
-      "start_lng": 114.0514999,
-      "end_lat": 22.36571991,
-      "end_lng": 114.0468783
-    },
-    {
-      "link_id": "TDS91014_TDS90024",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 79.5,
-      "color": "green",
-      "start_lat": 22.36571991,
-      "start_lng": 114.0468783,
-      "end_lat": 22.36583482,
-      "end_lng": 114.0679956
-    },
-    {
-      "link_id": "TDS90024_TDS90039",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 92.0,
-      "color": "green",
-      "start_lat": 22.36583482,
-      "start_lng": 114.0679956,
-      "end_lat": 22.36663494,
-      "end_lng": 114.0106232
-    },
-    {
-      "link_id": "TDS90039_TDS91008",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 96.2,
-      "color": "green",
-      "start_lat": 22.36663494,
-      "start_lng": 114.0106232,
-      "end_lat": 22.36668572,
-      "end_lng": 114.0710631
-    },
-    {
-      "link_id": "TDS91008_TDS90040",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 80.5,
-      "color": "green",
-      "start_lat": 22.36668572,
-      "start_lng": 114.0710631,
-      "end_lat": 22.36724307,
-      "end_lng": 114.0049232
-    },
-    {
-      "link_id": "TDS90040_TDS90023",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 73.6,
-      "color": "green",
-      "start_lat": 22.36724307,
-      "start_lng": 114.0049232,
-      "end_lat": 22.36789635,
-      "end_lng": 114.0718972
-    },
-    {
-      "link_id": "TDS90023_TDS90027",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 76.8,
-      "color": "green",
-      "start_lat": 22.36789635,
-      "start_lng": 114.0718972,
-      "end_lat": 22.368059,
-      "end_lng": 114.0589254
-    },
-    {
-      "link_id": "TDS90027_TDS90041",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 83.8,
-      "color": "green",
-      "start_lat": 22.368059,
-      "start_lng": 114.0589254,
-      "end_lat": 22.36829568,
-      "end_lng": 114.0012421
-    },
-    {
-      "link_id": "TDS90041_TDS91010",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 77.2,
-      "color": "green",
-      "start_lat": 22.36829568,
-      "start_lng": 114.0012421,
-      "end_lat": 22.36854978,
-      "end_lng": 114.0633039
-    },
-    {
-      "link_id": "TDS91010_TDS90020",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 68.5,
-      "color": "green",
-      "start_lat": 22.36854978,
-      "start_lng": 114.0633039,
-      "end_lat": 22.36943947,
-      "end_lng": 114.0849261
-    },
-    {
-      "link_id": "TDS90020_TDS90018",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 98.2,
-      "color": "green",
-      "start_lat": 22.36943947,
-      "start_lng": 114.0849261,
-      "end_lat": 22.3694628,
-      "end_lng": 114.0947423
-    },
-    {
-      "link_id": "TDS90018_TDS91025",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 110.5,
-      "color": "green",
-      "start_lat": 22.3694628,
-      "start_lng": 114.0947423,
-      "end_lat": 22.36991976,
-      "end_lng": 113.999939
-    },
-    {
-      "link_id": "TDS91025_TDS91007",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 78.0,
-      "color": "green",
-      "start_lat": 22.36991976,
-      "start_lng": 113.999939,
-      "end_lat": 22.37020002,
-      "end_lng": 114.0732742
-    },
-    {
-      "link_id": "TDS91007_TDS90019",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 60.5,
-      "color": "green",
-      "start_lat": 22.37020002,
-      "start_lng": 114.0732742,
-      "end_lat": 22.37027324,
-      "end_lng": 114.0903143
-    },
-    {
-      "link_id": "TDS90019_TDS91002",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 67.0,
-      "color": "green",
-      "start_lat": 22.37027324,
-      "start_lng": 114.0903143,
-      "end_lat": 22.37091583,
-      "end_lng": 114.0930034
-    },
-    {
-      "link_id": "TDS91002_TDS91005",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 77.0,
-      "color": "green",
-      "start_lat": 22.37091583,
-      "start_lng": 114.0930034,
-      "end_lat": 22.37092794,
-      "end_lng": 114.0822064
-    },
-    {
-      "link_id": "TDS91005_TDS90022",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 70.5,
-      "color": "green",
-      "start_lat": 22.37092794,
-      "start_lng": 114.0822064,
-      "end_lat": 22.37104927,
-      "end_lng": 114.0738658
-    },
-    {
-      "link_id": "TDS90022_TDS91006",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 65.9,
-      "color": "green",
-      "start_lat": 22.37104927,
-      "start_lng": 114.0738658,
-      "end_lat": 22.37142163,
-      "end_lng": 114.0772251
-    },
-    {
-      "link_id": "TDS91006_TDS90021",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 63.0,
-      "color": "green",
-      "start_lat": 22.37142163,
-      "start_lng": 114.0772251,
-      "end_lat": 22.37173893,
-      "end_lng": 114.0792542
-    },
-    {
-      "link_id": "TDS90021_TDS90017",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 74.2,
-      "color": "green",
-      "start_lat": 22.37173893,
-      "start_lng": 114.0792542,
-      "end_lat": 22.3721736,
-      "end_lng": 114.0980323
-    },
-    {
-      "link_id": "TDS90017_TDS91001",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 76.7,
-      "color": "green",
-      "start_lat": 22.3721736,
-      "start_lng": 114.0980323,
-      "end_lat": 22.37300496,
-      "end_lng": 114.0991872
-    },
-    {
-      "link_id": "TDS91001_TDS90016",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 65.4,
-      "color": "green",
-      "start_lat": 22.37300496,
-      "start_lng": 114.0991872,
-      "end_lat": 22.37375565,
-      "end_lng": 114.101624
-    },
-    {
-      "link_id": "TDS90016_TDS91026",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 67.4,
-      "color": "green",
-      "start_lat": 22.37375565,
-      "start_lng": 114.101624,
-      "end_lat": 22.3738904,
-      "end_lng": 113.9974191
-    },
-    {
-      "link_id": "TDS91026_TDS90044",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 68.2,
-      "color": "green",
-      "start_lat": 22.3738904,
-      "start_lng": 113.9974191,
-      "end_lat": 22.37524705,
-      "end_lng": 113.9912517
-    },
-    {
-      "link_id": "TDS90044_TDS91027",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 70.5,
-      "color": "green",
-      "start_lat": 22.37524705,
-      "start_lng": 113.9912517,
-      "end_lat": 22.3757366,
-      "end_lng": 113.9929114
-    },
-    {
-      "link_id": "TDS91027_TDS90043",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 75.2,
-      "color": "green",
-      "start_lat": 22.3757366,
-      "start_lng": 113.9929114,
-      "end_lat": 22.3758817,
-      "end_lng": 113.993455
-    },
-    {
-      "link_id": "TDS90043_TDS91030",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 89.3,
-      "color": "green",
-      "start_lat": 22.3758817,
-      "start_lng": 113.993455,
-      "end_lat": 22.38162978,
-      "end_lng": 113.9820088
-    },
-    {
-      "link_id": "TDS91030_TDS90046",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 86.7,
-      "color": "green",
-      "start_lat": 22.38162978,
-      "start_lng": 113.9820088,
-      "end_lat": 22.38182817,
-      "end_lng": 113.9817754
-    },
-    {
-      "link_id": "TDS90046_TDS91031",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 77.4,
-      "color": "green",
-      "start_lat": 22.38182817,
-      "start_lng": 113.9817754,
-      "end_lat": 22.38383087,
-      "end_lng": 113.9800733
-    },
-    {
-      "link_id": "TDS91031_TDS91032",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 73.0,
-      "color": "green",
-      "start_lat": 22.38383087,
-      "start_lng": 113.9800733,
-      "end_lat": 22.38760402,
-      "end_lng": 113.9787668
-    },
-    {
-      "link_id": "TDS91032_TDS90048",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 60.8,
-      "color": "green",
-      "start_lat": 22.38760402,
-      "start_lng": 113.9787668,
-      "end_lat": 22.39707387,
-      "end_lng": 113.9762382
-    },
-    {
-      "link_id": "TDS90048_TDS91035",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 65.7,
-      "color": "green",
-      "start_lat": 22.39707387,
-      "start_lng": 113.9762382,
-      "end_lat": 22.40044337,
-      "end_lng": 113.9771559
-    },
-    {
-      "link_id": "TDS91035_TDS91038",
-      "road_name": "Tuen Mun Road",
-      "speed_kmh": 90.2,
-      "color": "green",
-      "start_lat": 22.40044337,
-      "start_lng": 113.9771559,
-      "end_lat": 22.41246625,
-      "end_lng": 113.9798776
-    },
-    {
       "link_id": "TDS91040_TDS91043",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 77.7,
+      "speed_kmh": 73.0,
       "color": "green",
       "start_lat": 22.41641574,
       "start_lng": 113.9901675,
@@ -936,7 +3746,7 @@
     {
       "link_id": "TDS91043_TDS90060",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 78.5,
+      "speed_kmh": 74.8,
       "color": "green",
       "start_lat": 22.42676673,
       "start_lng": 114.0000613,
@@ -946,7 +3756,7 @@
     {
       "link_id": "TDS90060_TDS91050",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 85.5,
+      "speed_kmh": 72.5,
       "color": "green",
       "start_lat": 22.43194387,
       "start_lng": 114.0025415,
@@ -956,7 +3766,7 @@
     {
       "link_id": "TDS91050_TDS91045",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 75.0,
+      "speed_kmh": 73.1,
       "color": "green",
       "start_lat": 22.43438912,
       "start_lng": 114.0275906,
@@ -966,7 +3776,7 @@
     {
       "link_id": "TDS91045_TDS90064",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 71.2,
+      "speed_kmh": 70.5,
       "color": "green",
       "start_lat": 22.43512458,
       "start_lng": 114.0044026,
@@ -976,7 +3786,7 @@
     {
       "link_id": "TDS90064_TDS91047",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 75.7,
+      "speed_kmh": 76.0,
       "color": "green",
       "start_lat": 22.43638499,
       "start_lng": 114.018263,
@@ -986,7 +3796,7 @@
     {
       "link_id": "TDS91047_TDS90072",
       "road_name": "Yuen Long Highway",
-      "speed_kmh": 87.1,
+      "speed_kmh": 79.7,
       "color": "green",
       "start_lat": 22.43794237,
       "start_lng": 114.0133653,
@@ -996,7 +3806,7 @@
     {
       "link_id": "TDS91058_TDS90073",
       "road_name": "San Tin Highway",
-      "speed_kmh": 88.7,
+      "speed_kmh": 89.2,
       "color": "green",
       "start_lat": 22.45539574,
       "start_lng": 114.0509239,
@@ -1006,7 +3816,7 @@
     {
       "link_id": "TDS90073_TDS90074",
       "road_name": "San Tin Highway",
-      "speed_kmh": 86.3,
+      "speed_kmh": 81.3,
       "color": "green",
       "start_lat": 22.45599209,
       "start_lng": 114.0513606,
@@ -1016,7 +3826,7 @@
     {
       "link_id": "TDS90074_TDS90075",
       "road_name": "San Tin Highway",
-      "speed_kmh": 80.2,
+      "speed_kmh": 82.3,
       "color": "green",
       "start_lat": 22.46016517,
       "start_lng": 114.0526879,
@@ -1026,7 +3836,7 @@
     {
       "link_id": "TDS90075_TDS90076",
       "road_name": "San Tin Highway",
-      "speed_kmh": 79.8,
+      "speed_kmh": 104.8,
       "color": "green",
       "start_lat": 22.46425671,
       "start_lng": 114.0536753,
@@ -1036,7 +3846,7 @@
     {
       "link_id": "TDS90076_TDS90077",
       "road_name": "San Tin Highway",
-      "speed_kmh": 87.8,
+      "speed_kmh": 106.5,
       "color": "green",
       "start_lat": 22.4684205,
       "start_lng": 114.0546918,
@@ -1046,7 +3856,7 @@
     {
       "link_id": "TDS90077_TDS91062",
       "road_name": "San Tin Highway",
-      "speed_kmh": 93.5,
+      "speed_kmh": 91.5,
       "color": "green",
       "start_lat": 22.47278304,
       "start_lng": 114.0558151,
@@ -1056,7 +3866,7 @@
     {
       "link_id": "TDS91062_TDS91064",
       "road_name": "San Tin Highway",
-      "speed_kmh": 86.8,
+      "speed_kmh": 95.0,
       "color": "green",
       "start_lat": 22.47322561,
       "start_lng": 114.0559216,
@@ -1066,7 +3876,7 @@
     {
       "link_id": "TDS91064_TDS91065",
       "road_name": "San Tin Highway",
-      "speed_kmh": 86.7,
+      "speed_kmh": 89.7,
       "color": "green",
       "start_lat": 22.48129153,
       "start_lng": 114.058305,
@@ -1076,7 +3886,7 @@
     {
       "link_id": "TDS91065_TDS91066",
       "road_name": "San Tin Highway",
-      "speed_kmh": 96.2,
+      "speed_kmh": 90.0,
       "color": "green",
       "start_lat": 22.48537345,
       "start_lng": 114.0585542,
@@ -1086,7 +3896,7 @@
     {
       "link_id": "TDS91066_TDS90081",
       "road_name": "San Tin Highway",
-      "speed_kmh": 95.7,
+      "speed_kmh": 86.5,
       "color": "green",
       "start_lat": 22.48980865,
       "start_lng": 114.0602996,
@@ -1096,7 +3906,7 @@
     {
       "link_id": "TDS90081_TDS91067",
       "road_name": "San Tin Highway",
-      "speed_kmh": 90.5,
+      "speed_kmh": 85.7,
       "color": "green",
       "start_lat": 22.49015203,
       "start_lng": 114.0606103,
@@ -1106,7 +3916,7 @@
     {
       "link_id": "TDS91067_TDS90083",
       "road_name": "San Tin Highway",
-      "speed_kmh": 81.3,
+      "speed_kmh": 92.7,
       "color": "green",
       "start_lat": 22.49238511,
       "start_lng": 114.064243,
@@ -1116,7 +3926,7 @@
     {
       "link_id": "TDS90083_TDS91069",
       "road_name": "San Tin Highway",
-      "speed_kmh": 83.5,
+      "speed_kmh": 92.8,
       "color": "green",
       "start_lat": 22.49353485,
       "start_lng": 114.0684402,
@@ -1126,7 +3936,7 @@
     {
       "link_id": "TDS91069_TDS91070",
       "road_name": "San Tin Highway",
-      "speed_kmh": 89.0,
+      "speed_kmh": 86.7,
       "color": "green",
       "start_lat": 22.49537241,
       "start_lng": 114.0751832,
@@ -1136,7 +3946,7 @@
     {
       "link_id": "TDS91070_TDS90085",
       "road_name": "San Tin Highway",
-      "speed_kmh": 90.8,
+      "speed_kmh": 91.0,
       "color": "green",
       "start_lat": 22.49719846,
       "start_lng": 114.0782529,
@@ -1146,7 +3956,7 @@
     {
       "link_id": "TDS90085_TDS91071",
       "road_name": "San Tin Highway",
-      "speed_kmh": 94.8,
+      "speed_kmh": 94.3,
       "color": "green",
       "start_lat": 22.49758694,
       "start_lng": 114.0785344,
@@ -1154,69 +3964,9 @@
       "end_lng": 114.0807676
     },
     {
-      "link_id": "TDS91077_TDS91072",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 89.0,
-      "color": "green",
-      "start_lat": 22.50263323,
-      "start_lng": 114.1105831,
-      "end_lat": 22.50292713,
-      "end_lng": 114.0839926
-    },
-    {
-      "link_id": "TDS91072_TDS91076",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 82.0,
-      "color": "green",
-      "start_lat": 22.50292713,
-      "start_lng": 114.0839926,
-      "end_lat": 22.50309146,
-      "end_lng": 114.1051793
-    },
-    {
-      "link_id": "TDS91076_TDS90087",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 90.5,
-      "color": "green",
-      "start_lat": 22.50309146,
-      "start_lng": 114.1051793,
-      "end_lat": 22.50365058,
-      "end_lng": 114.0857706
-    },
-    {
-      "link_id": "TDS90087_TDS91074",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 97.5,
-      "color": "green",
-      "start_lat": 22.50365058,
-      "start_lng": 114.0857706,
-      "end_lat": 22.50389013,
-      "end_lng": 114.0946243
-    },
-    {
-      "link_id": "TDS91074_TDS91073",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 87.7,
-      "color": "green",
-      "start_lat": 22.50389013,
-      "start_lng": 114.0946243,
-      "end_lat": 22.50420303,
-      "end_lng": 114.088647
-    },
-    {
-      "link_id": "TDS91073_TDS90088",
-      "road_name": "Fanling Highway",
-      "speed_kmh": 79.3,
-      "color": "green",
-      "start_lat": 22.50420303,
-      "start_lng": 114.088647,
-      "end_lat": 22.50423064,
-      "end_lng": 114.0895995
-    },
-    {
       "link_id": "TDSCPRKC10004",
       "road_name": "Castle Peak Rd-Kwai Chung near Tai Wo Interchange - Southbound",
-      "speed_kmh": 62.3,
+      "speed_kmh": 69.3,
       "color": "green",
       "start_lat": 22.35297888,
       "start_lng": 114.1329929,
@@ -1226,7 +3976,7 @@
     {
       "link_id": "TDSIEC10002",
       "road_name": "Harcourt Road near The Hong Kong Academy for Performing Arts - Eastbound",
-      "speed_kmh": 43.0,
+      "speed_kmh": 48.2,
       "color": "yellow",
       "start_lat": 22.27961101,
       "start_lng": 114.1689468,
@@ -1236,7 +3986,7 @@
     {
       "link_id": "TDSIEC10003",
       "road_name": "Gloucestor Road near Gloucester Road Garden - Eastbound",
-      "speed_kmh": 59.6,
+      "speed_kmh": 55.8,
       "color": "green",
       "start_lat": 22.27925895,
       "start_lng": 114.1725176,
@@ -1246,7 +3996,7 @@
     {
       "link_id": "TDSJCR20001",
       "road_name": "Jockey Club Road near Fanling Government Primary School - Northbound",
-      "speed_kmh": 79.0,
+      "speed_kmh": 70.0,
       "color": "green",
       "start_lat": 22.49351364,
       "start_lng": 114.1433471,
@@ -1256,7 +4006,7 @@
     {
       "link_id": "TDSLFR10002",
       "road_name": "Wong Chu Road near Hoi Wong Road - Eastbound",
-      "speed_kmh": 50.7,
+      "speed_kmh": 57.3,
       "color": "green",
       "start_lat": 22.38602329,
       "start_lng": 113.9712142,
@@ -1266,7 +4016,7 @@
     {
       "link_id": "TDSLTR10001",
       "road_name": "Long Tin Road near Tin Fuk Road - Southbound",
-      "speed_kmh": 70.0,
+      "speed_kmh": 66.0,
       "color": "green",
       "start_lat": 22.45102316,
       "start_lng": 114.0091724,
@@ -1276,7 +4026,7 @@
     {
       "link_id": "TDSMOSB20001_TDSMOSB20002",
       "road_name": "Ma On Shan Bypass",
-      "speed_kmh": 89.0,
+      "speed_kmh": 71.0,
       "color": "green",
       "start_lat": 22.41460057,
       "start_lng": 114.2293417,
@@ -1286,7 +4036,7 @@
     {
       "link_id": "TDSMOSB20002_TDSMOSB20003",
       "road_name": "Ma On Shan Bypass",
-      "speed_kmh": 92.0,
+      "speed_kmh": 82.5,
       "color": "green",
       "start_lat": 22.41740787,
       "start_lng": 114.2328588,
@@ -1296,7 +4046,7 @@
     {
       "link_id": "TDSMOSB20003_TDSMOSB10004",
       "road_name": "Ma On Shan Bypass",
-      "speed_kmh": 76.0,
+      "speed_kmh": 79.5,
       "color": "green",
       "start_lat": 22.42078397,
       "start_lng": 114.2364831,
@@ -1306,7 +4056,7 @@
     {
       "link_id": "TDSMOSB10004_TDSMOSB20005",
       "road_name": "Ma On Shan Bypass",
-      "speed_kmh": 64.1,
+      "speed_kmh": 73.2,
       "color": "green",
       "start_lat": 22.42510713,
       "start_lng": 114.2427694,
@@ -1316,7 +4066,7 @@
     {
       "link_id": "TDSMOSB20005_TDSMOSB20006",
       "road_name": "Ma On Shan Bypass",
-      "speed_kmh": 64.5,
+      "speed_kmh": 79.0,
       "color": "green",
       "start_lat": 22.4278512,
       "start_lng": 114.2455973,
@@ -1334,9 +4084,19 @@
       "end_lng": 114.2231819
     },
     {
+      "link_id": "TDSPBH10002_TDSPBH20001",
+      "road_name": "Penny's Bay Highway",
+      "speed_kmh": 81.2,
+      "color": "green",
+      "start_lat": 22.32549757,
+      "start_lng": 114.0357435,
+      "end_lat": 22.32823164,
+      "end_lng": 114.0332559
+    },
+    {
       "link_id": "TDSPBH20001_TDSPBH10001",
       "road_name": "Penny's Bay Highway",
-      "speed_kmh": 80.0,
+      "speed_kmh": 63.8,
       "color": "green",
       "start_lat": 22.32823164,
       "start_lng": 114.0332559,
@@ -1346,7 +4106,7 @@
     {
       "link_id": "TDSPERE20002",
       "road_name": "Prince Edward Road East near Lee Kau Yan Memorial School - Southbound",
-      "speed_kmh": 102.0,
+      "speed_kmh": 86.5,
       "color": "green",
       "start_lat": 22.3312743,
       "start_lng": 114.1950358,
@@ -1356,8 +4116,8 @@
     {
       "link_id": "TDSSPWR10001",
       "road_name": "Pok Fu Lam Road near St. Paul's College Primary School - Eastbound",
-      "speed_kmh": 49.5,
-      "color": "yellow",
+      "speed_kmh": 50.0,
+      "color": "green",
       "start_lat": 22.25479041,
       "start_lng": 114.1383205,
       "end_lat": 22.254024,
@@ -1366,7 +4126,7 @@
     {
       "link_id": "TDSSPWR20001",
       "road_name": "Shek Pai Wan Road near Wah Fu Road - Westbound",
-      "speed_kmh": 53.5,
+      "speed_kmh": 63.5,
       "color": "green",
       "start_lat": 22.25236165,
       "start_lng": 114.1404555,
@@ -1376,7 +4136,7 @@
     {
       "link_id": "TDSTCKR10001_TDSTCKR20004",
       "road_name": "Tai Chung Kui Road",
-      "speed_kmh": 67.5,
+      "speed_kmh": 64.0,
       "color": "green",
       "start_lat": 22.37696033,
       "start_lng": 114.1904877,
@@ -1386,7 +4146,7 @@
     {
       "link_id": "TDSTKR20008_TDSTKR20002",
       "road_name": "Ting Kok Road",
-      "speed_kmh": 62.2,
+      "speed_kmh": 63.2,
       "color": "green",
       "start_lat": 22.45664591,
       "start_lng": 114.1769521,
@@ -1396,7 +4156,7 @@
     {
       "link_id": "TDSTKR20002_TDSTKR10005",
       "road_name": "Ting Kok Road",
-      "speed_kmh": 87.0,
+      "speed_kmh": 70.0,
       "color": "green",
       "start_lat": 22.45969693,
       "start_lng": 114.1971122,
@@ -1406,7 +4166,7 @@
     {
       "link_id": "TDSTKR10005_TDSTKR20001",
       "road_name": "Ting Kok Road",
-      "speed_kmh": 97.8,
+      "speed_kmh": 70.0,
       "color": "green",
       "start_lat": 22.45981547,
       "start_lng": 114.1832868,
@@ -1416,7 +4176,7 @@
     {
       "link_id": "TDSTKR20001_TDSTKR20005",
       "road_name": "Ting Kok Road",
-      "speed_kmh": 77.5,
+      "speed_kmh": 75.2,
       "color": "green",
       "start_lat": 22.46013857,
       "start_lng": 114.203,
@@ -1426,7 +4186,7 @@
     {
       "link_id": "TDSTKR20005_TDSTKR20003",
       "road_name": "Ting Kok Road",
-      "speed_kmh": 68.0,
+      "speed_kmh": 71.8,
       "color": "green",
       "start_lat": 22.46079072,
       "start_lng": 114.1840544,
@@ -1436,7 +4196,7 @@
     {
       "link_id": "TDSTPTWR20002_TDSTPTWR20001",
       "road_name": "Tai Po Tai Wo Road",
-      "speed_kmh": 65.0,
+      "speed_kmh": 67.5,
       "color": "green",
       "start_lat": 22.45102898,
       "start_lng": 114.1764178,
@@ -1446,7 +4206,7 @@
     {
       "link_id": "TDSTPTWR20001_TDSTPTWR10001",
       "road_name": "Tai Po Tai Wo Road",
-      "speed_kmh": 63.0,
+      "speed_kmh": 70.0,
       "color": "green",
       "start_lat": 22.45107404,
       "start_lng": 114.1715699,
@@ -1456,7 +4216,7 @@
     {
       "link_id": "TDSTPTWR10001_TDSTPTWR10002",
       "road_name": "Tai Po Tai Wo Road",
-      "speed_kmh": 63.4,
+      "speed_kmh": 58.9,
       "color": "green",
       "start_lat": 22.45110097,
       "start_lng": 114.1679074,
@@ -1466,7 +4226,7 @@
     {
       "link_id": "TDSYSR10001_TDSYSR20001",
       "road_name": "Yuen Shin Road",
-      "speed_kmh": 60.2,
+      "speed_kmh": 70.0,
       "color": "green",
       "start_lat": 22.44647763,
       "start_lng": 114.1768453,
@@ -1476,7 +4236,7 @@
     {
       "link_id": "TDSYSR20001_TDSYSR10002",
       "road_name": "Yuen Shin Road",
-      "speed_kmh": 69.0,
+      "speed_kmh": 86.5,
       "color": "green",
       "start_lat": 22.45038781,
       "start_lng": 114.1770687,
@@ -1486,7 +4246,7 @@
     {
       "link_id": "TDSYSR10002_TDSYSR20002",
       "road_name": "Yuen Shin Road",
-      "speed_kmh": 84.2,
+      "speed_kmh": 92.0,
       "color": "green",
       "start_lat": 22.45193202,
       "start_lng": 114.1772727,
@@ -1496,7 +4256,7 @@
     {
       "link_id": "TDSYSR20002_TDSYSR20003",
       "road_name": "Yuen Shin Road",
-      "speed_kmh": 69.8,
+      "speed_kmh": 64.5,
       "color": "green",
       "start_lat": 22.45295246,
       "start_lng": 114.1777196,
