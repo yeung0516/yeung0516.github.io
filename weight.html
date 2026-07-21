@@ -55,7 +55,6 @@
   .chart-wrap{
     position:relative;width:100%;margin:12px 0;
   }
-  .chart-wrap canvas{width:100%!important;}
 
   /* KPI cards */
   .kpi-grid{
@@ -328,6 +327,14 @@ function sharedScaleY(label,min,max){
     ...(max!=null?{max}:{})
   };
 }
+function autoRange(values, paddingFraction){
+  const nums = values.filter(function(v){ return v != null && isFinite(v); });
+  if(!nums.length) return {};
+  const lo = Math.min.apply(null, nums);
+  const hi = Math.max.apply(null, nums);
+  const pad = (hi - lo || 1) * (paddingFraction !== undefined ? paddingFraction : 0.1);
+  return { min: lo - pad, max: hi + pad };
+}
 const sharedPlugins = {
   legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:16,font:{size:11,weight:'600'}}},
   tooltip:{
@@ -383,8 +390,8 @@ new Chart(document.getElementById('chartWeightBmi'), {
     plugins:sharedPlugins,
     scales:{
       x:sharedScaleX,
-      y:sharedScaleY('kg',84,91),
-      y1:{...sharedScaleY('BMI',26,28.5),position:'right',grid:{drawOnChartArea:false}}
+      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.weight))},
+      y1:{...sharedScaleY('BMI'),...autoRange(reports.map(r=>r.bmi)),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -406,8 +413,8 @@ new Chart(document.getElementById('chartBodyComp'), {
     plugins:sharedPlugins,
     scales:{
       x:sharedScaleX,
-      y:sharedScaleY('體脂率 %',25,29),
-      y1:{...sharedScaleY('骨骼肌率 %',35,39),position:'right',grid:{drawOnChartArea:false}}
+      y:{...sharedScaleY('體脂率 %'),...autoRange(reports.map(r=>r.bf_pct))},
+      y1:{...sharedScaleY('骨骼肌率 %'),...autoRange(reports.map(r=>r.smm_pct)),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -456,7 +463,7 @@ new Chart(document.getElementById('chartVisceral'), {
     },
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('等級',0,20),
+      y:{...sharedScaleY('等級'),...autoRange(reports.map(r=>r.visceral),0.15),min:0,
         ticks:{stepSize:5,font:{size:11},color:fontColor}
       }
     }
@@ -480,8 +487,8 @@ new Chart(document.getElementById('chartWater'), {
     plugins:{...sharedPlugins,legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10,weight:'600'}}}},
     scales:{
       x:{...sharedScaleX,ticks:{font:{size:10},color:fontColor}},
-      y:sharedScaleY('kg',39,44),
-      y1:{...sharedScaleY('%',44,50),position:'right',grid:{drawOnChartArea:false}}
+      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.tbw_kg))},
+      y1:{...sharedScaleY('%'),...autoRange(reports.map(r=>r.tbw_pct)),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -503,8 +510,8 @@ new Chart(document.getElementById('chartBmr'), {
     plugins:sharedPlugins,
     scales:{
       x:sharedScaleX,
-      y:sharedScaleY('kcal',1780,1900),
-      y1:{...sharedScaleY('歲',36,46),position:'right',grid:{drawOnChartArea:false}}
+      y:{...sharedScaleY('kcal'),...autoRange(reports.map(r=>r.bmr_kcal))},
+      y1:{...sharedScaleY('歲'),...autoRange(reports.map(r=>r.body_age)),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
