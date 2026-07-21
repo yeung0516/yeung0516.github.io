@@ -463,8 +463,8 @@ new Chart(document.getElementById('chartVisceral'), {
     },
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('等級',0),...autoRange(reports.map(r=>r.visceral),0.15),min:0,
-        ticks:{stepSize:1,font:{size:11},color:fontColor}
+      y:{...sharedScaleY('等級'),...autoRange(reports.map(r=>r.visceral),0.15),min:0,
+        ticks:{stepSize:5,font:{size:11},color:fontColor}
       }
     }
   }
