@@ -82,13 +82,21 @@ def _is_retryable(exc):
     return isinstance(exc, retryable_types)
 
 
+def _is_retryable_http_error(exc):
+    """Return True if an HTTPError represents a transient server condition (5xx)."""
+    resp = getattr(exc, "response", None)
+    if resp is None:
+        return False
+    return resp.status_code >= 500
+
+
 def fetch_json(url, label=""):
     """Fetch JSON from *url* with connect/read timeouts and bounded retries.
 
     Returns the parsed JSON object on success, or None on permanent failure.
-    4xx client errors (e.g. 404) are not retried.
+    4xx client errors (e.g. 404) are permanent and are not retried.
+    5xx server errors and network timeouts/connection errors are retried.
     """
-    last_exc = None
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             resp = requests.get(
@@ -98,23 +106,29 @@ def fetch_json(url, label=""):
             resp.raise_for_status()
             return resp.json()
         except requests.exceptions.HTTPError as exc:
-            # 4xx errors are permanent — don't retry
+            if _is_retryable_http_error(exc):
+                exc_to_retry = exc   # 5xx: may succeed on a different attempt
+            else:
+                print(f"  [WARN] Failed to fetch {label or url}: {exc}")
+                return None          # 4xx: permanent, no retry
+        except (requests.exceptions.Timeout,
+                requests.exceptions.ConnectionError) as exc:
+            exc_to_retry = exc
+        except Exception as exc:
             print(f"  [WARN] Failed to fetch {label or url}: {exc}")
             return None
-        except Exception as exc:
-            last_exc = exc
-            if attempt < MAX_RETRIES and _is_retryable(exc):
-                delay = RETRY_BACKOFF[attempt - 1]
-                print(
-                    f"  [WARN] {label or url}: {exc} "
-                    f"(attempt {attempt}/{MAX_RETRIES}, retrying in {delay}s)"
-                )
-                time.sleep(delay)
-            else:
-                print(
-                    f"  [WARN] Failed to fetch {label or url}: {exc}"
-                )
-                return None
+
+        # Reached here means a retryable error occurred
+        if attempt < MAX_RETRIES:
+            delay = RETRY_BACKOFF[min(attempt - 1, len(RETRY_BACKOFF) - 1)]
+            print(
+                f"  [WARN] {label or url}: {exc_to_retry} "
+                f"(attempt {attempt}/{MAX_RETRIES}, retrying in {delay}s)"
+            )
+            time.sleep(delay)
+        else:
+            print(f"  [WARN] Failed to fetch {label or url}: {exc_to_retry}")
+            return None
     return None
 
 
@@ -122,8 +136,8 @@ def fetch_text(url, label=""):
     """Fetch raw text (CSV / XML) with connect/read timeouts and bounded retries.
 
     Returns the response body as a string on success, or None on failure.
+    4xx client errors are permanent; 5xx and network errors are retried.
     """
-    last_exc = None
     for attempt in range(1, MAX_RETRIES + 1):
         try:
             resp = requests.get(
@@ -133,20 +147,28 @@ def fetch_text(url, label=""):
             resp.raise_for_status()
             return resp.text
         except requests.exceptions.HTTPError as exc:
-            print(f"  [WARN] Failed to fetch {label or url}: {exc}")
-            return None
-        except Exception as exc:
-            last_exc = exc
-            if attempt < MAX_RETRIES and _is_retryable(exc):
-                delay = RETRY_BACKOFF[attempt - 1]
-                print(
-                    f"  [WARN] {label or url}: {exc} "
-                    f"(attempt {attempt}/{MAX_RETRIES}, retrying in {delay}s)"
-                )
-                time.sleep(delay)
+            if _is_retryable_http_error(exc):
+                exc_to_retry = exc
             else:
                 print(f"  [WARN] Failed to fetch {label or url}: {exc}")
                 return None
+        except (requests.exceptions.Timeout,
+                requests.exceptions.ConnectionError) as exc:
+            exc_to_retry = exc
+        except Exception as exc:
+            print(f"  [WARN] Failed to fetch {label or url}: {exc}")
+            return None
+
+        if attempt < MAX_RETRIES:
+            delay = RETRY_BACKOFF[min(attempt - 1, len(RETRY_BACKOFF) - 1)]
+            print(
+                f"  [WARN] {label or url}: {exc_to_retry} "
+                f"(attempt {attempt}/{MAX_RETRIES}, retrying in {delay}s)"
+            )
+            time.sleep(delay)
+        else:
+            print(f"  [WARN] Failed to fetch {label or url}: {exc_to_retry}")
+            return None
     return None
 
 
