@@ -73,15 +73,6 @@ DISTRICT_TO_REGION = {
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _is_retryable(exc):
-    """Return True if the exception represents a transient network condition."""
-    retryable_types = (
-        requests.exceptions.Timeout,
-        requests.exceptions.ConnectionError,
-    )
-    return isinstance(exc, retryable_types)
-
-
 def _is_retryable_http_error(exc):
     """Return True if an HTTPError represents a transient server condition (5xx)."""
     resp = getattr(exc, "response", None)
@@ -518,8 +509,17 @@ def _speed_to_saturation(speed_kmh):
 
 
 def _district_to_region(district):
-    """Map a district name from the TD CSV to HKMap.html region code."""
-    return DISTRICT_TO_REGION.get(district, "K")  # default to Kowloon
+    """Map a district name from the TD CSV to HKMap.html region code.
+
+    Falls back to 'K' (Kowloon) for unknown districts and logs a warning
+    so unmapped entries can be investigated and added to DISTRICT_TO_REGION.
+    """
+    region = DISTRICT_TO_REGION.get(district)
+    if region is None:
+        if district:
+            print(f"  [WARN] Unknown district '{district}' — defaulting to region 'K'")
+        return "K"
+    return region
 
 
 def fetch_traffic_speeds():
@@ -669,10 +669,12 @@ def fetch_traffic_speeds():
 
     for road_name, detectors in road_groups.items():
         if len(detectors) == 1:
-            # Single detector: synthesise a short segment using the rotation angle
+            # Single detector: synthesise a short segment using the rotation angle.
+            # delta ≈ 0.001° corresponds to ~100–111 m at HK's latitude (~22°N);
+            # this is an intentional rough approximation used only for visualisation.
             det = detectors[0]
             rotation_rad = math.radians(det["rotation"])
-            delta        = 0.001  # ~100 m in lat/lng degrees
+            delta        = 0.001
             speed_map_panel.append({
                 "ROAD":                  det["full_name"],
                 "TRAFFIC_SPEED":         det["speed"],
@@ -684,7 +686,10 @@ def fetch_traffic_speeds():
                 "end_lng":               round(det["lng"] + delta * math.sin(rotation_rad), 6),
             })
         else:
-            # Multiple detectors: sort by position and connect pairs as segments
+            # Multiple detectors: sort by (lat, lng) as a heuristic for road order
+            # and connect adjacent pairs as segments.  Sorting by (lat, lng) works
+            # well for roads running roughly N-S or NE-SW; roads with complex
+            # alignment may show minor ordering artefacts which are visually harmless.
             detectors.sort(key=lambda d: (d["lat"], d["lng"]))
             for i in range(len(detectors) - 1):
                 d1       = detectors[i]
