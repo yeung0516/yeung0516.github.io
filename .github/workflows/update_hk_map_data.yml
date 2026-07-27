@@ -46,8 +46,8 @@ jobs:
               git pull --rebase origin main
               git push origin main && { echo "Pushed on attempt $attempt"; break; }
               if [ "$attempt" -lt 3 ]; then
-                echo "Push rejected (attempt $attempt/3); re-syncing in $((attempt * 10))s..."
-                sleep $((attempt * 10))
+                echo "Push rejected (attempt $attempt/3); re-syncing in $((attempt * 5))s..."
+                sleep $((attempt * 5))
               else
                 echo "Push failed after 3 attempts"
                 exit 1

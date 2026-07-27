@@ -17,7 +17,7 @@ READ_TIMEOUT    = 30
 
 # Retry settings for transient network errors
 MAX_RETRIES  = 3
-RETRY_BACKOFF = [1, 2]   # seconds to sleep before retry 2, 3
+RETRY_BACKOFF = [1, 2]   # delay in seconds before attempts 2 and 3
 
 STOP_SLEEP = 0.25   # seconds between per-stop API calls (CTB)
 
@@ -671,7 +671,7 @@ def fetch_traffic_speeds():
         if len(detectors) == 1:
             # Single detector: synthesise a short segment using the rotation angle.
             # delta ≈ 0.001° corresponds to ~100–111 m at HK's latitude (~22°N);
-            # this is an intentional rough approximation used only for visualisation.
+            # this is an intentional rough approximation used only for visualization.
             det = detectors[0]
             rotation_rad = math.radians(det["rotation"])
             delta        = 0.001
