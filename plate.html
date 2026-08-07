@@ -167,6 +167,8 @@
         const PLATE_COUNT = 5;
         const ROLL_DURATION = 5000; // ms
         let rollInterval = null;
+        let countdownTimer = null;
+        let stopTimeout = null;
         let isRunning = false;
 
         function randomPlate() {
@@ -194,7 +196,7 @@
             let remaining = Math.ceil(ROLL_DURATION / 1000);
             document.getElementById('countdown').textContent = '剩餘 ' + remaining + ' 秒';
 
-            const countdownTimer = setInterval(() => {
+            countdownTimer = setInterval(() => {
                 remaining--;
                 if (remaining > 0) {
                     document.getElementById('countdown').textContent = '剩餘 ' + remaining + ' 秒';
@@ -208,7 +210,7 @@
                 document.getElementById('rollingDisplay').textContent = randomPlate();
             }, 60);
 
-            setTimeout(() => {
+            stopTimeout = setTimeout(() => {
                 clearInterval(rollInterval);
                 clearInterval(countdownTimer);
                 isRunning = false;
@@ -245,7 +247,9 @@
         }
 
         function resetAll() {
-            if (rollInterval) clearInterval(rollInterval);
+            if (rollInterval) { clearInterval(rollInterval); rollInterval = null; }
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+            if (stopTimeout) { clearTimeout(stopTimeout); stopTimeout = null; }
             isRunning = false;
             document.getElementById('btnStart').disabled = false;
             document.getElementById('statusText').textContent = '等待開始';
