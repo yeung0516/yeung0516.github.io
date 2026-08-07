@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小客車指標搖號 - 車牌號碼抽選</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #fff;
+        }
+        h1 {
+            margin: 20px 0 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #90caf9;
+            margin-bottom: 30px;
+        }
+        .status-bar {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px 24px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            min-width: 300px;
+            text-align: center;
+        }
+        .status-bar .label { color: #90caf9; }
+        .status-bar .value { color: #ffeb3b; font-weight: bold; }
+        .rolling-display {
+            background: #000;
+            border: 3px solid #ffd54f;
+            border-radius: 12px;
+            padding: 30px 40px;
+            margin: 20px 0;
+            font-family: "Courier New", monospace;
+            font-size: 48px;
+            letter-spacing: 8px;
+            color: #00e676;
+            text-align: center;
+            min-width: 400px;
+            text-shadow: 0 0 10px #00e676;
+        }
+        .btn-group { margin: 20px 0; }
+        .btn {
+            padding: 14px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn-start {
+            background: #4caf50;
+            color: #fff;
+        }
+        .btn-start:hover { background: #388e3c; }
+        .btn-start:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .btn-reset {
+            background: #f44336;
+            color: #fff;
+        }
+        .btn-reset:hover { background: #c62828; }
+        .results-title {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #ffeb3b;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .plate-card {
+            background: #1565c0;
+            border: 2px solid #42a5f5;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            font-family: "Courier New", monospace;
+            font-size: 22px;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .plate-card:hover {
+            background: #0d47a1;
+            border-color: #ffeb3b;
+            transform: scale(1.05);
+        }
+        .plate-card.selected {
+            background: #ff6f00;
+            border-color: #ffeb3b;
+            transform: scale(1.05);
+        }
+        .plate-card .idx {
+            font-size: 12px;
+            color: #90caf9;
+            margin-bottom: 4px;
+            letter-spacing: 0;
+        }
+        .info {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #90caf9;
+            text-align: center;
+            max-width: 600px;
+        }
+        .countdown {
+            font-size: 14px;
+            color: #ffab00;
+            margin-top: 8px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>🚗 小客車指標搖號系統</h1>
+    <p class="subtitle">大城市購車車牌（小客車指標）模擬搖號</p>
+
+    <div class="status-bar">
+        <span class="label">狀態：</span>
+        <span class="value" id="statusText">等待開始</span>
+    </div>
+
+    <div class="rolling-display" id="rollingDisplay">京A·00000</div>
+
+    <div class="countdown" id="countdown"></div>
+
+    <div class="btn-group">
+        <button class="btn btn-start" id="btnStart" onclick="startLottery()">開始搖號</button>
+        <button class="btn btn-reset" onclick="resetAll()">重置</button>
+    </div>
+
+    <div id="resultsSection" class="hidden">
+        <p class="results-title">🎉 搖號結果 - 請選擇一個車牌號碼：</p>
+        <div class="results-grid" id="resultsGrid"></div>
+        <p class="info">提示：點擊選擇您心儀的車牌號碼，選擇後將確認綁定。</p>
+    </div>
+
+    <div class="info" id="infoText">
+        說明：點擊「開始搖號」後系統將自動滾動並在數秒後停止，隨機生成一組車牌號碼供您選擇。
+    </div>
+
+    <script>
+        const PREFIXES = ['京A', '京B', '京C', '京N', '京Y', '沪A', '沪B', '沪C', '粤A', '粤B', '津A', '津B'];
+        const LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        const DIGITS = '0123456789';
+        const PLATE_COUNT = 5;
+        const ROLL_DURATION = 5000; // ms
+        let rollInterval = null;
+        let countdownTimer = null;
+        let stopTimeout = null;
+        let isRunning = false;
+
+        function randomPlate() {
+            const prefix = PREFIXES[Math.floor(Math.random() * PREFIXES.length)];
+            let suffix = '';
+            // Format: 1 letter + 4 digits or 5 digits (common formats)
+            const useLetterFirst = Math.random() > 0.5;
+            if (useLetterFirst) {
+                suffix += LETTERS[Math.floor(Math.random() * LETTERS.length)];
+                for (let i = 0; i < 4; i++) suffix += DIGITS[Math.floor(Math.random() * 10)];
+            } else {
+                for (let i = 0; i < 5; i++) suffix += DIGITS[Math.floor(Math.random() * 10)];
+            }
+            return prefix + '·' + suffix;
+        }
+
+        function startLottery() {
+            if (isRunning) return;
+            isRunning = true;
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('statusText').textContent = '搖號進行中...';
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('resultsGrid').innerHTML = '';
+
+            let remaining = Math.ceil(ROLL_DURATION / 1000);
+            document.getElementById('countdown').textContent = '剩餘 ' + remaining + ' 秒';
+
+            countdownTimer = setInterval(() => {
+                remaining--;
+                if (remaining > 0) {
+                    document.getElementById('countdown').textContent = '剩餘 ' + remaining + ' 秒';
+                } else {
+                    document.getElementById('countdown').textContent = '';
+                    clearInterval(countdownTimer);
+                }
+            }, 1000);
+
+            rollInterval = setInterval(() => {
+                document.getElementById('rollingDisplay').textContent = randomPlate();
+            }, 60);
+
+            stopTimeout = setTimeout(() => {
+                clearInterval(rollInterval);
+                clearInterval(countdownTimer);
+                isRunning = false;
+                document.getElementById('btnStart').disabled = false;
+                document.getElementById('statusText').textContent = '搖號完成';
+                document.getElementById('countdown').textContent = '';
+                showResults();
+            }, ROLL_DURATION);
+        }
+
+        function showResults() {
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = '';
+            const plates = [];
+            for (let i = 0; i < PLATE_COUNT; i++) {
+                plates.push(randomPlate());
+            }
+            plates.forEach((plate, idx) => {
+                const card = document.createElement('div');
+                card.className = 'plate-card';
+                card.innerHTML = '<div class="idx">號碼 ' + (idx + 1) + '</div>' + plate;
+                card.onclick = () => selectPlate(card, plate);
+                grid.appendChild(card);
+            });
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('rollingDisplay').textContent = plates[0];
+        }
+
+        function selectPlate(card, plate) {
+            document.querySelectorAll('.plate-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            document.getElementById('rollingDisplay').textContent = plate;
+            document.getElementById('statusText').textContent = '已選擇：' + plate;
+        }
+
+        function resetAll() {
+            if (rollInterval) { clearInterval(rollInterval); rollInterval = null; }
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+            if (stopTimeout) { clearTimeout(stopTimeout); stopTimeout = null; }
+            isRunning = false;
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('statusText').textContent = '等待開始';
+            document.getElementById('rollingDisplay').textContent = '京A·00000';
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('resultsGrid').innerHTML = '';
+            document.getElementById('countdown').textContent = '';
+        }
+    </script>
+</body>
+</html>
