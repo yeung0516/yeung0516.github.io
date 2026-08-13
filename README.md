@@ -66,13 +66,6 @@ Full-screen interactive Hong Kong map powered by Leaflet.js and CartoDB Voyager 
 
 Other features: draggable/zoomable map, weather warning banner, per-station temperature badges with float animations, MTR coloured polylines with next-train schedules, carpark vacancy colour coding (green/yellow/red), marker clustering for bus stops and car parks, and comic-book cartoon styling throughout.
 
-#### GitHub Actions Workflows
-
-| Workflow | File | Schedule | Purpose |
-|---|---|---|---|
-| Update Stock Data | `update_stocks.yml` | Hourly (`:15`) | Fetch yfinance stock prices → `data/stocks.json` |
-| Update HK Map Data | `update_hk_map_data.yml` | Every 5 minutes | Fetch KMB routes + TD speed map → `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` |
-
 ### ✈️ [HK Airport Bus Routes & Traffic Map](AirportMap.html)
 
 Full-screen interactive map centred on Hong Kong International Airport (HKIA), powered by Leaflet.js and OpenStreetMap tiles. Integrates live bus route data and real-time traffic speed information from Hong Kong Government Open APIs.
@@ -98,8 +91,13 @@ Full-screen interactive map centred on Hong Kong International Airport (HKIA), p
 
 **Collapsible Panels** — All four floating UI panels (info panel, traffic legend, route list, toggle controls) can be individually collapsed to a small circular icon button to maximise the map view. Click the icon to restore any panel.
 
-#### GitHub Actions Workflow
+## GitHub Actions Workflows
 
-| Workflow | File | Schedule | Purpose |
-|---|---|---|---|
-| Update Airport Map Data | `update_airport_map.yml` | Every 10 minutes | Fetch KMB/CTB/NLB bus stop coordinates (progressive batch of 10 routes) + full TD detector speed refresh → `data/airport_bus_routes.json`, `data/airport_traffic_speeds.json` |
+This repository uses GitHub Actions to deploy the site and to keep the data files powering the live dashboards up to date on a recurring schedule. The table below summarizes every workflow defined in [`.github/workflows`](.github/workflows), when it runs, what it does, and which files/pages it affects.
+
+| Workflow | File | Trigger / Schedule | What it does | Impacted file(s) / page(s) |
+|---|---|---|---|---|
+| Deploy static content to Pages | [`static.yml`](.github/workflows/static.yml) | On every push to `main`, or manually via `workflow_dispatch` | Publishes the entire repository as static content to GitHub Pages, redeploying the live site | Entire site (all `.html` pages) |
+| Update Stock Data | [`update_stocks.yml`](.github/workflows/update_stocks.yml) | Hourly at minute `:15` (`15 * * * *`), or manually via `workflow_dispatch` | Fetches the latest S&P 500 price history via `yfinance` (`scripts/fetch_stock_data.py`) and commits the result | `data/stocks.json` → [`Crisis.html`](Crisis.html) |
+| Update HK Map Data | [`update_hk_map_data.yml`](.github/workflows/update_hk_map_data.yml) | Every 5 minutes (`*/5 * * * *`), or manually via `workflow_dispatch` | Fetches KMB bus route stop coordinates and TD speed map data (`scripts/fetch_hk_map_data.py`) and commits the result | `data/hk_bus_routes.json`, `data/hk_traffic_speeds.json` → [`HKMap.html`](HKMap.html) |
+| Update Airport Bus Map Data | [`update_airport_map.yml`](.github/workflows/update_airport_map.yml) | Every 10 minutes (`*/10 * * * *`), or manually via `workflow_dispatch` | Fetches KMB/CTB/NLB airport bus stop coordinates (progressive batch of 10 routes per run) and refreshes TD detector speed data (`scripts/fetch_airport_bus_data.py`) and commits the result | `data/airport_bus_routes.json`, `data/airport_traffic_speeds.json` → [`AirportMap.html`](AirportMap.html) |
