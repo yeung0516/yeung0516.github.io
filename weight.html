@@ -126,10 +126,10 @@
       身體組成分析儀表板
       <span style="display:block;color:#93c5fd;font-size:clamp(1rem,3vw,1.5rem);font-weight:700;margin-top:4px;">Body Composition Dashboard</span>
     </h1>
-    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;">EFX24 Health Score System · 9 Reports · 2026-03 to 2026-07</p>
+    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;" id="heroSummary">EFX24 Health Score System</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;font-size:0.75rem;">
       <span style="background:rgba(59,130,246,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:999px;padding:4px 12px;">👤 男 · 29歲 · 180 cm</span>
-      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;">📅 9次量測</span>
+      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;" id="heroMeasureCount">📅 …次量測</span>
       <span style="background:rgba(16,185,129,0.3);border:1px solid rgba(52,211,153,0.4);border-radius:999px;padding:4px 12px;">🔬 InBody 數據</span>
     </div>
   </div>
@@ -144,7 +144,7 @@
 
   <!-- ===== LATEST KPI CARDS ===== -->
   <section class="section-card">
-    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span>最新量測摘要 (2026-07-31)</span></div>
+    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span id="kpiSectionTitle">最新量測摘要</span></div>
     <div class="kpi-grid" id="kpiGrid"></div>
   </section>
 
@@ -322,6 +322,20 @@ const reports = [
 const labels = reports.map(r => r.date);
 const latest = reports[reports.length - 1];
 const prev = reports[reports.length - 2];
+
+/* Keep hero/summary text in sync with the actual latest report so it
+   never goes stale when new data points are appended. */
+(function renderHeroSummary(){
+  const firstDate = reports[0].date;
+  const lastDate = latest.date;
+  const monthRange = firstDate.slice(0,7) + ' to ' + lastDate.slice(0,7);
+  const heroSummary = document.getElementById('heroSummary');
+  if(heroSummary) heroSummary.textContent = 'EFX24 Health Score System · ' + reports.length + ' Reports · ' + monthRange;
+  const heroMeasureCount = document.getElementById('heroMeasureCount');
+  if(heroMeasureCount) heroMeasureCount.textContent = '📅 ' + reports.length + '次量測';
+  const kpiSectionTitle = document.getElementById('kpiSectionTitle');
+  if(kpiSectionTitle) kpiSectionTitle.textContent = '最新量測摘要 (' + lastDate + ')';
+})();
 
 /* ============================================================
    HELPERS
