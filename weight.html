@@ -126,10 +126,10 @@
       身體組成分析儀表板
       <span style="display:block;color:#93c5fd;font-size:clamp(1rem,3vw,1.5rem);font-weight:700;margin-top:4px;">Body Composition Dashboard</span>
     </h1>
-    <p style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;">EFX24 Health Score System · 9 Reports · 2026-03 to 2026-07</p>
+    <p id="heroSubtitle" style="margin-top:12px;color:#93c5fd;font-size:0.85rem;font-weight:500;"></p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;font-size:0.75rem;">
       <span style="background:rgba(59,130,246,0.3);border:1px solid rgba(96,165,250,0.4);border-radius:999px;padding:4px 12px;">👤 男 · 29歲 · 180 cm</span>
-      <span style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;">📅 9次量測</span>
+      <span id="heroCountBadge" style="background:rgba(139,92,246,0.3);border:1px solid rgba(167,139,250,0.4);border-radius:999px;padding:4px 12px;"></span>
       <span style="background:rgba(16,185,129,0.3);border:1px solid rgba(52,211,153,0.4);border-radius:999px;padding:4px 12px;">🔬 InBody 數據</span>
     </div>
   </div>
@@ -144,7 +144,7 @@
 
   <!-- ===== LATEST KPI CARDS ===== -->
   <section class="section-card">
-    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span>最新量測摘要 (2026-07-31)</span></div>
+    <div class="section-title" style="color:#0ea5e9;"><span>📋</span><span id="kpiSectionTitle">最新量測摘要</span></div>
     <div class="kpi-grid" id="kpiGrid"></div>
   </section>
 
@@ -210,7 +210,7 @@
 </main>
 
 <footer>
-  EFX24 Health Score System · efx24_report_bundle_20260731_073717_v9 · Generated as static HTML
+  EFX24 Health Score System · <span id="footerBundle"></span> · Generated as static HTML
 </footer>
 
 <script>
@@ -316,12 +316,41 @@ const reports = [
     visceral:11, tbw_kg:39.2, tbw_pct:47.2, ecw_tbw:41.3,
     seg_muscle:{body:30.4,la:2.7,ra:2.7,ll:11.2,rl:11.1},
     seg_fat:{body:13.6,la:0.8,ra:0.8,ll:3.3,rl:3.3}
+  },
+  {
+    id:"report_012", date:"2026-09-01", time:"07:43:16", serial:"MOS1_005412",
+    weight:83.3, bmi:25.7, bf_pct:26.8, bf_kg:22.3, ffm:61.0,
+    muscle:57.8, smm:30.8, smm_pct:36.97, smi:8.5,
+    body_age:43, bmr_kcal:1752, bmr_kj:7330,
+    visceral:11, tbw_kg:39.5, tbw_pct:47.4, ecw_tbw:41.8,
+    seg_muscle:{body:30.2,la:2.7,ra:2.8,ll:11.1,rl:11.0},
+    seg_fat:{body:13.7,la:0.8,ra:0.8,ll:3.5,rl:3.5}
   }
 ];
 
 const labels = reports.map(r => r.date);
 const latest = reports[reports.length - 1];
 const prev = reports[reports.length - 2];
+
+/* ============================================================
+   DYNAMIC HEADER / SECTION / FOOTER TEXT (auto-reflect latest data)
+   ============================================================ */
+(function renderDynamicText(){
+  const firstDate = reports[0].date;
+  const lastDate = latest.date;
+  const monthRange = m => m.slice(0,7);
+  document.getElementById('heroSubtitle').textContent =
+    'EFX24 Health Score System · ' + reports.length + ' Reports · ' + monthRange(firstDate) + ' to ' + monthRange(lastDate);
+  document.getElementById('heroCountBadge').textContent = '📅 ' + reports.length + '次量測';
+  document.getElementById('kpiSectionTitle').textContent = '最新量測摘要 (' + latest.date + ')';
+
+  const bundleDate = latest.date.replace(/-/g,'');
+  const bundleTime = latest.time ? latest.time.replace(/:/g,'') : '000000';
+  const idMatch = /(\d+)$/.exec(latest.id || '');
+  const bundleVersion = idMatch ? parseInt(idMatch[1], 10) : reports.length;
+  document.getElementById('footerBundle').textContent =
+    'efx24_report_bundle_' + bundleDate + '_' + bundleTime + '_v' + bundleVersion;
+})();
 
 /* ============================================================
    HELPERS
