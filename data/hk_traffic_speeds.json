@@ -1,10 +1,10 @@
 {
-  "updated": "2026-09-05T16:07:04.606973+00:00",
+  "updated": "2026-09-05T18:17:34.472650+00:00",
   "available": true,
   "SpeedMapPanel": [
     {
       "ROAD": "Aberdeen Praya Road",
-      "TRAFFIC_SPEED": 69.3,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24712681,
@@ -14,7 +14,7 @@
     },
     {
       "ROAD": "Aberdeen Praya Road",
-      "TRAFFIC_SPEED": 70.0,
+      "TRAFFIC_SPEED": 69.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24747861,
@@ -24,7 +24,7 @@
     },
     {
       "ROAD": "Aberdeen Praya Road",
-      "TRAFFIC_SPEED": 68.8,
+      "TRAFFIC_SPEED": 69.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24761461,
@@ -33,8 +33,28 @@
       "end_lng": 114.152525
     },
     {
+      "ROAD": "Aberdeen Praya Road",
+      "TRAFFIC_SPEED": 65.8,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "HK",
+      "start_lat": 22.248091,
+      "start_lng": 114.152525,
+      "end_lat": 22.24840797,
+      "end_lng": 114.1493912
+    },
+    {
+      "ROAD": "Aberdeen Praya Road",
+      "TRAFFIC_SPEED": 60.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "HK",
+      "start_lat": 22.24840797,
+      "start_lng": 114.1493912,
+      "end_lat": 22.24863379,
+      "end_lng": 114.1497113
+    },
+    {
       "ROAD": "Wong Chuk Hang Road",
-      "TRAFFIC_SPEED": 64.8,
+      "TRAFFIC_SPEED": 57.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24862632,
@@ -44,7 +64,7 @@
     },
     {
       "ROAD": "Wong Chuk Hang Road",
-      "TRAFFIC_SPEED": 64.6,
+      "TRAFFIC_SPEED": 58.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24863539,
@@ -54,7 +74,7 @@
     },
     {
       "ROAD": "Wong Chuk Hang Road",
-      "TRAFFIC_SPEED": 73.2,
+      "TRAFFIC_SPEED": 64.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.25005384,
@@ -64,7 +84,7 @@
     },
     {
       "ROAD": "Wong Chuk Hang Road",
-      "TRAFFIC_SPEED": 69.2,
+      "TRAFFIC_SPEED": 62.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.25007176,
@@ -74,7 +94,7 @@
     },
     {
       "ROAD": "Wong Chuk Hang Road Flyover",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 73.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.2482744,
@@ -84,7 +104,7 @@
     },
     {
       "ROAD": "Wong Chuk Hang Road Flyover",
-      "TRAFFIC_SPEED": 82.0,
+      "TRAFFIC_SPEED": 70.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24837379,
@@ -94,7 +114,7 @@
     },
     {
       "ROAD": "Aberdeen Tunnel",
-      "TRAFFIC_SPEED": 81.5,
+      "TRAFFIC_SPEED": 73.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24999065,
@@ -104,7 +124,7 @@
     },
     {
       "ROAD": "Wong Nai Chung Gap Flyover",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 76.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27186288,
@@ -114,7 +134,7 @@
     },
     {
       "ROAD": "Canal Road Flyover",
-      "TRAFFIC_SPEED": 71.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27659491,
@@ -124,7 +144,7 @@
     },
     {
       "ROAD": "Canal Road Flyover",
-      "TRAFFIC_SPEED": 69.7,
+      "TRAFFIC_SPEED": 68.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.278219,
@@ -134,7 +154,7 @@
     },
     {
       "ROAD": "Canal Road Flyover",
-      "TRAFFIC_SPEED": 55.3,
+      "TRAFFIC_SPEED": 59.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.279356,
@@ -144,7 +164,7 @@
     },
     {
       "ROAD": "Hong Chong Road",
-      "TRAFFIC_SPEED": 55.5,
+      "TRAFFIC_SPEED": 63.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30412026,
@@ -154,7 +174,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 64.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3094574,
@@ -164,7 +184,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 67.5,
+      "TRAFFIC_SPEED": 68.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31029,
@@ -174,7 +194,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 63.9,
+      "TRAFFIC_SPEED": 74.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31041465,
@@ -184,7 +204,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 66.3,
+      "TRAFFIC_SPEED": 67.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31330444,
@@ -194,7 +214,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 62.7,
+      "TRAFFIC_SPEED": 66.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31330444,
@@ -204,7 +224,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 59.7,
+      "TRAFFIC_SPEED": 66.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31849702,
@@ -214,7 +234,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 63.9,
+      "TRAFFIC_SPEED": 62.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31850605,
@@ -224,7 +244,7 @@
     },
     {
       "ROAD": "Princess Margaret Road",
-      "TRAFFIC_SPEED": 63.0,
+      "TRAFFIC_SPEED": 65.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32074565,
@@ -234,7 +254,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 52.4,
+      "TRAFFIC_SPEED": 55.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32398763,
@@ -244,7 +264,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 41.5,
+      "TRAFFIC_SPEED": 45.5,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.32435789,
@@ -254,7 +274,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 37.8,
+      "TRAFFIC_SPEED": 41.8,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.32842165,
@@ -264,7 +284,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 51.1,
+      "TRAFFIC_SPEED": 53.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32843068,
@@ -274,7 +294,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 52.6,
+      "TRAFFIC_SPEED": 50.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33252153,
@@ -284,7 +304,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 50.0,
+      "TRAFFIC_SPEED": 58.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33252153,
@@ -294,8 +314,8 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 41.6,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 55.1,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33496881,
       "start_lng": 114.1788837,
@@ -304,8 +324,8 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 49.4,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 56.6,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33496881,
       "start_lng": 114.1789128,
@@ -314,7 +334,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 69.8,
+      "TRAFFIC_SPEED": 72.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33891517,
@@ -324,7 +344,7 @@
     },
     {
       "ROAD": "Waterloo Road",
-      "TRAFFIC_SPEED": 65.5,
+      "TRAFFIC_SPEED": 62.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34191,
@@ -334,7 +354,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 53.2,
+      "TRAFFIC_SPEED": 58.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34521846,
@@ -344,7 +364,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 66.0,
+      "TRAFFIC_SPEED": 74.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34566999,
@@ -354,7 +374,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 61.9,
+      "TRAFFIC_SPEED": 84.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3592791,
@@ -364,7 +384,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 70.4,
+      "TRAFFIC_SPEED": 79.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.36287324,
@@ -374,7 +394,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 70.1,
+      "TRAFFIC_SPEED": 75.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3634241,
@@ -384,7 +404,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 68.3,
+      "TRAFFIC_SPEED": 78.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3646522,
@@ -394,7 +414,7 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 87.8,
+      "TRAFFIC_SPEED": 89.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.36544683,
@@ -404,17 +424,27 @@
     },
     {
       "ROAD": "Lion Rock Tunnel Road",
-      "TRAFFIC_SPEED": 90.8,
+      "TRAFFIC_SPEED": 85.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.36700899,
       "start_lng": 114.1859817,
+      "end_lat": 22.36785779,
+      "end_lng": 114.1871954
+    },
+    {
+      "ROAD": "Lion Rock Tunnel Road",
+      "TRAFFIC_SPEED": 79.2,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTE",
+      "start_lat": 22.36785779,
+      "start_lng": 114.1871954,
       "end_lat": 22.37114477,
       "end_lng": 114.1892152
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 68.8,
+      "TRAFFIC_SPEED": 71.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37213807,
@@ -424,7 +454,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 62.5,
+      "TRAFFIC_SPEED": 65.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37381747,
@@ -434,7 +464,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 56.9,
+      "TRAFFIC_SPEED": 52.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37386255,
@@ -444,7 +474,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 69.4,
+      "TRAFFIC_SPEED": 63.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37448544,
@@ -454,7 +484,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 80.0,
+      "TRAFFIC_SPEED": 77.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37460278,
@@ -464,7 +494,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 75.2,
+      "TRAFFIC_SPEED": 74.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37624602,
@@ -474,7 +504,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 71.5,
+      "TRAFFIC_SPEED": 70.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37707679,
@@ -484,7 +514,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 77.6,
+      "TRAFFIC_SPEED": 77.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38003861,
@@ -494,7 +524,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 76.8,
+      "TRAFFIC_SPEED": 79.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3809075,
@@ -504,7 +534,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 87.5,
+      "TRAFFIC_SPEED": 71.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38345199,
@@ -514,7 +544,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 85.8,
+      "TRAFFIC_SPEED": 71.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38371,
@@ -524,7 +554,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 77.8,
+      "TRAFFIC_SPEED": 91.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38752486,
@@ -534,7 +564,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 77.5,
+      "TRAFFIC_SPEED": 101.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38773258,
@@ -544,7 +574,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 71.2,
+      "TRAFFIC_SPEED": 82.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39016201,
@@ -554,7 +584,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 81.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3908574,
@@ -564,7 +594,7 @@
     },
     {
       "ROAD": "Sha Tin Road",
-      "TRAFFIC_SPEED": 80.1,
+      "TRAFFIC_SPEED": 86.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39401803,
@@ -574,7 +604,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 74.5,
+      "TRAFFIC_SPEED": 79.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30629936,
@@ -584,7 +614,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 72.7,
+      "TRAFFIC_SPEED": 82.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30638009,
@@ -594,7 +624,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 71.0,
+      "TRAFFIC_SPEED": 79.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30651544,
@@ -604,7 +634,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 76.3,
+      "TRAFFIC_SPEED": 78.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30694617,
@@ -614,7 +644,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 81.0,
+      "TRAFFIC_SPEED": 83.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30788913,
@@ -624,7 +654,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 86.4,
+      "TRAFFIC_SPEED": 73.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30812221,
@@ -634,7 +664,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 84.3,
+      "TRAFFIC_SPEED": 77.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30828304,
@@ -644,7 +674,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 88.5,
+      "TRAFFIC_SPEED": 91.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30851925,
@@ -654,7 +684,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 84.3,
+      "TRAFFIC_SPEED": 82.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3086298,
@@ -664,7 +694,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 86.2,
+      "TRAFFIC_SPEED": 89.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30887989,
@@ -674,7 +704,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 93.3,
+      "TRAFFIC_SPEED": 106.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3111589,
@@ -684,7 +714,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 81.8,
+      "TRAFFIC_SPEED": 105.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31151117,
@@ -694,7 +724,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 81.0,
+      "TRAFFIC_SPEED": 98.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31318224,
@@ -704,7 +734,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 86.3,
+      "TRAFFIC_SPEED": 88.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31551267,
@@ -714,7 +744,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 94.2,
+      "TRAFFIC_SPEED": 89.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.316913,
@@ -724,7 +754,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 91.2,
+      "TRAFFIC_SPEED": 90.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31887341,
@@ -734,7 +764,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 96.5,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3228384,
@@ -744,7 +774,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 93.5,
+      "TRAFFIC_SPEED": 85.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32376857,
@@ -754,7 +784,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 82.8,
+      "TRAFFIC_SPEED": 85.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32719107,
@@ -764,7 +794,7 @@
     },
     {
       "ROAD": "Kwun Tong Bypass",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 75.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32760644,
@@ -774,7 +804,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 95.5,
+      "TRAFFIC_SPEED": 87.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3353096,
@@ -784,7 +814,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 79.8,
+      "TRAFFIC_SPEED": 91.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33842535,
@@ -794,7 +824,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 80.5,
+      "TRAFFIC_SPEED": 84.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34024044,
@@ -804,7 +834,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 83.5,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38098508,
@@ -814,7 +844,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 91.8,
+      "TRAFFIC_SPEED": 78.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38236672,
@@ -824,7 +854,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 91.0,
+      "TRAFFIC_SPEED": 72.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38405537,
@@ -834,7 +864,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 77.8,
+      "TRAFFIC_SPEED": 79.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3877668,
@@ -844,7 +874,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 69.0,
+      "TRAFFIC_SPEED": 81.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38777579,
@@ -854,7 +884,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 76.0,
+      "TRAFFIC_SPEED": 76.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39199337,
@@ -864,7 +894,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 93.5,
+      "TRAFFIC_SPEED": 76.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39230051,
@@ -874,7 +904,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 97.3,
+      "TRAFFIC_SPEED": 88.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3965898,
@@ -884,7 +914,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 88.2,
+      "TRAFFIC_SPEED": 87.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39997576,
@@ -894,7 +924,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 77.9,
+      "TRAFFIC_SPEED": 79.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40084237,
@@ -904,7 +934,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 76.8,
+      "TRAFFIC_SPEED": 76.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40280159,
@@ -914,7 +944,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 77.2,
+      "TRAFFIC_SPEED": 75.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40376728,
@@ -924,7 +954,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 76.0,
+      "TRAFFIC_SPEED": 80.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40600689,
@@ -934,7 +964,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 73.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40718116,
@@ -944,7 +974,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 85.8,
+      "TRAFFIC_SPEED": 82.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40936721,
@@ -954,7 +984,7 @@
     },
     {
       "ROAD": "Tate's Cairn Highway",
-      "TRAFFIC_SPEED": 88.2,
+      "TRAFFIC_SPEED": 98.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41128187,
@@ -964,7 +994,7 @@
     },
     {
       "ROAD": "Tate's Cairn Tunnel near Toll Plaza - Northbound",
-      "TRAFFIC_SPEED": 79.6,
+      "TRAFFIC_SPEED": 73.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37826677,
@@ -974,7 +1004,7 @@
     },
     {
       "ROAD": "Connaught Road West Flyover",
-      "TRAFFIC_SPEED": 74.5,
+      "TRAFFIC_SPEED": 75.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.2875291,
@@ -984,7 +1014,7 @@
     },
     {
       "ROAD": "Connaught Road West Flyover",
-      "TRAFFIC_SPEED": 78.2,
+      "TRAFFIC_SPEED": 86.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.287996,
@@ -994,7 +1024,7 @@
     },
     {
       "ROAD": "Connaught Road West Flyover",
-      "TRAFFIC_SPEED": 82.8,
+      "TRAFFIC_SPEED": 86.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.28817674,
@@ -1004,7 +1034,7 @@
     },
     {
       "ROAD": "Connaught Road West Flyover",
-      "TRAFFIC_SPEED": 97.1,
+      "TRAFFIC_SPEED": 83.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.28842253,
@@ -1014,7 +1044,7 @@
     },
     {
       "ROAD": "Connaught Road West",
-      "TRAFFIC_SPEED": 66.5,
+      "TRAFFIC_SPEED": 67.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.28851255,
@@ -1024,8 +1054,8 @@
     },
     {
       "ROAD": "Connaught Road West",
-      "TRAFFIC_SPEED": 49.8,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 54.8,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.28869255,
       "start_lng": 114.1432602,
@@ -1034,7 +1064,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 109.0,
+      "TRAFFIC_SPEED": 106.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30780401,
@@ -1044,7 +1074,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 99.3,
+      "TRAFFIC_SPEED": 94.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31424287,
@@ -1054,7 +1084,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 98.2,
+      "TRAFFIC_SPEED": 100.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31687971,
@@ -1064,7 +1094,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 112.8,
+      "TRAFFIC_SPEED": 105.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31770145,
@@ -1074,7 +1104,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 108.2,
+      "TRAFFIC_SPEED": 98.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31895665,
@@ -1084,7 +1114,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 103.7,
+      "TRAFFIC_SPEED": 110.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31936301,
@@ -1094,7 +1124,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 105.2,
+      "TRAFFIC_SPEED": 118.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32131349,
@@ -1104,7 +1134,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 102.5,
+      "TRAFFIC_SPEED": 113.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32431136,
@@ -1114,7 +1144,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 104.8,
+      "TRAFFIC_SPEED": 109.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32683954,
@@ -1124,7 +1154,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 101.7,
+      "TRAFFIC_SPEED": 102.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32713749,
@@ -1134,7 +1164,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 101.0,
+      "TRAFFIC_SPEED": 102.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32897925,
@@ -1144,7 +1174,7 @@
     },
     {
       "ROAD": "West Kowloon Highway",
-      "TRAFFIC_SPEED": 93.8,
+      "TRAFFIC_SPEED": 82.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32936742,
@@ -1154,7 +1184,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 87.3,
+      "TRAFFIC_SPEED": 102.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36920891,
@@ -1164,7 +1194,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 87.0,
+      "TRAFFIC_SPEED": 86.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37144646,
@@ -1174,7 +1204,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 81.8,
+      "TRAFFIC_SPEED": 73.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37390021,
@@ -1184,7 +1214,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 77.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4112265,
@@ -1194,7 +1224,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 83.7,
+      "TRAFFIC_SPEED": 85.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42323014,
@@ -1204,7 +1234,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 90.8,
+      "TRAFFIC_SPEED": 87.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4234468,
@@ -1214,7 +1244,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 92.3,
+      "TRAFFIC_SPEED": 88.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42813342,
@@ -1224,7 +1254,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 96.8,
+      "TRAFFIC_SPEED": 94.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42816056,
@@ -1234,7 +1264,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 88.2,
+      "TRAFFIC_SPEED": 95.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43195249,
@@ -1244,7 +1274,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 83.7,
+      "TRAFFIC_SPEED": 95.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43280112,
@@ -1254,7 +1284,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 87.6,
+      "TRAFFIC_SPEED": 95.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43502139,
@@ -1264,7 +1294,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 90.6,
+      "TRAFFIC_SPEED": 88.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43706083,
@@ -1274,7 +1304,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 101.3,
+      "TRAFFIC_SPEED": 96.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43745767,
@@ -1284,7 +1314,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 114.2,
+      "TRAFFIC_SPEED": 107.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43957773,
@@ -1294,7 +1324,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 118.2,
+      "TRAFFIC_SPEED": 104.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44005575,
@@ -1304,7 +1334,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 104.0,
+      "TRAFFIC_SPEED": 76.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44312344,
@@ -1314,7 +1344,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 95.2,
+      "TRAFFIC_SPEED": 69.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44338535,
@@ -1324,7 +1354,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 92.8,
+      "TRAFFIC_SPEED": 94.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44718551,
@@ -1334,7 +1364,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 99.8,
+      "TRAFFIC_SPEED": 104.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44792584,
@@ -1344,7 +1374,7 @@
     },
     {
       "ROAD": "Tsing Long Highway",
-      "TRAFFIC_SPEED": 93.5,
+      "TRAFFIC_SPEED": 104.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44964125,
@@ -1354,7 +1384,7 @@
     },
     {
       "ROAD": "Tsing Kwai Highway near China Resources Int'l Logistics Centre - Southbound",
-      "TRAFFIC_SPEED": 97.5,
+      "TRAFFIC_SPEED": 101.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.33462042,
@@ -1364,7 +1394,7 @@
     },
     {
       "ROAD": "Shing Sai Road near Kennedy Town Swimming Pool - Eastbound",
-      "TRAFFIC_SPEED": 61.0,
+      "TRAFFIC_SPEED": 50.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.28659457,
@@ -1374,7 +1404,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 68.0,
+      "TRAFFIC_SPEED": 69.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.26459999,
@@ -1384,7 +1414,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 74.5,
+      "TRAFFIC_SPEED": 79.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.2674807,
@@ -1394,7 +1424,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 64.5,
+      "TRAFFIC_SPEED": 62.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.26897061,
@@ -1404,7 +1434,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 67.3,
+      "TRAFFIC_SPEED": 59.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27116465,
@@ -1414,7 +1444,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 69.3,
+      "TRAFFIC_SPEED": 72.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27167045,
@@ -1424,7 +1454,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 81.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27529184,
@@ -1434,7 +1464,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 69.0,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27640298,
@@ -1444,7 +1474,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 60.1,
+      "TRAFFIC_SPEED": 58.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27876033,
@@ -1454,7 +1484,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 62.4,
+      "TRAFFIC_SPEED": 60.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27898614,
@@ -1464,7 +1494,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 68.4,
+      "TRAFFIC_SPEED": 66.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27997282,
@@ -1474,7 +1504,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 73.4,
+      "TRAFFIC_SPEED": 67.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28061524,
@@ -1484,7 +1514,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 77.4,
+      "TRAFFIC_SPEED": 75.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28126407,
@@ -1494,7 +1524,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 84.5,
+      "TRAFFIC_SPEED": 88.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28126586,
@@ -1504,7 +1534,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 88.8,
+      "TRAFFIC_SPEED": 82.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28130192,
@@ -1514,7 +1544,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 73.5,
+      "TRAFFIC_SPEED": 68.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28136181,
@@ -1524,7 +1554,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 65.2,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28224709,
@@ -1534,7 +1564,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 69.6,
+      "TRAFFIC_SPEED": 73.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28600779,
@@ -1544,7 +1574,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 72.3,
+      "TRAFFIC_SPEED": 69.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28752487,
@@ -1554,7 +1584,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 71.8,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28842864,
@@ -1564,7 +1594,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 73.8,
+      "TRAFFIC_SPEED": 71.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.28954921,
@@ -1574,27 +1604,17 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 74.3,
+      "TRAFFIC_SPEED": 73.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29087764,
       "start_lng": 114.2119252,
-      "end_lat": 22.29116665,
-      "end_lng": 114.2117894
-    },
-    {
-      "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 73.8,
-      "ROAD_SATURATION_LEVEL": "GOOD",
-      "REGION": "HK",
-      "start_lat": 22.29116665,
-      "start_lng": 114.2117894,
       "end_lat": 22.29288308,
       "end_lng": 114.2087816
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 71.8,
+      "TRAFFIC_SPEED": 76.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29288308,
@@ -1604,7 +1624,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 76.6,
+      "TRAFFIC_SPEED": 80.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29318113,
@@ -1614,7 +1634,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 82.3,
+      "TRAFFIC_SPEED": 80.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29319937,
@@ -1624,7 +1644,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 91.2,
+      "TRAFFIC_SPEED": 91.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29350781,
@@ -1634,7 +1654,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 95.9,
+      "TRAFFIC_SPEED": 93.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.29385898,
@@ -1644,7 +1664,7 @@
     },
     {
       "ROAD": "Island Eastern Corridor",
-      "TRAFFIC_SPEED": 82.0,
+      "TRAFFIC_SPEED": 76.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.2938687,
@@ -1654,7 +1674,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 66.0,
+      "TRAFFIC_SPEED": 59.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31542134,
@@ -1664,8 +1684,8 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 65.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 45.0,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.316081,
       "start_lng": 114.2165611,
@@ -1674,7 +1694,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 65.3,
+      "TRAFFIC_SPEED": 53.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31673143,
@@ -1684,7 +1704,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 62.2,
+      "TRAFFIC_SPEED": 65.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31814115,
@@ -1694,7 +1714,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 64.7,
+      "TRAFFIC_SPEED": 68.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31817721,
@@ -1704,7 +1724,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 67.3,
+      "TRAFFIC_SPEED": 71.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31872881,
@@ -1714,7 +1734,7 @@
     },
     {
       "ROAD": "Kai Fuk Road",
-      "TRAFFIC_SPEED": 50.0,
+      "TRAFFIC_SPEED": 63.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3188824,
@@ -1724,7 +1744,7 @@
     },
     {
       "ROAD": "Chatham Road North",
-      "TRAFFIC_SPEED": 58.8,
+      "TRAFFIC_SPEED": 71.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30838266,
@@ -1734,7 +1754,7 @@
     },
     {
       "ROAD": "Gascoigne Road",
-      "TRAFFIC_SPEED": 53.5,
+      "TRAFFIC_SPEED": 50.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30588128,
@@ -1744,7 +1764,7 @@
     },
     {
       "ROAD": "Gascoigne Road",
-      "TRAFFIC_SPEED": 59.0,
+      "TRAFFIC_SPEED": 60.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30599868,
@@ -1754,7 +1774,7 @@
     },
     {
       "ROAD": "Gascoigne Road",
-      "TRAFFIC_SPEED": 65.0,
+      "TRAFFIC_SPEED": 74.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30710943,
@@ -1764,7 +1784,7 @@
     },
     {
       "ROAD": "Gascoigne Road",
-      "TRAFFIC_SPEED": 62.5,
+      "TRAFFIC_SPEED": 55.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.30716361,
@@ -1784,7 +1804,7 @@
     },
     {
       "ROAD": "Ferry Street near Cherry Street Park - Northbound",
-      "TRAFFIC_SPEED": 61.2,
+      "TRAFFIC_SPEED": 55.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31326801,
@@ -1794,7 +1814,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor West",
-      "TRAFFIC_SPEED": 61.5,
+      "TRAFFIC_SPEED": 71.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3168441,
@@ -1804,7 +1824,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor West",
-      "TRAFFIC_SPEED": 68.2,
+      "TRAFFIC_SPEED": 67.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31847848,
@@ -1814,7 +1834,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 73.0,
+      "TRAFFIC_SPEED": 70.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31002607,
@@ -1824,7 +1844,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 66.2,
+      "TRAFFIC_SPEED": 71.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31487545,
@@ -1834,7 +1854,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 63.0,
+      "TRAFFIC_SPEED": 73.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3185599,
@@ -1844,7 +1864,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 69.8,
+      "TRAFFIC_SPEED": 74.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32209082,
@@ -1854,7 +1874,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 75.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32449274,
@@ -1864,7 +1884,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 74.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3267487,
@@ -1874,7 +1894,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 73.7,
+      "TRAFFIC_SPEED": 71.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3273099,
@@ -1884,7 +1904,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 82.2,
+      "TRAFFIC_SPEED": 71.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32855591,
@@ -1894,7 +1914,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 88.2,
+      "TRAFFIC_SPEED": 83.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33148132,
@@ -1904,7 +1924,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 73.8,
+      "TRAFFIC_SPEED": 75.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3316168,
@@ -1914,7 +1934,7 @@
     },
     {
       "ROAD": "West Kowloon Corridor",
-      "TRAFFIC_SPEED": 67.8,
+      "TRAFFIC_SPEED": 64.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33542719,
@@ -1924,7 +1944,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 68.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3363472,
@@ -1934,7 +1954,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 81.1,
+      "TRAFFIC_SPEED": 80.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33650957,
@@ -1944,7 +1964,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 83.7,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3370778,
@@ -1954,7 +1974,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 77.7,
+      "TRAFFIC_SPEED": 84.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33717701,
@@ -1964,7 +1984,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 81.5,
+      "TRAFFIC_SPEED": 77.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33791649,
@@ -1974,7 +1994,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 86.9,
+      "TRAFFIC_SPEED": 76.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33798861,
@@ -1984,7 +2004,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 81.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3434053,
@@ -1994,7 +2014,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 72.2,
+      "TRAFFIC_SPEED": 80.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.34401896,
@@ -2004,7 +2024,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 77.2,
+      "TRAFFIC_SPEED": 78.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.34654674,
@@ -2014,7 +2034,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 83.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.34817223,
@@ -2024,7 +2044,7 @@
     },
     {
       "ROAD": "Kwai Chung Road",
-      "TRAFFIC_SPEED": 82.6,
+      "TRAFFIC_SPEED": 79.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.34973473,
@@ -2034,7 +2054,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 67.7,
+      "TRAFFIC_SPEED": 69.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35422265,
@@ -2044,7 +2064,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 65.5,
+      "TRAFFIC_SPEED": 69.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35607328,
@@ -2054,27 +2074,17 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 61.7,
+      "TRAFFIC_SPEED": 75.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35655172,
       "start_lng": 114.1222833,
-      "end_lat": 22.35851063,
-      "end_lng": 114.1201757
-    },
-    {
-      "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 69.8,
-      "ROAD_SATURATION_LEVEL": "GOOD",
-      "REGION": "NTW",
-      "start_lat": 22.35851063,
-      "start_lng": 114.1201757,
       "end_lat": 22.35956704,
       "end_lng": 114.1197093
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 71.5,
+      "TRAFFIC_SPEED": 74.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35956704,
@@ -2084,7 +2094,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 65.0,
+      "TRAFFIC_SPEED": 67.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36203197,
@@ -2094,7 +2104,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 66.0,
+      "TRAFFIC_SPEED": 76.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36260975,
@@ -2104,7 +2114,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 77.7,
+      "TRAFFIC_SPEED": 84.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3641441,
@@ -2114,7 +2124,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 85.0,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36634641,
@@ -2124,7 +2134,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 84.8,
+      "TRAFFIC_SPEED": 92.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36650902,
@@ -2134,7 +2144,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 89.8,
+      "TRAFFIC_SPEED": 89.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36921697,
@@ -2144,7 +2154,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 87.5,
+      "TRAFFIC_SPEED": 81.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36950582,
@@ -2154,7 +2164,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 81.8,
+      "TRAFFIC_SPEED": 76.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37201519,
@@ -2164,7 +2174,7 @@
     },
     {
       "ROAD": "Tsuen Wan Road",
-      "TRAFFIC_SPEED": 71.0,
+      "TRAFFIC_SPEED": 71.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37236722,
@@ -2174,7 +2184,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 79.8,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35588789,
@@ -2184,7 +2194,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 78.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35614486,
@@ -2194,7 +2204,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 74.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35620339,
@@ -2204,7 +2214,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 70.4,
+      "TRAFFIC_SPEED": 80.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35703762,
@@ -2214,7 +2224,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 88.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35769762,
@@ -2224,7 +2234,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 94.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35843899,
@@ -2234,7 +2244,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 80.8,
+      "TRAFFIC_SPEED": 96.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35857899,
@@ -2244,7 +2254,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 88.8,
+      "TRAFFIC_SPEED": 95.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.35940007,
@@ -2254,7 +2264,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 97.0,
+      "TRAFFIC_SPEED": 93.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36086229,
@@ -2264,7 +2274,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 86.8,
+      "TRAFFIC_SPEED": 88.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36119675,
@@ -2274,7 +2284,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 73.2,
+      "TRAFFIC_SPEED": 79.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36224227,
@@ -2284,7 +2294,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 75.2,
+      "TRAFFIC_SPEED": 77.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36309946,
@@ -2294,7 +2304,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 80.2,
+      "TRAFFIC_SPEED": 81.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36420723,
@@ -2304,7 +2314,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 75.5,
+      "TRAFFIC_SPEED": 80.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3648317,
@@ -2314,7 +2324,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 68.0,
+      "TRAFFIC_SPEED": 76.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36486819,
@@ -2324,7 +2334,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 74.0,
+      "TRAFFIC_SPEED": 77.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36529227,
@@ -2334,7 +2344,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.0,
+      "TRAFFIC_SPEED": 86.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36551131,
@@ -2344,7 +2354,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 81.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3655231,
@@ -2354,7 +2364,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 81.7,
+      "TRAFFIC_SPEED": 83.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3656784,
@@ -2364,7 +2374,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.4,
+      "TRAFFIC_SPEED": 85.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36583482,
@@ -2374,7 +2384,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 84.5,
+      "TRAFFIC_SPEED": 72.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36652874,
@@ -2384,7 +2394,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 77.7,
+      "TRAFFIC_SPEED": 63.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36663494,
@@ -2394,7 +2404,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 75.3,
+      "TRAFFIC_SPEED": 72.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36668206,
@@ -2404,7 +2414,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 97.0,
+      "TRAFFIC_SPEED": 85.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36668572,
@@ -2414,7 +2424,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 89.5,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36679111,
@@ -2424,7 +2434,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 73.4,
+      "TRAFFIC_SPEED": 76.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36719645,
@@ -2434,7 +2444,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 70.6,
+      "TRAFFIC_SPEED": 74.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36724307,
@@ -2444,7 +2454,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 74.8,
+      "TRAFFIC_SPEED": 84.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36789635,
@@ -2454,7 +2464,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 86.2,
+      "TRAFFIC_SPEED": 86.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.368059,
@@ -2464,7 +2474,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 95.2,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36829568,
@@ -2474,7 +2484,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 92.0,
+      "TRAFFIC_SPEED": 83.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36835736,
@@ -2484,7 +2494,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 81.5,
+      "TRAFFIC_SPEED": 70.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36854978,
@@ -2494,7 +2504,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 75.8,
+      "TRAFFIC_SPEED": 75.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36924399,
@@ -2504,7 +2514,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 133.8,
+      "TRAFFIC_SPEED": 134.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36943947,
@@ -2514,7 +2524,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 139.8,
+      "TRAFFIC_SPEED": 129.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3694628,
@@ -2524,7 +2534,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.3,
+      "TRAFFIC_SPEED": 71.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36949436,
@@ -2534,7 +2544,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.4,
+      "TRAFFIC_SPEED": 78.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36974004,
@@ -2544,7 +2554,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 75.9,
+      "TRAFFIC_SPEED": 78.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.36991976,
@@ -2554,7 +2564,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 72.3,
+      "TRAFFIC_SPEED": 69.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37020002,
@@ -2564,7 +2574,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.5,
+      "TRAFFIC_SPEED": 74.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37027324,
@@ -2574,7 +2584,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 82.2,
+      "TRAFFIC_SPEED": 80.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37091583,
@@ -2584,7 +2594,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 70.7,
+      "TRAFFIC_SPEED": 72.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37092794,
@@ -2594,7 +2604,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 63.9,
+      "TRAFFIC_SPEED": 61.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37104927,
@@ -2604,7 +2614,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 66.5,
+      "TRAFFIC_SPEED": 63.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37142163,
@@ -2614,7 +2624,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 81.0,
+      "TRAFFIC_SPEED": 75.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37173893,
@@ -2624,7 +2634,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 82.8,
+      "TRAFFIC_SPEED": 81.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3721736,
@@ -2634,7 +2644,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 74.3,
+      "TRAFFIC_SPEED": 77.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37247362,
@@ -2644,7 +2654,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 66.0,
+      "TRAFFIC_SPEED": 74.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37300496,
@@ -2654,7 +2664,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 77.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37375565,
@@ -2664,7 +2674,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 73.7,
+      "TRAFFIC_SPEED": 80.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3737916,
@@ -2674,7 +2684,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 70.2,
+      "TRAFFIC_SPEED": 72.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3738904,
@@ -2684,7 +2694,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 68.4,
+      "TRAFFIC_SPEED": 66.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37433425,
@@ -2694,7 +2704,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 59.1,
+      "TRAFFIC_SPEED": 58.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37468735,
@@ -2704,7 +2714,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 68.2,
+      "TRAFFIC_SPEED": 69.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3750309,
@@ -2714,7 +2724,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 81.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3757366,
@@ -2724,7 +2734,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 77.8,
+      "TRAFFIC_SPEED": 76.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3758817,
@@ -2734,7 +2744,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 81.9,
+      "TRAFFIC_SPEED": 77.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37695794,
@@ -2744,7 +2754,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 85.2,
+      "TRAFFIC_SPEED": 85.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38162978,
@@ -2754,7 +2764,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 82.4,
+      "TRAFFIC_SPEED": 87.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38182817,
@@ -2764,7 +2774,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 83.7,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38383087,
@@ -2774,7 +2784,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 65.6,
+      "TRAFFIC_SPEED": 65.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38760402,
@@ -2784,7 +2794,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 51.2,
+      "TRAFFIC_SPEED": 58.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.39707387,
@@ -2794,7 +2804,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 61.9,
+      "TRAFFIC_SPEED": 64.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.399952,
@@ -2804,7 +2814,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 68.4,
+      "TRAFFIC_SPEED": 77.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.40044337,
@@ -2814,7 +2824,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 73.5,
+      "TRAFFIC_SPEED": 94.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4065716,
@@ -2824,7 +2834,7 @@
     },
     {
       "ROAD": "Tuen Mun Road",
-      "TRAFFIC_SPEED": 73.7,
+      "TRAFFIC_SPEED": 89.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.410209,
@@ -2834,7 +2844,7 @@
     },
     {
       "ROAD": "Lai Chi Kok Road near Novel Industrial Building - Southbound",
-      "TRAFFIC_SPEED": 73.0,
+      "TRAFFIC_SPEED": 69.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33522804,
@@ -2844,7 +2854,7 @@
     },
     {
       "ROAD": "Wan Po Road",
-      "TRAFFIC_SPEED": 56.5,
+      "TRAFFIC_SPEED": 52.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.31274793,
@@ -2854,7 +2864,7 @@
     },
     {
       "ROAD": "Wan Po Road",
-      "TRAFFIC_SPEED": 69.5,
+      "TRAFFIC_SPEED": 78.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.31339861,
@@ -2864,7 +2874,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Tunnel Road",
-      "TRAFFIC_SPEED": 77.0,
+      "TRAFFIC_SPEED": 65.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.31638994,
@@ -2874,7 +2884,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Tunnel Road",
-      "TRAFFIC_SPEED": 78.5,
+      "TRAFFIC_SPEED": 63.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.31895619,
@@ -2884,7 +2894,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Tunnel Road",
-      "TRAFFIC_SPEED": 73.0,
+      "TRAFFIC_SPEED": 68.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.31924529,
@@ -2894,7 +2904,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Road",
-      "TRAFFIC_SPEED": 55.4,
+      "TRAFFIC_SPEED": 55.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31032431,
@@ -2904,7 +2914,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Road",
-      "TRAFFIC_SPEED": 60.1,
+      "TRAFFIC_SPEED": 61.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31101949,
@@ -2914,7 +2924,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Road",
-      "TRAFFIC_SPEED": 70.0,
+      "TRAFFIC_SPEED": 62.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31221936,
@@ -2924,7 +2934,7 @@
     },
     {
       "ROAD": "Tseung Kwan O Road",
-      "TRAFFIC_SPEED": 69.4,
+      "TRAFFIC_SPEED": 61.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31304942,
@@ -2934,7 +2944,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 43.2,
+      "TRAFFIC_SPEED": 44.8,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.31123743,
@@ -2944,8 +2954,8 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 51.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 44.5,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.31327052,
       "start_lng": 114.2239074,
@@ -2954,28 +2964,18 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 55.2,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 47.6,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.31357779,
       "start_lng": 114.223102,
-      "end_lat": 22.31462607,
-      "end_lng": 114.2204624
-    },
-    {
-      "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 64.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
-      "REGION": "K",
-      "start_lat": 22.31462607,
-      "start_lng": 114.2204624,
       "end_lat": 22.31546654,
       "end_lng": 114.2181042
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 59.8,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 49.1,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.31546654,
       "start_lng": 114.2181042,
@@ -2984,7 +2984,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 66.8,
+      "TRAFFIC_SPEED": 55.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31629777,
@@ -2994,7 +2994,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 69.7,
+      "TRAFFIC_SPEED": 65.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31898025,
@@ -3004,7 +3004,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 62.0,
+      "TRAFFIC_SPEED": 62.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.31898025,
@@ -3014,7 +3014,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 63.5,
+      "TRAFFIC_SPEED": 64.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32214104,
@@ -3024,7 +3024,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 63.5,
+      "TRAFFIC_SPEED": 69.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32325183,
@@ -3034,7 +3034,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 66.1,
+      "TRAFFIC_SPEED": 70.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32806544,
@@ -3044,7 +3044,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 66.8,
+      "TRAFFIC_SPEED": 71.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32855321,
@@ -3054,7 +3054,7 @@
     },
     {
       "ROAD": "Kwun Tong Road",
-      "TRAFFIC_SPEED": 67.6,
+      "TRAFFIC_SPEED": 69.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33007069,
@@ -3064,7 +3064,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 60.5,
+      "TRAFFIC_SPEED": 63.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33194957,
@@ -3074,8 +3074,8 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 49.6,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 57.9,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33619411,
       "start_lng": 114.2073839,
@@ -3084,7 +3084,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 55.8,
+      "TRAFFIC_SPEED": 59.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33651927,
@@ -3094,7 +3094,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 65.0,
+      "TRAFFIC_SPEED": 62.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33893112,
@@ -3104,7 +3104,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 57.6,
+      "TRAFFIC_SPEED": 66.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34084609,
@@ -3114,7 +3114,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 59.6,
+      "TRAFFIC_SPEED": 68.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34108183,
@@ -3124,7 +3124,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 57.5,
+      "TRAFFIC_SPEED": 66.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34167774,
@@ -3134,7 +3134,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 58.7,
+      "TRAFFIC_SPEED": 69.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34170428,
@@ -3144,7 +3144,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 73.0,
+      "TRAFFIC_SPEED": 75.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34172245,
@@ -3154,7 +3154,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 71.7,
+      "TRAFFIC_SPEED": 67.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34172308,
@@ -3164,7 +3164,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 57.0,
+      "TRAFFIC_SPEED": 54.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3419581,
@@ -3174,7 +3174,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 56.0,
+      "TRAFFIC_SPEED": 57.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34249937,
@@ -3184,7 +3184,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 70.7,
+      "TRAFFIC_SPEED": 65.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3425452,
@@ -3194,7 +3194,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 75.8,
+      "TRAFFIC_SPEED": 70.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3426265,
@@ -3204,7 +3204,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 71.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3427697,
@@ -3214,7 +3214,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 78.7,
+      "TRAFFIC_SPEED": 70.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34280593,
@@ -3224,7 +3224,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 69.8,
+      "TRAFFIC_SPEED": 65.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34317745,
@@ -3234,7 +3234,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 64.2,
+      "TRAFFIC_SPEED": 63.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34402,
@@ -3244,7 +3244,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 67.7,
+      "TRAFFIC_SPEED": 67.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34402646,
@@ -3254,7 +3254,7 @@
     },
     {
       "ROAD": "Lung Cheung Road",
-      "TRAFFIC_SPEED": 69.7,
+      "TRAFFIC_SPEED": 72.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34463154,
@@ -3264,8 +3264,8 @@
     },
     {
       "ROAD": "Lung Cheung Road Lookout - Westbound",
-      "TRAFFIC_SPEED": 57.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 42.0,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "K",
       "start_lat": 22.34324978,
       "start_lng": 114.1716905,
@@ -3274,7 +3274,7 @@
     },
     {
       "ROAD": "Lung Cheung Road Beacon Heights",
-      "TRAFFIC_SPEED": 67.8,
+      "TRAFFIC_SPEED": 74.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34166032,
@@ -3284,7 +3284,7 @@
     },
     {
       "ROAD": "Lung Cheung Road Beacon Heights",
-      "TRAFFIC_SPEED": 58.2,
+      "TRAFFIC_SPEED": 68.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34192192,
@@ -3294,7 +3294,7 @@
     },
     {
       "ROAD": "Lung Cheung Road Tai Woh Ping - Westbound",
-      "TRAFFIC_SPEED": 62.0,
+      "TRAFFIC_SPEED": 68.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34121736,
@@ -3304,7 +3304,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 68.6,
+      "TRAFFIC_SPEED": 71.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33937063,
@@ -3314,7 +3314,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 73.3,
+      "TRAFFIC_SPEED": 67.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33988751,
@@ -3324,7 +3324,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 69.0,
+      "TRAFFIC_SPEED": 65.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33995889,
@@ -3334,7 +3334,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 67.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33996666,
@@ -3344,7 +3344,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 80.3,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3402762,
@@ -3354,7 +3354,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 85.2,
+      "TRAFFIC_SPEED": 68.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34057439,
@@ -3364,7 +3364,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 82.8,
+      "TRAFFIC_SPEED": 70.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34105189,
@@ -3374,7 +3374,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 74.0,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34105995,
@@ -3384,7 +3384,7 @@
     },
     {
       "ROAD": "Ching Cheung Road",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 79.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.34164952,
@@ -3394,7 +3394,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 107.8,
+      "TRAFFIC_SPEED": 106.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.28950534,
@@ -3404,7 +3404,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.7,
+      "TRAFFIC_SPEED": 97.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.28960394,
@@ -3414,7 +3414,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 96.2,
+      "TRAFFIC_SPEED": 101.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.28973677,
@@ -3424,7 +3424,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 89.0,
+      "TRAFFIC_SPEED": 110.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29024412,
@@ -3434,7 +3434,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 90.2,
+      "TRAFFIC_SPEED": 105.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29100001,
@@ -3444,7 +3444,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 100.8,
+      "TRAFFIC_SPEED": 99.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29190915,
@@ -3454,7 +3454,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 95.7,
+      "TRAFFIC_SPEED": 100.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29210812,
@@ -3464,7 +3464,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.3,
+      "TRAFFIC_SPEED": 91.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29247886,
@@ -3474,7 +3474,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.0,
+      "TRAFFIC_SPEED": 90.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29380308,
@@ -3484,7 +3484,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 97.8,
+      "TRAFFIC_SPEED": 106.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29463146,
@@ -3494,7 +3494,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 102.8,
+      "TRAFFIC_SPEED": 105.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29488468,
@@ -3504,7 +3504,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 95.8,
+      "TRAFFIC_SPEED": 104.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29637847,
@@ -3514,7 +3514,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 87.8,
+      "TRAFFIC_SPEED": 109.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29654157,
@@ -3524,7 +3524,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 101.8,
+      "TRAFFIC_SPEED": 110.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29737647,
@@ -3534,7 +3534,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 104.3,
+      "TRAFFIC_SPEED": 101.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29795784,
@@ -3544,7 +3544,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 92.5,
+      "TRAFFIC_SPEED": 91.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29830307,
@@ -3554,7 +3554,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 94.0,
+      "TRAFFIC_SPEED": 94.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29876627,
@@ -3564,7 +3564,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 99.7,
+      "TRAFFIC_SPEED": 104.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.29954683,
@@ -3574,7 +3574,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 100.2,
+      "TRAFFIC_SPEED": 108.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30009053,
@@ -3584,7 +3584,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 97.7,
+      "TRAFFIC_SPEED": 107.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30121328,
@@ -3594,7 +3594,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 99.0,
+      "TRAFFIC_SPEED": 109.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30216382,
@@ -3604,7 +3604,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 89.7,
+      "TRAFFIC_SPEED": 100.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30343091,
@@ -3614,7 +3614,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 94.0,
+      "TRAFFIC_SPEED": 100.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30453478,
@@ -3624,7 +3624,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 93.3,
+      "TRAFFIC_SPEED": 106.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.3059191,
@@ -3634,7 +3634,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 87.5,
+      "TRAFFIC_SPEED": 100.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30703196,
@@ -3644,7 +3644,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.8,
+      "TRAFFIC_SPEED": 98.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30812677,
@@ -3654,7 +3654,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 99.0,
+      "TRAFFIC_SPEED": 98.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.30943884,
@@ -3664,7 +3664,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 100.8,
+      "TRAFFIC_SPEED": 97.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31047944,
@@ -3674,7 +3674,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 107.7,
+      "TRAFFIC_SPEED": 97.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31208994,
@@ -3684,7 +3684,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 115.7,
+      "TRAFFIC_SPEED": 105.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31342831,
@@ -3694,7 +3694,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 115.0,
+      "TRAFFIC_SPEED": 108.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31529949,
@@ -3704,7 +3704,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 110.2,
+      "TRAFFIC_SPEED": 99.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31698039,
@@ -3714,7 +3714,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 105.3,
+      "TRAFFIC_SPEED": 97.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.31859822,
@@ -3724,7 +3724,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 102.7,
+      "TRAFFIC_SPEED": 100.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32018982,
@@ -3734,7 +3734,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.0,
+      "TRAFFIC_SPEED": 104.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32110394,
@@ -3744,7 +3744,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 96.0,
+      "TRAFFIC_SPEED": 104.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32220823,
@@ -3754,7 +3754,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 102.8,
+      "TRAFFIC_SPEED": 88.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32306814,
@@ -3764,7 +3764,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 98.5,
+      "TRAFFIC_SPEED": 91.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32410918,
@@ -3774,7 +3774,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 90.8,
+      "TRAFFIC_SPEED": 99.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32477045,
@@ -3784,7 +3784,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 88.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32494041,
@@ -3794,7 +3794,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 94.8,
+      "TRAFFIC_SPEED": 91.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32500998,
@@ -3804,7 +3804,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 108.2,
+      "TRAFFIC_SPEED": 95.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32509802,
@@ -3814,7 +3814,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 90.2,
+      "TRAFFIC_SPEED": 90.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32524015,
@@ -3824,7 +3824,7 @@
     },
     {
       "ROAD": "North Lantau Highway",
-      "TRAFFIC_SPEED": 70.2,
+      "TRAFFIC_SPEED": 89.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.32582877,
@@ -3834,7 +3834,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 79.5,
+      "TRAFFIC_SPEED": 82.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37525303,
@@ -3844,7 +3844,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 77.5,
+      "TRAFFIC_SPEED": 78.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37545196,
@@ -3854,7 +3854,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 75.3,
+      "TRAFFIC_SPEED": 82.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37557432,
@@ -3864,7 +3864,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 77.3,
+      "TRAFFIC_SPEED": 88.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37561012,
@@ -3874,7 +3874,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 83.2,
+      "TRAFFIC_SPEED": 79.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37619324,
@@ -3884,7 +3884,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 83.2,
+      "TRAFFIC_SPEED": 80.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37641917,
@@ -3894,7 +3894,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 81.0,
+      "TRAFFIC_SPEED": 83.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37653308,
@@ -3904,7 +3904,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 88.2,
+      "TRAFFIC_SPEED": 78.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37657839,
@@ -3914,7 +3914,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 77.4,
+      "TRAFFIC_SPEED": 80.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37814547,
@@ -3924,7 +3924,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37844371,
@@ -3934,7 +3934,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 82.0,
+      "TRAFFIC_SPEED": 80.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.37997995,
@@ -3944,7 +3944,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38072981,
@@ -3954,7 +3954,7 @@
     },
     {
       "ROAD": "Cheung Pei Shan Road",
-      "TRAFFIC_SPEED": 72.9,
+      "TRAFFIC_SPEED": 71.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38165159,
@@ -3964,7 +3964,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 74.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37799026,
@@ -3974,7 +3974,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 80.8,
+      "TRAFFIC_SPEED": 72.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3780897,
@@ -3984,7 +3984,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 69.4,
+      "TRAFFIC_SPEED": 70.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37836062,
@@ -3994,7 +3994,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 72.9,
+      "TRAFFIC_SPEED": 80.1,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37864942,
@@ -4004,7 +4004,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 80.8,
+      "TRAFFIC_SPEED": 77.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38000419,
@@ -4014,7 +4014,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 77.5,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38032929,
@@ -4024,7 +4024,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 85.7,
+      "TRAFFIC_SPEED": 83.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.380873,
@@ -4034,7 +4034,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 98.4,
+      "TRAFFIC_SPEED": 81.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38140375,
@@ -4044,7 +4044,7 @@
     },
     {
       "ROAD": "Shing Mun Tunnel Road",
-      "TRAFFIC_SPEED": 89.8,
+      "TRAFFIC_SPEED": 78.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3824695,
@@ -4054,7 +4054,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 72.8,
+      "TRAFFIC_SPEED": 81.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.3800556,
@@ -4064,7 +4064,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 56.1,
+      "TRAFFIC_SPEED": 64.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38042,
@@ -4074,7 +4074,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 60.1,
+      "TRAFFIC_SPEED": 71.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38577,
@@ -4084,7 +4084,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 72.1,
+      "TRAFFIC_SPEED": 87.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39372906,
@@ -4094,7 +4094,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 78.2,
+      "TRAFFIC_SPEED": 86.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39537248,
@@ -4104,7 +4104,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 84.8,
+      "TRAFFIC_SPEED": 89.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39768407,
@@ -4114,7 +4114,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 84.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39952611,
@@ -4124,7 +4124,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 82.3,
+      "TRAFFIC_SPEED": 84.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40150359,
@@ -4134,7 +4134,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 67.0,
+      "TRAFFIC_SPEED": 70.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40330041,
@@ -4144,8 +4144,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 55.2,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 47.0,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.40587363,
       "start_lng": 114.2079041,
@@ -4154,7 +4154,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 54.8,
+      "TRAFFIC_SPEED": 50.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40679435,
@@ -4184,27 +4184,27 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 55.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41540117,
       "start_lng": 114.2058957,
-      "end_lat": 22.41770436,
-      "end_lng": 114.2034874
+      "end_lat": 22.41568117,
+      "end_lng": 114.2055947
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 59.5,
+      "TRAFFIC_SPEED": 56.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
-      "start_lat": 22.41770436,
-      "start_lng": 114.2034874,
+      "start_lat": 22.41568117,
+      "start_lng": 114.2055947,
       "end_lat": 22.41794832,
       "end_lng": 114.2026522
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 74.5,
+      "TRAFFIC_SPEED": 56.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41794832,
@@ -4224,7 +4224,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 61.8,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41948385,
@@ -4234,8 +4234,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 43.8,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 60.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41963772,
       "start_lng": 114.1978057,
@@ -4244,8 +4244,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 42.0,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 50.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42007139,
       "start_lng": 114.1960963,
@@ -4264,8 +4264,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 43.0,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 50.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42323203,
       "start_lng": 114.196359,
@@ -4274,8 +4274,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 45.5,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 50.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42641979,
       "start_lng": 114.1963692,
@@ -4284,8 +4284,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 52.5,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 43.8,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.42930954,
       "start_lng": 114.1963501,
@@ -4294,8 +4294,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 50.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 43.8,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.42967078,
       "start_lng": 114.1962239,
@@ -4344,8 +4344,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 50.0,
-      "ROAD_SATURATION_LEVEL": "GOOD",
+      "TRAFFIC_SPEED": 45.5,
+      "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.43383479,
       "start_lng": 114.1847329,
@@ -4354,7 +4354,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 39.5,
+      "TRAFFIC_SPEED": 45.5,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.43592088,
@@ -4364,8 +4364,8 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 41.5,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 50.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.43746513,
       "start_lng": 114.182596,
@@ -4374,7 +4374,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 52.0,
+      "TRAFFIC_SPEED": 50.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.43989433,
@@ -4394,7 +4394,7 @@
     },
     {
       "ROAD": "Tai Po Road",
-      "TRAFFIC_SPEED": 44.0,
+      "TRAFFIC_SPEED": 42.8,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "NTE",
       "start_lat": 22.44241391,
@@ -4404,7 +4404,7 @@
     },
     {
       "ROAD": "Tolo Highway",
-      "TRAFFIC_SPEED": 76.2,
+      "TRAFFIC_SPEED": 78.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40599076,
@@ -4423,8 +4423,18 @@
       "end_lng": 114.211848
     },
     {
+      "ROAD": "Tolo Highway",
+      "TRAFFIC_SPEED": 86.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTE",
+      "start_lat": 22.40907864,
+      "start_lng": 114.211848,
+      "end_lat": 22.40945791,
+      "end_lng": 114.2119258
+    },
+    {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 84.7,
+      "TRAFFIC_SPEED": 81.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48774374,
@@ -4434,7 +4444,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 95.0,
+      "TRAFFIC_SPEED": 94.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4884116,
@@ -4444,7 +4454,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 95.7,
+      "TRAFFIC_SPEED": 93.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48848374,
@@ -4454,7 +4464,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 98.2,
+      "TRAFFIC_SPEED": 92.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49151691,
@@ -4464,7 +4474,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 99.7,
+      "TRAFFIC_SPEED": 93.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49215785,
@@ -4474,7 +4484,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 88.7,
+      "TRAFFIC_SPEED": 88.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4938281,
@@ -4484,7 +4494,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 75.7,
+      "TRAFFIC_SPEED": 87.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49589538,
@@ -4494,7 +4504,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 87.2,
+      "TRAFFIC_SPEED": 97.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49821502,
@@ -4504,7 +4514,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 98.2,
+      "TRAFFIC_SPEED": 107.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49838665,
@@ -4514,7 +4524,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 94.7,
+      "TRAFFIC_SPEED": 108.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49983891,
@@ -4524,7 +4534,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 94.0,
+      "TRAFFIC_SPEED": 107.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50103001,
@@ -4534,7 +4544,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 94.3,
+      "TRAFFIC_SPEED": 98.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50120147,
@@ -4544,7 +4554,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 97.8,
+      "TRAFFIC_SPEED": 96.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.50193284,
@@ -4554,7 +4564,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 98.5,
+      "TRAFFIC_SPEED": 104.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50218399,
@@ -4564,7 +4574,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 89.7,
+      "TRAFFIC_SPEED": 95.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50222929,
@@ -4584,7 +4594,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 67.3,
+      "TRAFFIC_SPEED": 89.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50286699,
@@ -4594,7 +4604,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 80.0,
+      "TRAFFIC_SPEED": 102.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.50292713,
@@ -4604,7 +4614,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 86.2,
+      "TRAFFIC_SPEED": 100.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50309146,
@@ -4614,7 +4624,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 81.2,
+      "TRAFFIC_SPEED": 100.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50320816,
@@ -4624,17 +4634,27 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 89.8,
+      "TRAFFIC_SPEED": 93.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50350433,
       "start_lng": 114.099688,
+      "end_lat": 22.5035402,
+      "end_lng": 114.0991826
+    },
+    {
+      "ROAD": "Fanling Highway",
+      "TRAFFIC_SPEED": 99.2,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTE",
+      "start_lat": 22.5035402,
+      "start_lng": 114.0991826,
       "end_lat": 22.50365058,
       "end_lng": 114.0857706
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 102.8,
+      "TRAFFIC_SPEED": 100.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.50365058,
@@ -4644,7 +4664,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 91.1,
+      "TRAFFIC_SPEED": 100.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50384525,
@@ -4654,7 +4674,7 @@
     },
     {
       "ROAD": "Fanling Highway",
-      "TRAFFIC_SPEED": 79.8,
+      "TRAFFIC_SPEED": 100.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50389013,
@@ -4664,17 +4684,27 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 91.0,
+      "TRAFFIC_SPEED": 87.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48518,
       "start_lng": 114.15199,
+      "end_lat": 22.48733,
+      "end_lng": 114.14808
+    },
+    {
+      "ROAD": "Fanling Bypass",
+      "TRAFFIC_SPEED": 85.8,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTE",
+      "start_lat": 22.48733,
+      "start_lng": 114.14808,
       "end_lat": 22.48785,
       "end_lng": 114.14865
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 86.0,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48785,
@@ -4684,7 +4714,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 78.8,
+      "TRAFFIC_SPEED": 85.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4917,
@@ -4694,7 +4724,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 78.8,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49203,
@@ -4704,7 +4734,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 79.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49531,
@@ -4714,7 +4744,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49545,
@@ -4764,7 +4794,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 73.2,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50484,
@@ -4774,7 +4804,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 73.2,
+      "TRAFFIC_SPEED": 90.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.5066,
@@ -4784,7 +4814,7 @@
     },
     {
       "ROAD": "Fanling Bypass",
-      "TRAFFIC_SPEED": 80.0,
+      "TRAFFIC_SPEED": 90.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.50736,
@@ -4814,7 +4844,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 72.5,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41672308,
@@ -4824,7 +4854,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 73.5,
+      "TRAFFIC_SPEED": 76.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4189147,
@@ -4834,7 +4864,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 80.2,
+      "TRAFFIC_SPEED": 76.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41909752,
@@ -4844,7 +4874,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 78.5,
+      "TRAFFIC_SPEED": 75.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41925055,
@@ -4854,7 +4884,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 80.1,
+      "TRAFFIC_SPEED": 70.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41984988,
@@ -4864,7 +4894,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 81.8,
+      "TRAFFIC_SPEED": 75.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42318207,
@@ -4874,7 +4904,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 78.2,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42555548,
@@ -4884,7 +4914,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 77.2,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42589843,
@@ -4894,7 +4924,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 87.8,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43015106,
@@ -4904,7 +4934,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 87.8,
+      "TRAFFIC_SPEED": 80.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4313886,
@@ -4914,7 +4944,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 82.5,
+      "TRAFFIC_SPEED": 80.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43431618,
@@ -4924,7 +4954,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 82.5,
+      "TRAFFIC_SPEED": 76.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43509316,
@@ -4934,7 +4964,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 81.2,
+      "TRAFFIC_SPEED": 75.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43831795,
@@ -4944,7 +4974,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 81.2,
+      "TRAFFIC_SPEED": 79.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43951022,
@@ -4954,7 +4984,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 91.5,
+      "TRAFFIC_SPEED": 81.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44333828,
@@ -4964,7 +4994,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 96.5,
+      "TRAFFIC_SPEED": 80.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44369017,
@@ -4974,7 +5004,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 85.0,
+      "TRAFFIC_SPEED": 79.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44608072,
@@ -4984,7 +5014,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 80.5,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44679305,
@@ -4994,7 +5024,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 80.5,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44775709,
@@ -5004,7 +5034,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 80.7,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44872062,
@@ -5014,7 +5044,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 90.7,
+      "TRAFFIC_SPEED": 89.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4499747,
@@ -5024,7 +5054,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway",
-      "TRAFFIC_SPEED": 98.5,
+      "TRAFFIC_SPEED": 99.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45255393,
@@ -5034,7 +5064,7 @@
     },
     {
       "ROAD": "Kong Sham Western Highway Tsing Yick Road - Northbound",
-      "TRAFFIC_SPEED": 81.7,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42283916,
@@ -5044,7 +5074,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 94.5,
+      "TRAFFIC_SPEED": 90.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4216398,
@@ -5054,7 +5084,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 98.7,
+      "TRAFFIC_SPEED": 88.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45475534,
@@ -5064,7 +5094,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 94.3,
+      "TRAFFIC_SPEED": 88.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45521534,
@@ -5074,7 +5104,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 87.0,
+      "TRAFFIC_SPEED": 100.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45814778,
@@ -5084,7 +5114,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 85.3,
+      "TRAFFIC_SPEED": 100.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45868908,
@@ -5094,7 +5124,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 91.3,
+      "TRAFFIC_SPEED": 101.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46257843,
@@ -5104,7 +5134,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 89.5,
+      "TRAFFIC_SPEED": 96.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46260561,
@@ -5114,7 +5144,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 90.8,
+      "TRAFFIC_SPEED": 95.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46662978,
@@ -5144,7 +5174,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 105.3,
+      "TRAFFIC_SPEED": 100.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47033708,
@@ -5154,7 +5184,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 105.3,
+      "TRAFFIC_SPEED": 92.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47351138,
@@ -5164,7 +5194,7 @@
     },
     {
       "ROAD": "Shenzhen Bay Bridge",
-      "TRAFFIC_SPEED": 91.0,
+      "TRAFFIC_SPEED": 92.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47367356,
@@ -5174,7 +5204,7 @@
     },
     {
       "ROAD": "Tai Po Road Sha Tin near Plaza Ascot - Southbound",
-      "TRAFFIC_SPEED": 81.0,
+      "TRAFFIC_SPEED": 83.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.39867733,
@@ -5184,7 +5214,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 78.2,
+      "TRAFFIC_SPEED": 92.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41592623,
@@ -5194,7 +5224,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 76.2,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41641574,
@@ -5204,7 +5234,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 80.7,
+      "TRAFFIC_SPEED": 75.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41840507,
@@ -5214,7 +5244,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 82.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.41951627,
@@ -5224,7 +5254,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 84.5,
+      "TRAFFIC_SPEED": 85.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42274222,
@@ -5234,7 +5264,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 80.8,
+      "TRAFFIC_SPEED": 82.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42509412,
@@ -5244,7 +5274,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 76.0,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42676673,
@@ -5254,7 +5284,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 87.5,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.42781497,
@@ -5264,7 +5294,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 90.7,
+      "TRAFFIC_SPEED": 80.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43117597,
@@ -5274,7 +5304,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 82.2,
+      "TRAFFIC_SPEED": 78.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43194387,
@@ -5284,7 +5314,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 77.8,
+      "TRAFFIC_SPEED": 75.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43417656,
@@ -5294,7 +5324,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 79.8,
+      "TRAFFIC_SPEED": 80.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43431726,
@@ -5304,7 +5334,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 75.8,
+      "TRAFFIC_SPEED": 69.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43438912,
@@ -5314,7 +5344,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 71.8,
+      "TRAFFIC_SPEED": 65.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43472874,
@@ -5324,7 +5354,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 83.7,
+      "TRAFFIC_SPEED": 76.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43512458,
@@ -5334,7 +5364,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 86.5,
+      "TRAFFIC_SPEED": 76.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4352065,
@@ -5354,7 +5384,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 73.5,
+      "TRAFFIC_SPEED": 76.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43638499,
@@ -5364,17 +5394,27 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 87.2,
+      "TRAFFIC_SPEED": 80.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43657426,
       "start_lng": 114.0178839,
+      "end_lat": 22.43706158,
+      "end_lng": 114.0086549
+    },
+    {
+      "ROAD": "Yuen Long Highway",
+      "TRAFFIC_SPEED": 85.5,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.43706158,
+      "start_lng": 114.0086549,
       "end_lat": 22.43748776,
       "end_lng": 114.0103447
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 84.4,
+      "TRAFFIC_SPEED": 89.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43748776,
@@ -5384,7 +5424,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 82.5,
+      "TRAFFIC_SPEED": 84.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43767592,
@@ -5394,7 +5434,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 88.3,
+      "TRAFFIC_SPEED": 82.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43792903,
@@ -5404,7 +5444,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 81.6,
+      "TRAFFIC_SPEED": 73.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43793378,
@@ -5414,7 +5454,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 77.2,
+      "TRAFFIC_SPEED": 77.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43794237,
@@ -5424,7 +5464,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 73.1,
+      "TRAFFIC_SPEED": 94.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44148851,
@@ -5434,7 +5474,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 75.6,
+      "TRAFFIC_SPEED": 95.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44185875,
@@ -5444,7 +5484,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 91.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44598595,
@@ -5454,7 +5494,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 56.3,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44651897,
@@ -5464,7 +5504,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 69.2,
+      "TRAFFIC_SPEED": 77.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44871879,
@@ -5474,7 +5514,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 79.7,
+      "TRAFFIC_SPEED": 75.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44877892,
@@ -5484,7 +5524,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 79.0,
+      "TRAFFIC_SPEED": 82.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44904205,
@@ -5494,7 +5534,7 @@
     },
     {
       "ROAD": "Yuen Long Highway",
-      "TRAFFIC_SPEED": 84.8,
+      "TRAFFIC_SPEED": 100.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45211634,
@@ -5504,7 +5544,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 98.0,
+      "TRAFFIC_SPEED": 103.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45539574,
@@ -5514,7 +5554,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 95.5,
+      "TRAFFIC_SPEED": 104.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.45599209,
@@ -5524,7 +5564,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 86.5,
+      "TRAFFIC_SPEED": 106.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4597226,
@@ -5534,7 +5574,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 79.3,
+      "TRAFFIC_SPEED": 98.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46016517,
@@ -5544,7 +5584,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 77.3,
+      "TRAFFIC_SPEED": 96.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46386833,
@@ -5554,7 +5594,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 81.1,
+      "TRAFFIC_SPEED": 93.6,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46425671,
@@ -5564,7 +5604,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 90.0,
+      "TRAFFIC_SPEED": 92.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46799599,
@@ -5584,7 +5624,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 89.2,
+      "TRAFFIC_SPEED": 92.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47278304,
@@ -5594,7 +5634,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 86.2,
+      "TRAFFIC_SPEED": 92.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47322561,
@@ -5604,7 +5644,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 88.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47781445,
@@ -5614,7 +5654,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 88.7,
+      "TRAFFIC_SPEED": 90.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.48173404,
@@ -5624,7 +5664,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 104.2,
+      "TRAFFIC_SPEED": 95.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.48493997,
@@ -5634,7 +5674,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 103.2,
+      "TRAFFIC_SPEED": 97.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.48537345,
@@ -5644,7 +5684,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 85.7,
+      "TRAFFIC_SPEED": 91.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.48980865,
@@ -5654,7 +5694,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 94.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49015203,
@@ -5664,7 +5704,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 108.3,
+      "TRAFFIC_SPEED": 106.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49238511,
@@ -5674,7 +5714,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 112.0,
+      "TRAFFIC_SPEED": 100.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49252089,
@@ -5684,7 +5724,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 93.7,
+      "TRAFFIC_SPEED": 93.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49353485,
@@ -5694,7 +5734,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 90.3,
+      "TRAFFIC_SPEED": 97.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49393316,
@@ -5704,7 +5744,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 84.0,
+      "TRAFFIC_SPEED": 91.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49511897,
@@ -5714,7 +5754,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 78.0,
+      "TRAFFIC_SPEED": 85.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49537241,
@@ -5724,7 +5764,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 83.8,
+      "TRAFFIC_SPEED": 97.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49719846,
@@ -5734,7 +5774,7 @@
     },
     {
       "ROAD": "San Tin Highway",
-      "TRAFFIC_SPEED": 81.2,
+      "TRAFFIC_SPEED": 98.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.49758694,
@@ -5743,28 +5783,198 @@
       "end_lng": 114.0807676
     },
     {
-      "ROAD": "Castle Peak Rd-Ping Shan",
+      "ROAD": "Castle Peak Rd-Hung Shui Kui",
+      "TRAFFIC_SPEED": 70.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.42576951,
+      "start_lng": 113.9886397,
+      "end_lat": 22.42960276,
+      "end_lng": 113.9924034
+    },
+    {
+      "ROAD": "Castle Peak Rd-Hung Shui Kui",
+      "TRAFFIC_SPEED": 70.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.42960276,
+      "start_lng": 113.9924034,
+      "end_lat": 22.43067888,
+      "end_lng": 113.993723
+    },
+    {
+      "ROAD": "Castle Peak Rd-Hung Shui Kui",
       "TRAFFIC_SPEED": 60.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.43067888,
+      "start_lng": 113.993723,
+      "end_lat": 22.43234297,
+      "end_lng": 113.9959259
+    },
+    {
+      "ROAD": "Castle Peak Rd-Hung Shui Kiu near Hung Shui Kiu Light Rail Stop - Northbound",
+      "TRAFFIC_SPEED": 64.5,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.43451363,
+      "start_lng": 113.9989538,
+      "end_lat": 22.435221,
+      "end_lng": 113.999661
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 58.5,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.35297888,
+      "start_lng": 114.1329929,
+      "end_lat": 22.35505598,
+      "end_lng": 114.1332835
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 56.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.35505598,
+      "start_lng": 114.1332835,
+      "end_lat": 22.35924649,
+      "end_lng": 114.1345346
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 67.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.35924649,
+      "start_lng": 114.1345346,
+      "end_lat": 22.36012267,
+      "end_lng": 114.1353693
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 69.9,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.36012267,
+      "start_lng": 114.1353693,
+      "end_lat": 22.37028714,
+      "end_lng": 114.1221808
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 64.5,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.37028714,
+      "start_lng": 114.1221808,
+      "end_lat": 22.37080449,
+      "end_lng": 114.1305599
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 66.7,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.37080449,
+      "start_lng": 114.1305599,
+      "end_lat": 22.37085807,
+      "end_lng": 114.1284724
+    },
+    {
+      "ROAD": "Castle Peak Rd-Kwai Chung",
+      "TRAFFIC_SPEED": 64.2,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.37085807,
+      "start_lng": 114.1284724,
+      "end_lat": 22.37090334,
+      "end_lng": 114.1288704
+    },
+    {
+      "ROAD": "Castle Peak Rd-Tseun Wan near Texaco Road Flyover - Westbound",
+      "TRAFFIC_SPEED": 51.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.37032342,
+      "start_lng": 114.1226566,
+      "end_lat": 22.37015,
+      "end_lng": 114.121672
+    },
+    {
+      "ROAD": "Castle Peak Rd-Lam Tei",
+      "TRAFFIC_SPEED": 67.2,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.41715514,
+      "start_lng": 113.9815999,
+      "end_lat": 22.4190528,
+      "end_lng": 113.9826462
+    },
+    {
+      "ROAD": "Castle Peak Rd-Lam Tei",
+      "TRAFFIC_SPEED": 65.7,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.4190528,
+      "start_lng": 113.9826462,
+      "end_lat": 22.42015539,
+      "end_lng": 113.9833732
+    },
+    {
+      "ROAD": "Castle Peak Rd-Lam Tei",
+      "TRAFFIC_SPEED": 74.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.42015539,
+      "start_lng": 113.9833732,
+      "end_lat": 22.42046277,
+      "end_lng": 113.9836641
+    },
+    {
+      "ROAD": "Castle Peak Rd-Ping Shan",
+      "TRAFFIC_SPEED": 65.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43673859,
       "start_lng": 114.0021275,
+      "end_lat": 22.43880103,
+      "end_lng": 114.0053986
+    },
+    {
+      "ROAD": "Castle Peak Rd-Ping Shan",
+      "TRAFFIC_SPEED": 62.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.43880103,
+      "start_lng": 114.0053986,
       "end_lat": 22.43904527,
       "end_lng": 114.0057966
     },
     {
       "ROAD": "Castle Peak Rd-Ping Shan",
-      "TRAFFIC_SPEED": 62.8,
+      "TRAFFIC_SPEED": 62.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.43904527,
       "start_lng": 114.0057966,
+      "end_lat": 22.44100816,
+      "end_lng": 114.0089222
+    },
+    {
+      "ROAD": "Castle Peak Rd-Ping Shan",
+      "TRAFFIC_SPEED": 65.5,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTW",
+      "start_lat": 22.44100816,
+      "start_lng": 114.0089222,
       "end_lat": 22.4428268,
       "end_lng": 114.0123492
     },
     {
       "ROAD": "Castle Peak Rd-Ping Shan",
-      "TRAFFIC_SPEED": 65.7,
+      "TRAFFIC_SPEED": 53.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4428268,
@@ -5774,7 +5984,7 @@
     },
     {
       "ROAD": "Harcourt Road",
-      "TRAFFIC_SPEED": 42.5,
+      "TRAFFIC_SPEED": 45.6,
       "ROAD_SATURATION_LEVEL": "MODERATE",
       "REGION": "HK",
       "start_lat": 22.27961101,
@@ -5794,7 +6004,7 @@
     },
     {
       "ROAD": "Gloucestor Road",
-      "TRAFFIC_SPEED": 77.4,
+      "TRAFFIC_SPEED": 73.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.27943057,
@@ -5804,7 +6014,7 @@
     },
     {
       "ROAD": "Jockey Club Road",
-      "TRAFFIC_SPEED": 68.8,
+      "TRAFFIC_SPEED": 60.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48862879,
@@ -5814,7 +6024,7 @@
     },
     {
       "ROAD": "Jockey Club Road",
-      "TRAFFIC_SPEED": 64.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.48968532,
@@ -5824,7 +6034,7 @@
     },
     {
       "ROAD": "Jockey Club Road",
-      "TRAFFIC_SPEED": 65.8,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.49351364,
@@ -5834,7 +6044,7 @@
     },
     {
       "ROAD": "Lung Fu Road near Wong Chu Road - Eastbound",
-      "TRAFFIC_SPEED": 66.0,
+      "TRAFFIC_SPEED": 84.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38696869,
@@ -5844,7 +6054,7 @@
     },
     {
       "ROAD": "Wong Chu Road",
-      "TRAFFIC_SPEED": 62.5,
+      "TRAFFIC_SPEED": 73.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38561288,
@@ -5854,7 +6064,7 @@
     },
     {
       "ROAD": "Wong Chu Road",
-      "TRAFFIC_SPEED": 55.6,
+      "TRAFFIC_SPEED": 69.9,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38564041,
@@ -5864,7 +6074,7 @@
     },
     {
       "ROAD": "Wong Chu Road",
-      "TRAFFIC_SPEED": 56.0,
+      "TRAFFIC_SPEED": 65.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.38602329,
@@ -5874,7 +6084,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 77.2,
+      "TRAFFIC_SPEED": 74.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4410969,
@@ -5884,7 +6094,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 64.7,
+      "TRAFFIC_SPEED": 68.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44153951,
@@ -5894,7 +6104,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 56.6,
+      "TRAFFIC_SPEED": 73.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44458304,
@@ -5904,7 +6114,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 68.1,
+      "TRAFFIC_SPEED": 80.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44505257,
@@ -5914,7 +6124,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 70.0,
+      "TRAFFIC_SPEED": 76.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44728821,
@@ -5924,7 +6134,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 67.7,
+      "TRAFFIC_SPEED": 68.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.44790115,
@@ -5934,7 +6144,7 @@
     },
     {
       "ROAD": "Long Tin Road",
-      "TRAFFIC_SPEED": 70.2,
+      "TRAFFIC_SPEED": 68.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4502649,
@@ -5954,7 +6164,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 75.8,
+      "TRAFFIC_SPEED": 78.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41740787,
@@ -5964,7 +6174,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 75.8,
+      "TRAFFIC_SPEED": 78.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4186536,
@@ -5974,7 +6184,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 83.2,
+      "TRAFFIC_SPEED": 77.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42078397,
@@ -5984,7 +6194,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 83.2,
+      "TRAFFIC_SPEED": 77.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42267953,
@@ -5994,7 +6204,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 78.8,
+      "TRAFFIC_SPEED": 76.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42410509,
@@ -6004,7 +6214,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 77.8,
+      "TRAFFIC_SPEED": 72.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42510713,
@@ -6014,7 +6224,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 94.8,
+      "TRAFFIC_SPEED": 75.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4278512,
@@ -6024,7 +6234,7 @@
     },
     {
       "ROAD": "Ma On Shan Bypass",
-      "TRAFFIC_SPEED": 119.4,
+      "TRAFFIC_SPEED": 87.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.42875372,
@@ -6034,7 +6244,7 @@
     },
     {
       "ROAD": "Ma On Shan Road",
-      "TRAFFIC_SPEED": 79.1,
+      "TRAFFIC_SPEED": 81.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.40427286,
@@ -6044,7 +6254,7 @@
     },
     {
       "ROAD": "Ma On Shan Road",
-      "TRAFFIC_SPEED": 82.5,
+      "TRAFFIC_SPEED": 67.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.4086604,
@@ -6054,7 +6264,7 @@
     },
     {
       "ROAD": "Ma On Shan Road",
-      "TRAFFIC_SPEED": 82.3,
+      "TRAFFIC_SPEED": 65.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.41281368,
@@ -6064,7 +6274,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 55.0,
+      "TRAFFIC_SPEED": 60.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33172089,
@@ -6074,7 +6284,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 54.5,
+      "TRAFFIC_SPEED": 69.3,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33195569,
@@ -6084,7 +6294,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 58.8,
+      "TRAFFIC_SPEED": 59.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33297578,
@@ -6094,7 +6304,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 56.2,
+      "TRAFFIC_SPEED": 60.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33303908,
@@ -6104,7 +6314,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 65.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33308509,
@@ -6114,7 +6324,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 73.0,
+      "TRAFFIC_SPEED": 72.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33410401,
@@ -6124,7 +6334,7 @@
     },
     {
       "ROAD": "New Clear Water Bay Road",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 72.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.33414032,
@@ -6154,7 +6364,7 @@
     },
     {
       "ROAD": "Prince Edward Road East",
-      "TRAFFIC_SPEED": 74.8,
+      "TRAFFIC_SPEED": 96.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32795141,
@@ -6164,7 +6374,7 @@
     },
     {
       "ROAD": "Prince Edward Road East",
-      "TRAFFIC_SPEED": 86.5,
+      "TRAFFIC_SPEED": 90.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.32915235,
@@ -6174,7 +6384,7 @@
     },
     {
       "ROAD": "Prince Edward Road East",
-      "TRAFFIC_SPEED": 84.6,
+      "TRAFFIC_SPEED": 96.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "K",
       "start_lat": 22.3312743,
@@ -6184,7 +6394,7 @@
     },
     {
       "ROAD": "Pok Fu Lam Road near St. Paul's College Primary School - Eastbound",
-      "TRAFFIC_SPEED": 93.0,
+      "TRAFFIC_SPEED": 54.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.25479041,
@@ -6194,7 +6404,7 @@
     },
     {
       "ROAD": "Shek Pai Wan Road",
-      "TRAFFIC_SPEED": 72.5,
+      "TRAFFIC_SPEED": 74.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.249238,
@@ -6204,7 +6414,7 @@
     },
     {
       "ROAD": "Shek Pai Wan Road",
-      "TRAFFIC_SPEED": 57.8,
+      "TRAFFIC_SPEED": 52.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24939152,
@@ -6214,7 +6424,7 @@
     },
     {
       "ROAD": "Shek Pai Wan Road",
-      "TRAFFIC_SPEED": 58.2,
+      "TRAFFIC_SPEED": 56.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.24993262,
@@ -6224,7 +6434,7 @@
     },
     {
       "ROAD": "Shek Pai Wan Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 65.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "HK",
       "start_lat": 22.25047441,
@@ -6234,7 +6444,7 @@
     },
     {
       "ROAD": "Tai Chung Kui Road",
-      "TRAFFIC_SPEED": 60.9,
+      "TRAFFIC_SPEED": 59.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.37696033,
@@ -6244,7 +6454,7 @@
     },
     {
       "ROAD": "Tai Chung Kiu Road",
-      "TRAFFIC_SPEED": 66.5,
+      "TRAFFIC_SPEED": 64.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38045482,
@@ -6254,7 +6464,7 @@
     },
     {
       "ROAD": "Tai Chung Kiu Road",
-      "TRAFFIC_SPEED": 57.1,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38127651,
@@ -6264,8 +6474,8 @@
     },
     {
       "ROAD": "Tai Chung Kiu Road",
-      "TRAFFIC_SPEED": 49.2,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 70.0,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38238715,
       "start_lng": 114.1957221,
@@ -6274,7 +6484,7 @@
     },
     {
       "ROAD": "Tai Chung Kiu Road",
-      "TRAFFIC_SPEED": 50.6,
+      "TRAFFIC_SPEED": 62.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.38265803,
@@ -6284,7 +6494,17 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 52.1,
+      "TRAFFIC_SPEED": 60.8,
+      "ROAD_SATURATION_LEVEL": "GOOD",
+      "REGION": "NTE",
+      "start_lat": 22.45568867,
+      "start_lng": 114.1743484,
+      "end_lat": 22.45600466,
+      "end_lng": 114.1714046
+    },
+    {
+      "ROAD": "Ting Kok Road",
+      "TRAFFIC_SPEED": 52.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45600466,
@@ -6294,7 +6514,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 63.4,
+      "TRAFFIC_SPEED": 62.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45664591,
@@ -6304,7 +6524,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 60.4,
+      "TRAFFIC_SPEED": 67.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45725998,
@@ -6314,7 +6534,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 65.5,
+      "TRAFFIC_SPEED": 67.4,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45801854,
@@ -6324,7 +6544,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 69.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45909311,
@@ -6334,7 +6554,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 80.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45911119,
@@ -6344,7 +6564,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 79.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45951611,
@@ -6354,7 +6574,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 67.2,
+      "TRAFFIC_SPEED": 70.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45969693,
@@ -6364,7 +6584,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 70.0,
+      "TRAFFIC_SPEED": 76.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45981547,
@@ -6374,7 +6594,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 70.2,
+      "TRAFFIC_SPEED": 72.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46013857,
@@ -6384,7 +6604,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 75.5,
+      "TRAFFIC_SPEED": 67.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46077182,
@@ -6394,7 +6614,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 64.5,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46079072,
@@ -6404,7 +6624,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 70.5,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46156679,
@@ -6414,7 +6634,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 89.8,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46221721,
@@ -6424,7 +6644,7 @@
     },
     {
       "ROAD": "Ting Kok Road",
-      "TRAFFIC_SPEED": 78.5,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.46221737,
@@ -6434,7 +6654,7 @@
     },
     {
       "ROAD": "Tai Po Tai Wo Road",
-      "TRAFFIC_SPEED": 61.6,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45102898,
@@ -6444,7 +6664,7 @@
     },
     {
       "ROAD": "Tai Po Tai Wo Road",
-      "TRAFFIC_SPEED": 60.1,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45107404,
@@ -6454,8 +6674,8 @@
     },
     {
       "ROAD": "Tai Po Tai Wo Road",
-      "TRAFFIC_SPEED": 46.0,
-      "ROAD_SATURATION_LEVEL": "MODERATE",
+      "TRAFFIC_SPEED": 63.9,
+      "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45110097,
       "start_lng": 114.1679074,
@@ -6464,7 +6684,7 @@
     },
     {
       "ROAD": "Tsing Tin Road",
-      "TRAFFIC_SPEED": 63.6,
+      "TRAFFIC_SPEED": 69.7,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.40517157,
@@ -6484,7 +6704,7 @@
     },
     {
       "ROAD": "Tsing Tin Road",
-      "TRAFFIC_SPEED": 61.6,
+      "TRAFFIC_SPEED": 60.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.40531969,
@@ -6494,7 +6714,7 @@
     },
     {
       "ROAD": "Tsing Tin Road",
-      "TRAFFIC_SPEED": 65.0,
+      "TRAFFIC_SPEED": 63.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.40577023,
@@ -6504,7 +6724,7 @@
     },
     {
       "ROAD": "Tin Ying Road",
-      "TRAFFIC_SPEED": 55.2,
+      "TRAFFIC_SPEED": 66.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.4623572,
@@ -6514,7 +6734,7 @@
     },
     {
       "ROAD": "Tin Ying Road",
-      "TRAFFIC_SPEED": 61.5,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.46659458,
@@ -6534,7 +6754,7 @@
     },
     {
       "ROAD": "Tin Ying Road",
-      "TRAFFIC_SPEED": 80.0,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47060618,
@@ -6544,7 +6764,7 @@
     },
     {
       "ROAD": "Tin Ying Road",
-      "TRAFFIC_SPEED": 79.2,
+      "TRAFFIC_SPEED": 70.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTW",
       "start_lat": 22.47096761,
@@ -6554,7 +6774,7 @@
     },
     {
       "ROAD": "Yuen Shin Road",
-      "TRAFFIC_SPEED": 71.2,
+      "TRAFFIC_SPEED": 63.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.44647763,
@@ -6564,7 +6784,7 @@
     },
     {
       "ROAD": "Yuen Shin Road",
-      "TRAFFIC_SPEED": 86.0,
+      "TRAFFIC_SPEED": 76.2,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45038781,
@@ -6574,7 +6794,7 @@
     },
     {
       "ROAD": "Yuen Shin Road",
-      "TRAFFIC_SPEED": 86.0,
+      "TRAFFIC_SPEED": 88.0,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45193202,
@@ -6584,7 +6804,7 @@
     },
     {
       "ROAD": "Yuen Shin Road",
-      "TRAFFIC_SPEED": 70.0,
+      "TRAFFIC_SPEED": 75.5,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45295246,
@@ -6594,7 +6814,7 @@
     },
     {
       "ROAD": "Yuen Shin Road",
-      "TRAFFIC_SPEED": 66.8,
+      "TRAFFIC_SPEED": 60.8,
       "ROAD_SATURATION_LEVEL": "GOOD",
       "REGION": "NTE",
       "start_lat": 22.45399999,
