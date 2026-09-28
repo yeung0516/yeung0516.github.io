@@ -343,6 +343,15 @@ const reports = [
     visceral:12, tbw_kg:40.0, tbw_pct:47.7, ecw_tbw:42.0,
     seg_muscle:{body:30.2,la:2.8,ra:2.8,ll:11.2,rl:11.1},
     seg_fat:{body:13.9,la:0.8,ra:0.9,ll:3.5,rl:3.4}
+  },
+  {
+    id:"report_015", date:"2026-09-29", time:"07:42:40", serial:"MOS1_006021",
+    weight:84.2, bmi:26, bf_pct:27.2, bf_kg:22.9, ffm:61.3,
+    muscle:58.1, smm:31.2, smm_pct:37.05, smi:8.6,
+    body_age:44, bmr_kcal:1763, bmr_kj:7376,
+    visceral:12, tbw_kg:40.1, tbw_pct:47.6, ecw_tbw:41.9,
+    seg_muscle:{body:30.3,la:2.7,ra:2.8,ll:11.2,rl:11.1},
+    seg_fat:{body:14.1,la:0.8,ra:0.8,ll:3.6,rl:3.6}
   }
 ];
 
@@ -494,15 +503,15 @@ new Chart(document.getElementById('chartBodyComp'), {
 });
 
 /* ============================================================
-   CHART 3 — FAT vs MUSCLE (stacked bar)
+   CHART 3 — FAT vs MUSCLE (line)
    ============================================================ */
 new Chart(document.getElementById('chartFatMuscle'), {
-  type:'bar',
+  type:'line',
   data:{
     labels,
     datasets:[
-      {label:'脂肪量 (kg)',data:reports.map(r=>r.bf_kg),backgroundColor:'rgba(245,158,11,0.7)',borderColor:'#f59e0b',borderWidth:1,borderRadius:4},
-      {label:'肌肉量 (kg)',data:reports.map(r=>r.muscle),backgroundColor:'rgba(14,165,233,0.7)',borderColor:'#0ea5e9',borderWidth:1,borderRadius:4}
+      {label:'脂肪量 (kg)',data:reports.map(r=>r.bf_kg),backgroundColor:'rgba(245,158,11,0.7)',borderColor:'#f59e0b',borderWidth:2,tension:0.3,fill:false,pointRadius:3},
+      {label:'肌肉量 (kg)',data:reports.map(r=>r.muscle),backgroundColor:'rgba(14,165,233,0.7)',borderColor:'#0ea5e9',borderWidth:2,tension:0.3,fill:false,pointRadius:3}
     ]
   },
   options:{
