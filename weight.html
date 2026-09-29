@@ -519,7 +519,7 @@ new Chart(document.getElementById('chartFatMuscle'), {
     plugins:{...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y+' kg'}}},
     scales:{
       x:sharedScaleX,
-      y:sharedScaleY('kg',0,null)
+      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.bf_kg).concat(reports.map(r=>r.muscle)))}
     }
   }
 });
