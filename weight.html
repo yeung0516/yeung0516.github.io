@@ -412,11 +412,44 @@ function sharedScaleY(label,min,max){
 }
 function autoRange(values, paddingFraction){
   const nums = values.filter(function(v){ return v != null && isFinite(v); });
-  if(!nums.length) return {};
+  if(!nums.length) return null;
   const lo = Math.min.apply(null, nums);
   const hi = Math.max.apply(null, nums);
-  const pad = (hi - lo || 1) * (paddingFraction !== undefined ? paddingFraction : 0.1);
+  const padding = paddingFraction !== undefined ? paddingFraction : 0.08;
+  const span = hi - lo;
+  const pad = span > 0 ? span * padding : Math.max(Math.abs(lo) * padding * 0.5, 0.25);
   return { min: lo - pad, max: hi + pad };
+}
+function axisValues(chart, axisId){
+  const axisKey = axisId.charAt(0) === 'x' ? 'xAxisID' : 'yAxisID';
+  return chart.data.datasets.flatMap(function(dataset, datasetIndex){
+    const datasetAxisId = dataset[axisKey] || axisId.charAt(0);
+    if(datasetAxisId !== axisId || !chart.isDatasetVisible(datasetIndex)) return [];
+    return dataset.data.filter(function(value){ return value != null && isFinite(value); }).map(Number);
+  });
+}
+const autoScaleVisibleAxes = {
+  id:'autoScaleVisibleAxes',
+  beforeUpdate(chart, _, pluginOptions){
+    const axes = pluginOptions && pluginOptions.axes;
+    if(!axes || !chart.options || !chart.options.scales) return;
+    Object.keys(axes).forEach(function(axisId){
+      const scale = chart.options.scales[axisId];
+      if(!scale) return;
+      const range = autoRange(axisValues(chart, axisId), axes[axisId].padding);
+      if(range){
+        scale.min = range.min;
+        scale.max = range.max;
+      }else{
+        delete scale.min;
+        delete scale.max;
+      }
+    });
+  }
+};
+Chart.register(autoScaleVisibleAxes);
+function autoScalePlugins(basePlugins, axes){
+  return { ...basePlugins, autoScaleVisibleAxes:{axes} };
 }
 const sharedPlugins = {
   legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:16,font:{size:11,weight:'600'}}},
@@ -470,11 +503,11 @@ new Chart(document.getElementById('chartWeightBmi'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:sharedPlugins,
+    plugins:autoScalePlugins(sharedPlugins,{y:{padding:0.08},y1:{padding:0.08}}),
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.weight))},
-      y1:{...sharedScaleY('BMI'),...autoRange(reports.map(r=>r.bmi)),position:'right',grid:{drawOnChartArea:false}}
+      y:sharedScaleY('kg'),
+      y1:{...sharedScaleY('BMI'),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -493,11 +526,11 @@ new Chart(document.getElementById('chartBodyComp'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:sharedPlugins,
+    plugins:autoScalePlugins(sharedPlugins,{y:{padding:0.08},y1:{padding:0.08}}),
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('體脂率 %'),...autoRange(reports.map(r=>r.bf_pct))},
-      y1:{...sharedScaleY('骨骼肌率 %'),...autoRange(reports.map(r=>r.smm_pct)),position:'right',grid:{drawOnChartArea:false}}
+      y:sharedScaleY('體脂率 %'),
+      y1:{...sharedScaleY('骨骼肌率 %'),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -516,10 +549,10 @@ new Chart(document.getElementById('chartFatMuscle'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,
-    plugins:{...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y+' kg'}}},
+    plugins:autoScalePlugins({...sharedPlugins,tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.parsed.y+' kg'}}},{y:{padding:0.08}}),
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.bf_kg).concat(reports.map(r=>r.muscle)))}
+      y:sharedScaleY('kg')
     }
   }
 });
@@ -541,12 +574,12 @@ new Chart(document.getElementById('chartVisceral'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,indexAxis:'x',
-    plugins:{...sharedPlugins,legend:{display:false},
+    plugins:autoScalePlugins({...sharedPlugins,legend:{display:false},
       tooltip:{...sharedPlugins.tooltip,callbacks:{label:ctx=>' 等級 '+ctx.parsed.y}}
-    },
+    },{y:{padding:0.12}}),
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('等級'),...autoRange(reports.map(r=>r.visceral),0.15),min:0,
+      y:{...sharedScaleY('等級'),
         ticks:{stepSize:5,font:{size:11},color:fontColor}
       }
     }
@@ -567,11 +600,11 @@ new Chart(document.getElementById('chartWater'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:{...sharedPlugins,legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10,weight:'600'}}}},
+    plugins:autoScalePlugins({...sharedPlugins,legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',padding:10,font:{size:10,weight:'600'}}}},{y:{padding:0.08},y1:{padding:0.08}}),
     scales:{
       x:{...sharedScaleX,ticks:{font:{size:10},color:fontColor}},
-      y:{...sharedScaleY('kg'),...autoRange(reports.map(r=>r.tbw_kg))},
-      y1:{...sharedScaleY('%'),...autoRange(reports.map(r=>r.tbw_pct)),position:'right',grid:{drawOnChartArea:false}}
+      y:sharedScaleY('kg'),
+      y1:{...sharedScaleY('%'),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -590,11 +623,11 @@ new Chart(document.getElementById('chartBmr'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-    plugins:sharedPlugins,
+    plugins:autoScalePlugins(sharedPlugins,{y:{padding:0.08},y1:{padding:0.08}}),
     scales:{
       x:sharedScaleX,
-      y:{...sharedScaleY('kcal'),...autoRange(reports.map(r=>r.bmr_kcal))},
-      y1:{...sharedScaleY('歲'),...autoRange(reports.map(r=>r.body_age)),position:'right',grid:{drawOnChartArea:false}}
+      y:sharedScaleY('kcal'),
+      y1:{...sharedScaleY('歲'),position:'right',grid:{drawOnChartArea:false}}
     }
   }
 });
@@ -618,9 +651,9 @@ new Chart(document.getElementById('chartSegMuscle'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,indexAxis:'y',
-    plugins:{...sharedPlugins,legend:{display:false}},
+    plugins:autoScalePlugins({...sharedPlugins,legend:{display:false}},{x:{padding:0.08}}),
     scales:{
-      x:{...sharedScaleY('kg',0,null),position:'bottom'},
+      x:{...sharedScaleY('kg'),position:'bottom'},
       y:{...sharedScaleX,ticks:{font:{size:10,weight:'600'},color:fontColor}}
     }
   }
@@ -639,9 +672,9 @@ new Chart(document.getElementById('chartSegFat'), {
   },
   options:{
     responsive:true,maintainAspectRatio:false,indexAxis:'y',
-    plugins:{...sharedPlugins,legend:{display:false}},
+    plugins:autoScalePlugins({...sharedPlugins,legend:{display:false}},{x:{padding:0.08}}),
     scales:{
-      x:{...sharedScaleY('kg',0,null),position:'bottom'},
+      x:{...sharedScaleY('kg'),position:'bottom'},
       y:{...sharedScaleX,ticks:{font:{size:10,weight:'600'},color:fontColor}}
     }
   }
