@@ -1,0 +1,170 @@
+/* HKIA lounge cost comparison — static, GitHub Pages ready */
+:root {
+  --bg: #f4f1ea;
+  --paper: #fffcf7;
+  --ink: #1c1917;
+  --muted: #57534e;
+  --line: #e7e0d4;
+  --accent: #0f4f45;
+  --accent-soft: #e4f1ee;
+  --warn: #9a3412;
+  --warn-soft: #ffedd5;
+  --ok: #166534;
+  --ok-soft: #dcfce7;
+  --danger: #991b1b;
+  --danger-soft: #fee2e2;
+  --shadow: 0 1px 2px rgba(28,25,23,.06), 0 8px 24px rgba(28,25,23,.05);
+  --max: 52rem;
+  --sans: "Noto Sans TC", "PingFang HK", "PingFang TC", "Hiragino Sans GB", "Microsoft JhengHei", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+a { color: var(--accent); }
+a:hover { text-decoration-thickness: 2px; }
+header {
+  background: var(--accent);
+  color: #f8faf8;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+header .wrap, main, footer .wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.kicker {
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .8;
+  margin: 0 0 .35rem;
+}
+header h1 {
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  line-height: 1.3;
+  margin: 0 0 .6rem;
+  font-weight: 700;
+}
+header .lede {
+  margin: 0;
+  max-width: 42rem;
+  opacity: .95;
+  font-size: .98rem;
+}
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #0c3d36;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+nav .wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: flex;
+  gap: .4rem;
+  overflow-x: auto;
+  padding: .55rem 1.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+nav a {
+  color: #e7f3f0;
+  text-decoration: none;
+  font-size: .85rem;
+  white-space: nowrap;
+  padding: .3rem .55rem;
+  border-radius: 999px;
+}
+nav a:hover, nav a:focus { background: rgba(255,255,255,.12); }
+main { padding: 1.25rem 1.25rem 3rem; }
+section {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.25rem 1.2rem 1.4rem;
+  margin: 1.1rem 0;
+  box-shadow: var(--shadow);
+}
+section h2 {
+  margin: 0 0 .35rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+.caption {
+  color: var(--muted);
+  font-size: .88rem;
+  margin: 0 0 1rem;
+}
+.callouts { display: grid; gap: 1rem; margin: 1.1rem 0; }
+.callout {
+  border-radius: 16px;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--line);
+}
+.callout.info { background: var(--accent-soft); border-color: #b8d5ce; }
+.callout.warn { background: var(--warn-soft); border-color: #fdba74; }
+.callout h2 { font-size: 1.08rem; margin: 0 0 .45rem; }
+.callout p { margin: 0; font-size: .98rem; }
+.badge {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 700;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  margin-right: .35rem;
+  vertical-align: middle;
+}
+.badge.ok { background: var(--ok-soft); color: var(--ok); }
+.badge.warn { background: var(--warn-soft); color: var(--warn); }
+.badge.danger { background: var(--danger-soft); color: var(--danger); }
+.table-wrap { overflow-x: auto; margin: .85rem 0 1rem; -webkit-overflow-scrolling: touch; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+  min-width: 36rem;
+}
+th, td {
+  text-align: left;
+  padding: .55rem .6rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th { font-size: .78rem; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.emphasis td { font-weight: 600; background: #faf7f1; }
+p { margin: 0 0 .85rem; }
+p:last-child { margin-bottom: 0; }
+ol.steps { margin: .4rem 0 1rem; padding-left: 1.2rem; }
+ol.steps li { margin: 0 0 .8rem; }
+ol.steps strong { display: block; }
+.props { display: grid; gap: .8rem; margin-top: 1rem; }
+.prop {
+  background: #faf7f1;
+  border-radius: 12px;
+  padding: .85rem 1rem;
+}
+.prop h3 { margin: 0 0 .3rem; font-size: .95rem; }
+.sources { list-style: none; padding: 0; margin: 0; }
+.sources li { margin: 0 0 .65rem; padding-bottom: .65rem; border-bottom: 1px solid var(--line); }
+.sources small { display: block; color: var(--muted); }
+footer {
+  padding: 1.5rem 1.25rem 2.5rem;
+  color: var(--muted);
+  font-size: .88rem;
+}
+@media (min-width: 720px) {
+  .callouts { grid-template-columns: 1fr 1fr; }
+  section, .callout { padding: 1.4rem 1.5rem 1.55rem; }
+}
+@media print {
+  nav { display: none; }
+  header { background: #fff; color: #000; }
+  section, .callout { box-shadow: none; break-inside: avoid; }
+}
